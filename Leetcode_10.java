@@ -8282,4 +8282,25 @@ public class Leetcode_10 {
         }
         return Arrays.equals(cnts, new int[10]);
     }
+
+    // 3849. 重新排列后的最大按位异或值 (Maximum Bitwise XOR After Rearrangement)
+    public String maximumXor(String s, String t) {
+        int[] cnts = new int[2];
+        for (char c : t.toCharArray()) {
+            ++cnts[c - '0'];
+        }
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            int x = s.charAt(i) - '0';
+            if (cnts[x ^ 1] > 0) {
+                --cnts[x ^ 1];
+                res.append(1);
+            } else {
+                --cnts[x];
+                res.append(0);
+            }
+        }
+        return res.toString();
+
+    }
 }

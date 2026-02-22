@@ -1148,3 +1148,19 @@ class LcaBinaryLifting:
             s += mul[c % 10]
             c //= 10
         return Counter(str(s)) == Counter(str(n))
+
+    # 3849. 重新排列后的最大按位异或值 (Maximum Bitwise XOR After Rearrangement)
+    def maximumXor(self, s: str, t: str) -> str:
+        cnts = [0] * 2
+        for c in t:
+            cnts[int(c)] += 1
+        res = []
+        for c in s:
+            x = int(c)
+            if cnts[x ^ 1]:
+                res.append("1")
+                cnts[x ^ 1] -= 1
+            else:
+                res.append("0")
+                cnts[x] -= 1
+        return "".join(res)
