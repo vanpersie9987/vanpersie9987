@@ -4614,49 +4614,16 @@ public class LeetCodeText {
 
     }
 
-    // 1346. 检查整数及其两倍数是否存在
-    public boolean checkIfExist(final int[] arr) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : arr) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            if (entry.getKey() == 0) {
-                if (entry.getValue() >= 2) {
-                    return true;
-                }
-            } else if (map.containsKey(entry.getKey() * 2)) {
+    // 1346. 检查整数及其两倍数是否存在 (Check If N and Its Double Exist)
+    public boolean checkIfExist(int[] arr) {
+        Set<Integer> s = new HashSet<>();
+        for (int x : arr) {
+            if (s.contains(x * 2) || x % 2 == 0 && s.contains(x / 2)) {
                 return true;
             }
+            s.add(x);
         }
         return false;
-    }
-
-    // 1346. 检查整数及其两倍数是否存在
-    public boolean checkIfExist2(final int[] arr) {
-        int[] neg = new int[2001];
-        int[] pos = new int[2001];
-        for (int i = 0; i < arr.length; ++i) {
-            if (arr[i] < 0) {
-                ++neg[-arr[i]];
-            } else {
-                ++pos[arr[i]];
-            }
-        }
-        for (int i = 0; i < 1001; ++i) {
-            if (neg[i] > 0 && neg[i * 2] > 0) {
-                return true;
-            }
-        }
-        for (int i = 0; i < 1001; ++i) {
-            if (i == 0 && pos[i] > 1) {
-                return true;
-            } else if (i != 0 && pos[i] > 0 && pos[i * 2] > 0) {
-                return true;
-            }
-        }
-        return false;
-
     }
 
     // 1352. 最后 K 个数的乘积
