@@ -1197,3 +1197,7 @@ class LcaBinaryLifting:
             if i >= k - 1:
                 _set.add(v)
         return len(_set) == 1 << k
+
+    # 2357. 使数组中所有元素都等于零 (Make Array Zero by Subtracting Equal Amounts)
+    def minimumOperations(self, nums: List[int]) -> int:
+        return len(set(nums) - {0})
