@@ -1333,3 +1333,45 @@ class LcaBinaryLifting:
             else:
                 left = mid + 1
         return right + 1
+
+    # 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
+    def mostProfitablePath(
+        self, edges: List[List[int]], bob: int, amount: List[int]
+    ) -> int:
+        def dfs_from_alice(x: int, fa: int, t: int):
+            d[x] = t
+            for y in g[x]:
+                if y != fa:
+                    dfs_from_alice(y, x, t + 1)
+
+        def dfs_from_bob(x: int, fa: int, t: int) -> bool:
+            if x == 0:
+                return True
+            for y in g[x]:
+                if y != fa:
+                    if dfs_from_bob(y, x, t + 1):
+                        if t < d[x]:
+                            amount[x] = 0
+                        elif t == d[x]:
+                            amount[x] //= 2
+                        return True
+            return False
+
+        def dfs(x: int, fa: int) -> int:
+            s = amount[x]
+            mx = -inf
+            for y in g[x]:
+                if y != fa:
+                    mx = max(mx, dfs(y, x))
+            return s + (mx if mx > -inf else 0)
+
+        n = len(amount)
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        # 0节点到x节点的距离
+        d = defaultdict(int)
+        dfs_from_alice(0, -1, 0)
+        dfs_from_bob(bob, -1, 0)
+        return dfs(0, -1)
