@@ -6475,13 +6475,8 @@ class leetcode_1:
         return (dfs(0, 0) - 1) * pow(2, cnt1, MOD) % MOD
 
     # 101. 对称二叉树 (Symmetric Tree)
+    # LCR 145. 判断对称二叉树
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
         def dfs(L: Optional[TreeNode], R: Optional[TreeNode]) -> bool:
             if L is None and R is None:
                 return True
@@ -6489,6 +6484,8 @@ class leetcode_1:
                 return False
             return dfs(L.left, R.right) and dfs(L.right, R.left)
 
+        if root is None:
+            return True
         return dfs(root.left, root.right)
 
     # 698. 划分为k个相等的子集 (Partition to K Equal Sum Subsets)
