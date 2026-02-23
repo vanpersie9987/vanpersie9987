@@ -7584,37 +7584,27 @@ class leetcode_1:
     # 40. 组合总和 II (Combination Sum II)
     # LCR 082. 组合总和 II
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        def dfs(i: int, j: int) -> None:
-            if i == n:
-                if j == target:
-                    res.append(path.copy())
+        def dfs(i: int, j: int):
+            nonlocal path
+            if j == target:
+                res.append(path.copy())
                 return
-            if j > target:
+            if i == len(a):
                 return
             dfs(i + 1, j)
-            k = 1
-            cur = []
-            while k <= _list[i][1]:
-                if j + k * _list[i][0] > target:
+            for v in range(1, a[i][1] + 1):
+                if j + a[i][0] * v > target:
                     break
-                cur.append(_list[i][0])
-                path.extend(cur)
-                dfs(i + 1, j + k * _list[i][0])
-                f = k
-                while f:
-                    path.pop()
-                    f -= 1
-                k += 1
+                path.extend([a[i][0]] * v)
+                dfs(i + 1, j + a[i][0] * v)
+                path = path[:-v]
 
-        dic = collections.defaultdict(int)
-        for c in candidates:
-            dic[c] += 1
-        _list = []
-        for k in dic.keys():
-            _list.append([k, dic[k]])
-        n = len(_list)
-        path = []
         res = []
+        path = []
+        d = defaultdict(int)
+        for x in candidates:
+            d[x] += 1
+        a = [(k, v) for k, v in d.items()]
         dfs(0, 0)
         return res
 

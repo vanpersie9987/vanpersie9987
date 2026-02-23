@@ -1323,6 +1323,7 @@ class LcaBinaryLifting:
                 else:
                     j -= 1
             return cnt
+
         left = 1
         right = m * n
         while left <= right:
