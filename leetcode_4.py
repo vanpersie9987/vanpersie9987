@@ -1101,6 +1101,14 @@ class LcaBinaryLifting:
                 return False
         return True
 
+    # 1893. 检查是否区域内所有整数都被覆盖 (Check if All the Integers in a Range Are Covered)
+    def isCovered(self, ranges: List[List[int]], left: int, right: int) -> bool:
+        m = 0
+        for l, r in ranges:
+            m |= ((1 << (r + 1)) - 1) ^ ((1 << l) - 1)
+        r = ((1 << (right + 1)) - 1) ^ ((1 << left) - 1)
+        return m & r == r
+
     # 2194. Excel 表中某个范围内的单元格 (Cells in a Range on an Excel Sheet)
     def cellsInRange(self, s: str) -> List[str]:
         res = []
