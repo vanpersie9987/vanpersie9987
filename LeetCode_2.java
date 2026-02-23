@@ -10206,7 +10206,7 @@ public class LeetCode_2 {
    }
 
    // 101. 对称二叉树 (Symmetric Tree) --dfs
-   // 剑指 Offer 28. 对称的二叉树
+   // LCR 145. 判断对称二叉树
    public boolean isSymmetric(TreeNode root) {
       if (root == null) {
          return true;
@@ -10226,7 +10226,7 @@ public class LeetCode_2 {
    }
 
    // 101. 对称二叉树 (Symmetric Tree) --dfs 隐式栈
-   // 剑指 Offer 28. 对称的二叉树
+   // LCR 145. 判断对称二叉树
    public boolean isSymmetric2(TreeNode root) {
       Stack<TreeNode> stackLeft = new Stack<>();
       TreeNode rootLeft = root;
@@ -10255,7 +10255,7 @@ public class LeetCode_2 {
    }
 
    // 101. 对称二叉树 (Symmetric Tree) --bfs
-   // 剑指 Offer 28. 对称的二叉树
+   // LCR 145. 判断对称二叉树
    public boolean isSymmetric3(TreeNode root) {
       Queue<TreeNode> queue = new LinkedList<>();
       queue.offer(root);
