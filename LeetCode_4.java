@@ -2086,11 +2086,7 @@ public class LeetCode_4 {
         if (i == n40) {
             return;
         }
-        dfs40(i + 1, j);
-        for (int k = 1; k <= list40.get(i)[1]; ++k) {
-            if (k * list40.get(i)[0] + j > target40) {
-                break;
-            }
+        for (int k = 0; k <= list40.get(i)[1] && k * list40.get(i)[0] + j <= target40; ++k) {
             path40.addAll(Collections.nCopies(k, list40.get(i)[0]));
             dfs40(i + 1, j + k * list40.get(i)[0]);
             path40 = path40.subList(0, path40.size() - k);
