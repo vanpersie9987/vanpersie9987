@@ -1371,7 +1371,7 @@ class LcaBinaryLifting:
             g[u].append(v)
             g[v].append(u)
         # 0节点到x节点的距离
-        d = defaultdict(int)
+        d = [inf] * n
         dfs_from_alice(0, -1, 0)
         dfs_from_bob(bob, -1, 0)
         return dfs(0, -1)
