@@ -8370,9 +8370,12 @@ public class Leetcode_9 {
         return cal3490(r) - cal3490(l - 1);
     }
 
+    private record Group3490(int i, int j, int k) {
+    }
+
     private char[] arr3490;
     private int n3490;
-    private Map<Long, Integer> memo3490;
+    private Map<Group3490, Integer> memo3490;
 
     private int cal3490(int x) {
         this.arr3490 = String.valueOf(x).toCharArray();
@@ -8385,7 +8388,7 @@ public class Leetcode_9 {
         if (i == n3490) {
             return isNum && j % k == 0 ? 1 : 0;
         }
-        long key = ((long) j << 10) | ((long) i << 6) | (long) k;
+        Group3490 key = new Group3490(i, j, k);
         if (!isLimit && isNum && memo3490.containsKey(key)) {
             return memo3490.get(key);
         }
