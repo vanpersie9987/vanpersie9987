@@ -618,9 +618,9 @@ class Union924:
         n = len(nums)
         res = [-1] * n
         s = 0
-        for i, v in enumerate(nums):
-            s += v
-            if i > 2 * k:
+        for i, x in enumerate(nums):
+            s += x
+            if i >= 2 * k + 1:
                 s -= nums[i - 2 * k - 1]
             if i >= 2 * k:
                 res[i - k] = s // (2 * k + 1)
