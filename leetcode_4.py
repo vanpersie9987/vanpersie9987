@@ -1278,3 +1278,30 @@ class LcaBinaryLifting:
                 a.append(m)
         n = len(a)
         return dfs(0, 0)
+
+    # 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique Characters) --回溯
+    def maxLength(self, arr: List[str]) -> int:
+        def dfs(i: int, j: int):
+            if i == len(a):
+                nonlocal res
+                res = max(res, j.bit_count())
+                return
+
+            dfs(i + 1, j)
+
+            if j & a[i] == 0:
+                dfs(i + 1, j | a[i])
+
+        a = []
+        for s in arr:
+            m = 0
+            for x in s:
+                if m >> (ord(x) - ord("a")) & 1:
+                    m = -1
+                    break
+                m |= 1 << (ord(x) - ord("a"))
+            if m != -1:
+                a.append(m)
+        res = 0
+        dfs(0, 0)
+        return res
