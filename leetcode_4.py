@@ -1310,3 +1310,25 @@ class LcaBinaryLifting:
                 return True
             s.add(x)
         return False
+
+    # 668. 乘法表中第k小的数 (Kth Smallest Number in Multiplication Table)
+    def findKthNumber(self, m: int, n: int, k: int) -> int:
+        def check(x: int) -> int:
+            i, j = 0, n - 1
+            cnt = 0
+            while i < m and j >= 0:
+                if (i + 1) * (j + 1) <= x:
+                    cnt += j + 1
+                    i += 1
+                else:
+                    j -= 1
+            return cnt
+        left = 1
+        right = m * n
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid) >= k:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
