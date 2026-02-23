@@ -1254,3 +1254,27 @@ class LcaBinaryLifting:
                 if cnt2[j] == 1:
                     c2 += 1
         return False
+
+    # 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique Characters)
+    def maxLength(self, arr: List[str]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = dfs(i + 1, j)
+            if a[i] & j == 0:
+                res = max(res, dfs(i + 1, j | a[i]) + a[i].bit_count())
+            return res
+
+        a = []
+        for s in arr:
+            m = 0
+            for x in s:
+                if m >> (ord(x) - ord("a")) & 1:
+                    m = -1
+                    break
+                m |= 1 << (ord(x) - ord("a"))
+            if m != -1:
+                a.append(m)
+        n = len(a)
+        return dfs(0, 0)
