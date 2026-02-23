@@ -2055,9 +2055,6 @@ public class LeetCode_4 {
 
     // 40. 组合总和 II (Combination Sum II) --回溯
     // LCR 082. 组合总和 II
-    // 组合：不需要用used数组
-    // 有重复元素：需要排序
-    // 每个元素只能用一次 ：回溯的时候 index = i + 1
     private List<int[]> list40;
     private List<Integer> path40;
     private int n40;
@@ -2082,28 +2079,21 @@ public class LeetCode_4 {
     }
 
     private void dfs40(int i, int j) {
-        if (i == n40) {
-            if (j == target40) {
-                res40.add(new ArrayList<>(path40));
-            }
+        if (j == target40) {
+            res40.add(new ArrayList<>(path40));
             return;
         }
-        if (j > target40) {
+        if (i == n40) {
             return;
         }
         dfs40(i + 1, j);
-        List<Integer> cur = new ArrayList<>();
         for (int k = 1; k <= list40.get(i)[1]; ++k) {
             if (k * list40.get(i)[0] + j > target40) {
                 break;
             }
-            cur.add(list40.get(i)[0]);
-            path40.addAll(cur);
+            path40.addAll(Collections.nCopies(k, list40.get(i)[0]));
             dfs40(i + 1, j + k * list40.get(i)[0]);
-            int c = k;
-            while (c-- > 0) {
-                path40.remove(path40.size() - 1);
-            }
+            path40 = path40.subList(0, path40.size() - k);
         }
     }
 
