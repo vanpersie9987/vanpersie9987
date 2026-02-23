@@ -1278,3 +1278,12 @@ class LcaBinaryLifting:
                 a.append(m)
         n = len(a)
         return dfs(0, 0)
+
+    # 1346. 检查整数及其两倍数是否存在 (Check If N and Its Double Exist)
+    def checkIfExist(self, arr: List[int]) -> bool:
+        s = set()
+        for x in arr:
+            if x * 2 in s or x & 1 == 0 and x // 2 in s:
+                return True
+            s.add(x)
+        return False
