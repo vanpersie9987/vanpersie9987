@@ -8099,8 +8099,7 @@ public class Leetcode_3 {
         });
         int res = 0;
         for (int i = 1; i < trees.size(); ++i) {
-            int distance = bfs675(forest, trees.get(i - 1)[0], trees.get(i - 1)[1], trees.get(i)[0],
-                    trees.get(i)[1]);
+            int distance = bfs675(forest, trees.get(i - 1)[0], trees.get(i - 1)[1], trees.get(i)[0], trees.get(i)[1]);
             if (distance == -1) {
                 return -1;
             }
@@ -10101,26 +10100,28 @@ public class Leetcode_3 {
     // 2276. 统计区间中的整数数目 (Count Integers in Intervals) --柯朵莉树
     class CountIntervals {
         private TreeMap<Integer, Integer> map;
-        private int cnt;
+        private int s;
 
         public CountIntervals() {
             this.map = new TreeMap<>();
+            this.map.put(Integer.MAX_VALUE, Integer.MAX_VALUE);
         }
 
-        public void add(int left, int right) {
-            while (map.ceilingKey(left - 1) != null && map.ceilingEntry(left - 1).getValue() - 1 <= right) {
-                Integer key = map.ceilingKey(left - 1);
-                left = Math.min(left, map.get(key));
-                right = Math.max(right, key);
-                cnt -= key - map.get(key) + 1;
-                map.remove(key);
+        public void add(int l, int r) {
+            while (map.ceilingEntry(l).getValue() <= r) {
+                Map.Entry<Integer, Integer> entry = map.ceilingEntry(l);
+                l = Math.min(l, entry.getValue());
+                r = Math.max(r, entry.getKey());
+                s -= entry.getKey() - entry.getValue() + 1;
+                map.remove(entry.getKey());
             }
-            map.put(right, left);
-            cnt += right - left + 1;
+            s += r - l + 1;
+            map.put(r, l);
+
         }
 
         public int count() {
-            return cnt;
+            return s;
 
         }
     }
