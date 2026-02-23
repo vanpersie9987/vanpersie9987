@@ -1201,3 +1201,56 @@ class LcaBinaryLifting:
     # 2357. 使数组中所有元素都等于零 (Make Array Zero by Subtracting Equal Amounts)
     def minimumOperations(self, nums: List[int]) -> int:
         return len(set(nums) - {0})
+
+    # 2531. 使字符串中不同字符的数目相等 (Make Number of Distinct Characters Equal)
+    def isItPossible(self, word1: str, word2: str) -> bool:
+        cnt1 = [0] * 26
+        cnt2 = [0] * 26
+        c1 = 0
+        c2 = 0
+        for c in word1:
+            cnt1[ord(c) - ord("a")] += 1
+            if cnt1[ord(c) - ord("a")] == 1:
+                c1 += 1
+        for c in word2:
+            cnt2[ord(c) - ord("a")] += 1
+            if cnt2[ord(c) - ord("a")] == 1:
+                c2 += 1
+        for i in range(26):
+            if cnt1[i] == 0:
+                continue
+            for j in range(26):
+                if cnt2[j] == 0:
+                    continue
+                # 交换
+                cnt2[i] += 1
+                cnt1[i] -= 1
+                if cnt2[i] == 1:
+                    c2 += 1
+                if cnt1[i] == 0:
+                    c1 -= 1
+
+                cnt1[j] += 1
+                cnt2[j] -= 1
+                if cnt1[j] == 1:
+                    c1 += 1
+                if cnt2[j] == 0:
+                    c2 -= 1
+                if c1 == c2:
+                    return True
+
+                # 还原
+                cnt2[i] -= 1
+                cnt1[i] += 1
+                if cnt2[i] == 0:
+                    c2 -= 1
+                if cnt1[i] == 1:
+                    c1 += 1
+
+                cnt1[j] -= 1
+                cnt2[j] += 1
+                if cnt1[j] == 0:
+                    c1 -= 1
+                if cnt2[j] == 1:
+                    c2 += 1
+        return False
