@@ -6854,45 +6854,46 @@ public class LeetCode_2 {
 
    // 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique
    // Characters) --状态压缩 还需掌握回溯法
+   private List<Integer> a1239;
+
+   private record Group1239(int i, int j) {
+   }
+
+   private int n1239;
+   private Map<Group1239, Integer> memo1239;
+
    public int maxLength(List<String> arr) {
-      int res = 0;
-      List<Integer> list = getList1239(arr);
-      for (int status = 0; status < (1 << list.size()); ++status) {
-         res = Math.max(res, getCount1239(status, list));
-      }
-      return res;
-
-   }
-
-   private int getCount1239(int status, List<Integer> list) {
-      int mask = 0;
-      int index = 0;
-      while (status != 0) {
-         if ((status & 1) == 1) {
-            if ((mask & list.get(index)) != 0) {
-               return -1;
-            }
-            mask |= list.get(index);
-         }
-         ++index;
-         status >>= 1;
-      }
-      return Integer.bitCount(mask);
-   }
-
-   private List<Integer> getList1239(List<String> arr) {
-      List<Integer> list = new ArrayList<>();
+      this.a1239 = new ArrayList<>();
       search: for (String s : arr) {
-         int mask = 0;
+         int m = 0;
          for (char c : s.toCharArray()) {
-            if ((mask & (1 << (c - 'a'))) != 0) {
+            if ((m >> (c - 'a') & 1) != 0) {
                continue search;
             }
-            mask |= 1 << (c - 'a');
+            m |= 1 << (c - 'a');
          }
-         list.add(mask);
+         this.a1239.add(m);
       }
-      return list;
+      this.n1239 = a1239.size();
+      this.memo1239 = new HashMap<>();
+      return dfs1239(0, 0);
+
+   }
+
+   private int dfs1239(int i, int j) {
+      if (i == n1239) {
+         return 0;
+      }
+      Group1239 key = new Group1239(i, j);
+      if (memo1239.get(key) != null) {
+         return memo1239.get(key);
+      }
+      int res = dfs1239(i + 1, j);
+      if ((j & a1239.get(i)) == 0) {
+         res = Math.max(res, dfs1239(i + 1, j | a1239.get(i)) + Integer.bitCount(a1239.get(i)));
+      }
+      memo1239.put(key, res);
+      return res;
    }
 
    // 1647. 字符频次唯一的最小删除次数 (Minimum Deletions to Make Character Frequencies Unique)
