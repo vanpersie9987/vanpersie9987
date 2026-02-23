@@ -6853,7 +6853,7 @@ public class LeetCode_2 {
    }
 
    // 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique
-   // Characters) --状态压缩 还需掌握回溯法
+   // Characters)
    private List<Integer> a1239;
 
    private record Group1239(int i, int j) {
@@ -6884,6 +6884,7 @@ public class LeetCode_2 {
       if (i == n1239) {
          return 0;
       }
+      // 当数据范围较小时，去掉记忆化，速度更快 （也就是回溯）
       Group1239 key = new Group1239(i, j);
       if (memo1239.get(key) != null) {
          return memo1239.get(key);
