@@ -1257,7 +1257,7 @@ class LcaBinaryLifting:
 
     # 1239. 串联字符串的最大长度 (Maximum Length of a Concatenated String with Unique Characters)
     def maxLength(self, arr: List[str]) -> int:
-        @cache # 当数据范围较小时，去掉记忆化，速度更快 （也就是回溯）
+        @cache  # 当数据范围较小时，去掉记忆化，速度更快 （也就是回溯）
         def dfs(i: int, j: int) -> int:
             if i == n:
                 return 0
