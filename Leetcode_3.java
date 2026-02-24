@@ -1021,26 +1021,30 @@ public class Leetcode_3 {
     }
 
     // 257. 二叉树的所有路径 (Binary Tree Paths) --深度优先dfs
+    private List<String> path257;
+    private List<String> res257;
+
     public List<String> binaryTreePaths(TreeNode root) {
-        List<String> res = new ArrayList<>();
-        dfs257(root, "", res);
-        return res;
+        this.path257 = new ArrayList<>();
+        this.res257 = new ArrayList<>();
+        dfs257(root);
+        return res257;
 
     }
 
-    private void dfs257(TreeNode root, String path, List<String> paths) {
+    private void dfs257(TreeNode root) {
         if (root == null) {
             return;
         }
-        StringBuilder sb = new StringBuilder(path);
-        sb.append(root.val);
+        path257.add(String.valueOf(root.val));
         if (root.left == null && root.right == null) {
-            paths.add(sb.toString());
+            res257.add(String.join("->", path257));
+            path257.remove(path257.size() - 1);
             return;
         }
-        sb.append("->");
-        dfs257(root.left, sb.toString(), paths);
-        dfs257(root.right, sb.toString(), paths);
+        dfs257(root.left);
+        dfs257(root.right);
+        path257.remove(path257.size() - 1);
     }
 
     // 257. 二叉树的所有路径 (Binary Tree Paths) --广度优先bfs
