@@ -1382,3 +1382,19 @@ class LcaBinaryLifting:
             return dfs(node.left, x) + dfs(node.right, x)
 
         return dfs(root, 0)
+
+    # 2437. 有效时间的数目 (Number of Valid Clock Times)
+    def countTime(self, time: str) -> int:
+        def check(s: str) -> bool:
+            for a, b in zip(s, time):
+                if b == '?':
+                    continue
+                if a != b:
+                    return False
+            return True
+        res = 0
+        for h in range(24):
+            for m in range(60):
+                if check(f"{h:02d}:{m:02d}"):
+                    res += 1
+        return res
