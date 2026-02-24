@@ -1406,3 +1406,36 @@ class LcaBinaryLifting:
         for x in jewels:
             m[ord(x) >> 5 & 1] |= 1 << (ord(x) & 31)
         return sum(m[ord(x) >> 5 & 1] >> (ord(x) & 31) & 1 for x in stones)
+
+    # 1125. 最小的必要团队 (Smallest Sufficient Team)
+    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if j == u:
+                return 0
+            if i == n:
+                return inf
+            return min(dfs(i + 1, j), dfs(i + 1, j | a[i]) + 1)
+        def make_ans(i: int, j: int, s: int):
+            if j == u:
+                return
+            if dfs(i + 1, j) == s:
+                make_ans(i + 1, j, s)
+                return
+            res.append(i)
+            make_ans(i + 1, j | a[i], s - 1)
+        d = defaultdict(int)
+        for i, x in enumerate(req_skills):
+            d[x] = i
+        u = (1 << len(req_skills)) - 1
+        a = []
+        for p in people:
+            m = 0
+            for x in p:
+                m |= 1 << d[x]
+            a.append(m)
+        n = len(a)
+        _min = dfs(0, 0)
+        res = []
+        make_ans(0, 0, _min)
+        return res
