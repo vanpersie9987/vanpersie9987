@@ -1263,17 +1263,18 @@ public class Leetcode_6 {
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
     private int[] time_bob2467;
-    private Map<Integer, List<Integer>> graph2467;
+    private List<Integer>[] g2467;
     private int[] amount2467;
 
     public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
         int n = amount.length;
         time_bob2467 = new int[n];
         Arrays.fill(time_bob2467, n);
-        graph2467 = new HashMap<>();
+        g2467 = new ArrayList[n];
+        Arrays.setAll(g2467, o -> new ArrayList<>());
         for (int[] edge : edges) {
-            graph2467.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
-            graph2467.computeIfAbsent(edge[1], k -> new ArrayList<>()).add(edge[0]);
+            g2467[edge[0]].add(edge[1]);
+            g2467[edge[1]].add(edge[0]);
         }
         dfs_bob(bob, -1, 0);
         amount2467 = amount;
@@ -1286,7 +1287,7 @@ public class Leetcode_6 {
             time_bob2467[x] = t;
             return true;
         }
-        for (int y : graph2467.getOrDefault(x, new ArrayList<>())) {
+        for (int y : g2467[x]) {
             if (y != fa && dfs_bob(y, x, t + 1)) {
                 time_bob2467[x] = t;
                 return true;
@@ -1303,7 +1304,7 @@ public class Leetcode_6 {
             s += amount2467[x] / 2;
         }
         int mx = Integer.MIN_VALUE;
-        for (int y : graph2467.getOrDefault(x, new ArrayList<>())) {
+        for (int y : g2467[x]) {
             if (y != fa) {
                 mx = Math.max(mx, dfs_alice(y, x, t + 1));
             }
