@@ -1370,3 +1370,15 @@ class LcaBinaryLifting:
         d = [inf] * n
         dfs_from_bob(bob, -1, 0)
         return dfs_from_alice(0, -1, 0)
+
+    # 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers)
+    def sumRootToLeaf(self, root: Optional[TreeNode]) -> int:
+        def dfs(node: Optional[TreeNode], x: int) -> int:
+            if node is None:
+                return 0
+            x = (x << 1) | node.val
+            if node.left is None and node.right is None:
+                return x
+            return dfs(node.left, x) + dfs(node.right, x)
+
+        return dfs(root, 0)
