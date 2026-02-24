@@ -2093,26 +2093,21 @@ public class Leetcode_3 {
     }
 
     // 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers) --plus dfs
-    private int res1022;
-
     public int sumRootToLeaf(TreeNode root) {
-        dfs1022(root, 0);
-        return res1022;
-
+        return dfs1022(root, 0);
     }
 
-    private void dfs1022(TreeNode root, int cur) {
+    private int dfs1022(TreeNode root, int x) {
         if (root == null) {
-            return;
+            return 0;
         }
-        int num = (cur << 1) | root.val;
+        x = (x << 1) | root.val;
         if (root.left == null && root.right == null) {
-            res1022 += num;
-            return;
+            return x;
         }
-        dfs1022(root.left, num);
-        dfs1022(root.right, num);
+        return dfs1022(root.left, x) + dfs1022(root.right, x);
     }
+
 
     // 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers) --plus bfs
     public int sumRootToLeaf2(TreeNode root) {
