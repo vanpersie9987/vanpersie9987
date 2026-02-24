@@ -1262,15 +1262,14 @@ public class Leetcode_6 {
     }
 
     // 2467. 树上最大得分和路径 (Most Profitable Path in a Tree)
-    private int[] time_bob;
+    private int[] time_bob2467;
     private Map<Integer, List<Integer>> graph2467;
-    private int res2467;
     private int[] amount2467;
 
     public int mostProfitablePath(int[][] edges, int bob, int[] amount) {
         int n = amount.length;
-        time_bob = new int[n];
-        Arrays.fill(time_bob, n);
+        time_bob2467 = new int[n];
+        Arrays.fill(time_bob2467, n);
         graph2467 = new HashMap<>();
         for (int[] edge : edges) {
             graph2467.computeIfAbsent(edge[0], k -> new ArrayList<>()).add(edge[1]);
@@ -1278,42 +1277,38 @@ public class Leetcode_6 {
         }
         dfs_bob(bob, -1, 0);
         amount2467 = amount;
-        res2467 = Integer.MIN_VALUE;
-        graph2467.computeIfAbsent(0, k -> new ArrayList<>()).add(-1);
-        dfs_alice(0, -1, 0, 0);
-        return res2467;
+        return dfs_alice(0, -1, 0);
 
     }
 
     private boolean dfs_bob(int x, int fa, int t) {
         if (x == 0) {
-            time_bob[x] = t;
+            time_bob2467[x] = t;
             return true;
         }
         for (int y : graph2467.getOrDefault(x, new ArrayList<>())) {
             if (y != fa && dfs_bob(y, x, t + 1)) {
-                time_bob[x] = t;
+                time_bob2467[x] = t;
                 return true;
             }
         }
         return false;
     }
 
-    private void dfs_alice(int x, int fa, int alice_time, int val) {
-        if (alice_time < time_bob[x]) {
-            val += amount2467[x];
-        } else if (alice_time == time_bob[x]) {
-            val += amount2467[x] / 2;
+    private int dfs_alice(int x, int fa, int t) {
+        int s = 0;
+        if (t < time_bob2467[x]) {
+            s += amount2467[x];
+        } else if (t == time_bob2467[x]) {
+            s += amount2467[x] / 2;
         }
-        if (graph2467.getOrDefault(x, new ArrayList<>()).size() == 1) {
-            res2467 = Math.max(res2467, val);
-            return;
-        }
+        int mx = Integer.MIN_VALUE;
         for (int y : graph2467.getOrDefault(x, new ArrayList<>())) {
             if (y != fa) {
-                dfs_alice(y, x, alice_time + 1, val);
+                mx = Math.max(mx, dfs_alice(y, x, t + 1));
             }
         }
+        return s + (mx > Integer.MIN_VALUE ? mx : 0);
     }
 
     // 6260. 矩阵查询可获得的最大分数
