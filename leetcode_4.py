@@ -1387,11 +1387,12 @@ class LcaBinaryLifting:
     def countTime(self, time: str) -> int:
         def check(s: str) -> bool:
             for a, b in zip(s, time):
-                if b == '?':
+                if b == "?":
                     continue
                 if a != b:
                     return False
             return True
+
         res = 0
         for h in range(24):
             for m in range(60):

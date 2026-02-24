@@ -5639,28 +5639,20 @@ class leetcode_1:
 
     # 257. 二叉树的所有路径 (Binary Tree Paths)
     def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
-        class TreeNode:
-            def __init__(self, val=0, left=None, right=None):
-                self.val = val
-                self.left = left
-                self.right = right
-
-        def dfs(root: Optional[TreeNode]) -> None:
-            nonlocal s
-            if root.left is None and root.right is None:
-                res.append(s + str(root.val))
+        def dfs(node: Optional[TreeNode]):
+            if node is None:
                 return
-            if root.left is not None:
-                s += str(root.val) + "->"
-                dfs(root.left)
-                s = s[: len(s) - len(str(root.val) + "->")]
-            if root.right is not None:
-                s += str(root.val) + "->"
-                dfs(root.right)
-                s = s[: len(s) - len(str(root.val) + "->")]
+            path.append(str(node.val))
+            if node.left is None and node.right is None:
+                res.append("->".join(path))
+                path.pop()
+                return
+            dfs(node.left)
+            dfs(node.right)
+            path.pop()
 
+        path = []
         res = []
-        s = ""
         dfs(root)
         return res
 
