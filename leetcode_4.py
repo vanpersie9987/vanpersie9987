@@ -1398,3 +1398,10 @@ class LcaBinaryLifting:
                 if check(f"{h:02d}:{m:02d}"):
                     res += 1
         return res
+
+    # 771. 宝石与石头 (Jewels and Stones)
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        m = [0] * 2
+        for x in jewels:
+            m[ord(x) >> 5 & 1] |= 1 << (ord(x) & 31)
+        return sum(m[ord(x) >> 5 & 1] >> (ord(x) & 31) & 1 for x in stones)
