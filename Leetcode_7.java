@@ -2126,56 +2126,59 @@ public class Leetcode_7 {
     }
 
     // 1125. 最小的必要团队 (Smallest Sufficient Team) --状态压缩dp
-    private int[] peopleSkills1125;
+    private int[] a1125;
+    private int[][] memo1125;
     private int n1125;
-    private long[][] memo1125;
-    private int peopleSize1125;
+    private int u1125;
+    private List<Integer> res1125;
 
     public int[] smallestSufficientTeam(String[] req_skills, List<List<String>> people) {
-        this.n1125 = req_skills.length;
+        this.u1125 = (1 << req_skills.length) - 1;
+
         Map<String, Integer> map = new HashMap<>();
-        int index = 0;
-        for (String req : req_skills) {
-            map.put(req, index++);
+        for (int i = 0; i < req_skills.length; ++i) {
+            map.putIfAbsent(req_skills[i], i);
         }
-        this.peopleSize1125 = people.size();
-        peopleSkills1125 = new int[peopleSize1125];
-        for (int i = 0; i < peopleSize1125; ++i) {
+        this.n1125 = people.size();
+        this.a1125 = new int[n1125];
+        for (int i = 0; i < n1125; ++i) {
             for (int j = 0; j < people.get(i).size(); ++j) {
-                peopleSkills1125[i] |= 1 << map.get(people.get(i).get(j));
+                a1125[i] |= 1 << map.get(people.get(i).get(j));
             }
         }
-        memo1125 = new long[people.size()][1 << n1125];
-        for (int i = 0; i < people.size(); ++i) {
-            Arrays.fill(memo1125[i], -1l);
+        memo1125 = new int[n1125][1 << req_skills.length];
+        for (int i = 0; i < n1125; ++i) {
+            Arrays.fill(memo1125[i], -1);
         }
-        long mask = dfs1125(0, 0);
-        int[] res = new int[Long.bitCount(mask)];
-        int i = 0;
-        int j = 0;
-        while (mask != 0) {
-            if ((mask & 1) != 0) {
-                res[j++] = i;
-            }
-            ++i;
-            mask >>= 1;
-        }
-        return res;
+        int s = dfs1125(0, 0);
+        this.res1125 = new ArrayList<>();
+        makeAns1125(0, 0, s);
+        return res1125.stream().mapToInt(o -> o).toArray();
     }
 
-    private long dfs1125(int i, int mask) {
-        if (mask == (1 << n1125) - 1) {
-            return 0l;
+    private void makeAns1125(int i, int j, int s) {
+        if (j == u1125) {
+            return;
         }
-        if (i == peopleSize1125) {
-            return (1l << peopleSize1125) - 1;
+        if (dfs1125(i + 1, j) == s) {
+            makeAns1125(i + 1, j, s);
+            return;
         }
-        if (memo1125[i][mask] != -1l) {
-            return memo1125[i][mask];
+        res1125.add(i);
+        makeAns1125(i + 1, j | a1125[i], s - 1);
+    }
+
+    private int dfs1125(int i, int j) {
+        if (j == u1125) {
+            return 0;
         }
-        long mask1 = dfs1125(i + 1, mask);
-        long mask2 = dfs1125(i + 1, mask | peopleSkills1125[i]) | (1l << i);
-        return memo1125[i][mask] = Long.bitCount(mask1) < Long.bitCount(mask2) ? mask1 : mask2;
+        if (i == n1125) {
+            return Integer.MAX_VALUE / 2;
+        }
+        if (memo1125[i][j] != -1) {
+            return memo1125[i][j];
+        }
+        return memo1125[i][j] = Math.min(dfs1125(i + 1, j), dfs1125(i + 1, j | a1125[i]) + 1);
     }
 
     // 1172. 餐盘栈 (Dinner Plate Stacks)
