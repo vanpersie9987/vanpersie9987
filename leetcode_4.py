@@ -1456,7 +1456,7 @@ class LcaBinaryLifting:
                 if i and j and matrix[i][j] != matrix[i - 1][j - 1]:
                     return False
         return True
-    
+
     # 2058. 找出临界点之间的最小和最大距离 (Find the Minimum and Maximum Number of Nodes Between Critical Points)
     def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:
         # 上一个值
@@ -1467,7 +1467,16 @@ class LcaBinaryLifting:
         cur_pos = 0
         res = [inf, -inf]
         while head:
-            if pre_val and head.next and (head.val > pre_val and head.val > head.next.val or head.val < pre_val and head.val < head.next.val):
+            if (
+                pre_val
+                and head.next
+                and (
+                    head.val > pre_val
+                    and head.val > head.next.val
+                    or head.val < pre_val
+                    and head.val < head.next.val
+                )
+            ):
                 res[0] = min(res[0], cur_pos - pre_ok_pos)
                 pre_ok_pos = cur_pos
                 if first_ok_pos == -1:
@@ -1478,4 +1487,16 @@ class LcaBinaryLifting:
             cur_pos += 1
         return [-1, -1] if res[0] == inf else res
 
-
+    # 334. 递增的三元子序列 (Increasing Triplet Subsequence)
+    def increasingTriplet(self, nums: List[int]) -> bool:
+        n = len(nums)
+        pre_min = [0] * n
+        pre_min[0] = nums[0]
+        for i in range(1, n):
+            pre_min[i] = min(nums[i], pre_min[i - 1])
+        suf_max = nums[-1]
+        for i in range(n - 2, 0, -1):
+            if pre_min[i - 1] < nums[i] < suf_max:
+                return True
+            suf_max = max(suf_max, nums[i])
+        return False
