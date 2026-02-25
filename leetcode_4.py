@@ -1447,3 +1447,12 @@ class LcaBinaryLifting:
     # 434. 字符串中的单词数 (Number of Segments in a String)
     def countSegments(self, s: str) -> int:
         return len(s.strip().split())
+
+    # 766. 托普利茨矩阵 (Toeplitz Matrix)
+    def isToeplitzMatrix(self, matrix: List[List[int]]) -> bool:
+        m, n = len(matrix), len(matrix[0])
+        for i in range(m):
+            for j in range(n):
+                if i and j and matrix[i][j] != matrix[i - 1][j - 1]:
+                    return False
+        return True
