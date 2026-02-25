@@ -1456,3 +1456,28 @@ class LcaBinaryLifting:
                 if i and j and matrix[i][j] != matrix[i - 1][j - 1]:
                     return False
         return True
+    
+    # 2058. 找出临界点之间的最小和最大距离 (Find the Minimum and Maximum Number of Nodes Between Critical Points)
+    def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:
+        # 上一个值
+        pre_val = 0
+        # 上一个合法的位置
+        pre_ok_pos = -inf
+        first_ok_pos = -1
+        cur_pos = 0
+        res = [inf, -inf]
+        while head:
+            if pre_val:
+                if head.next and (head.val > pre_val and head.val > head.next.val or head.val < pre_val and head.val < head.next.val):
+                    res[0] = min(res[0], cur_pos - pre_ok_pos)
+                    pre_ok_pos = cur_pos
+                    if first_ok_pos == -1:
+                        first_ok_pos = cur_pos
+                    else:
+                        res[1] = cur_pos - first_ok_pos
+            pre_val = head.val
+            head = head.next
+            cur_pos += 1
+        return [-1, -1] if res[0] == inf else res
+
+
