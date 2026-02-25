@@ -1467,14 +1467,12 @@ class LcaBinaryLifting:
         cur_pos = 0
         res = [inf, -inf]
         while head:
-            if pre_val:
-                if head.next and (head.val > pre_val and head.val > head.next.val or head.val < pre_val and head.val < head.next.val):
-                    res[0] = min(res[0], cur_pos - pre_ok_pos)
-                    pre_ok_pos = cur_pos
-                    if first_ok_pos == -1:
-                        first_ok_pos = cur_pos
-                    else:
-                        res[1] = cur_pos - first_ok_pos
+            if pre_val and head.next and (head.val > pre_val and head.val > head.next.val or head.val < pre_val and head.val < head.next.val):
+                res[0] = min(res[0], cur_pos - pre_ok_pos)
+                pre_ok_pos = cur_pos
+                if first_ok_pos == -1:
+                    first_ok_pos = cur_pos
+                res[1] = cur_pos - first_ok_pos
             pre_val = head.val
             head = head.next
             cur_pos += 1
