@@ -9362,47 +9362,46 @@ public class Leetcode_8 {
 
     // 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph) --并查集
     public int[] minimumCost(int n, int[][] edges, int[][] query) {
-        Union3108 union = new Union3108(n);
-        Map<Integer, Integer> map = new HashMap<>();
+        Union3108 u = new Union3108(n);
         for (int[] e : edges) {
-            union.union(e[0], e[1]);
+            u.union(e[0], e[1]);
         }
+        int[] d = new int[n];
+        Arrays.fill(d, -1);
         for (int[] e : edges) {
-            int root = union.getRoot(e[0]);
-            map.put(root, map.getOrDefault(root, -1) & e[2]);
+            int r = u.getRoot(e[0]);
+            d[r] &= e[2];
         }
         int[] res = new int[query.length];
         for (int i = 0; i < query.length; ++i) {
-            int u = query[i][0];
-            int v = query[i][1];
-            if (u == v) {
-                continue;
-            }
-            if (union.isConnected(u, v)) {
-                res[i] = map.getOrDefault(union.getRoot(u), -1);
-            } else {
+            int a = query[i][0];
+            int b = query[i][1];
+            if (!u.isConnected(a, b)) {
                 res[i] = -1;
+            } else {
+                int r = u.getRoot(a);
+                res[i] = d[r];
             }
         }
         return res;
 
     }
 
-    public class Union3108 {
+    class Union3108 {
         private int[] parent;
         private int[] rank;
 
         public Union3108(int n) {
             this.parent = new int[n];
+            this.rank = new int[n];
+            Arrays.fill(rank, 1);
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
             }
-            this.rank = new int[n];
-            Arrays.fill(rank, 1);
         }
 
         public int getRoot(int p) {
-            if (parent[p] == p) {
+            if (p == parent[p]) {
                 return p;
             }
             return parent[p] = getRoot(parent[p]);
@@ -9413,17 +9412,17 @@ public class Leetcode_8 {
         }
 
         public void union(int p1, int p2) {
-            int root1 = getRoot(p1);
-            int root2 = getRoot(p2);
-            if (root1 == root2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
             } else {
-                parent[root2] = root1;
-                if (rank[root1] == rank[root2]) {
-                    ++rank[root1];
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r2];
                 }
             }
         }

@@ -3175,53 +3175,44 @@ class Union924:
     def minimumCost(
         self, n: int, edges: List[List[int]], query: List[List[int]]
     ) -> List[int]:
-        class Union:
-
+        class union:
             def __init__(self, n: int):
-                self.parent = [0] * n
-                for i in range(n):
-                    self.parent[i] = i
+                self.parent = [i for i in range(n)]
                 self.rank = [1] * n
 
             def get_root(self, p: int) -> int:
-                if self.parent[p] == p:
+                if p == self.parent[p]:
                     return p
                 self.parent[p] = self.get_root(self.parent[p])
                 return self.parent[p]
 
-            def is_connected(self, p1: int, p2: int) -> bool:
+            def is_connnected(self, p1: int, p2: int) -> bool:
                 return self.get_root(p1) == self.get_root(p2)
 
-            def union(self, p1: int, p2: int) -> None:
-                root1 = self.get_root(p1)
-                root2 = self.get_root(p2)
-                if root1 == root2:
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
                     return
-                if self.rank[root1] < self.rank[root2]:
-                    self.parent[root1] = root2
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
                 else:
-                    self.parent[root2] = root1
-                    if self.rank[root1] == self.rank[root2]:
-                        self.rank[root1] += 1
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
 
-        union = Union(n)
+        _union = union(n)
         for u, v, _ in edges:
-            union.union(u, v)
-        dic = defaultdict(int)
-        for u, v, w in edges:
-            root = union.get_root(u)
-            if root in dic:
-                dic[root] &= w
-            else:
-                dic[root] = w
-        res = [0] * len(query)
+            _union.union(u, v)
+        d = [-1] * n
+        for u, _, w in edges:
+            r = _union.get_root(u)
+            d[r] &= w
+        res = [-1] * len(query)
         for i, (u, v) in enumerate(query):
-            if u == v:
-                continue
-            if union.is_connected(u, v):
-                res[i] = dic[union.get_root(u)]
-            else:
-                res[i] = -1
+            if _union.is_connnected(u, v):
+                r = _union.get_root(u)
+                res[i] = d[r]
         return res
 
     # 3108. 带权图里旅途的最小代价 (Minimum Cost Walk in Weighted Graph)
@@ -10089,4 +10080,4 @@ class Union924:
                 s[i], s[j] = s[j], s[i]
                 i += 1
                 j -= 1
-        return ''.join(s)
+        return "".join(s)

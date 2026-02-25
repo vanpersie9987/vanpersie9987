@@ -1408,7 +1408,9 @@ class LcaBinaryLifting:
         return sum(m[ord(x) >> 5 & 1] >> (ord(x) & 31) & 1 for x in stones)
 
     # 1125. 最小的必要团队 (Smallest Sufficient Team)
-    def smallestSufficientTeam(self, req_skills: List[str], people: List[List[str]]) -> List[int]:
+    def smallestSufficientTeam(
+        self, req_skills: List[str], people: List[List[str]]
+    ) -> List[int]:
         @cache
         def dfs(i: int, j: int) -> int:
             if j == u:
@@ -1416,6 +1418,7 @@ class LcaBinaryLifting:
             if i == n:
                 return inf
             return min(dfs(i + 1, j), dfs(i + 1, j | a[i]) + 1)
+
         def make_ans(i: int, j: int, s: int):
             if j == u:
                 return
@@ -1424,6 +1427,7 @@ class LcaBinaryLifting:
                 return
             res.append(i)
             make_ans(i + 1, j | a[i], s - 1)
+
         d = defaultdict(int)
         for i, x in enumerate(req_skills):
             d[x] = i
@@ -1439,3 +1443,7 @@ class LcaBinaryLifting:
         res = []
         make_ans(0, 0, _min)
         return res
+
+    # 434. 字符串中的单词数 (Number of Segments in a String)
+    def countSegments(self, s: str) -> int:
+        return len(s.strip().split())
