@@ -10450,18 +10450,3 @@ class leetcode_1:
 
         def remove(self, key: int) -> None:
             self.map[key] = -1
-
-    # 2145. 统计隐藏数组数目 (Count the Hidden Sequences)
-    def numberOfArrays(self, differences: List[int], lower: int, upper: int) -> int:
-        cur1 = upper
-        cur2 = lower
-        mx = inf
-        mi = -inf
-        for x in differences:
-            cur1 += x
-            cur2 += x
-            mx = min(mx, min(upper, upper - (cur1 - upper)))
-            mi = max(mi, max(lower, lower + (lower - cur2)))
-            if mx < mi:
-                return 0
-        return mx - mi + 1

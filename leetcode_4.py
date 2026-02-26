@@ -1498,3 +1498,16 @@ class LcaBinaryLifting:
                 return True
             suf_max = max(suf_max, nums[i])
         return False
+
+    # 2145. 统计隐藏数组数目 (Count the Hidden Sequences)
+    def numberOfArrays(self, differences: List[int], lower: int, upper: int) -> int:
+        l = lower
+        r = upper
+        for d in differences:
+            l += d
+            r += d
+            if r < lower or l > upper:
+                return 0
+            l = max(l, lower)
+            r = min(r, upper)
+        return r - l + 1
