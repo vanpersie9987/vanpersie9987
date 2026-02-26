@@ -8337,4 +8337,51 @@ public class Leetcode_10 {
         memo3850.put(k, res);
         return res;
     }
+
+    // 1521. 找到最接近目标值的函数值 (Find a Value of a Mysterious Function Closest to Target)
+    public int closestToTarget(int[] arr, int target) {
+        int res = Integer.MAX_VALUE;
+        int left = 0;
+        int[] cnts = new int[20];
+        for (int right = 0; right < arr.length; ++right) {
+            add1521(cnts, arr[right]);
+            while (left <= right) {
+                int cur = check1521(cnts, right - left + 1);
+                res = Math.min(res, Math.abs(cur - target));
+                if (res == 0) {
+                    return 0;
+                }
+                if (cur >= target) {
+                    break;
+                }
+                sub1521(cnts, arr[left++]);
+            }
+        }
+        return res;
+    }
+
+    private int check1521(int[] cnts, int c) {
+        int res = 0;
+        for (int i = 0; i < cnts.length; ++i) {
+            if (cnts[i] == c) {
+                res ^= 1 << i;
+            }
+        }
+        return res;
+
+    }
+
+    private void sub1521(int[] cnts, int x) {
+        for (; x != 0; x &= x - 1) {
+            int lb = Integer.numberOfTrailingZeros(x);
+            --cnts[lb];
+        }
+    }
+
+    private void add1521(int[] cnts, int x) {
+        for (; x != 0; x &= x - 1) {
+            int lb = Integer.numberOfTrailingZeros(x);
+            ++cnts[lb];
+        }
+    }
 }
