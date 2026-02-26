@@ -1511,3 +1511,39 @@ class LcaBinaryLifting:
             l = max(l, lower)
             r = min(r, upper)
         return r - l + 1
+
+    # 1521. 找到最接近目标值的函数值 (Find a Value of a Mysterious Function Closest to Target)
+    def closestToTarget(self, arr: List[int], target: int) -> int:
+        def add(x: int):
+            while x:
+                lb = (x & -x).bit_length() - 1
+                cnts[lb] += 1
+                x &= x - 1
+
+        def sub(x: int):
+            while x:
+                lb = (x & -x).bit_length() - 1
+                cnts[lb] -= 1
+                x &= x - 1
+
+        def check(l: int, r: int) -> int:
+            res = 0
+            for i, c in enumerate(cnts):
+                if r - l + 1 == c:
+                    res ^= 1 << i
+            return res
+
+        L = 20
+        cnts = [0] * L
+        left = 0
+        res = inf
+        for right, x in enumerate(arr):
+            add(x)
+            while left < right and check(left, right) < target:
+                res = min(res, abs(check(left, right) - target))
+                sub(arr[left])
+                left += 1
+            res = min(res, abs(check(left, right) - target))
+            if res == 0:
+                break
+        return res
