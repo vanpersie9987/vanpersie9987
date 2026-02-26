@@ -8337,4 +8337,19 @@ public class Leetcode_10 {
         memo3850.put(k, res);
         return res;
     }
+
+    public int numberOfArrays(int[] differences, int lower, int upper) {
+        int l = lower;
+        int r = upper;
+        for (int d : differences) {
+            l += d;
+            r += d;
+            if (l > upper || r < lower) {
+                return 0;
+            }
+            l = Math.max(l, lower);
+            r = Math.min(r, upper);
+        }
+        return r - l + 1;
+    }
 }

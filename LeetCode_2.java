@@ -3393,26 +3393,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-         case 5:
-            ++count5;
-            break;
-         case 10:
-            if (count5 == 0) {
-               return false;
-            }
-            --count5;
-            ++count10;
-            break;
-         case 20:
-            if (count10 >= 1 && count5 >= 1) {
-               --count10;
+            case 5:
+               ++count5;
+               break;
+            case 10:
+               if (count5 == 0) {
+                  return false;
+               }
                --count5;
-            } else if (count5 >= 3) {
-               count5 -= 3;
-            } else {
-               return false;
-            }
-            break;
+               ++count10;
+               break;
+            case 20:
+               if (count10 >= 1 && count5 >= 1) {
+                  --count10;
+                  --count5;
+               } else if (count5 >= 3) {
+                  count5 -= 3;
+               } else {
+                  return false;
+               }
+               break;
          }
       }
       return true;
@@ -6395,30 +6395,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-         case 'U':
-            if (--curX < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'D':
-            if (++curX == n) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'L':
-            if (--curY < 0) {
-               return count;
-            }
-            ++count;
-            break;
-         case 'R':
-            if (++curY == n) {
-               return count;
-            }
-            ++count;
-            break;
+            case 'U':
+               if (--curX < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'D':
+               if (++curX == n) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'L':
+               if (--curY < 0) {
+                  return count;
+               }
+               ++count;
+               break;
+            case 'R':
+               if (++curY == n) {
+                  return count;
+               }
+               ++count;
+               break;
          }
 
       }
@@ -7516,17 +7516,20 @@ public class LeetCode_2 {
 
    }
 
-   // 5972. 统计隐藏数组数目 (Count the Hidden Sequences)
+   // 2145. 统计隐藏数组数目 (Count the Hidden Sequences)
    public int numberOfArrays(int[] differences, int lower, int upper) {
-      long min = 0L;
-      long max = 0L;
-      long cur = 0L;
-      for (int diff : differences) {
-         cur += diff;
-         min = Math.min(min, cur);
-         max = Math.max(max, cur);
+      int l = lower;
+      int r = upper;
+      for (int d : differences) {
+         l += d;
+         r += d;
+         if (l > upper || r < lower) {
+            return 0;
+         }
+         l = Math.max(l, lower);
+         r = Math.min(r, upper);
       }
-      return (int) Math.max(0, upper - max + min - lower + 1);
+      return r - l + 1;
    }
 
    // 2147. 分隔长廊的方案数 (Number of Ways to Divide a Long Corridor)
