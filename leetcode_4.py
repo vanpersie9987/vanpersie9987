@@ -1539,11 +1539,13 @@ class LcaBinaryLifting:
         res = inf
         for right, x in enumerate(arr):
             add(x)
-            while left < right and check(left, right) < target:
-                res = min(res, abs(check(left, right) - target))
+            while left <= right:
+                cur = check(left, right)
+                res = min(res, abs(cur - target))
+                if cur >= target:
+                    break
                 sub(arr[left])
                 left += 1
-            res = min(res, abs(check(left, right) - target))
             if res == 0:
                 break
         return res
