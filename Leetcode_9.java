@@ -2608,38 +2608,45 @@ public class Leetcode_9 {
     // 3306. 元音辅音字符串计数 II (Count of Substrings Containing Every Vowel and K
     // Consonants II)
     public long countOfSubstrings(String word, int k) {
-        return check3306(word, k) - check3306(word, k + 1);
+        return cal3306(word, k) - cal3306(word, k + 1);
     }
 
-    private long check3306(String word, int k) {
+    private long cal3306(String s, int k) {
+        int[] cnts = new int[26];
+        int m = 0;
+        for (char c : "aeiou".toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
         long res = 0L;
-        Map<Character, Integer> cnt = new HashMap<>();
         int left = 0;
-        int consonant = 0;
-        for (int right = 0; right < word.length(); ++right) {
-            if (isVowel3306(word.charAt(right))) {
-                cnt.merge(word.charAt(right), 1, Integer::sum);
+        // 元音种类数
+        int cnt_v = 0;
+        // 辅音数
+        int cnt_c = 0;
+        for (char c : s.toCharArray()) {
+            ++cnts[c - 'a'];
+            if ((m >> (c - 'a') & 1) != 0) {
+                if (cnts[c - 'a'] == 1) {
+                    ++cnt_v;
+                }
             } else {
-                ++consonant;
+                ++cnt_c;
             }
-            while (cnt.size() == 5 && consonant >= k) {
-                if (isVowel3306(word.charAt(left))) {
-                    cnt.merge(word.charAt(left), -1, Integer::sum);
-                    if (cnt.get(word.charAt(left)) == 0) {
-                        cnt.remove(word.charAt(left));
+            while (cnt_c >= k && cnt_v == 5) {
+                int id = s.charAt(left) - 'a';
+                --cnts[id];
+                if ((m >> id & 1) != 0) {
+                    if (cnts[id] == 0) {
+                        --cnt_v;
                     }
                 } else {
-                    --consonant;
+                    --cnt_c;
                 }
                 ++left;
             }
             res += left;
         }
         return res;
-    }
-
-    private boolean isVowel3306(char c) {
-        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
 
     }
 
