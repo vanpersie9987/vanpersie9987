@@ -6648,29 +6648,38 @@ class Union924:
     # 3305. 元音辅音字符串计数 I (Count of Substrings Containing Every Vowel and K Consonants I)
     # 3306. 元音辅音字符串计数 II (Count of Substrings Containing Every Vowel and K Consonants II)
     def countOfSubstrings(self, word: str, k: int) -> int:
-        def check(k: int) -> int:
-            d = defaultdict(int)
-            left = 0
-            consonant = 0
-            res = 0
-            for v in word:
-                # 元音
-                if v in "aeiou":
-                    d[v] += 1
+        # 每个元音至少出现一次，且辅音至少为k个
+        def cal(k: int) -> int:
+            left = res = 0
+            cnts = [0] * 26
+            # 元音字母种类数
+            cur_v = 0
+            # 辅音字母数
+            cur_c = 0
+            for x in word:
+                id = ord(x) - ord("a")
+                cnts[id] += 1
+                if m >> id & 1:
+                    if cnts[id] == 1:
+                        cur_v += 1
                 else:
-                    consonant += 1
-                while len(d) == 5 and consonant >= k:
-                    if word[left] in "aeiou":
-                        d[word[left]] -= 1
-                        if d[word[left]] == 0:
-                            del d[word[left]]
+                    cur_c += 1
+                while cur_c >= k and cur_v >= 5:
+                    id = ord(word[left]) - ord("a")
+                    cnts[id] -= 1
+                    if m >> id & 1:
+                        if cnts[id] == 0:
+                            cur_v -= 1
                     else:
-                        consonant -= 1
+                        cur_c -= 1
                     left += 1
                 res += left
             return res
 
-        return check(k) - check(k + 1)
+        m = 0
+        for x in "aeiou":
+            m |= 1 << (ord(x) - ord("a"))
+        return cal(k) - cal(k + 1)
 
     # 3307. 找出第 K 个字符 II (Find the K-th Character in String Game II)
     def kthCharacter(self, k: int, operations: List[int]) -> str:
