@@ -1646,3 +1646,13 @@ class LcaBinaryLifting:
             if vis[i] == -1 and not bfs(i):
                 return False
         return True
+
+    # 477. 汉明距离总和 (Total Hamming Distance)
+    def totalHammingDistance(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(30, -1, -1):
+            cnts = [0] * 2
+            for x in nums:
+                cnts[x >> i & 1] += 1
+            res += cnts[0] * cnts[1]
+        return res
