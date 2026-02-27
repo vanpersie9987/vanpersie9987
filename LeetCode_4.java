@@ -1511,34 +1511,32 @@ public class LeetCode_4 {
     }
 
     // 面试题 08.07. 无重复字符串的排列组合 (Permutation I LCCI) --回溯
-    private List<String> res0807;
-    private char[] chars0807;
-    private int n0807;
-    private StringBuilder path0807;
-
-    public String[] permutation(String S) {
-        this.res0807 = new ArrayList<>();
-        this.n0807 = S.length();
-        this.chars0807 = S.toCharArray();
-        this.path0807 = new StringBuilder();
-        dfs0807(0);
-        return res0807.toArray(new String[0]);
-
+    public String[] permutation(String s) {
+        int n = s.length();
+        int u = (1 << n) - 1;
+        List<String> res = new ArrayList<>();
+        StringBuilder builder = new StringBuilder();
+        char[] a = s.toCharArray();
+        // 有重复字符串
+        // Arrays.sort(a);
+        dfs0807(res, 0, u, builder, a);
+        return res.toArray(new String[0]);
     }
 
-    private void dfs0807(int mask) {
-        if (mask == ((1 << n0807) - 1)) {
-            res0807.add(path0807.toString());
+    private void dfs0807(List<String> res, int i, int u, StringBuilder builder, char[] a) {
+        if (i == u) {
+            res.add(builder.toString());
             return;
         }
-        int candidates = (~mask) & ((1 << n0807) - 1);
-        while (candidates != 0) {
-            int last = candidates & (-candidates);
-            int index = Integer.numberOfTrailingZeros(last);
-            path0807.append(chars0807[index]);
-            dfs0807(mask | last);
-            path0807.deleteCharAt(path0807.length() - 1);
-            candidates &= candidates - 1;
+        for (int c = i ^ u; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            // 有重复字符串
+            // if (lb > 0 && a[lb] == a[lb - 1] && ((i >> (lb - 1)) & 1) == 0) {
+            // continue;
+            // }
+            builder.append(a[lb]);
+            dfs0807(res, i | (1 << lb), u, builder, a);
+            builder.deleteCharAt(builder.length() - 1);
         }
     }
 
