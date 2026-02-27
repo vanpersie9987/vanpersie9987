@@ -548,47 +548,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-            case 'c':
-                if (cnts[4] > 0) {
-                    --cnts[4];
-                }
-                ++cnts[0];
-                break;
-            case 'r':
-                if (cnts[0] > 0) {
-                    --cnts[0];
-                } else {
-                    return -1;
-                }
-                ++cnts[1];
-                break;
-            case 'o':
-                if (cnts[1] > 0) {
-                    --cnts[1];
-                } else {
-                    return -1;
-                }
-                ++cnts[2];
-                break;
-            case 'a':
-                if (cnts[2] > 0) {
-                    --cnts[2];
-                } else {
-                    return -1;
-                }
-                ++cnts[3];
-                break;
-            case 'k':
-                if (cnts[3] > 0) {
-                    --cnts[3];
-                } else {
-                    return -1;
-                }
-                ++cnts[4];
-                break;
+                case 'c':
+                    if (cnts[4] > 0) {
+                        --cnts[4];
+                    }
+                    ++cnts[0];
+                    break;
+                case 'r':
+                    if (cnts[0] > 0) {
+                        --cnts[0];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[1];
+                    break;
+                case 'o':
+                    if (cnts[1] > 0) {
+                        --cnts[1];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[2];
+                    break;
+                case 'a':
+                    if (cnts[2] > 0) {
+                        --cnts[2];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[3];
+                    break;
+                case 'k':
+                    if (cnts[3] > 0) {
+                        --cnts[3];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[4];
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
@@ -2101,28 +2101,25 @@ public class LeetCode_4 {
         Arrays.sort(nums);
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> path = new ArrayList<>();
-        boolean[] used = new boolean[nums.length];
-        backtrack47(res, path, nums, used);
+        int n = nums.length;
+        int u = (1 << n) - 1;
+        dfs47(res, path, nums, 0, u);
         return res;
     }
 
-    private void backtrack47(List<List<Integer>> res, List<Integer> path, int[] nums, boolean[] used) {
-        if (path.size() == nums.length) {
+    private void dfs47(List<List<Integer>> res, List<Integer> path, int[] nums, int i, int u) {
+        if (i == u) {
             res.add(new ArrayList<>(path));
             return;
         }
-        for (int i = 0; i < nums.length; ++i) {
-            if (used[i]) {
+        for (int c = i ^ u; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (lb > 0 && nums[lb] == nums[lb - 1] && ((i >> (lb - 1)) & 1) == 0) {
                 continue;
             }
-            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
-                continue;
-            }
-            used[i] = true;
-            path.add(nums[i]);
-            backtrack47(res, path, nums, used);
+            path.add(nums[lb]);
+            dfs47(res, path, nums, i | (1 << lb), u);
             path.remove(path.size() - 1);
-            used[i] = false;
         }
     }
 
