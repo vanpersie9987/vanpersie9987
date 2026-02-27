@@ -7373,32 +7373,28 @@ class leetcode_1:
     # 47. 全排列 II (Permutations II)
     # LCR 084. 全排列 II
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
-        nums.sort()
-        n = len(nums)
-        used = 0
-        _list = []
-        res = []
-
-        def dfs() -> None:
-            if len(_list) == n:
-                res.append(_list.copy())
+        def dfs(i: int):
+            if i == u:
+                res.append(path.copy())
                 return
-            for i in range(n):
-                nonlocal used
+            for id, x in enumerate(nums):
                 if (
-                    ((used >> i) & 1) == 1
-                    or i > 0
-                    and nums[i] == nums[i - 1]
-                    and ((used >> (i - 1)) & 1) == 0
+                    i >> id & 1
+                    or id
+                    and nums[id] == nums[id - 1]
+                    and i >> (id - 1) & 1 == 0
                 ):
                     continue
-                used ^= 1 << i
-                _list.append(nums[i])
-                dfs()
-                _list.pop()
-                used ^= 1 << i
+                path.append(x)
+                dfs(i | (1 << id))
+                path.pop()
 
-        dfs()
+        nums.sort()
+        n = len(nums)
+        u = (1 << n) - 1
+        res = []
+        path = []
+        dfs(0)
         return res
 
     # LCR 129. 字母迷宫
