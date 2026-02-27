@@ -1570,3 +1570,29 @@ class LcaBinaryLifting:
         if abs(m - n) > 1:
             return False
         return dfs(0, 0, False)
+
+    # 15. 三数之和 (3Sum)
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
+        nums.sort()
+        res = []
+        for i, x in enumerate(nums):
+            if x > 0:
+                break
+            if i and x == nums[i - 1]:
+                continue
+            left = i + 1
+            right = len(nums) - 1
+            while left < right:
+                if nums[right] + nums[left] + x > 0:
+                    right -= 1
+                elif nums[right] + nums[left] + x < 0:
+                    left += 1
+                else:
+                    res.append((x, nums[left], nums[right]))
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+                    left += 1
+                    right -= 1
+        return res
