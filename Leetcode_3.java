@@ -5262,8 +5262,44 @@ public class Leetcode_3 {
         return true;
     }
 
-    // 886. 可能的二分法 (Possible Bipartition) --并查集
+
+    // 886. 可能的二分法 (Possible Bipartition) --dfs
     public boolean possibleBipartition2(int n, int[][] dislikes) {
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] d : dislikes) {
+            g[d[0] - 1].add(d[1] - 1);
+            g[d[1] - 1].add(d[0] - 1);
+        }
+        int[] vis = new int[n];
+        Arrays.fill(vis, -1);
+        for (int i = 0; i < n; ++i) {
+            if (vis[i] == -1 && !dfs886(i, 0, vis, g)) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    private boolean dfs886(int x, int color, int[] vis, List<Integer>[] g) {
+        vis[x] = color;
+        for (int y : g[x]) {
+            if (vis[y] != -1) {
+                if (vis[y] != (color ^ 1)) {
+                    return false;
+                }
+                continue;
+            }
+            if (!dfs886(y, color ^ 1, vis, g)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 886. 可能的二分法 (Possible Bipartition) --并查集
+    public boolean possibleBipartition3(int n, int[][] dislikes) {
         Union886 union = new Union886(n);
         List<Integer>[] g = new ArrayList[n];
         Arrays.setAll(g, o -> new ArrayList<>());
