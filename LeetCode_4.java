@@ -2124,33 +2124,30 @@ public class LeetCode_4 {
     }
 
     // 面试题 08.08. 有重复字符串的排列组合
-    public String[] permutation3(String S) {
-        boolean[] used = new boolean[S.length()];
+    public String[] permutation3(String s) {
+        int n = s.length();
+        int u = (1 << n) - 1;
         List<String> res = new ArrayList<>();
         StringBuilder builder = new StringBuilder();
-        char[] chars = S.toCharArray();
-        Arrays.sort(chars);
-        backtrack0808(res, used, builder, chars);
+        char[] a = s.toCharArray();
+        Arrays.sort(a);
+        dfs0808(res, 0, u, builder, a);
         return res.toArray(new String[0]);
     }
 
-    private void backtrack0808(List<String> res, boolean[] used, StringBuilder builder, char[] chars) {
-        if (builder.length() == chars.length) {
+    private void dfs0808(List<String> res, int i, int u, StringBuilder builder, char[] a) {
+        if (i == u) {
             res.add(builder.toString());
             return;
         }
-        for (int i = 0; i < chars.length; ++i) {
-            if (used[i]) {
+        for (int c = i ^ u; c != 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            if (lb > 0 && a[lb] == a[lb - 1] && ((i >> (lb - 1)) & 1) == 0) {
                 continue;
             }
-            if (i > 0 && chars[i] == chars[i - 1] && !used[i - 1]) {
-                continue;
-            }
-            used[i] = true;
-            builder.append(chars[i]);
-            backtrack0808(res, used, builder, chars);
+            builder.append(a[lb]);
+            dfs0808(res, i | (1 << lb), u, builder, a);
             builder.deleteCharAt(builder.length() - 1);
-            used[i] = false;
         }
     }
 
