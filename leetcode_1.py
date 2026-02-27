@@ -2540,26 +2540,26 @@ class leetcode_1:
         def dfs(i: int) -> int:
             if i == u:
                 return 0
-            sub = i ^ u
-            c = 0
-            while sub:
-                lb = (sub & -sub).bit_length() - 1
-                if pre[lb] | i == i:
-                    c |= 1 << lb
-                sub &= sub - 1
-            if c.bit_count() <= k:
-                return dfs(i | c) + 1
+            c = i ^ u
+            sub = 0
+            while c:
+                lb = (c & -c).bit_length() - 1
+                if g[lb] & i == g[lb]:
+                    sub |= 1 << lb
+                c &= c - 1
+            if sub.bit_count() <= k:
+                return dfs(i | sub) + 1
+            c = sub
             res = inf
-            sub = c
             while sub:
-                if sub.bit_count() <= k:
+                if sub.bit_count() == k:
                     res = min(res, dfs(i | sub) + 1)
                 sub = (sub - 1) & c
             return res
 
-        pre = [0] * n
+        g = [0] * n
         for x, y in relations:
-            pre[y - 1] |= 1 << (x - 1)
+            g[y - 1] |= 1 << (x - 1)
         u = (1 << n) - 1
         return dfs(0)
 
