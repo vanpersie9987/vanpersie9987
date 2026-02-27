@@ -5265,17 +5265,18 @@ public class Leetcode_3 {
     // 886. 可能的二分法 (Possible Bipartition) --并查集
     public boolean possibleBipartition2(int n, int[][] dislikes) {
         Union886 union = new Union886(n);
-        Map<Integer, List<Integer>> graph = buildGraph(n, dislikes);
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] d : dislikes) {
+            g[d[0] - 1].add(d[1] - 1);
+            g[d[1] - 1].add(d[0] - 1);
+        }
         for (int i = 0; i < n; ++i) {
-            List<Integer> neighbors = graph.get(i);
-            if (neighbors == null) {
-                continue;
-            }
-            for (int neighbor : neighbors) {
-                if (union.isConnected(i, neighbor)) {
+            for (int y : g[i]) {
+                if (union.isConnected(i, y)) {
                     return false;
                 }
-                union.union(neighbors.get(0), neighbor);
+                union.union(g[i].get(0), y);
             }
         }
         return true;
