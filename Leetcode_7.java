@@ -9225,12 +9225,10 @@ public class Leetcode_7 {
     // 1494. 并行课程 II (Parallel Courses II)
     private int[] pre1494;
     private int[] memo1494;
-    private int n1494;
     private int k1494;
     private int u1494;
 
     public int minNumberOfSemesters(int n, int[][] relations, int k) {
-        this.n1494 = n;
         this.k1494 = k;
         this.pre1494 = new int[n];
         for (int[] r : relations) {
@@ -9239,33 +9237,31 @@ public class Leetcode_7 {
         this.memo1494 = new int[1 << n];
         Arrays.fill(memo1494, -1);
         this.u1494 = (1 << n) - 1;
-        return dfs1494(u1494);
+        return dfs1494(0);
     }
 
-    // i中的1表示还没上过的课的集合
     private int dfs1494(int i) {
-        if (i == 0) {
+        if (i == u1494) {
             return 0;
         }
         if (memo1494[i] != -1) {
             return memo1494[i];
         }
-        int i1 = 0;
-        // c1中的1表示已经上过的课的集合
-        int c1 = i ^ u1494;
-        for (int j = 0; j < n1494; ++j) {
-            // 课程 j 还没上，且课程 j 的先修课都已上过
-            if (((i >> j) & 1) == 1 && (pre1494[j] | c1) == c1) {
-                i1 |= 1 << j;
+        int c = i ^ u1494;
+        int j = 0;
+        for (int sub = c; sub != 0; sub = (sub - 1) & c) {
+            int lb = Integer.numberOfTrailingZeros(sub);
+            if ((pre1494[lb] & i) == pre1494[lb]) {
+                j |= 1 << lb;
             }
         }
-        if (Integer.bitCount(i1) <= k1494) {
-            return memo1494[i] = dfs1494(i ^ i1) + 1;
+        if (Integer.bitCount(j) <= k1494) {
+            return memo1494[i] = dfs1494(i ^ j) + 1;
         }
         int min = Integer.MAX_VALUE;
-        for (int j = i1; j > 0; j = (j - 1) & i1) {
-            if (Integer.bitCount(j) == k1494) {
-                min = Math.min(min, dfs1494(i ^ j) + 1);
+        for (c = j; c != 0; c = (c - 1) & j) {
+            if (Integer.bitCount(c) == k1494) {
+                min = Math.min(min, dfs1494(i ^ c) + 1);
             }
         }
         return memo1494[i] = min;
