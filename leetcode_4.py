@@ -1596,3 +1596,52 @@ class LcaBinaryLifting:
                     left += 1
                     right -= 1
         return res
+
+    # 886. 可能的二分法 (Possible Bipartition)
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        def dfs(x: int, fa: int, color: int) -> bool:
+            vis[x] = color
+            for y in g[x]:
+                if y != fa:
+                    if vis[y] != -1:
+                        if vis[y] != color ^ 1:
+                            return False
+                        continue
+                    if not dfs(y, x, color ^ 1):
+                        return False
+            return True
+        g = [[] for _ in range(n)]
+        for u, v in dislikes:
+            g[u - 1].append(v - 1)
+            g[v - 1].append(u - 1)
+        vis = [-1] * n
+        for i in range(n):
+            if vis[i] == -1 and not dfs(i, -1, 0):
+                return False
+        return True
+
+    # 886. 可能的二分法 (Possible Bipartition)
+    def possibleBipartition(self, n: int, dislikes: List[List[int]]) -> bool:
+        def bfs(x: int) -> bool:
+            vis[x] = 0
+            q = deque()
+            q.append((x, 0))
+            while q:
+                x, color = q.popleft()
+                for y in g[x]:
+                    if vis[y] != -1:
+                        if vis[y] != color ^ 1:
+                            return False
+                        continue
+                    vis[y] = color ^ 1
+                    q.append((y, color ^ 1))
+            return True
+        g = [[] for _ in range(n)]
+        for u, v in dislikes:
+            g[u - 1].append(v - 1)
+            g[v - 1].append(u - 1)
+        vis = [-1] * n
+        for i in range(n):
+            if vis[i] == -1 and not bfs(i):
+                return False
+        return True
