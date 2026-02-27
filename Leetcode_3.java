@@ -2112,7 +2112,6 @@ public class Leetcode_3 {
         return dfs1022(root.left, x) + dfs1022(root.right, x);
     }
 
-
     // 1022. 从根到叶的二进制数之和 (Sum of Root To Leaf Binary Numbers) --plus bfs
     public int sumRootToLeaf2(TreeNode root) {
         int res = 0;
@@ -5229,45 +5228,38 @@ public class Leetcode_3 {
 
     // 886. 可能的二分法 (Possible Bipartition) --bfs
     public boolean possibleBipartition(int n, int[][] dislikes) {
-        final int UNCOVERED = 0;
-        final int RED = 1;
-        final int GREEN = 2;
         int[] color = new int[n];
-        Arrays.fill(color, UNCOVERED);
-        Map<Integer, List<Integer>> graph = buildGraph(n, dislikes);
-
+        Arrays.fill(color, -1);
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] d : dislikes) {
+            g[d[0] - 1].add(d[1] - 1);
+            g[d[1] - 1].add(d[0] - 1);
+        }
         for (int i = 0; i < n; ++i) {
-            if (color[i] == UNCOVERED) {
-                color[i] = RED;
-                Queue<Integer> queue = new LinkedList<>();
-                queue.offer(i);
-                while (!queue.isEmpty()) {
-                    int node = queue.poll();
-                    if (graph.get(node) == null) {
-                        continue;
-                    }
-                    int colorNeighborShouldBe = color[node] == RED ? GREEN : RED;
-                    for (int neighbor : graph.get(node)) {
-                        if (color[neighbor] == UNCOVERED) {
-                            color[neighbor] = colorNeighborShouldBe;
-                            queue.offer(neighbor);
-                        } else if (color[neighbor] != colorNeighborShouldBe) {
+            if (color[i] != -1) {
+                continue;
+            }
+            Deque<int[]> q = new ArrayDeque<>();
+            color[i] = 0;
+            q.offer(new int[] { i, 0 });
+            while (!q.isEmpty()) {
+                int[] cur = q.poll();
+                int x = cur[0];
+                int c = cur[1];
+                for (int y : g[x]) {
+                    if (color[y] != -1) {
+                        if (color[y] != (c ^ 1)) {
                             return false;
                         }
+                        continue;
                     }
+                    color[y] = c ^ 1;
+                    q.offer(new int[] { y, c ^ 1 });
                 }
             }
         }
         return true;
-    }
-
-    private Map<Integer, List<Integer>> buildGraph(int n, int[][] dislikes) {
-        Map<Integer, List<Integer>> graph = new HashMap<>();
-        for (int[] dislike : dislikes) {
-            graph.computeIfAbsent(dislike[0] - 1, k -> new LinkedList<>()).add(dislike[1] - 1);
-            graph.computeIfAbsent(dislike[1] - 1, k -> new LinkedList<>()).add(dislike[0] - 1);
-        }
-        return graph;
     }
 
     // 886. 可能的二分法 (Possible Bipartition) --并查集
