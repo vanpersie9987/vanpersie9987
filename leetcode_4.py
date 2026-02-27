@@ -1549,3 +1549,24 @@ class LcaBinaryLifting:
             if res == 0:
                 break
         return res
+
+    # 面试题 01.05. 一次编辑 (One Away LCCI)
+    def oneEditAway(self, first: str, second: str) -> bool:
+        @cache
+        def dfs(i: int, j: int, k: bool) -> bool:
+            if i == m and j == n:
+                return True
+            if i == m or j == n:
+                return i == j and not k
+            if not k and (
+                dfs(i + 1, j, True) or dfs(i, j + 1, True) or dfs(i + 1, j + 1, True)
+            ):
+                return True
+            if first[i] == second[j] and dfs(i + 1, j + 1, k):
+                return True
+            return False
+
+        m, n = len(first), len(second)
+        if abs(m - n) > 1:
+            return False
+        return dfs(0, 0, False)
