@@ -1656,3 +1656,14 @@ class LcaBinaryLifting:
                 cnts[x >> i & 1] += 1
             res += cnts[0] * cnts[1]
         return res
+
+    # 1680. 连接连续二进制数字 (Concatenation of Consecutive Binary Numbers)
+    def concatenatedBinary(self, n: int) -> int:
+        # 把下面代码放在外面可加速
+        MX = 10**5 + 1
+        a = [0] * MX
+        MOD = 10**9 + 7
+        for i in range(1, MX):
+            l = i.bit_length()
+            a[i] = ((a[i - 1] << l) | i) % MOD
+        return a[n]
