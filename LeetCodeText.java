@@ -15714,17 +15714,13 @@ public class LeetCodeText {
 
     }
 
-    // 1680. 连接连续二进制数字
+    // 1680. 连接连续二进制数字 (Concatenation of Consecutive Binary Numbers)
     public int concatenatedBinary(int n) {
-        final int MOD = 1000000007;
+        final int MOD = (int) (1e9 + 7);
         int res = 0;
-        int shift = 0;
-
         for (int i = 1; i <= n; ++i) {
-            if ((i & (i - 1)) == 0) {
-                ++shift;
-            }
-            res = (int) ((((long) res << shift) | i) % MOD);
+            int len = 32 - Integer.numberOfLeadingZeros(i);
+            res = (int) ((((long) res << len) | i) % MOD);
         }
         return res;
 
