@@ -1671,3 +1671,18 @@ class LcaBinaryLifting:
     # LCP 01. 猜数字 (Guess Numbers)
     def game(self, guess: List[int], answer: List[int]) -> int:
         return sum(x ^ y == 0 for x, y in zip(guess, answer))
+
+    # LCP 62. 交通枢纽
+    def transportationHub(self, path: List[List[int]]) -> int:
+        s = set()
+        indegree = defaultdict(int)
+        outdegree = defaultdict(int)
+        for u, v in path:
+            s.add(u)
+            s.add(v)
+            indegree[v] += 1
+            outdegree[u] += 1
+        for _, v in path:
+            if indegree[v] == len(s) - 1 and v not in outdegree:
+                return v
+        return -1
