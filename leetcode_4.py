@@ -1686,3 +1686,7 @@ class LcaBinaryLifting:
             if indegree[v] == len(s) - 1 and v not in outdegree:
                 return v
         return -1
+
+    # 1689. 十-二进制数的最少数目 (Partitioning Into Minimum Number Of Deci-Binary Numbers)
+    def minPartitions(self, n: str) -> int:
+        return max(int(x) for x in n)
