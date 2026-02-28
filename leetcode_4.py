@@ -1667,3 +1667,7 @@ class LcaBinaryLifting:
             l = i.bit_length()
             a[i] = ((a[i - 1] << l) | i) % MOD
         return a[n]
+
+    # LCP 01. 猜数字 (Guess Numbers)
+    def game(self, guess: List[int], answer: List[int]) -> int:
+        return sum(x ^ y == 0 for x, y in zip(guess, answer))
