@@ -1758,4 +1758,18 @@ class LcaBinaryLifting:
         i = len(s) - 1
         while i >= 0 and s[i] in "aeiou":
             i -= 1
-        return s[0: i + 1]
+        return s[0 : i + 1]
+
+    # 3857. 拆分到 1 的最小总代价 (Minimum Cost to Split into Ones)
+    def minCost(self, n: int) -> int:
+        # 把下面代码放在外面可加速
+        @cache
+        def dfs(n: int) -> int:
+            if n == 1:
+                return 0
+            res = inf
+            for x in range(1, n // 2 + 1):
+                res = min(res, dfs(x) + dfs(n - x) + x * (n - x))
+            return res
+
+        return dfs(n)

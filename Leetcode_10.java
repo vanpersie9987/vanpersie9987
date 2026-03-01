@@ -8502,7 +8502,7 @@ public class Leetcode_10 {
         }
         return res;
     }
-    
+
     // 3856. 移除尾部元音字母 (Trim Trailing Vowels)
     public String trimTrailingVowels(String s) {
         int i = s.length() - 1;
@@ -8515,4 +8515,27 @@ public class Leetcode_10 {
         }
         return s.substring(0, i + 1);
     }
+
+    // 3857. 拆分到 1 的最小总代价 (Minimum Cost to Split into Ones)
+    private int[] memo3857;
+
+    public int minCost(int n) {
+        this.memo3857 = new int[n + 1];
+        return dfs3857(n);
+    }
+
+    private int dfs3857(int i) {
+        if (i == 1) {
+            return 0;
+        }
+        if (memo3857[i] != 0) {
+            return memo3857[i];
+        }
+        int res = Integer.MAX_VALUE;
+        for (int d = 1; d <= i / 2; ++d) {
+            res = Math.min(res, dfs3857(d) + dfs3857(i - d) + d * (i - d));
+        }
+        return memo3857[i] = res;
+    }
+
 }
