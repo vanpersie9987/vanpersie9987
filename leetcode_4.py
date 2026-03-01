@@ -1739,3 +1739,16 @@ class LcaBinaryLifting:
             return [0, 0]
         _max, _min = max(nums), min(nums)
         return min(cal(0), cal(1))
+
+    # 3855. 给定范围内 K 位数字之和 (Sum of K-Digit Numbers in a Range)
+    def sumOfNumbers(self, l: int, r: int, k: int) -> int:
+        MOD = 1_000_000_007
+        m = r - l + 1
+        return (
+            (l + r)
+            * m
+            * (pow(10, k, MOD) - 1)
+            * pow(18, -1, MOD)
+            * pow(m, k - 1, MOD)
+            % MOD
+        )
