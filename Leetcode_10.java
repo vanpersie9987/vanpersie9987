@@ -8384,4 +8384,38 @@ public class Leetcode_10 {
             ++cnts[lb];
         }
     }
+
+    // 3852. 不同频率的最小数对 (Smallest Pair With Different Frequencies)
+    public int[] minDistinctFreqPair(int[] nums) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        List<int[]> a = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            a.add(new int[] { entry.getKey(), entry.getValue() });
+        }
+        Collections.sort(a, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int i = 0;
+        int n = a.size();
+        while (i < n) {
+            int j = i;
+            while (j < n && a.get(j)[1] == a.get(i)[1]) {
+                ++j;
+            }
+            if (j == n) {
+                return new int[] { -1, -1 };
+            }
+            return new int[] { a.get(i)[0], a.get(j)[0] };
+        }
+        return new int[] { -1, -1 };
+
+    }
 }
