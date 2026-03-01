@@ -1773,3 +1773,27 @@ class LcaBinaryLifting:
             return res
 
         return dfs(n)
+
+    # 3859. 统计包含 K 个不同整数的子数组 (Count Subarrays With K Distinct Integers)
+    def countSubarrays(self, nums: list[int], k: int, m: int) -> int:
+        def cal(limit_k: int) -> int:
+            d = defaultdict(int)
+            ge_m = 0
+            res = left = 0
+            for x in nums:
+                d[x] += 1
+                if d[x] == m:
+                    ge_m += 1
+
+                while len(d) >= limit_k and ge_m >= k:
+                    out = nums[left]
+                    if d[out] == m:
+                        ge_m -= 1
+                    d[out] -= 1
+                    if d[out] == 0:
+                        del d[out]
+                    left += 1
+                res += left
+            return res
+
+        return cal(k) - cal(k + 1)
