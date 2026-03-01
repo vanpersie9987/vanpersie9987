@@ -1710,11 +1710,13 @@ class LcaBinaryLifting:
 
     # 3853. 合并靠近字符 (Merge Close Characters)
     def mergeCharacters(self, s: str, k: int) -> str:
-        res = ""
+        res = []
+        last = defaultdict(lambda: -inf)
         for x in s:
-            if x not in res[max(0, len(res) - k) :]:
-                res += x
-        return res
+            if len(res) - last[x] > k:
+                last[x] = len(res)
+                res.append(x)
+        return "".join(res)
 
     # 3854. 使数组奇偶交替的最少操作 (Minimum Operations to Make Array Parity Alternating)
     def makeParityAlternating(self, nums: List[int]) -> List[int]:

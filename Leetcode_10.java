@@ -8422,15 +8422,15 @@ public class Leetcode_10 {
     // 3853. 合并靠近字符 (Merge Close Characters)
     public String mergeCharacters(String s, int k) {
         StringBuilder res = new StringBuilder();
-        search: for (char c : s.toCharArray()) {
-            for (char last : res.substring(Math.max(0, res.length() - k), res.length()).toCharArray()) {
-                if (last == c) {
-                    continue search;
-                }
+        int[] last = new int[26];
+        Arrays.fill(last, -k - 1);
+        for (char c : s.toCharArray()) {
+            if (res.length() - last[c - 'a'] > k) {
+                last[c - 'a'] = res.length();
+                res.append(c);
             }
-            res.append(c);
         }
         return res.toString();
 
-   }
+    }
 }
