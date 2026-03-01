@@ -8478,4 +8478,28 @@ public class Leetcode_10 {
         }
         return new int[] { op, Math.max(1, mx - mn) };
     }
+
+    // 3855. 给定范围内 K 位数字之和 (Sum of K-Digit Numbers in a Range)
+    public int sumOfNumbers(int l, int r, int k) {
+        final int MOD = (int) (1e9 + 7);
+        int m = r - l + 1;
+        int res = (l + r) * m % MOD;
+        res = (int) ((long) res * (pow3855(10, k) - 1) % MOD);
+        res = (int) ((long) res * pow3855(18, MOD - 2) % MOD);
+        res = (int) (((long) res * pow3855(m, k - 1)) % MOD);
+        return res;
+    }
+
+    private int pow3855(int a, int b) {
+        if (b == 0) {
+            return 1;
+        }
+        int res = pow3855(a, b >> 1);
+        final int MOD = (int) (1e9 + 7);
+        res = (int) ((long) res * res % MOD);
+        if ((b & 1) == 1) {
+            res = (int) (((long) res * a) % MOD);
+        }
+        return res;
+    }
 }
