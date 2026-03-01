@@ -8502,4 +8502,17 @@ public class Leetcode_10 {
         }
         return res;
     }
+    
+    // 3856. 移除尾部元音字母 (Trim Trailing Vowels)
+    public String trimTrailingVowels(String s) {
+        int i = s.length() - 1;
+        int m = 0;
+        for (char c : "aeiou".toCharArray()) {
+            m |= 1 << (c - 'a');
+        }
+        while (i >= 0 && (m >> (s.charAt(i) - 'a') & 1) != 0) {
+            --i;
+        }
+        return s.substring(0, i + 1);
+    }
 }

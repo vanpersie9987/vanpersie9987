@@ -1752,3 +1752,10 @@ class LcaBinaryLifting:
             * pow(m, k - 1, MOD)
             % MOD
         )
+
+    # 3856. 移除尾部元音字母 (Trim Trailing Vowels)
+    def trimTrailingVowels(self, s: str) -> str:
+        i = len(s) - 1
+        while i >= 0 and s[i] in "aeiou":
+            i -= 1
+        return s[0: i + 1]
