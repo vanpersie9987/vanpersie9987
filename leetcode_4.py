@@ -1715,3 +1715,25 @@ class LcaBinaryLifting:
             if x not in res[max(0, len(res) - k) :]:
                 res += x
         return res
+
+    # 3854. 使数组奇偶交替的最少操作 (Minimum Operations to Make Array Parity Alternating)
+    def makeParityAlternating(self, nums: List[int]) -> List[int]:
+        def cal(t: int) -> List[int]:
+            op = 0
+            mn, mx = inf, -inf
+            for i, x in enumerate(nums):
+                if (x - i) & 1 != t:
+                    op += 1
+                    if x == _min:
+                        x += 1
+                    elif x == _max:
+                        x -= 1
+                mn = min(mn, x)
+                mx = max(mx, x)
+            return [op, max(mx - mn, 1)]
+
+        n = len(nums)
+        if n == 1:
+            return [0, 0]
+        _max, _min = max(nums), min(nums)
+        return min(cal(0), cal(1))
