@@ -8418,4 +8418,19 @@ public class Leetcode_10 {
         return new int[] { -1, -1 };
 
     }
+
+    // 3853. 合并靠近字符 (Merge Close Characters)
+    public String mergeCharacters(String s, int k) {
+        StringBuilder res = new StringBuilder();
+        search: for (char c : s.toCharArray()) {
+            for (char last : res.substring(Math.max(0, res.length() - k), res.length()).toCharArray()) {
+                if (last == c) {
+                    continue search;
+                }
+            }
+            res.append(c);
+        }
+        return res.toString();
+
+   }
 }
