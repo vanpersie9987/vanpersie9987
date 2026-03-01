@@ -1690,3 +1690,22 @@ class LcaBinaryLifting:
     # 1689. 十-二进制数的最少数目 (Partitioning Into Minimum Number Of Deci-Binary Numbers)
     def minPartitions(self, n: str) -> int:
         return max(int(x) for x in n)
+    
+    # 3852. 不同频率的最小数对 (Smallest Pair With Different Frequencies)
+    def minDistinctFreqPair(self, nums: list[int]) -> list[int]:
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        a = [(k, v) for k, v in d.items()]
+        a.sort()
+        i = 0
+        n = len(a)
+        while i < n:
+            j = i
+            while j < n and a[j][1] == a[i][1]:
+                j += 1
+            if j == n:
+                return [-1, -1]
+            return [a[i][0], a[j][0]]
+
+        
