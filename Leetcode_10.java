@@ -8433,4 +8433,49 @@ public class Leetcode_10 {
         return res.toString();
 
     }
+
+    // 3854. 使数组奇偶交替的最少操作 (Minimum Operations to Make Array Parity Alternating)
+    public int[] makeParityAlternating(int[] nums) {
+        if (nums.length == 1) {
+            return new int[] { 0, 0 };
+        }
+        int[][] res = { cal3854(nums, 0), cal3854(nums, 1) };
+        Arrays.sort(res, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Integer.compare(o1[1], o2[1]);
+                }
+                return Integer.compare(o1[0], o2[0]);
+            }
+        });
+        return res[0];
+    }
+
+    private int[] cal3854(int[] nums, int t) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        for (int x : nums) {
+            max = Math.max(max, x);
+            min = Math.min(min, x);
+        }
+        int op = 0;
+        int mn = Integer.MAX_VALUE / 2;
+        int mx = Integer.MIN_VALUE / 2;
+        for (int i = 0; i < nums.length; ++i) {
+            int x = nums[i];
+            if (((i - nums[i]) % 2 + 2) % 2 != t) {
+                ++op;
+                if (nums[i] == max) {
+                    --x;
+                } else if (nums[i] == min) {
+                    ++x;
+                }
+            }
+            mn = Math.min(mn, x);
+            mx = Math.max(mx, x);
+        }
+        return new int[] { op, Math.max(1, mx - mn) };
+    }
 }
