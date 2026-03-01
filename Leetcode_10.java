@@ -8538,4 +8538,36 @@ public class Leetcode_10 {
         return memo3857[i] = res;
     }
 
+    // 3859. 统计包含 K 个不同整数的子数组 (Count Subarrays With K Distinct Integers)
+    public long countSubarrays(int[] nums, int k, int m) {
+        return cal3859(nums, k, k, m) - cal3859(nums, k + 1, k, m);
+    }
+
+    private long cal3859(int[] nums, int limitK, int k, int m) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        int geM = 0;
+        long res = 0L;
+        int left = 0;
+        for (int x : nums) {
+            int c = cnts.merge(x, 1, Integer::sum);
+            if (c == m) {
+                ++geM;
+            }
+            while (cnts.size() >= limitK && geM >= k) {
+                int out = nums[left];
+                c = cnts.get(out);
+                if (c == m) {
+                    --geM;
+                }
+                cnts.merge(out, -1, Integer::sum);
+                if (cnts.get(out) == 0) {
+                    cnts.remove(out);
+                }
+                ++left;
+            }
+            res += left;
+        }
+        return res;
+    }
+
 }
