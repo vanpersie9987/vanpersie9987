@@ -2306,13 +2306,13 @@ public class LeetCode_2 {
    }
 
    // 剑指 Offer 06. 从尾到头打印链表 --递归
-   private List<Integer> list = new ArrayList<>();
+   private List<Integer> list06 = new ArrayList<>();
 
    public int[] reversePrint(ListNode head) {
       recur(head);
-      int[] res = new int[list.size()];
+      int[] res = new int[list06.size()];
       for (int i = 0; i < res.length; ++i) {
-         res[i] = list.get(i);
+         res[i] = list06.get(i);
       }
       return res;
    }
@@ -2322,7 +2322,7 @@ public class LeetCode_2 {
          return;
       }
       reversePrint(head.next);
-      list.add(head.val);
+      list06.add(head.val);
    }
 
    // 1985. 找出数组中的第 K 大整数 (Find the Kth Largest Integer in the Array)
@@ -8072,24 +8072,25 @@ public class LeetCode_2 {
    // 1536. 排布二进制网格的最少交换次数 (Minimum Swaps to Arrange a Binary Grid)
    public int minSwaps(int[][] grid) {
       int n = grid.length;
-      List<Integer> list = new ArrayList<>();
+      int[] a = new int[n];
       for (int i = 0; i < n; ++i) {
-         int count = 0;
+         a[i] = n;
          for (int j = n - 1; j >= 0; --j) {
             if (grid[i][j] != 0) {
+               a[i] = n - j - 1;
                break;
             }
-            ++count;
          }
-         list.add(count);
       }
       int res = 0;
-      search: for (int i = 0; i < n; ++i) {
-         int threshold = n - i - 1;
-         for (int j = 0; j < list.size(); ++j) {
-            if (list.get(j) >= threshold) {
-               res += j;
-               list.remove(j);
+      search: for (int i = 0; i < n - 1; ++i) {
+         int needZeros = n - i - 1;
+         for (int j = i; j < n; ++j) {
+            if (a[j] >= needZeros) {
+               res += j - i;
+               for (int k = j; k > i; --k) {
+                  a[k] = a[k - 1];
+               }
                continue search;
             }
          }
