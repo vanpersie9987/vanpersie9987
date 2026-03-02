@@ -1797,3 +1797,26 @@ class LcaBinaryLifting:
             return res
 
         return cal(k) - cal(k + 1)
+
+    # 1536. 排布二进制网格的最少交换次数 (Minimum Swaps to Arrange a Binary Grid)
+    def minSwaps(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        a = []
+        for i in range(n):
+            for j in range(n - 1, -1, -1):
+                if grid[i][j] != 0:
+                    a.append(n - 1 - j)
+                    break
+            else:
+                a.append(n)
+        res = 0
+        for i in range(n):
+            need_zeros = n - i - 1
+            for j in range(i, n):
+                if a[j] >= need_zeros:
+                    res += j - i
+                    a[i + 1 : j + 1] = a[i:j]
+                    break
+            else:
+                return -1
+        return res
