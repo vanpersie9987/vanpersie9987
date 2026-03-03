@@ -1820,3 +1820,17 @@ class LcaBinaryLifting:
             else:
                 return -1
         return res
+
+    # 1545. 找出第 N 个二进制字符串中的第 K 位 (Find Kth Bit in Nth Binary String)
+    def findKthBit(self, n: int, k: int) -> str:
+        def invert(x: str) -> str:
+            return "1" if x == "0" else "0"
+        if k == 1:
+            return "0"
+        mid = 1 << (n - 1)
+        if mid == k:
+            return "1"
+        if k < mid:
+            return self.findKthBit(n - 1, k)
+        k = (mid << 1) - k
+        return invert(self.findKthBit(n - 1, k))
