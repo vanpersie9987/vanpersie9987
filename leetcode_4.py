@@ -1834,3 +1834,19 @@ class LcaBinaryLifting:
             return self.findKthBit(n - 1, k)
         k = (mid << 1) - k
         return invert(self.findKthBit(n - 1, k))
+
+    # 1582. 二进制矩阵中的特殊位置 (Special Positions in a Binary Matrix)
+    def numSpecial(self, mat: List[List[int]]) -> int:
+        m, n = len(mat), len(mat[0])
+        row = [0] * m
+        col = [0] * n
+        for i in range(m):
+            for j in range(n):
+                row[i] += mat[i][j]
+                col[j] += mat[i][j]
+        res = 0
+        for i in range(m):
+            for j in range(n):
+                if mat[i][j] and row[i] == 1 and col[j] == 1:
+                    res += 1
+        return res
