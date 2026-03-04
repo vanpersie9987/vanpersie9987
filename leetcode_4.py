@@ -1852,3 +1852,10 @@ class LcaBinaryLifting:
                     if mat[i][j] and col[j] == 1:
                         res += 1
         return res
+
+    # 1758. 生成交替二进制字符串的最少操作数 (Minimum Changes To Make Alternating Binary String)
+    def minOperations(self, s: str) -> int:
+        def cal(t: int) -> int:
+            return sum(((i - int(s[i])) & 1) ^ t for i in range(len(s)))
+
+        return min(cal(0), cal(1))
