@@ -5711,20 +5711,15 @@ public class LeetCodeText {
 
     // 1758. 生成交替二进制字符串的最少操作数 (Minimum Changes To Make Alternating Binary String)
     public int minOperations1758(String s) {
-        int n = s.length();
-        // 1 0 1 0 1 。。。
-        int count1 = 0;
-        // 0 1 0 1 0 。。。
-        int count2 = 0;
-        for (int i = 0; i < n; ++i) {
-            if (s.charAt(i) - '0' == i % 2) {
-                ++count1;
-            } else {
-                ++count2;
-            }
-        }
-        return Math.min(count1, count2);
+        return Math.min(cal1758(s, 0), cal1758(s, 1));
+    }
 
+    private int cal1758(String s, int t) {
+        int res = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            res += (i - s.charAt(i) - '0') & 1 ^ t;
+        }
+        return res;
     }
 
     // 1491. 去掉最低工资和最高工资后的工资平均值
