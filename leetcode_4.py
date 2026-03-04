@@ -1825,6 +1825,7 @@ class LcaBinaryLifting:
     def findKthBit(self, n: int, k: int) -> str:
         def invert(x: str) -> str:
             return "1" if x == "0" else "0"
+
         if k == 1:
             return "0"
         mid = 1 << (n - 1)
@@ -1846,7 +1847,8 @@ class LcaBinaryLifting:
                 col[j] += mat[i][j]
         res = 0
         for i in range(m):
-            for j in range(n):
-                if mat[i][j] and row[i] == 1 and col[j] == 1:
-                    res += 1
+            if row[i] == 1:
+                for j in range(n):
+                    if mat[i][j] and col[j] == 1:
+                        res += 1
         return res

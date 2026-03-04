@@ -5793,25 +5793,29 @@ public class LeetCodeText {
 
     }
 
-    // 1582. 二进制矩阵中的特殊位置
+    // 1582. 二进制矩阵中的特殊位置 (Special Positions in a Binary Matrix)
     public int numSpecial(int[][] mat) {
-        int[] row = new int[mat.length];
-        int[] col = new int[mat[0].length];
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int[] row = new int[m];
+        int[] col = new int[n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
                 row[i] += mat[i][j];
                 col[j] += mat[i][j];
             }
         }
-        int count = 0;
-        for (int i = 0; i < mat.length; ++i) {
-            for (int j = 0; j < mat[0].length; ++j) {
-                if (mat[i][j] == 1 && row[i] == 1 && col[j] == 1) {
-                    ++count;
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            if (row[i] == 1) {
+                for (int j = 0; j < n; ++j) {
+                    if (mat[i][j] == 1 && col[j] == 1) {
+                        ++res;
+                    }
                 }
             }
         }
-        return count;
+        return res;
 
     }
 
