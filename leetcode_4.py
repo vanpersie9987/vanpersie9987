@@ -1859,3 +1859,7 @@ class LcaBinaryLifting:
             return sum(((i - int(s[i])) & 1) ^ t for i in range(len(s)))
 
         return min(cal(0), cal(1))
+
+    # 1784. 检查二进制字符串字段 (Check if Binary String Has at Most One Segment of Ones)
+    def checkOnesSegment(self, s: str) -> bool:
+        return "01" not in s
