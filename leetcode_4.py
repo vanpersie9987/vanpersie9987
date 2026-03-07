@@ -1863,3 +1863,46 @@ class LcaBinaryLifting:
     # 1784. 检查二进制字符串字段 (Check if Binary String Has at Most One Segment of Ones)
     def checkOnesSegment(self, s: str) -> bool:
         return "01" not in s
+
+    # 1888. 使二进制字符串字符交替的最少反转次数 (Minimum Number of Flips to Make the Binary String Alternating)
+    def minFlips(self, s: str) -> List[int]:
+        def cal_suf(t: int) -> int:
+            suf = [0] * n
+            suf[-1] = int(int(s[-1]) != t)
+            t ^= 1
+            for i in range(n - 2, -1, -1):
+                if int(s[i]) != t:
+                    suf[i] = suf[i + 1] + 1
+                else:
+                    suf[i] = suf[i + 1]
+                t ^= 1
+            return suf
+
+        def cal_pre(t: int) -> int:
+            pre = [0] * n
+            for i, x in enumerate(s):
+                if i:
+                    pre[i] = pre[i - 1] + (((i - int(x)) & 1) ^ t)
+                else:
+                    pre[i] = ((i - int(x)) & 1) ^ t
+            return pre
+
+        n = len(s)
+        # 期望末尾填1，以suf_1[i]开始的后缀变成交替，需要修改的次数
+        suf_1 = cal_suf(1)
+        # 期望末尾填0，以suf_0[i]开始的后缀变成交替，需要修改的次数
+        suf_0 = cal_suf(0)
+
+        # 期望首位填1，以pre_1[i]结尾的前缀变成交替，需要修改的次数
+        pre_1 = cal_pre(1)
+        # 期望首位填0，以pre_0[i]结尾的前缀变成交替，需要修改的次数
+        pre_0 = cal_pre(0)
+        res = min(suf_1[0], suf_0[0])
+        if res == 0:
+            return res
+        for i in range(1, n):
+            res = min(res, suf_1[i] + pre_0[i - 1])
+            res = min(res, suf_0[i] + pre_1[i - 1])
+            if res == 0:
+                return res
+        return res
