@@ -8569,4 +8569,104 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 3861. 容量最小的箱子 (Minimum Capacity Box)
+    public int minimumIndex(int[] capacity, int itemSize) {
+        int res = -1;
+        int mn = Integer.MAX_VALUE;
+        for (int i = 0; i < capacity.length; ++i) {
+            if (capacity[i] >= itemSize && capacity[i] < mn) {
+                mn = capacity[i];
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    // 3862. 找出最小平衡下标 (Find the Smallest Balanced Index)
+    public int smallestBalancedIndex(int[] nums) {
+        int n = nums.length;
+        long s = 0L;
+        for (int x : nums) {
+            s += x;
+        }
+        long[] rightMul = new long[n];
+        Arrays.fill(rightMul, Long.MAX_VALUE);
+        rightMul[n - 1] = 1L;
+        for (int i = n - 2; i >= 0; --i) {
+            long mul = nums[i + 1] * rightMul[i + 1];
+            if (mul > s) {
+                break;
+            }
+            rightMul[i] = mul;
+        }
+        long leftS = 0L;
+        for (int i = 0; i < n; ++i) {
+            if (leftS == rightMul[i]) {
+                return i;
+            }
+            leftS += nums[i];
+        }
+        return -1;
+
+    }
+
+    // 3863. 将一个字符串排序的最小操作次数 (Minimum Operations to Sort a String)
+    public int minOperations(String s) {
+        int n = s.length();
+        boolean f = true;
+        for (int i = 1; i < n; ++i) {
+            if (s.charAt(i) < s.charAt(i - 1)) {
+                f = false;
+                break;
+            }
+        }
+        if (f) {
+            return 0;
+        }
+        if (n == 2) {
+            return -1;
+        }
+        char mx = 'a';
+        char mn = 'z';
+        Map<Character, Integer> cnts = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            if (c > mx) {
+                mx = c;
+            }
+            if (c < mn) {
+                mn = c;
+            }
+            cnts.merge(c, 1, Integer::sum);
+        }
+        if (s.charAt(0) == mn || s.charAt(n - 1) == mx) {
+            return 1;
+        }
+        if (s.charAt(0) == mx && s.charAt(n - 1) == mn && cnts.get(mx) == 1 && cnts.get(mn) == 1) {
+            return 3;
+        }
+        return 2;
+
+    }
+
+    // 3864. 划分二进制字符串的最小费用 (Minimum Cost to Partition a Binary String)
+    public long minCost(String s, int encCost, int flatCost) {
+        int n = s.length();
+        int[] a = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            a[i + 1] = a[i] + s.charAt(i) - '0';
+        }
+        return dfs3864(0, n, a, encCost, flatCost);
+
+    }
+
+    private long dfs3864(int i, int j, int[] a, int encCost, int flatCost) {
+        long res = a[j] - a[i] == 0 ? flatCost : ((long) j - i) * ((long) a[j] - a[i]) * encCost;
+        if ((j - i) % 2 == 0) {
+            res = Math.min(res, dfs3864(i, (j + i) / 2, a, encCost, flatCost) + dfs3864((j + i) / 2, j, a, encCost, flatCost));
+        }
+        return res;
+    }
+
 }

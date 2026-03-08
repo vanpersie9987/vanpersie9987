@@ -1906,3 +1906,67 @@ class LcaBinaryLifting:
             if res == 0:
                 return res
         return res
+
+    # 3861. 容量最小的箱子 (Minimum Capacity Box)
+    def minimumIndex(self, capacity: list[int], itemSize: int) -> int:
+        res = -1
+        mn = inf
+        for i, x in enumerate(capacity):
+            if mn > x >= itemSize:
+                res = i
+                mn = x
+        return res
+
+    # 3862. 找出最小平衡下标 (Find the Smallest Balanced Index)
+    def smallestBalancedIndex(self, nums: list[int]) -> int:
+        n = len(nums)
+        s = sum(nums)
+        right_mul = [inf] * n
+        right_mul[-1] = 1
+        for i in range(n - 2, -1, -1):
+            mul = nums[i + 1] * right_mul[i + 1]
+            if mul > s:
+                break
+            right_mul[i] = mul
+        left_s = 0
+        for i, x in enumerate(nums):
+            if left_s == right_mul[i]:
+                return i
+            left_s += x
+        return -1
+
+    # 3863. 将一个字符串排序的最小操作次数 (Minimum Operations to Sort a String)
+    def minOperations(self, s: str) -> int:
+        d = defaultdict(int)
+        mn, mx = "z", "a"
+        f = True
+        for i, x in enumerate(s):
+            d[x] += 1
+            mn = min(mn, x)
+            mx = max(mx, x)
+            if i and x < s[i - 1]:
+                f = False
+        # 单调不减
+        if f:
+            return 0
+        if len(s) == 2:
+            return -1
+        if s[0] == mn or s[-1] == mx:
+            return 1
+        if s[0] == mx and s[-1] == mn and d[mn] == 1 and d[mx] == 1:
+            return 3
+        return 2
+
+    # 3864. 划分二进制字符串的最小费用 (Minimum Cost to Partition a Binary String)
+    def minCost(self, s: str, encCost: int, flatCost: int) -> int:
+        a = [int(x) for x in s]
+        n = len(s)
+        a = list(accumulate(a, initial=0))
+
+        def dfs(i: int, j: int) -> int:
+            res = flatCost if a[j] - a[i] == 0 else (j - i) * (a[j] - a[i]) * encCost
+            if (j - i) % 2 == 0:
+                res = min(res, dfs(i, (j + i) // 2) + dfs((j + i) // 2, j))
+            return res
+
+        return dfs(0, n)
