@@ -8622,6 +8622,7 @@ public class Leetcode_10 {
                 break;
             }
         }
+        // 单调不减
         if (f) {
             return 0;
         }
@@ -8664,7 +8665,8 @@ public class Leetcode_10 {
     private long dfs3864(int i, int j, int[] a, int encCost, int flatCost) {
         long res = a[j] - a[i] == 0 ? flatCost : ((long) j - i) * ((long) a[j] - a[i]) * encCost;
         if ((j - i) % 2 == 0) {
-            res = Math.min(res, dfs3864(i, (j + i) / 2, a, encCost, flatCost) + dfs3864((j + i) / 2, j, a, encCost, flatCost));
+            res = Math.min(res,
+                    dfs3864(i, (j + i) / 2, a, encCost, flatCost) + dfs3864((j + i) / 2, j, a, encCost, flatCost));
         }
         return res;
     }
