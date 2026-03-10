@@ -5188,30 +5188,26 @@ class leetcode_1:
     def maxScoreWords(
         self, words: List[str], letters: List[str], score: List[int]
     ) -> int:
-        def dfs(i: int) -> int:
+        def dfs(i: int, cnts: List[int]) -> int:
             if i == len(words):
                 return 0
             # 不选
-            res = dfs(i + 1)
+            res = dfs(i + 1, cnts)
             # 选
             cur = cnts.copy()
+            s = 0
             for x in words[i]:
                 cur[ord(x) - ord("a")] -= 1
                 if cur[ord(x) - ord("a")] < 0:
                     return res
-            s = 0
-            for x in words[i]:
-                cnts[ord(x) - ord("a")] -= 1
                 s += score[ord(x) - ord("a")]
-            res = max(res, dfs(i + 1) + s)
-            for x in words[i]:
-                cnts[ord(x) - ord("a")] += 1
+            res = max(res, dfs(i + 1, cur) + s)
             return res
 
         cnts = [0] * 26
         for x in letters:
             cnts[ord(x) - ord("a")] += 1
-        return dfs(0)
+        return dfs(0, cnts)
 
     # 1227. 飞机座位分配概率 (Airplane Seat Assignment Probability)
     def nthPersonGetsNthSeat(self, n: int) -> float:

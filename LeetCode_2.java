@@ -6576,7 +6576,8 @@ public class LeetCode_2 {
          }
          s += score[c - 'a'];
       }
-      return Math.max(res, dfs1255(i + 1, words, score, cur) + s);
+      res = Math.max(res, dfs1255(i + 1, words, score, cur) + s);
+      return res;
    }
 
    // 1601. 最多可达成的换楼请求数目 (Maximum Number of Achievable Transfer Requests) --状态压缩
