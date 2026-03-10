@@ -5188,33 +5188,30 @@ class leetcode_1:
     def maxScoreWords(
         self, words: List[str], letters: List[str], score: List[int]
     ) -> int:
-        def dfs(i: int, j: int) -> None:
-            if i == n:
-                nonlocal res
-                res = max(res, j)
-                return
+        def dfs(i: int) -> int:
+            if i == len(words):
+                return 0
             # 不选
-            dfs(i + 1, j)
+            res = dfs(i + 1)
             # 选
-            cur = [0] * 26
-            for c in words[i]:
-                cur[ord(c) - ord("a")] += 1
-            if all(a >= b for a, b in zip(cnts, cur)):
-                s = 0
-                for k in range(26):
-                    s += cur[k] * score[k]
-                    cnts[k] -= cur[k]
-                dfs(i + 1, j + s)
-                for k in range(26):
-                    cnts[k] += cur[k]
+            cur = cnts.copy()
+            for x in words[i]:
+                cur[ord(x) - ord("a")] -= 1
+                if cur[ord(x) - ord("a")] < 0:
+                    return res
+            s = 0
+            for x in words[i]:
+                cnts[ord(x) - ord("a")] -= 1
+                s += score[ord(x) - ord("a")]
+            res = max(res, dfs(i + 1) + s)
+            for x in words[i]:
+                cnts[ord(x) - ord("a")] += 1
+            return res
 
-        n = len(words)
         cnts = [0] * 26
-        for c in letters:
-            cnts[ord(c) - ord("a")] += 1
-        res = 0
-        dfs(0, 0)
-        return res
+        for x in letters:
+            cnts[ord(x) - ord("a")] += 1
+        return dfs(0)
 
     # 1227. 飞机座位分配概率 (Airplane Seat Assignment Probability)
     def nthPersonGetsNthSeat(self, n: int) -> float:

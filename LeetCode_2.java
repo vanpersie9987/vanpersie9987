@@ -6553,63 +6553,30 @@ public class LeetCode_2 {
 
    // 1255. 得分最高的单词集合 (Maximum Score Words Formed by Letters)
    public int maxScoreWords(String[] words, char[] letters, int[] score) {
-      int[] counts = new int[26];
+      int[] cnts = new int[26];
       for (char c : letters) {
-         ++counts[c - 'a'];
+         ++cnts[c - 'a'];
       }
-      Map<String, Bean1255> map = new HashMap<>();
-      List<String> wordStrings = new ArrayList<>();
-      search: for (String word : words) {
-         int[] curCounts = new int[26];
-         int curScore = 0;
-         for (char c : word.toCharArray()) {
-            ++curCounts[c - 'a'];
-            if (curCounts[c - 'a'] > counts[c - 'a']) {
-               continue search;
-            }
-            curScore += score[c - 'a'];
-         }
-         map.put(word, new Bean1255(curScore, curCounts));
-         wordStrings.add(word);
-      }
-      int res = 0;
-      int n = wordStrings.size();
-      search: for (int i = 0; i < (1 << n); ++i) {
-         int mask = i;
-         int index = 0;
-         int[] curCounts = new int[26];
-         int curScore = 0;
-         while (mask > 0) {
-            if ((mask & 1) == 1) {
-               String curWord = wordStrings.get(index);
-               int[] cnts = map.get(curWord).wordCounts;
-               for (int j = 0; j < 26; ++j) {
-                  curCounts[j] += cnts[j];
-                  if (curCounts[j] > counts[j]) {
-                     continue search;
-                  }
-               }
-               curScore += map.get(curWord).score;
-            }
-            ++index;
-            mask >>= 1;
-         }
-         res = Math.max(res, curScore);
-      }
-      return res;
+      return dfs1255(0, words, score, cnts);
 
    }
 
-   public class Bean1255 {
-      int score;
-      int[] wordCounts;
-
-      Bean1255(int score, int[] wordCounts) {
-         this.score = score;
-         this.wordCounts = wordCounts;
-
+   private int dfs1255(int i, String[] words, int[] score, int[] cnts) {
+      if (i == words.length) {
+         return 0;
       }
-
+      // 不选
+      int res = dfs1255(i + 1, words, score, cnts);
+      // 选
+      int[] cur = cnts.clone();
+      int s = 0;
+      for (char c : words[i].toCharArray()) {
+         if (--cur[c - 'a'] < 0) {
+            return res;
+         }
+         s += score[c - 'a'];
+      }
+      return Math.max(res, dfs1255(i + 1, words, score, cur) + s);
    }
 
    // 1601. 最多可达成的换楼请求数目 (Maximum Number of Achievable Transfer Requests) --状态压缩
