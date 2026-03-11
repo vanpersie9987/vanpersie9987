@@ -1970,3 +1970,8 @@ class LcaBinaryLifting:
             return res
 
         return dfs(0, n)
+
+    # 1431. 拥有最多糖果的孩子 (Kids With the Greatest Number of Candies)
+    def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+        mx = max(candies)
+        return [x + extraCandies >= mx for x in candies]
