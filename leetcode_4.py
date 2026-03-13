@@ -1975,3 +1975,21 @@ class LcaBinaryLifting:
     def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
         mx = max(candies)
         return [x + extraCandies >= mx for x in candies]
+
+    # 1415. 长度为 n 的开心字符串中字典序第 k 小的字符串 (The k-th Lexicographical String of All Happy Strings of Length n)
+    def getHappyString(self, n: int, k: int) -> str:
+        def dfs(i: chr) -> bool:
+            if len(path) == n:
+                res.append("".join(path))
+                return len(res) == k
+            for j in ("a", "b", "c"):
+                if i != j:
+                    path.append(j)
+                    if dfs(j):
+                        return True
+                    path.pop()
+            return False
+
+        path = []
+        res = []
+        return res[-1] if dfs("d") else ""
