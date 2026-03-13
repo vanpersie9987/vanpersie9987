@@ -548,47 +548,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-                case 'c':
-                    if (cnts[4] > 0) {
-                        --cnts[4];
-                    }
-                    ++cnts[0];
-                    break;
-                case 'r':
-                    if (cnts[0] > 0) {
-                        --cnts[0];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[1];
-                    break;
-                case 'o':
-                    if (cnts[1] > 0) {
-                        --cnts[1];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[2];
-                    break;
-                case 'a':
-                    if (cnts[2] > 0) {
-                        --cnts[2];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[3];
-                    break;
-                case 'k':
-                    if (cnts[3] > 0) {
-                        --cnts[3];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[4];
-                    break;
+            case 'c':
+                if (cnts[4] > 0) {
+                    --cnts[4];
+                }
+                ++cnts[0];
+                break;
+            case 'r':
+                if (cnts[0] > 0) {
+                    --cnts[0];
+                } else {
+                    return -1;
+                }
+                ++cnts[1];
+                break;
+            case 'o':
+                if (cnts[1] > 0) {
+                    --cnts[1];
+                } else {
+                    return -1;
+                }
+                ++cnts[2];
+                break;
+            case 'a':
+                if (cnts[2] > 0) {
+                    --cnts[2];
+                } else {
+                    return -1;
+                }
+                ++cnts[3];
+                break;
+            case 'k':
+                if (cnts[3] > 0) {
+                    --cnts[3];
+                } else {
+                    return -1;
+                }
+                ++cnts[4];
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
@@ -2847,29 +2847,26 @@ public class LeetCode_4 {
     // 1415. 长度为 n 的开心字符串中字典序第 k 小的字符串 (The k-th Lexicographical String of All Happy
     // Strings of Length n) --回溯
     public String getHappyString(int n, int k) {
-        char[] candidateChars = { 'a', 'b', 'c' };
-        List<String> list = new ArrayList<>();
-        backtrack1415(n, candidateChars, new StringBuilder(), list, new HashSet<>());
-        if (list.size() < k) {
-            return "";
-        }
-        return list.get(k - 1);
+        StringBuilder path = new StringBuilder();
+        List<String> res = new ArrayList<>();
+        return dfs1415('d', path, res, n, k) ? res.get(k - 1) : "";
     }
 
-    private void backtrack1415(int n, char[] candidateChars, StringBuilder cur, List<String> list, Set<String> set) {
-        if (cur.length() == n) {
-            if (set.add(cur.toString())) {
-                list.add(cur.toString());
-            }
-            return;
+    private boolean dfs1415(char i, StringBuilder path, List<String> res, int n, int k) {
+        if (path.length() == n) {
+            res.add(path.toString());
+            return res.size() == k;
         }
-        for (int i = 0; i < candidateChars.length; ++i) {
-            if (cur.isEmpty() || candidateChars[i] != cur.charAt(cur.length() - 1)) {
-                cur.append(candidateChars[i]);
-                backtrack1415(n, candidateChars, cur, list, set);
-                cur.deleteCharAt(cur.length() - 1);
+        for (char j = 'a'; j <= 'c'; ++j) {
+            if (i != j) {
+                path.append(j);
+                if (dfs1415(j, path, res, n, k)) {
+                    return true;
+                }
+                path.deleteCharAt(path.length() - 1);
             }
         }
+        return false;
     }
 
     // 1887. 使数组元素相等的减少操作次数 (Reduction Operations to Make the Array Elements Equal)
