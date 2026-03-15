@@ -1982,7 +1982,7 @@ class LcaBinaryLifting:
             if len(path) == n:
                 res.append("".join(path))
                 return len(res) == k
-            for j in ("a", "b", "c"):
+            for j in "abc":
                 if i != j:
                     path.append(j)
                     if dfs(j):
