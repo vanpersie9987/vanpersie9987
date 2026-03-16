@@ -2146,3 +2146,22 @@ class LcaBinaryLifting:
         while res and res[-1] == -1:
             res.pop()
         return res
+
+    # 3870. 统计范围内的逗号 (Count Commas in Range)
+    # 3871. 统计范围内的逗号 II (Count Commas in Range II)
+    def countCommas(self, n: int) -> int:
+        @cache
+        def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+            if i == l:
+                return is_num and (j - 1) // 3
+            res = 0
+            if not is_num:
+                res = dfs(i + 1, j, False, False)
+            up = int(s[i]) if is_limit else 9
+            for d in range(0 if is_num else 1, up + 1):
+                res += dfs(i + 1, j + 1, is_limit and up == d, True)
+            return res
+
+        s = str(n)
+        l = len(s)
+        return dfs(0, 0, True, False)
