@@ -2102,3 +2102,47 @@ class LcaBinaryLifting:
             return dfs(0, 0, 0, 2, True, False)
 
         return cal(r) - cal(l - 1)
+
+    # 1878. 矩阵中最大的三个菱形和 (Get Biggest Three Rhombus Sums in a Grid)
+    def getBiggestThree(self, grid: List[List[int]]) -> List[int]:
+        m, n = len(grid), len(grid[0])
+        res = [-1, -1, -1]
+        for i in range(m):
+            for j in range(n):
+                # 枚举 (i, j) 为中心点的菱形
+                mn = min(i, j, n - 1 - j, m - 1 - i)
+                for d in range(mn + 1):
+                    x = 0
+                    if d == 0:
+                        x = grid[i][j]
+                    else:
+                        i0, jl, jr = i - d, j, j
+                        for r in range(i0, i + 1):
+                            if jl != jr:
+                                x += grid[r][jl] + grid[r][jr]
+                            else:
+                                x += grid[r][jl]
+                            jl -= 1
+                            jr += 1
+                        i0, jl, jr = i + d, j, j
+                        for r in range(i0, i, -1):
+                            if jl != jr:
+                                x += grid[r][jl] + grid[r][jr]
+                            else:
+                                x += grid[r][jl]
+                            jl -= 1
+                            jr += 1
+                    if x in res:
+                        continue
+                    if x > res[0]:
+                        res[2] = res[1]
+                        res[1] = res[0]
+                        res[0] = x
+                    elif x > res[1]:
+                        res[2] = res[1]
+                        res[1] = x
+                    elif x > res[2]:
+                        res[2] = x
+        while res and res[-1] == -1:
+            res.pop()
+        return res
