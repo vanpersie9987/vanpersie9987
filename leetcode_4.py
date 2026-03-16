@@ -2015,3 +2015,49 @@ class LcaBinaryLifting:
             prefixGcd[i] = gcd(x, mx)
         prefixGcd.sort()
         return sum(gcd(prefixGcd[i], prefixGcd[n - i - 1]) for i in range(n // 2))
+    
+    # 3868. 通过交换使数组相等的最小花费 (Minimum Cost to Equalize Arrays Using Swaps)
+    def minCost(self, nums1: list[int], nums2: list[int]) -> int:
+        cnts = defaultdict(int)
+        for x in nums1:
+            cnts[x] += 1
+        for x in nums2:
+            cnts[x] += 1
+        for c in cnts.values():
+            if c & 1:
+                return -1
+        cnts1 = defaultdict(int)
+        cnts2 = defaultdict(int)
+        for x in nums1:
+            cnts1[x] += 1
+        for x in nums2:
+            cnts2[x] += 1
+        a = []
+        b = []
+        for k, v in cnts1.items():
+            mn = min(v, cnts2[k])
+            v -= mn
+            cnts2[k] -= mn
+            if v:
+                a.append(v)
+            if cnts2[k]:
+                b.append(cnts2[k])
+            del cnts2[k]
+        for c in cnts2.values():
+            b.append(c)
+        res = 0
+        while len(a) or len(b):
+            x = 0 if len(a) == 0 else a.pop()
+            y = 0 if len(b) == 0 else b.pop()
+            mn = min(x, y)
+            res += mn // 2
+            x -= mn
+            y -= mn
+            if x:
+                a.append(x)
+            if y:
+                b.append(y)
+        return res
+            
+
+
