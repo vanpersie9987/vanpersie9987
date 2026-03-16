@@ -2015,7 +2015,7 @@ class LcaBinaryLifting:
             prefixGcd[i] = gcd(x, mx)
         prefixGcd.sort()
         return sum(gcd(prefixGcd[i], prefixGcd[n - i - 1]) for i in range(n // 2))
-    
+
     # 3868. 通过交换使数组相等的最小花费 (Minimum Cost to Equalize Arrays Using Swaps)
     def minCost(self, nums1: list[int], nums2: list[int]) -> int:
         cnts = defaultdict(int)
@@ -2049,9 +2049,56 @@ class LcaBinaryLifting:
         mn = min(a, b)
         res += mn // 2
         a -= mn
-        b -= mn 
+        b -= mn
         res += a // 2 + b // 2
         return res
-            
 
+    # 3869. 统计区间内奇妙数的数目 (Count Fancy Numbers in a Range)
+    def countFancy(self, l: int, r: int) -> int:
+        def check_ok(x: int) -> bool:
+            _s = str(x)
+            return all(a < b for a, b in pairwise(_s)) or all(
+                a > b for a, b in pairwise(_s)
+            )
 
+        MX = 15 * 9 + 1
+        # s_ok[i] 表示 i 的各位和，是否为严格递增或严格递减的
+        s_ok = [False] * MX
+        for i in range(MX):
+            s_ok[i] = check_ok(i)
+
+        def cal(x: int) -> int:
+            @cache
+            def dfs(
+                i: int, j: int, last: int, inc: int, is_limit: bool, is_num: bool
+            ) -> int:
+                if i == n:
+                    return is_num and inc == 0 and not s_ok[j]
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, last, inc, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    # 之前未填过数
+                    if not is_num:
+                        res += dfs(i + 1, j + d, d, inc, is_limit and up == d, True)
+                    # 之前填了1个数
+                    elif inc == 2:
+                        nxt_inc = 1 if d > last else (-1 if d < last else 0)
+                        res += dfs(i + 1, j + d, d, nxt_inc, is_limit and up == d, True)
+                    else:
+                        nxt_inc = 0
+                        if d > last and inc == 1:
+                            nxt_inc = 1
+                        elif d < last and inc == -1:
+                            nxt_inc = -1
+                        res += dfs(i + 1, j + d, d, nxt_inc, is_limit and up == d, True)
+                return res
+
+            s = str(x)
+            n = len(s)
+            # 第i位, 数位和j, 上一位数填的数last, 此数字严格递增 inc == 1, 此数字严格递减 inc == -1, 此数字非严格递增或递减 inc == 0
+            # dfs(i, j, last, inc, is_limit, is_num)
+            return dfs(0, 0, 0, 2, True, False)
+
+        return r - l + 1 - (cal(r) - cal(l - 1))
