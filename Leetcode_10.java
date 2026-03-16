@@ -8695,19 +8695,19 @@ public class Leetcode_10 {
         int[] prefixGcd = new int[n];
         for (int i = 0; i < n; ++i) {
             mx = Math.max(mx, nums[i]);
-            prefixGcd[i] = gcd(nums[i], mx);
+            prefixGcd[i] = gcd3867(nums[i], mx);
         }
         Arrays.sort(prefixGcd);
         long res = 0L;
         for (int i = 0; i < n / 2; ++i) {
-            res += gcd(prefixGcd[i], prefixGcd[n - i - 1]);
+            res += gcd3867(prefixGcd[i], prefixGcd[n - i - 1]);
         }
         return res;
 
     }
 
-    private int gcd(int a, int b) {
-        return b == 0 ? a : gcd(b, a % b);
+    private int gcd3867(int a, int b) {
+        return b == 0 ? a : gcd3867(b, a % b);
     }
 
 }
