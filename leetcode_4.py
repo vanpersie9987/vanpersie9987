@@ -1993,3 +1993,25 @@ class LcaBinaryLifting:
         path = []
         res = []
         return res[-1] if dfs("d") else ""
+
+    # 找到第一个唯一偶数
+    def firstUniqueEven(self, nums: list[int]) -> int:
+        cnts = [0] * 101
+        for x in nums:
+            if x & 1 == 0:
+                cnts[x] += 1
+        for x in nums:
+            if x & 1 == 0 and cnts[x] == 1:
+                return x
+        return -1
+
+    # 3867. 数对的最大公约数之和 (Sum of GCD of Formed Pairs)
+    def gcdSum(self, nums: list[int]) -> int:
+        n = len(nums)
+        mx = 0
+        prefixGcd = [0] * n
+        for i, x in enumerate(nums):
+            mx = max(mx, x)
+            prefixGcd[i] = gcd(x, mx)
+        prefixGcd.sort()
+        return sum(gcd(prefixGcd[i], prefixGcd[n - i - 1]) for i in range(n // 2))

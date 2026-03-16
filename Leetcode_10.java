@@ -8671,4 +8671,43 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 找到第一个唯一偶数
+    public int firstUniqueEven(int[] nums) {
+        int[] cnts = new int[101];
+        for (int x : nums) {
+            if ((x & 1) == 0) {
+                ++cnts[x];
+            }
+        }
+        for (int x : nums) {
+            if ((x & 1) == 0 && cnts[x] == 1) {
+                return x;
+            }
+        }
+        return -1;
+
+    }
+
+    // 3867. 数对的最大公约数之和 (Sum of GCD of Formed Pairs)
+    public long gcdSum(int[] nums) {
+        int n = nums.length;
+        int mx = 0;
+        int[] prefixGcd = new int[n];
+        for (int i = 0; i < n; ++i) {
+            mx = Math.max(mx, nums[i]);
+            prefixGcd[i] = gcd(nums[i], mx);
+        }
+        Arrays.sort(prefixGcd);
+        long res = 0L;
+        for (int i = 0; i < n / 2; ++i) {
+            res += gcd(prefixGcd[i], prefixGcd[n - i - 1]);
+        }
+        return res;
+
+    }
+
+    private int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
 }
