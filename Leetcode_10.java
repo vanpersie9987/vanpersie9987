@@ -8852,4 +8852,41 @@ public class Leetcode_10 {
         return true;
     }
 
+    // 3870. 统计范围内的逗号 (Count Commas in Range)
+    // 3871. 统计范围内的逗号 II (Count Commas in Range II)
+    private long[][] memo3871;
+    private char[] s3871;
+    private int n3871;
+
+    public long countCommas(long n) {
+        this.s3871 = String.valueOf(n).toCharArray();
+        this.n3871 = s3871.length;
+        this.memo3871 = new long[this.n3871][this.n3871 * 9 + 1];
+        for (long[] r : memo3871) {
+            Arrays.fill(r, -1L);
+        }
+        return dfs3871(0, 0, true, false);
+    }
+
+    private long dfs3871(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3871) {
+            return isNum ? (j - 1) / 3 : 0L;
+        }
+        if (!isLimit && isNum && memo3871[i][j] != -1L) {
+            return memo3871[i][j];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs3871(i + 1, j, false, false);
+        }
+        int up = isLimit ? s3871[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            res += dfs3871(i + 1, j + 1, isLimit && up == d, true);
+        }
+        if (!isLimit && isNum) {
+            memo3871[i][j] = res;
+        }
+        return res;
+    }
+
 }
