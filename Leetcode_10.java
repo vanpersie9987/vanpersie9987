@@ -8671,7 +8671,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 找到第一个唯一偶数
+    // 3866. 找到第一个唯一偶数 (First Unique Even Element)
     public int firstUniqueEven(int[] nums) {
         int[] cnts = new int[101];
         for (int x : nums) {

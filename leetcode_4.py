@@ -1994,7 +1994,7 @@ class LcaBinaryLifting:
         res = []
         return res[-1] if dfs("d") else ""
 
-    # 找到第一个唯一偶数
+    # 3866. 找到第一个唯一偶数 (First Unique Even Element)
     def firstUniqueEven(self, nums: list[int]) -> int:
         cnts = [0] * 101
         for x in nums:
