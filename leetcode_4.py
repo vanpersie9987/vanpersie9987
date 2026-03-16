@@ -2032,31 +2032,25 @@ class LcaBinaryLifting:
             cnts1[x] += 1
         for x in nums2:
             cnts2[x] += 1
-        a = []
-        b = []
+        a = 0
+        b = 0
         for k, v in cnts1.items():
             mn = min(v, cnts2[k])
             v -= mn
             cnts2[k] -= mn
             if v:
-                a.append(v)
+                a += v
             if cnts2[k]:
-                b.append(cnts2[k])
+                b += cnts2[k]
             del cnts2[k]
         for c in cnts2.values():
-            b.append(c)
+            b += c
         res = 0
-        while len(a) or len(b):
-            x = 0 if len(a) == 0 else a.pop()
-            y = 0 if len(b) == 0 else b.pop()
-            mn = min(x, y)
-            res += mn // 2
-            x -= mn
-            y -= mn
-            if x:
-                a.append(x)
-            if y:
-                b.append(y)
+        mn = min(a, b)
+        res += mn // 2
+        a -= mn
+        b -= mn 
+        res += a // 2 + b // 2
         return res
             
 

@@ -8732,8 +8732,8 @@ public class Leetcode_10 {
         for (int x : nums2) {
             cnts2.merge(x, 1, Integer::sum);
         }
-        List<Integer> a = new ArrayList<>();
-        List<Integer> b = new ArrayList<>();
+        int a = 0;
+        int b = 0;
         for (Map.Entry<Integer, Integer> entry : cnts1.entrySet()) {
             int v1 = entry.getValue();
             int v2 = cnts2.getOrDefault(entry.getKey(), 0);
@@ -8742,31 +8742,21 @@ public class Leetcode_10 {
             v1 -= min;
             v2 = Math.max(0, v2 - min);
             if (v1 != 0) {
-                a.add(v1);
+                a += v1;
             }
             if (v2 != 0) {
-                b.add(v2);
+                b += v2;
             }
             cnts2.remove(entry.getKey());
         }
         for (int v : cnts2.values()) {
-            b.add(v);
+            b += v;
         }
-        int res = 0;
-        while (a.size() > 0 || b.size() > 0) {
-            int x = a.size() > 0 ? a.remove(a.size() - 1) : 0;
-            int y = b.size() > 0 ? b.remove(b.size() - 1) : 0;
-            int min = Math.min(x, y);
-            res += min / 2;
-            x -= min;
-            y -= min;
-            if (x != 0) {
-                a.add(x);
-            }
-            if (y != 0) {
-                b.add(y);
-            }
-        }
+        int min = Math.min(a, b);
+        int res = min / 2;
+        a -= min;
+        b -= min;
+        res += a / 2 + b / 2;
         return res;
 
     }
