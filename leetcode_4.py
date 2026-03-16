@@ -2073,7 +2073,7 @@ class LcaBinaryLifting:
                 i: int, j: int, last: int, inc: int, is_limit: bool, is_num: bool
             ) -> int:
                 if i == n:
-                    return is_num and inc == 0 and not s_ok[j]
+                    return is_num and (inc != 0 or s_ok[j])
                 res = 0
                 if not is_num:
                     res = dfs(i + 1, j, last, inc, False, False)
@@ -2101,4 +2101,4 @@ class LcaBinaryLifting:
             # dfs(i, j, last, inc, is_limit, is_num)
             return dfs(0, 0, 0, 2, True, False)
 
-        return r - l + 1 - (cal(r) - cal(l - 1))
+        return cal(r) - cal(l - 1)
