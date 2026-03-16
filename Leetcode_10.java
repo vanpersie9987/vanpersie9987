@@ -6183,7 +6183,7 @@ public class Leetcode_10 {
         int i = 2;
         this.primes3610 = new ArrayList<>();
         while (primes3610.size() < m && i <= n) {
-            if (check(i)) {
+            if (check3610(i)) {
                 primes3610.add(i);
             }
             ++i;
@@ -6212,7 +6212,7 @@ public class Leetcode_10 {
         return memo3610[i][j] = res;
     }
 
-    private boolean check(int x) {
+    private boolean check3610(int x) {
         for (int i = 2; i <= Math.sqrt(x); ++i) {
             if (x % i == 0) {
                 return false;
@@ -8759,6 +8759,97 @@ public class Leetcode_10 {
         res += a / 2 + b / 2;
         return res;
 
+    }
+
+    // 3869. 统计区间内奇妙数的数目 (Count Fancy Numbers in a Range)
+    private int MX3869;
+
+    public long countFancy(long l, long r) {
+        this.MX3869 = 15 * 9 + 1;
+        return cal3869(r) - cal3869(l - 1);
+    }
+
+    private char[] s3869;
+    private int n3869;
+    private long[][][][] memo3869;
+
+    private long cal3869(long x) {
+        this.s3869 = String.valueOf(x).toCharArray();
+        this.n3869 = s3869.length;
+        this.memo3869 = new long[n3869][MX3869][10][5];
+        for (long[][][] r1 : memo3869) {
+            for (long[][] r2 : r1) {
+                for (long[] r3 : r2) {
+                    Arrays.fill(r3, -1L);
+                }
+            }
+        }
+        // dfs(int i, int j, int last, int inc, boolean isLimit, boolean isNum)
+        // i : 第几位
+        // j : 数位和
+        // last : 上一位填的值
+        // inc : 0未填数，1填了一位，2填了超过1位且为递增，3填了超过1位且为递减，4不严格递增或递减
+        return dfs3869(0, 0, 0, 1, true, false);
+
+    }
+
+    private long dfs3869(int i, int j, int last, int inc, boolean isLimit, boolean isNum) {
+        if (i == n3869) {
+            return isNum && (inc != 4 || sOK3869(j)) ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo3869[i][j][last][inc] != -1L) {
+            return memo3869[i][j][last][inc];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs3869(i + 1, j, last, inc, false, false);
+        }
+        int up = isLimit ? s3869[i] - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            // 之前未填过数
+            if (!isNum) {
+                res += dfs3869(i + 1, j + d, d, inc, isLimit && up == d, true);
+            }
+            // 之前填了一个数
+            else if (inc == 1) {
+                int nxtInc = d > last ? 2 : (d < last ? 3 : 4);
+                res += dfs3869(i + 1, j + d, d, nxtInc, isLimit && up == d, true);
+            } else {
+                int nxtInc = 4;
+                if (d > last && inc == 2) {
+                    nxtInc = 2;
+                } else if (d < last && inc == 3) {
+                    nxtInc = 3;
+                }
+                res += dfs3869(i + 1, j + d, d, nxtInc, isLimit && up == d, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo3869[i][j][last][inc] = res;
+        }
+        return res;
+    }
+
+    private boolean sOK3869(int x) {
+        String str = String.valueOf(x);
+        boolean f = true;
+        // 严格递增
+        for (int i = 1; i < str.length(); ++i) {
+            if (str.charAt(i) <= str.charAt(i - 1)) {
+                f = false;
+                break;
+            }
+        }
+        if (f) {
+            return true;
+        }
+        // 严格递减
+        for (int i = 1; i < str.length(); ++i) {
+            if (str.charAt(i) >= str.charAt(i - 1)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
