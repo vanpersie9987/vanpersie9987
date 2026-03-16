@@ -8710,4 +8710,65 @@ public class Leetcode_10 {
         return b == 0 ? a : gcd3867(b, a % b);
     }
 
+    // 3868. 通过交换使数组相等的最小花费 (Minimum Cost to Equalize Arrays Using Swaps)
+    public int minCost(int[] nums1, int[] nums2) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums1) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        for (int x : nums2) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        for (int c : cnts.values()) {
+            if ((c & 1) != 0) {
+                return -1;
+            }
+        }
+        Map<Integer, Integer> cnts1 = new HashMap<>();
+        Map<Integer, Integer> cnts2 = new HashMap<>();
+        for (int x : nums1) {
+            cnts1.merge(x, 1, Integer::sum);
+        }
+        for (int x : nums2) {
+            cnts2.merge(x, 1, Integer::sum);
+        }
+        List<Integer> a = new ArrayList<>();
+        List<Integer> b = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : cnts1.entrySet()) {
+            int v1 = entry.getValue();
+            int v2 = cnts2.getOrDefault(entry.getKey(), 0);
+
+            int min = Math.min(v1, v2);
+            v1 -= min;
+            v2 = Math.max(0, v2 - min);
+            if (v1 != 0) {
+                a.add(v1);
+            }
+            if (v2 != 0) {
+                b.add(v2);
+            }
+            cnts2.remove(entry.getKey());
+        }
+        for (int v : cnts2.values()) {
+            b.add(v);
+        }
+        int res = 0;
+        while (a.size() > 0 || b.size() > 0) {
+            int x = a.size() > 0 ? a.remove(a.size() - 1) : 0;
+            int y = b.size() > 0 ? b.remove(b.size() - 1) : 0;
+            int min = Math.min(x, y);
+            res += min / 2;
+            x -= min;
+            y -= min;
+            if (x != 0) {
+                a.add(x);
+            }
+            if (y != 0) {
+                b.add(y);
+            }
+        }
+        return res;
+
+    }
+
 }
