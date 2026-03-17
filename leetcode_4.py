@@ -2191,3 +2191,59 @@ class LcaBinaryLifting:
             for j, x in enumerate(hs):
                 res = max(res, (n - j) * x)
         return res
+    
+    # 3873. 添加一个点后可激活的最大点数 (Maximum Points Activated with One Addition)
+    def maxActivated(self, points: list[list[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+
+        id = n = len(points)
+        d1 = defaultdict(int)
+        d2 = defaultdict(int)
+        for x, _ in points:
+            if x not in d1:
+                d1[x] = id
+                id += 1
+        for _, y in points:
+            if y not in d2:
+                d2[y] = id
+                id += 1
+        u = union(id)
+        for i, (x, y) in enumerate(points):
+            u.union(i, d1[x])
+            u.union(i, d2[y])
+        cnts = defaultdict(int)
+        for i in range(n):
+            r = u.get_root(i)
+            cnts[r] += 1
+        res = [0, 0]
+        for x in cnts.values():
+            if x >= res[0]:
+                res[1] = res[0]
+                res[0] = x
+            elif x >= res[1]:
+                res[1] = x
+        return res[0] + res[1] + 1
