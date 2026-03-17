@@ -2166,6 +2166,16 @@ class LcaBinaryLifting:
         l = len(s)
         return dfs(0, 0, True, False)
 
+    # 3870. 统计范围内的逗号 (Count Commas in Range)
+    # 3871. 统计范围内的逗号 II (Count Commas in Range II) --贡献法
+    def countCommas(self, n: int) -> int:
+        x = 1000
+        res = 0
+        while x <= n:
+            res += n - x + 1
+            x *= 1000
+        return res
+
     # 1727. 重新排列后的最大子矩阵 (Largest Submatrix With Rearrangements)
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
         _, n = len(matrix), len(matrix[0])
