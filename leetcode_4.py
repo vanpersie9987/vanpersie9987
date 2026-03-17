@@ -2171,7 +2171,7 @@ class LcaBinaryLifting:
         _, n = len(matrix), len(matrix[0])
         res = 0
         heights = [0] * n
-        for i, row in enumerate(matrix):
+        for row in matrix:
             for j, x in enumerate(row):
                 if x:
                     heights[j] += 1
