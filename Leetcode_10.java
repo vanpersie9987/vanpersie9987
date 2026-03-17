@@ -8930,12 +8930,16 @@ public class Leetcode_10 {
             int r = union.getRoot(i);
             cnts.merge(r, 1, Integer::sum);
         }
-        List<Integer> a = new ArrayList<>(cnts.values());
-        Collections.sort(a);
-        if (a.size() == 1) {
-            return n + 1;
+        int[] res = { 0, 0 };
+        for (int v : cnts.values()) {
+            if (v >= res[0]) {
+                res[1] = res[0];
+                res[0] = v;
+            } else if (v >= res[1]) {
+                res[1] = v;
+            }
         }
-        return a.get(a.size() - 1) + a.get(a.size() - 2) + 1;
+        return res[0] + res[1] + 1;
     }
 
     public class Union3873 {
