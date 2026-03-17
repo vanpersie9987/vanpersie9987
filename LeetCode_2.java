@@ -7862,20 +7862,21 @@ public class LeetCode_2 {
 
    // 1727. 重新排列后的最大子矩阵 (Largest Submatrix With Rearrangements)
    public int largestSubmatrix(int[][] matrix) {
-      int m = matrix.length;
       int n = matrix[0].length;
+      int[] heights = new int[n];
       int res = 0;
-      for (int i = 1; i < m; ++i) {
+      for (int[] row : matrix) {
          for (int j = 0; j < n; ++j) {
-            if (matrix[i][j] == 1) {
-               matrix[i][j] += matrix[i - 1][j];
+            if (row[j] == 1) {
+               ++heights[j];
+            } else {
+               heights[j] = 0;
             }
          }
-      }
-      for (int i = 0; i < m; ++i) {
-         Arrays.sort(matrix[i]);
-         for (int j = n - 1; j >= 0; --j) {
-            res = Math.max(res, matrix[i][j] * (n - j));
+         int[] a = heights.clone();
+         Arrays.sort(a);
+         for (int j = 0; j < n; ++j) {
+            res = Math.max(res, (n - j) * a[j]);
          }
       }
       return res;
