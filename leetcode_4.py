@@ -2165,3 +2165,19 @@ class LcaBinaryLifting:
         s = str(n)
         l = len(s)
         return dfs(0, 0, True, False)
+
+    # 1727. 重新排列后的最大子矩阵 (Largest Submatrix With Rearrangements)
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        _, n = len(matrix), len(matrix[0])
+        res = 0
+        heights = [0] * n
+        for i, row in enumerate(matrix):
+            for j, x in enumerate(row):
+                if x:
+                    heights[j] += 1
+                else:
+                    heights[j] = 0
+            hs = sorted(heights)
+            for j, x in enumerate(hs):
+                res = max(res, (n - j) * x)
+        return res
