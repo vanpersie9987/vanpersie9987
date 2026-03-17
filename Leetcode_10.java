@@ -8902,4 +8902,81 @@ public class Leetcode_10 {
 
     }
 
+    // 3873. 添加一个点后可激活的最大点数 (Maximum Points Activated with One Addition)
+    public int maxActivated(int[][] points) {
+        int n = points.length;
+        int id = n;
+        Map<Integer, Integer> map1 = new HashMap<>();
+        for (int[] p : points) {
+            int x = p[0];
+            if (!map1.containsKey(x)) {
+                map1.put(x, id++);
+            }
+        }
+        Map<Integer, Integer> map2 = new HashMap<>();
+        for (int[] p : points) {
+            int y = p[1];
+            if (!map2.containsKey(y)) {
+                map2.put(y, id++);
+            }
+        }
+        Union3873 union = new Union3873(id);
+        for (int i = 0; i < n; ++i) {
+            union.union(i, map1.get(points[i][0]));
+            union.union(i, map2.get(points[i][1]));
+        }
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int r = union.getRoot(i);
+            cnts.merge(r, 1, Integer::sum);
+        }
+        List<Integer> a = new ArrayList<>(cnts.values());
+        Collections.sort(a);
+        if (a.size() == 1) {
+            return n + 1;
+        }
+        return a.get(a.size() - 1) + a.get(a.size() - 2) + 1;
+    }
+
+    public class Union3873 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union3873(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+        }
+    }
+
 }
