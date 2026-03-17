@@ -8889,4 +8889,17 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3870. 统计范围内的逗号 (Count Commas in Range)
+    // 3871. 统计范围内的逗号 II (Count Commas in Range II) --贡献法
+    public long countCommas2(long n) {
+        long res = 0L;
+        long x = 1000L;
+        while (x <= n) {
+            res += n - x + 1;
+            x *= 1000L;
+        }
+        return res;
+
+    }
+
 }
