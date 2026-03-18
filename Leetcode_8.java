@@ -8364,19 +8364,20 @@ public class Leetcode_8 {
     // 3070. 元素和小于等于 k 的子矩阵的数目 (Count Submatrices with Top-Left Element and Sum
     // Less Than k)
     public int countSubmatrices2(int[][] grid, int k) {
-        int res = 0;
         int m = grid.length;
         int n = grid[0].length;
+        int res = 0;
         int[][] pre = new int[m + 1][n + 1];
-        for (int i = 1; i < m + 1; ++i) {
-            for (int j = 1; j < n + 1; ++j) {
-                pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1] + grid[i - 1][j - 1];
-                if (pre[i][j] <= k) {
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                pre[i + 1][j + 1] = pre[i + 1][j] + pre[i][j + 1] - pre[i][j] + grid[i][j];
+                if (pre[i + 1][j + 1] <= k) {
                     ++res;
                 }
             }
         }
         return res;
+
     }
 
     // 3071. 在矩阵上写出字母 Y 所需的最少操作次数 (Minimum Operations to Write the Letter Y on a
