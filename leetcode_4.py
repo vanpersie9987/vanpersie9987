@@ -2191,7 +2191,7 @@ class LcaBinaryLifting:
             for j, x in enumerate(hs):
                 res = max(res, (n - j) * x)
         return res
-    
+
     # 3873. 添加一个点后可激活的最大点数 (Maximum Points Activated with One Addition)
     def maxActivated(self, points: list[list[int]]) -> int:
         class union:
