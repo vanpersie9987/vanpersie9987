@@ -5447,16 +5447,16 @@ class Union924:
         m, n = len(grid), len(grid[0])
         pre_diff = [[0] * (n + 1) for _ in range(m + 1)]
         has_x = [[False] * (n + 1) for _ in range(m + 1)]
-        for i in range(m):
-            for j in range(n):
-                x = 1 if grid[i][j] == "X" else (-1 if grid[i][j] == "Y" else 0)
-                pre_diff[i + 1][j + 1] = pre_diff[i + 1][j] + pre_diff[i][j + 1] - pre_diff[i][j] + x
-                has_x[i + 1][j + 1] = (
-                    has_x[i + 1][j] or has_x[i][j + 1] or grid[i][j] == "Y"
-                )
         res = 0
         for i in range(m):
             for j in range(n):
+                x = 1 if grid[i][j] == "X" else (-1 if grid[i][j] == "Y" else 0)
+                pre_diff[i + 1][j + 1] = (
+                    pre_diff[i + 1][j] + pre_diff[i][j + 1] - pre_diff[i][j] + x
+                )
+                has_x[i + 1][j + 1] = (
+                    has_x[i + 1][j] or has_x[i][j + 1] or grid[i][j] == "Y"
+                )
                 if has_x[i + 1][j + 1] and pre_diff[i + 1][j + 1] == 0:
                     res += 1
         return res
