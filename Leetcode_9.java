@@ -1210,13 +1210,15 @@ public class Leetcode_9 {
         int m = grid.length;
         int n = grid[0].length;
         int res = 0;
-        int[][] xs = new int[m + 1][n + 1];
-        int[][] ys = new int[m + 1][n + 1];
+        int[][] preDiff = new int[m + 1][n + 1];
+        boolean[][] hasX = new boolean[m + 1][n + 1];
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                xs[i + 1][j + 1] = xs[i + 1][j] + xs[i][j + 1] - xs[i][j] + (grid[i][j] == 'X' ? 1 : 0);
-                ys[i + 1][j + 1] = ys[i + 1][j] + ys[i][j + 1] - ys[i][j] + (grid[i][j] == 'Y' ? 1 : 0);
-                if (xs[i + 1][j + 1] == ys[i + 1][j + 1] && xs[i + 1][j + 1] > 0) {
+                preDiff[i + 1][j + 1] = preDiff[i + 1][j] + preDiff[i][j + 1] - preDiff[i][j]
+                        + (grid[i][j] == 'X' ? 1 : (grid[i][j] == 'Y' ? -1 : 0));
+
+                hasX[i + 1][j + 1] = hasX[i + 1][j] || hasX[i][j + 1] || grid[i][j] == 'X';
+                if (hasX[i + 1][j + 1] && preDiff[i + 1][j + 1] == 0) {
                     ++res;
                 }
             }
