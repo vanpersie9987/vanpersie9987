@@ -8983,4 +8983,46 @@ public class Leetcode_10 {
         }
     }
 
+    // 3875. 构造奇偶一致的数组 I (Construct Uniform Parity Array I)
+    public boolean uniformArray(int[] nums1) {
+        return true;
+    }
+
+    // 3876. 构造奇偶一致的数组 II (Construct Uniform Parity Array II)
+    public boolean uniformArray3876(int[] nums1) {
+        int[] min = new int[2];
+        Arrays.fill(min, Integer.MAX_VALUE);
+        for (int x : nums1) {
+            min[x & 1] = Math.min(min[x & 1], x);
+        }
+        return min[1] == Integer.MAX_VALUE || min[1] < min[0];
+
+    }
+
+    // 3877. 达到目标异或值的最少删除次数 (Minimum Removals to Achieve Target XOR)
+    private int[] nums3877;
+    private Map<Integer, Integer> memo3877;
+
+    public int minRemovals(int[] nums, int target) {
+        this.nums3877 = nums;
+        int n = nums.length;
+        this.memo3877 = new HashMap<>();
+        int res = dfs3877(n - 1, target);
+        return res <= n ? res : -1;
+
+    }
+
+    private int dfs3877(int i, int j) {
+        if (i < 0) {
+            return j == 0 ? 0 : Integer.MAX_VALUE / 2;
+        }
+        int key = (i << 16) | j;
+        if (memo3877.containsKey(key)) {
+            return memo3877.get(key);
+        }
+        int res = Math.min(dfs3877(i - 1, j) + 1, dfs3877(i - 1, j ^ nums3877[i]));
+        memo3877.put(key, res);
+        return res;
+    }
+
 }

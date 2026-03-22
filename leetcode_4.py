@@ -2256,6 +2256,7 @@ class LcaBinaryLifting:
                     a[i][j], a[j][i] = a[j][i], a[i][j]
             for r in a:
                 r.reverse()
+
         n = len(mat)
         c = 0
         while c < 4:
@@ -2265,3 +2266,26 @@ class LcaBinaryLifting:
             # 旋转90度
             rotate(mat)
         return False
+
+    # 3876. 构造奇偶一致的数组 I (Construct Uniform Parity Array I)
+    def uniformArray(self, _: list[int]) -> bool:
+        return True
+
+    # 3877. 构造奇偶一致的数组 II (Construct Uniform Parity Array II)
+    def uniformArray(self, nums1: list[int]) -> bool:
+        mn = [inf] * 2
+        for x in nums1:
+            mn[x & 1] = min(mn[x & 1], x)
+        return mn[1] == inf or mn[1] < mn[0]
+
+    # 3878. 达到目标异或值的最少删除次数 (Minimum Removals to Achieve Target XOR)
+    def minRemovals(self, nums: List[int], target: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0 if j == 0 else inf
+            return min(dfs(i - 1, j) + 1, dfs(i - 1, j ^ nums[i]))
+
+        n = len(nums)
+        res = dfs(n - 1, target)
+        return res if res <= n else -1
