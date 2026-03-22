@@ -55,7 +55,7 @@ from tabnanny import check
 from tarfile import tar_filter
 from textwrap import indent
 import time
-from tkinter import LEFT, N, NO, W
+from tkinter import LEFT, N, NO, W, Grid
 from tkinter.messagebox import RETRY
 from token import NL, RIGHTSHIFT
 from turtle import (
@@ -2247,3 +2247,21 @@ class LcaBinaryLifting:
             elif x >= res[1]:
                 res[1] = x
         return res[0] + res[1] + 1
+
+    # 1886. 判断矩阵经轮转后是否一致 (Determine Whether Matrix Can Be Obtained By Rotation)
+    def findRotation(self, mat: List[List[int]], target: List[List[int]]) -> bool:
+        def rotate(a: List[List[int]]):
+            for i in range(n):
+                for j in range(i):
+                    a[i][j], a[j][i] = a[j][i], a[i][j]
+            for r in a:
+                r.reverse()
+        n = len(mat)
+        c = 0
+        while c < 4:
+            if all(x == y for x, y in zip(mat, target)):
+                return True
+            c += 1
+            # 旋转90度
+            rotate(mat)
+        return False
