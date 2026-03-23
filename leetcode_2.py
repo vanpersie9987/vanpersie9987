@@ -2610,56 +2610,17 @@ class Union924:
 
     # 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
     def maxProductPath(self, grid: List[List[int]]) -> int:
-        #  从[i, j, 1] 出发，到右下角。可构成的最大积
-        #  从[i, j, 0] 出发，到右下角。可构成的最小积
         @cache
-        def dfs(i: int, j: int, k: int) -> int:
-            if i == m - 1 and j == n - 1:
-                return grid[i][j]
-            res = -inf if k else inf
-            if k:
-                if grid[i][j] < 0:
-                    if i + 1 < m:
-                        res = max(res, dfs(i + 1, j, 0) * grid[i][j])
-                    if j + 1 < n:
-                        res = max(res, dfs(i, j + 1, 0) * grid[i][j])
-                else:
-                    if i + 1 < m:
-                        res = max(res, dfs(i + 1, j, 1) * grid[i][j])
-                    if j + 1 < n:
-                        res = max(res, dfs(i, j + 1, 1) * grid[i][j])
-            else:
-                if grid[i][j] < 0:
-                    if i + 1 < m:
-                        res = min(res, dfs(i + 1, j, 1) * grid[i][j])
-                    if j + 1 < n:
-                        res = min(res, dfs(i, j + 1, 1) * grid[i][j])
-                else:
-                    if i + 1 < m:
-                        res = min(res, dfs(i + 1, j, 0) * grid[i][j])
-                    if j + 1 < n:
-                        res = min(res, dfs(i, j + 1, 0) * grid[i][j])
-            return res
-
-        m = len(grid)
-        n = len(grid[0])
-        MOD = 10**9 + 7
-        res = dfs(0, 0, 1)
-        return -1 if res < 0 else res % MOD
-
-    # 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
-    def maxProductPath(self, grid: List[List[int]]) -> int:
-        @cache
-        def dfs(i: int, j: int) -> List[int]:
+        def dfs(i: int, j: int) -> Tuple[int, int]:
             if i == m or j == n:
-                return [inf, -inf]
+                return inf, -inf
             s = grid[i][j]
             if i == m - 1 and j == n - 1:
-                return [s, s]
+                return s, s
             _min1, _max1 = dfs(i + 1, j)
             _min2, _max2 = dfs(i, j + 1)
-            res = [min(_min1, _min2) * s, max(_max1, _max2) * s]
-            return res if s >= 0 else res[::-1]
+            res = (min(_min1, _min2) * s, max(_max1, _max2) * s)
+            return sorted(res)
 
         m, n = len(grid), len(grid[0])
         _, _max = dfs(0, 0)
