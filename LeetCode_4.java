@@ -548,47 +548,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-            case 'c':
-                if (cnts[4] > 0) {
-                    --cnts[4];
-                }
-                ++cnts[0];
-                break;
-            case 'r':
-                if (cnts[0] > 0) {
-                    --cnts[0];
-                } else {
-                    return -1;
-                }
-                ++cnts[1];
-                break;
-            case 'o':
-                if (cnts[1] > 0) {
-                    --cnts[1];
-                } else {
-                    return -1;
-                }
-                ++cnts[2];
-                break;
-            case 'a':
-                if (cnts[2] > 0) {
-                    --cnts[2];
-                } else {
-                    return -1;
-                }
-                ++cnts[3];
-                break;
-            case 'k':
-                if (cnts[3] > 0) {
-                    --cnts[3];
-                } else {
-                    return -1;
-                }
-                ++cnts[4];
-                break;
+                case 'c':
+                    if (cnts[4] > 0) {
+                        --cnts[4];
+                    }
+                    ++cnts[0];
+                    break;
+                case 'r':
+                    if (cnts[0] > 0) {
+                        --cnts[0];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[1];
+                    break;
+                case 'o':
+                    if (cnts[1] > 0) {
+                        --cnts[1];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[2];
+                    break;
+                case 'a':
+                    if (cnts[2] > 0) {
+                        --cnts[2];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[3];
+                    break;
+                case 'k':
+                    if (cnts[3] > 0) {
+                        --cnts[3];
+                    } else {
+                        return -1;
+                    }
+                    ++cnts[4];
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {
@@ -10693,68 +10693,40 @@ public class LeetCode_4 {
     }
 
     // 1594. 矩阵的最大非负积 (Maximum Non Negative Product in a Matrix)
-    private int m1594;
-    private int n1594;
     private int[][] grid1594;
-    private long[][][] memo1594;
+    private Map<Group1594, long[]> memo1594;
 
-    public int maxProductPath2(int[][] grid) {
-        this.m1594 = grid.length;
-        this.n1594 = grid[0].length;
-        this.grid1594 = grid;
-        this.memo1594 = new long[m1594][n1594][2];
-        for (int i = 0; i < m1594; ++i) {
-            for (int j = 0; j < n1594; ++j) {
-                Arrays.fill(memo1594[i][j], Integer.MAX_VALUE);
-            }
-        }
-        final int MOD = (int) (1e9 + 7);
-        return (int) (Math.max(-1L, dfs1594(0, 0, 1)) % MOD);
-
+    private record Group1594(int i, int j) {
     }
 
-    private long dfs1594(int i, int j, int k) {
-        if (i == m1594 - 1 && j == n1594 - 1) {
-            return grid1594[i][j];
+    public int maxProductPath2(int[][] grid) {
+        this.grid1594 = grid;
+        int m = grid.length;
+        int n = grid[0].length;
+        this.memo1594 = new HashMap<>();
+        long res = dfs1594(m - 1, n - 1)[1];
+        int MOD = (int) (1e9 + 7);
+        return (int) (res < 0 ? -1 : res % MOD);
+    }
+
+    private long[] dfs1594(int i, int j) {
+        if (i < 0 || j < 0) {
+            return new long[] { Integer.MAX_VALUE / 2, Integer.MIN_VALUE / 2 };
         }
-        if (memo1594[i][j][k] != Integer.MAX_VALUE) {
-            return memo1594[i][j][k];
+        if (i == 0 && j == 0) {
+            return new long[] { grid1594[0][0], grid1594[0][0] };
         }
-        long res = (k == 1 ? Integer.MIN_VALUE : Integer.MAX_VALUE);
-        if (k == 1) {
-            if (grid1594[i][j] < 0) {
-                if (i + 1 < m1594) {
-                    res = Math.max(res, dfs1594(i + 1, j, 0) * grid1594[i][j]);
-                }
-                if (j + 1 < n1594) {
-                    res = Math.max(res, dfs1594(i, j + 1, 0) * grid1594[i][j]);
-                }
-            } else {
-                if (i + 1 < m1594) {
-                    res = Math.max(res, dfs1594(i + 1, j, 1) * grid1594[i][j]);
-                }
-                if (j + 1 < n1594) {
-                    res = Math.max(res, dfs1594(i, j + 1, 1) * grid1594[i][j]);
-                }
-            }
-        } else {
-            if (grid1594[i][j] < 0) {
-                if (i + 1 < m1594) {
-                    res = Math.min(res, dfs1594(i + 1, j, 1) * grid1594[i][j]);
-                }
-                if (j + 1 < n1594) {
-                    res = Math.min(res, dfs1594(i, j + 1, 1) * grid1594[i][j]);
-                }
-            } else {
-                if (i + 1 < m1594) {
-                    res = Math.min(res, dfs1594(i + 1, j, 0) * grid1594[i][j]);
-                }
-                if (j + 1 < n1594) {
-                    res = Math.min(res, dfs1594(i, j + 1, 0) * grid1594[i][j]);
-                }
-            }
+        Group1594 k = new Group1594(i, j);
+        if (memo1594.containsKey(k)) {
+            return memo1594.get(k);
         }
-        return memo1594[i][j][k] = res;
+        long[] left = dfs1594(i, j - 1);
+        long[] up = dfs1594(i - 1, j);
+        int x = grid1594[i][j];
+        long[] res = { Math.min(left[0], up[0]) * x, Math.max(left[1], up[1]) * x };
+        Arrays.sort(res);
+        memo1594.put(k, res);
+        return res;
     }
 
     // 2064. 分配给商店的最多商品的最小值 (Minimized Maximum of Products Distributed to Any Store)
