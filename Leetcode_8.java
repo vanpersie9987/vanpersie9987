@@ -4328,31 +4328,27 @@ public class Leetcode_8 {
 
     }
 
-    // 8026. 构造乘积矩阵 (Construct Product Matrix)
+    // 2906. 构造乘积矩阵 (Construct Product Matrix)
     public int[][] constructProductMatrix(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        long suf = 1L;
+        int[][] pre = new int[m][n];
         final int MOD = 12345;
-        int[][] p = new int[m][n];
-        for (int i = m - 1; i >= 0; --i) {
-            for (int j = n - 1; j >= 0; --j) {
-                p[i][j] = (int) suf;
-                suf *= grid[i][j];
-                suf %= MOD;
-            }
-        }
-
-        long pre = 1L;
+        int p = 1;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                p[i][j] = (int) (p[i][j] * pre % MOD);
-                pre *= grid[i][j];
-                pre %= MOD;
+                pre[i][j] = p;
+                p = (int) ((long) p * grid[i][j] % MOD);
             }
         }
-
-        return p;
+        p = 1;
+        for (int i = m - 1; i >= 0; --i) {
+            for (int j = n - 1; j >= 0; --j) {
+                pre[i][j] = (int) ((long) pre[i][j] * p % MOD);
+                p = (int) ((long) p * grid[i][j] % MOD);
+            }
+        }
+        return pre;
 
     }
 
