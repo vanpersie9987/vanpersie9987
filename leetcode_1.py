@@ -7160,24 +7160,23 @@ class leetcode_1:
 
     # 2906. 构造乘积矩阵 (Construct Product Matrix)
     def constructProductMatrix(self, grid: List[List[int]]) -> List[List[int]]:
-        m = len(grid)
-        n = len(grid[0])
-        res = [[1] * n for _ in range(m)]
-        mul = 1
+        m, n = len(grid), len(grid[0])
         MOD = 12345
+        p = 1
+        pre = [[0] * n for _ in range(m)]
         for i in range(m):
             for j in range(n):
-                res[i][j] = mul
-                mul *= grid[i][j]
-                mul %= MOD
-        mul = 1
+                pre[i][j] = p
+                p *= grid[i][j]
+                p %= MOD
+        p = 1
         for i in range(m - 1, -1, -1):
             for j in range(n - 1, -1, -1):
-                res[i][j] *= mul
-                res[i][j] %= MOD
-                mul *= grid[i][j]
-                mul %= MOD
-        return res
+                pre[i][j] *= p
+                pre[i][j] %= MOD
+                p *= grid[i][j]
+                p %= MOD
+        return pre
 
     # 2899. 上一个遍历的整数 (Last Visited Integers)
     def lastVisitedIntegers(self, words: List[str]) -> List[int]:
