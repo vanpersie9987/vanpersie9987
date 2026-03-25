@@ -10020,11 +10020,13 @@ class Union924:
         n = len(grid[0])
         col = [0] * n
         row = [0] * m
+        s = 0
         for i in range(m):
             for j in range(n):
                 col[j] += grid[i][j]
                 row[i] += grid[i][j]
-        return check(col) or check(row)
+                s += grid[i][j]
+        return s & 1 == 0 and (check(col) or check(row))
 
     # 3547. 图中边值的最大和 (Maximum Sum of Edge Values in a Graph)
     def maxScore(self, n: int, edges: List[List[int]]) -> int:
