@@ -16649,11 +16649,11 @@ public class LeetCodeText {
         int left = 0;
         int right = x;
         while (left <= right) {
-            long mid = left + ((right - left) >> 1);
-            if (mid * mid <= x) {
-                left = (int) mid + 1;
+            int mid = left + ((right - left) >> 1);
+            if ((long) mid * mid <= x) {
+                left = mid + 1;
             } else {
-                right = (int) mid - 1;
+                right = mid - 1;
             }
         }
         return left - 1;
