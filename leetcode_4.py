@@ -2289,3 +2289,15 @@ class LcaBinaryLifting:
         n = len(nums)
         res = dfs(n - 1, target)
         return res if res <= n else -1
+
+    # 69. x 的平方根 (Sqrt(x))
+    def mySqrt(self, x: int) -> int:
+        left = 0
+        right = x
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if mid * mid <= x:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1
