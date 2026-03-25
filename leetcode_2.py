@@ -10007,14 +10007,13 @@ class Union924:
 
     # 3546. 等和矩阵分割 I (Equal Sum Grid Partition I)
     def canPartitionGrid(self, grid: List[List[int]]) -> bool:
-        def check(arr: List[int]) -> bool:
-            suf = sum(arr)
+        def check(a: List[int]) -> bool:
+            s = sum(a)
             pre = 0
-            for x in arr:
-                pre += x
-                suf -= x
-                if pre == suf:
+            for x in a:
+                if pre == s - pre:
                     return True
+                pre += x
             return False
 
         m = len(grid)
