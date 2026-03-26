@@ -2326,15 +2326,11 @@ class LcaBinaryLifting:
     # 2139. 得到目标值的最少行动次数 (Minimum Moves to Reach Target Score)
     def minMoves(self, target: int, maxDoubles: int) -> int:
         res = 0
-        while target != 1:
-            if maxDoubles == 0:
-                res += target - 1
-                break
+        while target != 1 and maxDoubles:
+            res += 1
             if target & 1:
-                res += 1
                 target -= 1
             else:
-                res += 1
                 target >>= 1
                 maxDoubles -= 1
-        return res
+        return res + target - 1
