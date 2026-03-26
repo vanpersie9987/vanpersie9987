@@ -2334,3 +2334,18 @@ class LcaBinaryLifting:
                 target >>= 1
                 maxDoubles -= 1
         return res + target - 1
+
+    # 891. 子序列宽度之和 (Sum of Subsequence Widths)
+    def sumSubseqWidths(self, nums: List[int]) -> int:
+        n = len(nums)
+        pow2 = [0] * n
+        pow2[0] = 1
+        MOD = 10**9 + 7
+        for i in range(1, n):
+            pow2[i] = pow2[i - 1] * 2 % MOD
+        nums.sort()
+        res = 0
+        for i, x in enumerate(nums):
+            res += (pow2[i] - pow2[n - 1 - i]) * x
+            res %= MOD
+        return res

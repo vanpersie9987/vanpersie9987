@@ -6040,22 +6040,22 @@ public class Leetcode_5 {
             while (num != 0) {
                 int steps = 0;
                 switch (d) {
-                case 0:
-                    steps = Math.min(num, width - x - 1);
-                    x += steps;
-                    break;
-                case 1:
-                    steps = Math.min(num, height - y - 1);
-                    y += steps;
-                    break;
-                case 2:
-                    steps = Math.min(num, x);
-                    x -= steps;
-                    break;
-                case 3:
-                    steps = Math.min(num, y);
-                    y -= steps;
-                    break;
+                    case 0:
+                        steps = Math.min(num, width - x - 1);
+                        x += steps;
+                        break;
+                    case 1:
+                        steps = Math.min(num, height - y - 1);
+                        y += steps;
+                        break;
+                    case 2:
+                        steps = Math.min(num, x);
+                        x -= steps;
+                        break;
+                    case 3:
+                        steps = Math.min(num, y);
+                        y -= steps;
+                        break;
                 }
                 num -= steps;
                 if (num > 0) {
@@ -8825,17 +8825,19 @@ public class Leetcode_5 {
     // 891. 子序列宽度之和 (Sum of Subsequence Widths)
     public int sumSubseqWidths(int[] nums) {
         int n = nums.length;
-        Arrays.sort(nums);
-        long x = nums[0];
-        long y = 2l;
-        long res = 0l;
-        final int mod = (int) (1e9 + 7);
-        for (int j = 1; j < n; ++j) {
-            res = (res + nums[j] * (y - 1) - x) % mod;
-            x = (x * 2 + nums[j]) % mod;
-            y = y * 2 % mod;
+        int[] pow2 = new int[n];
+        final int MOD = (int) (1e9 + 7);
+        pow2[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            pow2[i] = (pow2[i - 1] << 1) % MOD;
         }
-        return (int) (res % mod);
+        Arrays.sort(nums);
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            res += (long) nums[i] * ((pow2[i] - pow2[n - i - 1] + MOD) % MOD);
+            res %= MOD;
+        }
+        return (int) res;
 
     }
 
