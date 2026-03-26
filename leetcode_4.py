@@ -2301,5 +2301,24 @@ class LcaBinaryLifting:
             else:
                 right = mid - 1
         return left - 1
-    
-    # 2458
+
+    # 2458. 移除子树后的二叉树高度 (Height of Binary Tree After Subtree Removal Queries)
+    def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
+        def dfs(node: Optional[TreeNode], depth: int, rest_h: int):
+            if node is None:
+                return 0
+            total[node.val] = rest_h
+            dfs(node.left, depth + 1, max(rest_h, depth + 1 + heights[node.right]))
+            dfs(node.right, depth + 1, max(rest_h, depth + 1 + heights[node.left]))
+        def dfs_height(node: Optional[TreeNode]) -> int:
+            if node is None:
+                return 0
+            heights[node] = 1 + max(dfs_height(node.left), dfs_height(node.right))
+            return heights[node]
+        heights = defaultdict(int)
+        dfs_height(root)
+        total = [0] * (len(heights) + 1)
+        dfs(root, -1, 0)
+        for i, q in enumerate(queries):
+            queries[i] = total[q]
+        return queries
