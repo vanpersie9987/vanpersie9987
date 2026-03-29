@@ -2382,3 +2382,8 @@ class LcaBinaryLifting:
         res = dfs(m - 1, n - 1, 0)
         dfs.cache_clear()
         return res
+
+    # 3881. 恰好看到 K 个人的方向选择 (Direction Assignments with Exactly K Visible People)
+    def countVisiblePeople(self, n: int, _: int, k: int) -> int:
+        MOD = 10**9 + 7
+        return comb(n - 1, k) * 2 % MOD
