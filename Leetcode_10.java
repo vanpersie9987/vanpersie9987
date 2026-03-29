@@ -9078,4 +9078,47 @@ public class Leetcode_10 {
         return memo3882[i][j][k] = Math.min(res, dfs3882(i, j - 1, nk));
     }
 
+    // 3883. 统计满足数位和数组的非递减数组数目 (Count Non Decreasing Arrays With Given Digit Sums)
+    public int countArrays(int[] digitSum) {
+        final int MOD = (int) (1e9 + 7);
+        int n = digitSum.length;
+        List<Integer>[] g = new ArrayList[51];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int x = 0; x <= 5000; ++x) {
+            int s = 0;
+            for (int y = x; y != 0; y /= 10) {
+                s += y % 10;
+            }
+            if (s <= 50) {
+                g[s].add(x);
+            }
+        }
+        int[] f = new int[g[digitSum[n - 1]].size()];
+        Arrays.fill(f, 1);
+        for (int i = n - 2; i >= 0; --i) {
+            if (f.length == 0) {
+                return 0;
+            }
+            int x = digitSum[i];
+            int[] nf = new int[g[x].size()];
+            int j = nf.length - 1;
+            int k = f.length - 1;
+            int s = 0;
+            while (j >= 0) {
+                while (k >= 0 && g[digitSum[i + 1]].get(k) >= g[x].get(j)) {
+                    s = (s + f[k--]) % MOD;
+                }
+                nf[j] = s;
+                --j;
+            }
+            f = nf;
+        }
+        int res = 0;
+        for (int v : f) {
+            res = (res + v) % MOD;
+        }
+        return res;
+
+    }
+
 }
