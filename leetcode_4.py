@@ -2349,3 +2349,13 @@ class LcaBinaryLifting:
             res += (pow2[i] - pow2[n - 1 - i]) * x
             res %= MOD
         return res
+
+    # 3880. 两个值之间的最小绝对差值 (Minimum Absolute Difference Between Two Values)
+    def minAbsoluteDifference(self, nums: list[int]) -> int:
+        d = inf
+        pre = [-inf] * 2
+        for i, x in enumerate(nums):
+            if x:
+                d = min(d, i - pre[(x - 1) ^ 1])
+                pre[x - 1] = i
+        return d if d != inf else -1
