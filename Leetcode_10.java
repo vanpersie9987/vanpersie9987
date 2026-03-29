@@ -9165,7 +9165,6 @@ public class Leetcode_10 {
             }
             priorityToEventIds.computeIfAbsent(newPriority, k -> new TreeSet<>()).add(eventId);
 
-
         }
 
         public int pollHighest() {
@@ -9181,6 +9180,56 @@ public class Leetcode_10 {
             eventIdToPriority.remove(eventId);
             return eventId;
         }
+    }
+
+    // 3886. 可排序整数求和 (Sum of Sortable Integers)
+    public int sortableIntegers(int[] nums) {
+        int n = nums.length;
+        List<Integer> a = new ArrayList<>();
+        for (int i = 1; i <= Math.sqrt(n); ++i) {
+            if (n % i == 0) {
+                a.add(i);
+                if (i * i != n) {
+                    a.add(n / i);
+                }
+            }
+        }
+        int res = 0;
+        for (int x : a) {
+            if (check(x, nums)) {
+                res += x;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean check(int x, int[] nums) {
+        int n = nums.length;
+        int preMX = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i += x) {
+            int mn = Integer.MAX_VALUE;
+            int mx = Integer.MIN_VALUE;
+            int d = 0;
+            for (int j = i; j < i + x; ++j) {
+                mn = Math.min(mn, nums[j]);
+                mx = Math.max(mx, nums[j]);
+                if (j > i && nums[j] < nums[j - 1]) {
+                    if (++d > 1) {
+                        return false;
+                    }
+                }
+            }
+            if (mn < preMX) {
+                return false;
+            }
+            if (!(d == 0 || (d == 1 && nums[i] >= nums[i + x - 1]))) {
+                return false;
+            }
+            preMX = mx;
+        }
+        return true;
+
     }
 
 }
