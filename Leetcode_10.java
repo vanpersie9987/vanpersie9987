@@ -9123,13 +9123,12 @@ public class Leetcode_10 {
     // 3884. 双端字符匹配 (First Matching Character From Both Ends)
     public int firstMatchingIndex(String s) {
         int n = s.length();
-        for (int i = 0; i <= (n - 1) / 2; ++i) {
+        for (int i = 0; i < (n + 1) / 2; ++i) {
             if (s.charAt(i) == s.charAt(s.length() - 1 - i)) {
                 return i;
             }
         }
         return -1;
-
     }
 
 }
