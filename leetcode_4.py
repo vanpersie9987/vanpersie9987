@@ -2387,3 +2387,31 @@ class LcaBinaryLifting:
     def countVisiblePeople(self, n: int, _: int, k: int) -> int:
         MOD = 10**9 + 7
         return comb(n - 1, k) * 2 % MOD
+
+    # 3883. 统计满足数位和数组的非递减数组数目 (Count Non Decreasing Arrays With Given Digit Sums)
+    def countArrays(self, digitSum: list[int]) -> int:
+        d = [[] for _ in range(51)]
+        for x in range(5001):
+            s = sum(int(c) for c in str(x))
+            if s <= 50:
+                d[s].append(x)
+        MOD = 10**9 + 7
+        n = len(digitSum)
+        f = [1] * len(d[digitSum[-1]])
+        for i in range(n - 2, -1, -1):
+            if len(f) == 0:
+                return 0
+            x = digitSum[i]
+            g = [0] * len(d[x])
+            j = len(d[x]) - 1
+            k = len(f) - 1
+            s = 0
+            while j >= 0:
+                while k >= 0 and d[digitSum[i + 1]][k] >= d[x][j]:
+                    s += f[k]
+                    s %= MOD
+                    k -= 1
+                g[j] = s
+                j -= 1
+            f = g
+        return sum(f) % MOD
