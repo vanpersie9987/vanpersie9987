@@ -9196,7 +9196,7 @@ public class Leetcode_10 {
         }
         int res = 0;
         for (int x : a) {
-            if (check(x, nums)) {
+            if (check3886(x, nums)) {
                 res += x;
             }
         }
@@ -9204,7 +9204,7 @@ public class Leetcode_10 {
 
     }
 
-    private boolean check(int x, int[] nums) {
+    private boolean check3886(int x, int[] nums) {
         int n = nums.length;
         int preMX = Integer.MIN_VALUE;
         for (int i = 0; i < n; i += x) {
