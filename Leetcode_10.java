@@ -9108,8 +9108,7 @@ public class Leetcode_10 {
                 while (k >= 0 && g[digitSum[i + 1]].get(k) >= g[x].get(j)) {
                     s = (s + f[k--]) % MOD;
                 }
-                nf[j] = s;
-                --j;
+                nf[j--] = s;
             }
             f = nf;
         }
