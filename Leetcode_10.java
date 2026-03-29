@@ -9042,4 +9042,40 @@ public class Leetcode_10 {
 
     }
 
+    // 3882. 网格图中最小异或路径 (Minimum XOR Path in a Grid)
+    private int[][] grid3882;
+    private int[][][] memo3882;
+
+    public int minCost(int[][] grid) {
+        this.grid3882 = grid;
+        int m = grid.length;
+        int n = grid[0].length;
+        this.memo3882 = new int[m][n][1 << 10];
+        for (int[][] r1 : memo3882) {
+            for (int[] r2 : r1) {
+                Arrays.fill(r2, -1);
+            }
+        }
+        return dfs3882(m - 1, n - 1, 0);
+
+    }
+
+    private int dfs3882(int i, int j, int k) {
+        if (i < 0 || j < 0) {
+            return Integer.MAX_VALUE / 2;
+        }
+        int nk = k ^ grid3882[i][j];
+        if (i == 0 && j == 0) {
+            return nk;
+        }
+        if (memo3882[i][j][k] != -1) {
+            return memo3882[i][j][k];
+        }
+        int res = dfs3882(i - 1, j, nk);
+        if (res == 0) {
+            return memo3882[i][j][k] = 0;
+        }
+        return memo3882[i][j][k] = Math.min(res, dfs3882(i, j - 1, nk));
+    }
+
 }
