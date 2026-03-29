@@ -2310,11 +2310,13 @@ class LcaBinaryLifting:
             total[node.val] = rest_h
             dfs(node.left, depth + 1, max(rest_h, depth + 1 + heights[node.right]))
             dfs(node.right, depth + 1, max(rest_h, depth + 1 + heights[node.left]))
+
         def dfs_height(node: Optional[TreeNode]) -> int:
             if node is None:
                 return 0
             heights[node] = 1 + max(dfs_height(node.left), dfs_height(node.right))
             return heights[node]
+
         heights = defaultdict(int)
         dfs_height(root)
         total = [0] * (len(heights) + 1)
@@ -2359,3 +2361,24 @@ class LcaBinaryLifting:
                 d = min(d, i - pre[(x - 1) ^ 1])
                 pre[x - 1] = i
         return d if d != inf else -1
+
+    # 3882. 网格图中最小异或路径 (Minimum XOR Path in a Grid)
+    def minCost(self, grid: list[list[int]]) -> int:
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i < 0 or j < 0:
+                return inf
+            k ^= grid[i][j]
+            if i == 0 and j == 0:
+                return k
+            res = inf
+            for di, dj in (-1, 0), (0, -1):
+                res = min(res, dfs(i + di, j + dj, k))
+                if res == 0:
+                    break
+            return res
+
+        m, n = len(grid), len(grid[0])
+        res = dfs(m - 1, n - 1, 0)
+        dfs.cache_clear()
+        return res
