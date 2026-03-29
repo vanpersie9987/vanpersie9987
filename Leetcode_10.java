@@ -9131,4 +9131,56 @@ public class Leetcode_10 {
         return -1;
     }
 
+    // 3885. 设计事件管理器 (Design Event Manager)
+    class EventManager {
+        private Map<Integer, Integer> eventIdToPriority;
+        private TreeMap<Integer, TreeSet<Integer>> priorityToEventIds;
+
+        public EventManager(int[][] events) {
+            eventIdToPriority = new HashMap<>();
+            priorityToEventIds = new TreeMap<>(new Comparator<Integer>() {
+
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o2, o1);
+                }
+
+            });
+            for (int[] e : events) {
+                int eventId = e[0];
+                int priority = e[1];
+                eventIdToPriority.put(eventId, priority);
+                priorityToEventIds.computeIfAbsent(priority, k -> new TreeSet<>()).add(eventId);
+            }
+
+        }
+
+        public void updatePriority(int eventId, int newPriority) {
+            int oldPriority = eventIdToPriority.get(eventId);
+            eventIdToPriority.put(eventId, newPriority);
+            TreeSet<Integer> oldSet = priorityToEventIds.get(oldPriority);
+            oldSet.remove(eventId);
+            if (oldSet.isEmpty()) {
+                priorityToEventIds.remove(oldPriority);
+            }
+            priorityToEventIds.computeIfAbsent(newPriority, k -> new TreeSet<>()).add(eventId);
+
+
+        }
+
+        public int pollHighest() {
+            if (priorityToEventIds.isEmpty()) {
+                return -1;
+            }
+            Map.Entry<Integer, TreeSet<Integer>> entry = priorityToEventIds.firstEntry();
+            int eventId = entry.getValue().first();
+            entry.getValue().remove(eventId);
+            if (entry.getValue().isEmpty()) {
+                priorityToEventIds.pollFirstEntry();
+            }
+            eventIdToPriority.remove(eventId);
+            return eventId;
+        }
+    }
+
 }
