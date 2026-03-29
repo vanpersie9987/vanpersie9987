@@ -2415,7 +2415,7 @@ class LcaBinaryLifting:
                 j -= 1
             f = g
         return sum(f) % MOD
-    
+
     # 3884. 双端字符匹配 (First Matching Character From Both Ends)
     def firstMatchingIndex(self, s: str) -> int:
         n = len(s)
@@ -2423,3 +2423,35 @@ class LcaBinaryLifting:
             if s[i] == s[n - 1 - i]:
                 return i
         return -1
+
+    # 3886. 可排序整数求和 (Sum of Sortable Integers)
+    def sortableIntegers(self, nums: list[int]) -> int:
+        def check(d: int) -> bool:
+            pre_mx = -inf
+            for i in range(0, n, d):
+                c = 0
+                mx = -inf
+                for j in range(i, i + d):
+                    if nums[j] < pre_mx:
+                        return False
+                    mx = max(mx, nums[j])
+                    if j > i and nums[j] < nums[j - 1]:
+                        c += 1
+                        if c > 1:
+                            return False
+                if not (c == 0 or nums[i] >= nums[i + d - 1]):
+                    return False
+                pre_mx = mx
+            return True
+        n = len(nums)
+        a = []
+        for i in range(1, isqrt(n) + 1):
+            if n % i == 0:
+                a.append(i)
+                if i * i != n:
+                    a.append(n // i)
+        res = 0
+        for d in a:
+            if check(d):
+                res += d
+        return res

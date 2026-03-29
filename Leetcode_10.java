@@ -9223,7 +9223,7 @@ public class Leetcode_10 {
             if (mn < preMX) {
                 return false;
             }
-            if (!(d == 0 || (d == 1 && nums[i] >= nums[i + x - 1]))) {
+            if (!(d == 0 || nums[i] >= nums[i + x - 1])) {
                 return false;
             }
             preMX = mx;
