@@ -2458,7 +2458,7 @@ class LcaBinaryLifting:
     class EventManager:
 
         def __init__(self, events: list[list[int]]):
-            self.id_to_priority = defaultdict()
+            self.id_to_priority = defaultdict(lambda: -1)
             self.q = []
             heapq.heapify(self.q)
             for eventId, priority in events:
@@ -2472,10 +2472,7 @@ class LcaBinaryLifting:
         def pollHighest(self) -> int:
             while self.q:
                 priority, eventId = heapq.heappop(self.q)
-                if (
-                    eventId in self.id_to_priority
-                    and self.id_to_priority[eventId] == -priority
-                ):
+                if self.id_to_priority[eventId] == -priority:
                     del self.id_to_priority[eventId]
                     return eventId
             return -1
