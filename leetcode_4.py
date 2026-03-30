@@ -2443,6 +2443,7 @@ class LcaBinaryLifting:
                     return False
                 pre_mx = mx
             return True
+
         n = len(nums)
         a = []
         for i in range(1, isqrt(n) + 1):
@@ -2450,8 +2451,4 @@ class LcaBinaryLifting:
                 a.append(i)
                 if i * i != n:
                     a.append(n // i)
-        res = 0
-        for d in a:
-            if check(d):
-                res += d
-        return res
+        return sum(d for d in a if check(d))
