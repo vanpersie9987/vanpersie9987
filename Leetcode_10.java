@@ -7521,6 +7521,7 @@ public class Leetcode_10 {
                 }
                 return o1.c.compareTo(o2.c);
             }
+
         });
         return List.of(res.get(0).a, res.get(0).b, res.get(0).c);
     }
@@ -9276,6 +9277,80 @@ public class Leetcode_10 {
         }
         return true;
 
+    }
+
+    // 3887. 增量偶权环查询 (Incremental Even-Weighted Cycle Queries)
+    public int numberOfEdgesAdded(int n, int[][] edges) {
+        Union3887 union = new Union3887(n * 2);
+        int res = 0;
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            // u、v 不连通 ：flag == -1
+            // u、v 连通、相同颜色 ：flag == 0
+            // u、v 连通、不同颜色 ：flag == 1
+            int flag = -1;
+            if (union.isConnected(u, v)) {
+                flag = 0;
+            } else if (union.isConnected(u, v + n)) {
+                flag = 1;
+            }
+            if (flag >= 0 && flag != w) {
+                continue;
+            }
+            ++res;
+            if (w == 0) {
+                union.union(u, v);
+                union.union(u + n, v + n);
+            } else {
+                union.union(u, v + n);
+                union.union(u + n, v);
+            }
+        }
+        return res;
+
+    }
+
+    public class Union3887 {
+        private int[] rank;
+        private int[] parent;
+
+        public Union3887(int n) {
+            this.rank = new int[n];
+            this.parent = new int[n];
+            for (int i = 0; i < n; ++i) {
+                rank[i] = 1;
+                parent[i] = i;
+            }
+        }
+
+        public int getRoot(int p) {
+            if (parent[p] == p) {
+                return p;
+            }
+            return parent[p] = getRoot(parent[p]);
+        }
+
+        public boolean isConnected(int p1, int p2) {
+            return getRoot(p1) == getRoot(p2);
+        }
+
+        public void union(int p1, int p2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
+                return;
+            }
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
+            } else {
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
+            }
+        }
     }
 
 }
