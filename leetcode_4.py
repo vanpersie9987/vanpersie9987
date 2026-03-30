@@ -2453,3 +2453,26 @@ class LcaBinaryLifting:
                 if i * i != n:
                     a.append(n // i)
         return sum(d for d in a if check(d))
+
+    # 3885. 设计事件管理器 (Design Event Manager)
+    class EventManager:
+
+        def __init__(self, events: list[list[int]]):
+            self.id_to_priority = defaultdict()
+            self.q = []
+            heapq.heapify(self.q)
+            for eventId, priority in events:
+                self.id_to_priority[eventId] = priority
+                heapq.heappush(self.q, (-priority, eventId))
+
+        def updatePriority(self, eventId: int, newPriority: int) -> None:
+            self.id_to_priority[eventId] = newPriority
+            heapq.heappush(self.q, (-newPriority, eventId))
+
+        def pollHighest(self) -> int:
+            while self.q:
+                priority, eventId = heapq.heappop(self.q)
+                if eventId in self.id_to_priority and self.id_to_priority[eventId] == -priority:
+                    del self.id_to_priority[eventId]
+                    return eventId
+            return -1
