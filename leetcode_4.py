@@ -2358,8 +2358,9 @@ class LcaBinaryLifting:
         pre = [-inf] * 2
         for i, x in enumerate(nums):
             if x:
-                d = min(d, i - pre[(x - 1) ^ 1])
-                pre[x - 1] = i
+                x -= 1
+                d = min(d, i - pre[x ^ 1])
+                pre[x] = i
         return d if d != inf else -1
 
     # 3882. 网格图中最小异或路径 (Minimum XOR Path in a Grid)

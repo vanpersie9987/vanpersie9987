@@ -9027,15 +9027,14 @@ public class Leetcode_10 {
 
     // 3880. 两个值之间的最小绝对差值 (Minimum Absolute Difference Between Two Values)
     public int minAbsoluteDifference(int[] nums) {
-        int[] pre = new int[2];
-        Arrays.fill(pre, Integer.MAX_VALUE / 2);
+        int[] pre = { Integer.MAX_VALUE / 2, Integer.MAX_VALUE / 2 };
         int d = Integer.MAX_VALUE / 2;
         for (int i = 0; i < nums.length; ++i) {
             int x = nums[i];
             if (x != 0) {
-                int t = (x - 1) ^ 1;
-                d = Math.min(d, Math.abs(i - pre[t]));
-                pre[x - 1] = i;
+                --x;
+                d = Math.min(d, Math.abs(i - pre[x ^ 1]));
+                pre[x] = i;
             }
         }
         return d < nums.length ? d : -1;
