@@ -9181,6 +9181,53 @@ public class Leetcode_10 {
         }
     }
 
+    // 3885. 设计事件管理器 (Design Event Manager) --懒更新
+    class EventManager2 {
+        private Map<Integer, Integer> eventIdToPriority;
+        private Queue<int[]> pq;
+
+        public EventManager2(int[][] events) {
+            this.eventIdToPriority = new HashMap<>();
+            this.pq = new PriorityQueue<>(new Comparator<int[]>() {
+
+                @Override
+                public int compare(int[] o1, int[] o2) {
+                    if (o1[0] == o2[0]) {
+                        return Integer.compare(o1[1], o2[1]);
+                    }
+                    return Integer.compare(o2[0], o1[0]);
+                }
+
+            });
+            for (int[] e : events) {
+                int eventId = e[0];
+                int priority = e[1];
+                eventIdToPriority.put(eventId, priority);
+                pq.offer(new int[] { priority, eventId });
+            }
+
+        }
+
+        public void updatePriority(int eventId, int newPriority) {
+            eventIdToPriority.put(eventId, newPriority);
+            pq.offer(new int[] { newPriority, eventId });
+
+        }
+
+        public int pollHighest() {
+            while (!pq.isEmpty()) {
+                int[] top = pq.poll();
+                int priority = top[0];
+                int eventId = top[1];
+                if (eventIdToPriority.getOrDefault(eventId, -1) == priority) {
+                    eventIdToPriority.remove(eventId);
+                    return eventId;
+                }
+            }
+            return -1;
+        }
+    }
+
     // 3886. 可排序整数求和 (Sum of Sortable Integers)
     public int sortableIntegers(int[] nums) {
         int n = nums.length;

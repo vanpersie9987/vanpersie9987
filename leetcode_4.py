@@ -2454,7 +2454,7 @@ class LcaBinaryLifting:
                     a.append(n // i)
         return sum(d for d in a if check(d))
 
-    # 3885. 设计事件管理器 (Design Event Manager)
+    # 3885. 设计事件管理器 (Design Event Manager) --懒更新
     class EventManager:
 
         def __init__(self, events: list[list[int]]):
