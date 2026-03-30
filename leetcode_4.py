@@ -2472,7 +2472,60 @@ class LcaBinaryLifting:
         def pollHighest(self) -> int:
             while self.q:
                 priority, eventId = heapq.heappop(self.q)
-                if eventId in self.id_to_priority and self.id_to_priority[eventId] == -priority:
+                if (
+                    eventId in self.id_to_priority
+                    and self.id_to_priority[eventId] == -priority
+                ):
                     del self.id_to_priority[eventId]
                     return eventId
             return -1
+
+    # 3887. 增量偶权环查询 (Incremental Even-Weighted Cycle Queries)
+    def numberOfEdgesAdded(self, n: int, edges: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        res = 0
+        _union = union(n * 2)
+        for u, v, w in edges:
+            # u、v 不连通 ：flag == -1
+            # u、v 连通、相同颜色 ：flag == 0
+            # u、v 连通、不同颜色 ：flag == 1
+            flag = -1
+            if _union.is_connected(u, v):
+                flag = 0
+            elif _union.is_connected(u, v + n):
+                flag = 1
+            if flag >= 0 and flag != w:
+                continue
+            res += 1
+            if w == 0:
+                _union.union(u, v)
+                _union.union(u + n, v + n)
+            else:
+                _union.union(u, v + n)
+                _union.union(u + n, v)
+        return res
