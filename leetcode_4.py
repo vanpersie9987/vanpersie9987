@@ -2548,3 +2548,7 @@ class LcaBinaryLifting:
                 else:
                     st.append((h, "L", id))
         return [h for h, _, _ in sorted(st, key=lambda x: x[-1])]
+
+    # 2778. 特殊元素平方和 (Sum of Squares of Special Elements)
+    def sumOfSquares(self, nums: List[int]) -> int:
+        return sum(x * x for i, x in enumerate(nums, start=1) if len(nums) % i == 0)
