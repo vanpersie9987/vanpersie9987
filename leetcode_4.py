@@ -2532,26 +2532,21 @@ class LcaBinaryLifting:
         self, positions: List[int], healths: List[int], directions: str
     ) -> List[int]:
         robots = sorted(zip(positions, healths, directions, range(len(positions))))
-        res = []
         st = []
         for _, h, d, id in robots:
             if d == "R":
-                st.append((h, id))
+                st.append((h, "R", id))
             else:
-                while st:
-                    if st[-1][0] > h:
+                while st and st[-1][1] == "R":
+                    _h, _, _id = st.pop()
+                    if _h == h:
                         h = 0
-                        if st[-1][0] - 1 > 0:
-                            st[-1] = (st[-1][0] - 1, st[-1][1])
                         break
-                    elif st[-1][0] == h:
+                    if _h > h:
                         h = 0
-                        st.pop()
+                        st.append((_h - 1, "R", _id))
                         break
-                    else:
-                        h -= 1
-                        st.pop()
-                if h:
-                    res.append((h, id))
-        st += res
-        return [h for h, _ in sorted(st, key=lambda x: x[1])]
+                    h -= 1
+                else:
+                    st.append((h, "L", id))
+        return [h for h, _, _ in sorted(st, key=lambda x: x[-1])]
