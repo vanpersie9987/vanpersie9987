@@ -4212,6 +4212,7 @@ public class Leetcode_9 {
         // 不感化
         int res = Math.max(dfs3418(i - 1, j, k), dfs3418(i, j - 1, k)) + coins3418[i][j];
         if (coins3418[i][j] < 0 && k > 0) {
+            // 感化
             res = Math.max(res, dfs3418(i - 1, j, k - 1));
             res = Math.max(res, dfs3418(i, j - 1, k - 1));
         }
