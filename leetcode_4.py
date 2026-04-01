@@ -2540,10 +2540,8 @@ class LcaBinaryLifting:
                 while st and st[-1][1] == "R":
                     _h, _, _id = st.pop()
                     if _h == h:
-                        h = 0
                         break
                     if _h > h:
-                        h = 0
                         st.append((_h - 1, "R", _id))
                         break
                     h -= 1
