@@ -2526,3 +2526,32 @@ class LcaBinaryLifting:
                 _union.union(u, v + n)
                 _union.union(u + n, v)
         return res
+
+    # 2751. 机器人碰撞 (Robot Collisions)
+    def survivedRobotsHealths(
+        self, positions: List[int], healths: List[int], directions: str
+    ) -> List[int]:
+        robots = sorted(zip(positions, healths, directions, range(len(positions))))
+        res = []
+        st = []
+        for _, h, d, id in robots:
+            if d == "R":
+                st.append((h, id))
+            else:
+                while st:
+                    if st[-1][0] > h:
+                        h = 0
+                        if st[-1][0] - 1 > 0:
+                            st[-1] = (st[-1][0] - 1, st[-1][1])
+                        break
+                    elif st[-1][0] == h:
+                        h = 0
+                        st.pop()
+                        break
+                    else:
+                        h -= 1
+                        st.pop()
+                if h:
+                    res.append((h, id))
+        st += res
+        return [h for h, _ in sorted(st, key=lambda x: x[1])]
