@@ -8122,20 +8122,24 @@ class Union924:
 
     # 3418. 机器人可以获得的最大金币数 (Maximum Amount of Money Robot Can Earn)
     def maximumAmount(self, coins: List[List[int]]) -> int:
-        m, n = len(coins), len(coins[0])
-
         @cache
         def dfs(i: int, j: int, k: int) -> int:
-            if i == m or j == n:
+            if i < 0 or j < 0:
                 return -inf
-            if i == m - 1 and j == n - 1:
-                return max(coins[i][j], -inf if k == 2 else 0)
-            res = max(dfs(i + 1, j, k), dfs(i, j + 1, k)) + coins[i][j]
-            if k < 2:
-                res = max(res, dfs(i + 1, j, k + 1), dfs(i, j + 1, k + 1))
+            if i == 0 and j == 0:
+                return max(0, coins[i][j]) if k else coins[i][j]
+            res = -inf
+            # 不感化
+            res = max(res, dfs(i, j - 1, k), dfs(i - 1, j, k)) + coins[i][j]
+            if coins[i][j] < 0 and k > 0:
+                # 感化
+                res = max(res, dfs(i, j - 1, k - 1), dfs(i - 1, j, k - 1))
             return res
 
-        return dfs(0, 0, 0)
+        m, n = len(coins), len(coins[0])
+        res = dfs(m - 1, n - 1, 2)
+        dfs.cache_clear()
+        return res
 
     # 3419. 图的最大边权的最小值 (Minimize the Maximum Edge Weight of Graph)
     def minMaxWeight(self, n: int, edges: List[List[int]], _: int) -> int:
