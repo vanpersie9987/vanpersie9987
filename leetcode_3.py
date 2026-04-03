@@ -3380,43 +3380,22 @@ class SegmentTree2940:
             res = 0
             # 当前机器人的位置
             p = a[i][0]
-            # 上一个机器人向左射击
-            if j == 0:
-                # 当前机器人向左射击
-                # 当前机器人向左射击的最远位置
-                p_left = a[i][0] - a[i][1]
-                # 上一个机器人的位置
-                p_pre = a[i - 1][0] + 1
-                left = max(p_left, p_pre)
-                right = p
-                # left <= x <= right 的walls被击穿
-                res = max(
-                    res,
-                    dfs(i + 1, 0)
-                    + max(
-                        0,
-                        bisect.bisect_right(walls, right)
-                        - bisect.bisect_left(walls, left),
-                    ),
-                )
-            # 上一个机器人向右射击
-            else:
-                # 当前机器人向左射击
-                # 上一个机器人子弹能击穿的最右位置
-                p_pre = a[i - 1][0] + a[i - 1][1] + 1
-                # 当前机器人向左射击的最远位置
-                p_left = a[i][0] - a[i][1]
-                left = max(p_left, p_pre)
-                right = p
-                res = max(
-                    res,
-                    dfs(i + 1, 0)
-                    + max(
-                        0,
-                        bisect.bisect_right(walls, right)
-                        - bisect.bisect_left(walls, left),
-                    ),
-                )
+            # 当前机器人向左射击
+            # 当前机器人向左射击的最远位置
+            p_left = a[i][0] - a[i][1]
+            # 上一个机器人的位置 (j == 1 ： 上一个机器人向右射击，左端点为a[i - 1][0] + 1 + a[i - 1][1] + 1 ；j == 0 ：上一个机器人向左射击，所以左端点 = a[i - 1][0] + 1)
+            p_pre = a[i - 1][0] + 1 + (a[i - 1][1] if j else 0)
+            left = max(p_left, p_pre)
+            right = p
+            # left <= x <= right 的walls被击穿
+            res = max(
+                res,
+                dfs(i + 1, 0)
+                + max(
+                    0,
+                    bisect.bisect_right(walls, right) - bisect.bisect_left(walls, left),
+                ),
+            )
 
             # 当前机器人向右射击
             # 当前机器人向右射击的最远位置
