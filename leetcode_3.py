@@ -3373,34 +3373,75 @@ class SegmentTree2940:
 
     # 3661. 可以被机器人摧毁的最大墙壁数目 (Maximum Walls Destroyed by Robots)
     def maxWalls(self, robots: List[int], distance: List[int], walls: List[int]) -> int:
-        # 当前第 i 个机器人，且前一个机器人向 is_right 方向发射子弹，能穿过的最多墙壁数量
         @cache
-        def dfs(i: int, is_right: bool) -> int:
+        def dfs(i: int, j: int) -> int:
             if i == n - 1:
                 return 0
+            res = 0
+            # 当前机器人的位置
+            p = a[i][0]
+            # 上一个机器人向左射击
+            if j == 0:
+                # 当前机器人向左射击
+                # 当前机器人向左射击的最远位置
+                p_left = a[i][0] - a[i][1]
+                # 上一个机器人的位置
+                p_pre = a[i - 1][0] + 1
+                left = max(p_left, p_pre)
+                right = p
+                # left <= x <= right 的walls被击穿
+                res = max(
+                    res,
+                    dfs(i + 1, 0)
+                    + max(
+                        0,
+                        bisect.bisect_right(walls, right)
+                        - bisect.bisect_left(walls, left),
+                    ),
+                )
+            # 上一个机器人向右射击
+            else:
+                # 当前机器人向左射击
+                # 上一个机器人子弹能击穿的最右位置
+                p_pre = a[i - 1][0] + a[i - 1][1] + 1
+                # 当前机器人向左射击的最远位置
+                p_left = a[i][0] - a[i][1]
+                left = max(p_left, p_pre)
+                right = p
+                res = max(
+                    res,
+                    dfs(i + 1, 0)
+                    + max(
+                        0,
+                        bisect.bisect_right(walls, right)
+                        - bisect.bisect_left(walls, left),
+                    ),
+                )
 
-            # 当前机器人向右发射子弹
-            left = bisect.bisect_left(walls, r[i][0])
-            right = bisect.bisect_right(walls, min(r[i + 1][0] - 1, r[i][0] + r[i][1]))
-            res = dfs(i + 1, True) + max(0, right - left)
-
-            # 当前机器人向左发射子弹
-            left = bisect.bisect_left(
-                walls,
-                max(
-                    r[i - 1][0] + 1 + (r[i - 1][1] if is_right else 0),
-                    r[i][0] - r[i][1],
+            # 当前机器人向右射击
+            # 当前机器人向右射击的最远位置
+            p_right = a[i][0] + a[i][1]
+            # 下一个机器人的位置
+            p_next = a[i + 1][0] - 1
+            left = p
+            right = min(p_right, p_next)
+            res = max(
+                res,
+                dfs(i + 1, 1)
+                + max(
+                    0,
+                    bisect.bisect_right(walls, right) - bisect.bisect_left(walls, left),
                 ),
             )
-
-            right = bisect.bisect_right(walls, r[i][0])
-            res = max(res, dfs(i + 1, False) + max(0, right - left))
             return res
 
-        r = [(0, 0)] + sorted(zip(robots, distance)) + [(inf, 0)]
+        a = sorted(zip(robots, distance))
+        a.insert(0, (0, 0))
+        a.append((10**9 + 1, 0))
+        n = len(a)
         walls.sort()
-        n = len(r)
-        return dfs(1, True)
+        # dfs(i, j) 表示第i个robot ，且上一个robot向左(j == 0)/ 向右(j == 1)射击，能击穿的最多的墙数
+        return dfs(1, 0)
 
     # 3663. 出现频率最低的数字 (Find The Least Frequent Digit)
     def getLeastFrequentDigit(self, n: int) -> int:
