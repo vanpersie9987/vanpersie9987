@@ -2552,3 +2552,20 @@ class LcaBinaryLifting:
     # 2778. 特殊元素平方和 (Sum of Squares of Special Elements)
     def sumOfSquares(self, nums: List[int]) -> int:
         return sum(x * x for i, x in enumerate(nums, start=1) if len(nums) % i == 0)
+
+    # 2087. 网格图中机器人回家的最小代价 (Minimum Cost Homecoming of a Robot in a Grid)
+    def minCost(
+        self,
+        startPos: List[int],
+        homePos: List[int],
+        rowCosts: List[int],
+        colCosts: List[int],
+    ) -> int:
+        res = 0
+        r = sorted([startPos[0], homePos[0]])
+        res += sum(rowCosts[i] for i in range(r[0], r[1] + 1))
+        res -= rowCosts[startPos[0]]
+        c = sorted([startPos[1], homePos[1]])
+        res += sum(colCosts[i] for i in range(c[0], c[1] + 1))
+        res -= colCosts[startPos[1]]
+        return res
