@@ -9402,4 +9402,34 @@ public class Leetcode_10 {
         return res;
     }
 
+    // 3891. 最大化特殊下标数目的最少增加次数 (Minimum Increase to Maximize Special Indices)
+    private int[] nums3891;
+    private long[][] memo3891;
+    private int n3891;
+
+    public long minIncrease(int[] nums) {
+        this.nums3891 = nums;
+        this.n3891 = nums.length;
+        this.memo3891 = new long[n3891][2];
+        for (long[] r : memo3891) {
+            Arrays.fill(r, -1L);
+        }
+        return dfs3891(1, 0);
+
+    }
+
+    private long dfs3891(int i, int j) {
+        if (i >= n3891 - 1) {
+            return 0L;
+        }
+        if (memo3891[i][j] != -1L) {
+            return memo3891[i][j];
+        }
+        long res = dfs3891(i + 2, j) + Math.max(0L, Math.max(nums3891[i + 1], nums3891[i - 1]) - nums3891[i] + 1);
+        if (j == 0 && n3891 % 2 == 0) {
+            res = Math.min(res, dfs3891(i + 1, 1));
+        }
+        return memo3891[i][j] = res;
+    }
+
 }
