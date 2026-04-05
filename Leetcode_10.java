@@ -9432,4 +9432,50 @@ public class Leetcode_10 {
         return memo3891[i][j] = res;
     }
 
+    // 3892. 产生至少 K 个峰值的最少操作次数 (Minimum Operations to Achieve At Least K Peaks)
+    private int[] nums3892;
+    private int k3892;
+    private Map<Group3892, Integer> memo3892;
+    private int n3892;
+
+    private record Group3892(int i, int j, int l) {
+    }
+
+    public int minOperations(int[] nums, int k) {
+        this.nums3892 = nums;
+        this.k3892 = k;
+        this.n3892 = nums.length;
+        if (k > n3892 / 2) {
+            return -1;
+        }
+        int cnt = 0;
+        for (int i = 0; i < n3892; ++i) {
+            if (nums[i] > nums[(i - 1 + n3892) % n3892] && nums[i] > nums[(i + 1) % n3892]) {
+                ++cnt;
+            }
+        }
+        if (cnt >= k) {
+            return 0;
+        }
+        this.memo3892 = new HashMap<>();
+        return dfs3892(0, 0, 0);
+
+    }
+
+    private int dfs3892(int i, int j, int l) {
+        if (j >= k3892) {
+            return 0;
+        }
+        if (i >= n3892 || k3892 - j > (n3892 - i) / 2 + ((n3892 - i) % 2 != 0 && l == 0 ? 1 : 0)) {
+            return Integer.MAX_VALUE / 2;
+        }
+        Group3892 k = new Group3892(i, j, l);
+        if (memo3892.containsKey(k)) {
+            return memo3892.get(k);
+        }
+        int res = Math.min(dfs3892(i + 1, j, l), dfs3892(i + 2, j + 1, l == 1 || i == 0 ? 1 : 0)
+                + Math.max(0, Math.max(nums3892[(i + 1) % n3892], nums3892[(i - 1 + n3892) % n3892]) - nums3892[i] + 1));
+        memo3892.put(k, res);
+        return res;
+    }
 }

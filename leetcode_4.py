@@ -2614,3 +2614,31 @@ class LcaBinaryLifting:
 
         n = len(nums)
         return dfs(1, 0)
+
+    def minOperations(self, nums: list[int], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, s: bool) -> int:
+            if j >= k:
+                return 0
+            if i >= n or k - j > (n - i) // 2 + ((n - i) & 1 and (not s)):
+                return inf
+            return min(
+                dfs(i + 1, j, s),
+                dfs(i + 2, j + 1, s or i == 0)
+                + max(0, max(nums[i - 1], nums[(i + 1) % n]) - nums[i] + 1),
+            )
+
+        n = len(nums)
+        t = n // 2
+        if k > t:
+            return -1
+        cnt = 0
+        for i in range(n):
+            if nums[i - 1] < nums[i] > nums[(i + 1) % n]:
+                cnt += 1
+        if cnt >= k:  # 优化：已经有至少 k 个峰值了，无需操作
+            return 0
+        # dfs(i, j, c) 表示以i为中心点，j表已经构造了j个特殊下标，c表示位置0是否被选过
+        res = dfs(0, 0, False)
+        dfs.cache_clear()
+        return res
