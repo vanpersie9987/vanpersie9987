@@ -2600,3 +2600,17 @@ class LcaBinaryLifting:
                     break
                 d[m] += 1
         return sorted(k for k, v in d.items() if v >= 2)
+
+    # 3891. 最大化特殊下标数目的最少增加次数 (Minimum Increase to Maximize Special Indices)
+    def minIncrease(self, nums: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i >= n - 1:
+                return 0
+            res = dfs(i + 2, j) + max(0, max(nums[i - 1], nums[i + 1]) - nums[i] + 1)
+            if j == 0 and n & 1 == 0:
+                res = min(res, dfs(i + 1, 1))
+            return res
+
+        n = len(nums)
+        return dfs(1, 0)
