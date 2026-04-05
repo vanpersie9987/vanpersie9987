@@ -2569,3 +2569,34 @@ class LcaBinaryLifting:
         res += sum(colCosts[i] for i in range(c[0], c[1] + 1))
         res -= colCosts[startPos[1]]
         return res
+
+    # 3889. 镜像频次距离 (Mirror Frequency Distance)
+    def mirrorFrequency(self, s: str) -> int:
+        res = 0
+        d = defaultdict(int)
+        for x in s:
+            d[x] += 1
+        for x in s:
+            if x in d:
+                m = None
+                if x.isalpha():
+                    m = (chr)((25 - (ord(x) - ord("a"))) + ord("a"))
+                else:
+                    m = (chr)((9 - (ord(x) - ord("0"))) + ord("0"))
+                res += abs(d[x] - d[m])
+                del d[x]
+                del d[m]
+        return res
+
+    # 3890. 可由多种立方和构造的整数 (Integers With Multiple Sum of Two Cubes)
+    def findGoodIntegers(self, n: int) -> list[int]:
+        d = defaultdict(int)
+        for i in range(1, 1001):
+            if i * i * i > n:
+                break
+            for j in range(i, 1001):
+                m = i * i * i + j * j * j
+                if m > n:
+                    break
+                d[m] += 1
+        return sorted(k for k, v in d.items() if v >= 2)

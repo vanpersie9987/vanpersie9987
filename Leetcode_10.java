@@ -9353,4 +9353,53 @@ public class Leetcode_10 {
         }
     }
 
+    // 3889. 镜像频次距离 (Mirror Frequency Distance)
+    public int mirrorFrequency(String s) {
+        int res = 0;
+        Map<Character, Integer> cnts = new HashMap<>();
+        for (char c : s.toCharArray()) {
+            cnts.merge(c, 1, Integer::sum);
+        }
+        for (char c : s.toCharArray()) {
+            if (cnts.containsKey(c)) {
+                char m = 0;
+                if (Character.isDigit(c)) {
+                    m = (char) ('9' - (c - '0'));
+                } else {
+                    m = (char) ('z' - (c - 'a'));
+                }
+                res += Math.abs(cnts.get(c) - cnts.getOrDefault(m, 0));
+                cnts.remove(c);
+                cnts.remove(m);
+            }
+        }
+        return res;
+
+    }
+
+    // 3889. 镜像频次距离 (Mirror Frequency Distance)
+    public List<Integer> findGoodIntegers(int n) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int i = 1; i <= 1000; ++i) {
+            if (i * i * i > n) {
+                break;
+            }
+            for (int j = i; j <= 1000; ++j) {
+                int s = i * i * i + j * j * j;
+                if (s > n) {
+                    break;
+                }
+                cnts.merge(s, 1, Integer::sum);
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            if (entry.getValue() >= 2) {
+                res.add(entry.getKey());
+            }
+        }
+        Collections.sort(res);
+        return res;
+    }
+
 }
