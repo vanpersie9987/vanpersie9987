@@ -15570,35 +15570,34 @@ public class LeetCodeText {
     }
 
     // 874. 模拟行走机器人 (Walking Robot Simulation)
+    private record Group874(int x, int y) {
+    }
     public int robotSim(int[] commands, int[][] obstacles) {
-        final long M = (long) 1e5;
-        Set<Long> set = new HashSet<>();
-        for (int[] o : obstacles) {
-            set.add(o[0] * M + o[1]);
-        }
+        int[][] directions = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+        int d = 0;
         int x = 0;
         int y = 0;
         int res = 0;
-        int d = 0;
-        int[][] dirs = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
-        for (int c : commands) {
-            if (c == -1) {
-                d = (d + 1) % 4;
-            } else if (c == -2) {
-                d = (d - 1 + 4) % 4;
+        Set<Group874> set = new HashSet<>();
+        for (int[] obstacle : obstacles) {
+            set.add(new Group874(obstacle[0], obstacle[1]));
+        }
+        for (int command : commands) {
+            if (command == -2) {
+                d = (d - 1 + directions.length) % directions.length;
+            } else if (command == -1) {
+                d = (d + 1) % directions.length;
             } else {
-                int step = c;
-                while (step > 0) {
-                    int nx = x + dirs[d][0];
-                    int ny = y + dirs[d][1];
-                    if (set.contains(nx * M + ny)) {
+                for (int i = 0; i < command; ++i) {
+                    x += directions[d][0];
+                    y += directions[d][1];
+                    if (set.contains(new Group874(x, y))) {
+                        x -= directions[d][0];
+                        y -= directions[d][1];
                         break;
                     }
-                    x = nx;
-                    y = ny;
-                    res = Math.max(res, x * x + y * y);
-                    --step;
                 }
+                res = Math.max(res, x * x + y * y);
             }
         }
         return res;
