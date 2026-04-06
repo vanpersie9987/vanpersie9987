@@ -2642,3 +2642,27 @@ class LcaBinaryLifting:
         res = dfs(0, 0, False)
         dfs.cache_clear()
         return res
+
+    # 874. 模拟行走机器人 (Walking Robot Simulation)
+    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
+        d = set(map(tuple, obstacles))
+        x = y = res = 0
+        # 0 北 1 东 2 南 3 西
+        di = [0, 1, 0, -1]
+        dj = [1, 0, -1, 0]
+        d_idx = 0
+        for c in commands:
+            if c == -2:
+                d_idx = (d_idx + 3) % 4
+            elif c == -1:
+                d_idx = (d_idx + 1) % 4
+            else:
+                for _ in range(c):
+                    x += di[d_idx]
+                    y += dj[d_idx]
+                    if (x, y) in d:
+                        x -= di[d_idx]
+                        y -= dj[d_idx]
+                        break
+                res = max(res, x * x + y * y)
+        return res
