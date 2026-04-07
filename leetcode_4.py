@@ -2666,3 +2666,47 @@ class LcaBinaryLifting:
                         break
                 res = max(res, x * x + y * y)
         return res
+
+    # 2069. 模拟行走机器人 II (Walking Robot Simulation II)
+    class Robot:
+
+        def __init__(self, width: int, height: int):
+            self.width = width
+            self.height = height
+            self.x = 0
+            self.y = 0
+            self.d_idx = 0
+            # 0 东 1 北 2 西 3 南
+            self.di = [1, 0, -1, 0]
+            self.dj = [0, 1, 0, -1]
+            self.dirs = ["East", "North", "West", "South"]
+            self.perimeter = 2 * (width + height) - 4
+
+        def step(self, num: int) -> None:
+            num %= self.perimeter
+            while num:
+                # 需要走多少步能到边界
+                need = 0
+                if self.d_idx == 0:
+                    need = self.width - 1 - self.x
+                elif self.d_idx == 1:
+                    need = self.height - 1 - self.y
+                elif self.d_idx == 2:
+                    need = self.x
+                else:
+                    need = self.y
+                if need == 0:
+                    # 转向
+                    self.d_idx = (self.d_idx + 1) % 4
+                _min = min(num, need)
+                self.x += self.di[self.d_idx] * _min
+                self.y += self.dj[self.d_idx] * _min
+                num -= _min
+            if self.x == 0 and self.y == 0:
+                self.d_idx = 3
+
+        def getPos(self) -> List[int]:
+            return [self.x, self.y]
+
+        def getDir(self) -> str:
+            return self.dirs[self.d_idx]
