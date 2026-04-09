@@ -2615,6 +2615,7 @@ class LcaBinaryLifting:
         n = len(nums)
         return dfs(1, 0)
 
+    # 3892. 产生至少 K 个峰值的最少操作次数 (Minimum Operations to Achieve At Least K Peaks)
     def minOperations(self, nums: list[int], k: int) -> int:
         @cache
         def dfs(i: int, j: int, s: bool) -> int:
