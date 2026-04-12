@@ -2758,25 +2758,24 @@ class LcaBinaryLifting:
     # 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
     def maxValue(self, nums1: list[int], nums0: list[int]) -> int:
         MOD = 10**9 + 7
-        res = 0
+        MX = 2 * (10**5) + 1
+        pow2 = [0] * MX
+        pow2[0] = 1
+        for i in range(1, MX):
+            pow2[i] = pow2[i - 1] * 2 % MOD
         a = []
+        c1 = 0
         for x, y in zip(nums1, nums0):
             if y == 0:
-                for _ in range(x):
-                    res <<= 1
-                    res |= 1
-                    res %= MOD
+                c1 += x
             else:
                 a.append((x, y))
         a.sort(key=lambda o: (-o[0], o[1]))
+        res = (pow2[c1] - 1) % MOD
         for x, y in a:
-            for _ in range(x):
-                res <<= 1
-                res |= 1
-                res %= MOD
-            for _ in range(y):
-                res <<= 1
-                res %= MOD
+            res = (
+                res * pow2[x + y] % MOD + ((pow2[x] - 1) % MOD) * (pow2[y] % MOD)
+            ) % MOD
         return res
 
     # 3898. 统计每个顶点的度 (Find the Degree of Each Vertex)
