@@ -2845,3 +2845,16 @@ class LcaBinaryLifting:
             if len(d[pre]) < 2:
                 d[pre].append(i)
         return res
+
+    # 1848. 到目标元素的最小距离 (Minimum Distance to the Target Element)
+    def getMinDistance(self, nums: List[int], target: int, start: int) -> int:
+        i = j = start
+        while i >= 0 or j < len(nums):
+            if i >= 0:
+                if target == nums[i]:
+                    return start - i
+                i -= 1
+            if j < len(nums):
+                if nums[j] == target:
+                    return j - start
+                j += 1   
