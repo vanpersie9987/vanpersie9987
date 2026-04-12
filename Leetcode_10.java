@@ -9602,4 +9602,26 @@ public class Leetcode_10 {
 
     }
 
+    // 3899. 三角形的内角度数 (Angles of a Triangle) --余弦定理
+    public double[] internalAngles(int[] sides) {
+        Arrays.sort(sides);
+        if (sides[0] + sides[1] <= sides[2]) {
+            return new double[0];
+        }
+        double[] res = new double[3];
+        double cosA = (double) (sides[1] * sides[1] + sides[2] * sides[2] - sides[0] * sides[0])
+                / (sides[1] * sides[2] * 2);
+        double radiansA = Math.acos(cosA);
+        res[0] = Math.toDegrees(radiansA);
+        double cosB = (double) (sides[0] * sides[0] + sides[2] * sides[2] - sides[1] * sides[1])
+                / (sides[0] * sides[2] * 2);
+        double radiansB = Math.acos(cosB);
+        res[1] = Math.toDegrees(radiansB);
+        double cosC = (double) (sides[0] * sides[0] + sides[1] * sides[1] - sides[2] * sides[2])
+                / (sides[0] * sides[1] * 2);
+        double radiansC = Math.acos(cosC);
+        res[2] = Math.toDegrees(radiansC);
+        return res;
+    }
+
 }

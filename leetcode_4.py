@@ -2787,3 +2787,17 @@ class LcaBinaryLifting:
             for j in range(n):
                 res[i] += matrix[i][j]
         return res
+
+    # 3899. 三角形的内角度数 (Angles of a Triangle) --余弦定理
+    def internalAngles(self, sides: list[int]) -> list[float]:
+        sides.sort()
+        if sides[0] + sides[1] <= sides[2]:
+            return []
+        cos_a = (sides[1] ** 2 + sides[2] ** 2 - sides[0] ** 2) / (sides[1] * sides[2] * 2)
+        cos_b = (sides[0] ** 2 + sides[2] ** 2 - sides[1] ** 2) / (sides[0] * sides[2] * 2)
+        cos_c = (sides[0] ** 2 + sides[1] ** 2 - sides[2] ** 2) / (sides[0] * sides[1] * 2)
+        return [
+            math.degrees(math.acos(cos_a)),
+            math.degrees(math.acos(cos_b)),
+            math.degrees(math.acos(cos_c)),
+        ]
