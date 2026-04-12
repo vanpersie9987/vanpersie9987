@@ -9473,9 +9473,78 @@ public class Leetcode_10 {
         if (memo3892.containsKey(k)) {
             return memo3892.get(k);
         }
-        int res = Math.min(dfs3892(i + 1, j, l), dfs3892(i + 2, j + 1, l == 1 || i == 0 ? 1 : 0)
-                + Math.max(0, Math.max(nums3892[(i + 1) % n3892], nums3892[(i - 1 + n3892) % n3892]) - nums3892[i] + 1));
+        int res = Math.min(dfs3892(i + 1, j, l), dfs3892(i + 2, j + 1, l == 1 || i == 0 ? 1 : 0) + Math.max(0,
+                Math.max(nums3892[(i + 1) % n3892], nums3892[(i - 1 + n3892) % n3892]) - nums3892[i] + 1));
         memo3892.put(k, res);
         return res;
     }
+
+    // 交通信号灯的颜色 (Traffic Signal Color)
+    public String trafficSignal(int timer) {
+        if (timer == 0) {
+            return "Green";
+        }
+        if (timer == 30) {
+            return "Orange";
+        }
+        if (timer > 30 && timer <= 90) {
+            return "Red";
+        }
+        return "Invalid";
+
+    }
+
+    // 统计数字出现总次数 (Count Digit Appearances)
+    public int countDigitOccurrences(int[] nums, int digit) {
+        int res = 0;
+        for (int x : nums) {
+            for (int d = x; d != 0; d /= 10) {
+                if (d % 10 == digit) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into Alternating
+    // Prime)
+    public int minOperations(int[] nums) {
+        final int MX = (int) (1e5 + 50);
+        boolean[] isPrime = new boolean[MX];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+        for (int i = 2; i * i < MX; ++i) {
+            if (isPrime[i]) {
+                for (int j = i * i; j < MX; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        int[] d = new int[MX];
+        for (int i = MX - 2; i >= 1; --i) {
+            if (!isPrime[i]) {
+                d[i] = d[i + 1] + 1;
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            int x = nums[i];
+            if (isPrime[x] == ((i & 1) == 0)) {
+                continue;
+            }
+            if (x == 2) {
+                res += 2;
+            } else if (isPrime[x]) {
+                ++res;
+            } else {
+                res += d[x];
+            }
+        }
+        return res;
+
+    }
+
 }

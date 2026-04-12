@@ -2711,3 +2711,46 @@ class LcaBinaryLifting:
 
         def getDir(self) -> str:
             return self.dirs[self.d_idx]
+
+    # 交通信号灯的颜色 (Traffic Signal Color)
+    def trafficSignal(self, timer: int) -> str:
+        if timer == 0:
+            return "Green"
+        if timer == 30:
+            return "Orange"
+        return "Red" if 30 <= timer <= 90 else "Invalid"
+
+    # 统计数字出现总次数 (Count Digit Appearances)
+    def countDigitOccurrences(self, nums: list[int], digit: int) -> int:
+        res = 0
+        for x in nums:
+            while x:
+                x, m = divmod(x, 10)
+                if m == digit:
+                    res += 1
+        return res
+
+    # 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into Alternating Prime)
+    def minOperations(self, nums: list[int]) -> int:
+        MX = 10**5 + 50
+        primes = [True] * MX
+        primes[0] = primes[1] = False
+        for i in range(2, MX):
+            if primes[i]:
+                for j in range(i * i, MX, i):
+                    primes[j] = False
+        non_prime_to_prime = [0] * MX
+        for i in range(MX - 2, 0, -1):
+            if not primes[i]:
+                non_prime_to_prime[i] = non_prime_to_prime[i + 1] + 1
+        res = 0
+        for i, x in enumerate(nums):
+            if (i & 1 == 0) == primes[x]:
+                continue
+            if x == 2:
+                res += 2
+            elif primes[x]:
+                res += 1
+            else:
+                res += non_prime_to_prime[x]
+        return res
