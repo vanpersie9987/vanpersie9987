@@ -2754,3 +2754,27 @@ class LcaBinaryLifting:
             else:
                 res += non_prime_to_prime[x]
         return res
+
+    # 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
+    def maxValue(self, nums1: list[int], nums0: list[int]) -> int:
+        MOD = 10**9 + 7
+        res = 0
+        a = []
+        for x, y in zip(nums1, nums0):
+            if y == 0:
+                for _ in range(x):
+                    res <<= 1
+                    res |= 1
+                    res %= MOD
+            else:
+                a.append((x, y))
+        a.sort(key=lambda o: (-o[0], o[1]))
+        for x, y in a:
+            for _ in range(x):
+                res <<= 1
+                res |= 1
+                res %= MOD
+            for _ in range(y):
+                res <<= 1
+                res %= MOD
+        return res
