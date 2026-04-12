@@ -2793,9 +2793,15 @@ class LcaBinaryLifting:
         sides.sort()
         if sides[0] + sides[1] <= sides[2]:
             return []
-        cos_a = (sides[1] ** 2 + sides[2] ** 2 - sides[0] ** 2) / (sides[1] * sides[2] * 2)
-        cos_b = (sides[0] ** 2 + sides[2] ** 2 - sides[1] ** 2) / (sides[0] * sides[2] * 2)
-        cos_c = (sides[0] ** 2 + sides[1] ** 2 - sides[2] ** 2) / (sides[0] * sides[1] * 2)
+        cos_a = (sides[1] ** 2 + sides[2] ** 2 - sides[0] ** 2) / (
+            sides[1] * sides[2] * 2
+        )
+        cos_b = (sides[0] ** 2 + sides[2] ** 2 - sides[1] ** 2) / (
+            sides[0] * sides[2] * 2
+        )
+        cos_c = (sides[0] ** 2 + sides[1] ** 2 - sides[2] ** 2) / (
+            sides[0] * sides[1] * 2
+        )
         return [
             math.degrees(math.acos(cos_a)),
             math.degrees(math.acos(cos_b)),
