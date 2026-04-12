@@ -2801,3 +2801,44 @@ class LcaBinaryLifting:
             math.degrees(math.acos(cos_b)),
             math.degrees(math.acos(cos_c)),
         ]
+
+    # 3900. 一次交换后的最长平衡子串 (Longest Balanced Substring After One Swap)
+    def longestBalanced(self, s: str) -> int:
+        d = defaultdict(int)
+        d[0] = -1
+        pre = 0
+        res = 0
+        # 不交换
+        for i, x in enumerate(s):
+            pre += 1 if x == "1" else -1
+            if pre in d:
+                res = max(res, i - d[pre])
+            else:
+                d[pre] = i
+        # 交换一次
+        n = len(s)
+        pre0 = [0] * (n + 1)
+        pre1 = [0] * (n + 1)
+        for i, x in enumerate(s):
+            pre0[i + 1] = pre0[i] + int(x == "0")
+            pre1[i + 1] = pre1[i] + int(x == "1")
+        d = defaultdict(list)
+        d[0].append(-1)
+        # 前缀和 1比0多的数量
+        pre = 0
+        for i, x in enumerate(s):
+            pre += 1 if x == "1" else -1
+            if pre - 2 in d:
+                if d[pre - 2][0] >= 0 and pre0[d[pre - 2][0]] or pre0[-1] - pre0[i + 1]:
+                    res = max(res, i - d[pre - 2][0])
+                elif len(d[pre - 2]) >= 2:
+                    res = max(res, i - d[pre - 2][1])
+
+            if pre + 2 in d:
+                if d[pre + 2][0] >= 0 and pre1[d[pre + 2][0]] or pre1[-1] - pre1[i + 1]:
+                    res = max(res, i - d[pre + 2][0])
+                elif len(d[pre + 2]) >= 2:
+                    res = max(res, i - d[pre + 2][1])
+            if len(d[pre]) < 2:
+                d[pre].append(i)
+        return res
