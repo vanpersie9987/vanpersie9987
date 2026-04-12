@@ -9589,4 +9589,17 @@ public class Leetcode_10 {
 
     }
 
+    // 3898. 统计每个顶点的度 (Find the Degree of Each Vertex)
+    public int[] findDegrees(int[][] matrix) {
+        int n = matrix.length;
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[i] += matrix[i][j];
+            }
+        }
+        return res;
+
+    }
+
 }
