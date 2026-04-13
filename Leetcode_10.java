@@ -9628,49 +9628,40 @@ public class Leetcode_10 {
     public int longestBalanced3900(String s) {
         int n = s.length();
         int res = 0;
-        // 不交换
-        Map<Integer, Integer> d = new HashMap<>();
-        d.put(0, -1);
         int pre = 0;
-        for (int i = 0; i < n; ++i) {
-            pre += s.charAt(i) == '1' ? 1 : -1;
-            if (d.containsKey(pre)) {
-                res = Math.max(res, i - d.get(pre));
-            } else {
-                d.put(pre, i);
-            }
+        Map<Integer, List<Integer>> d = new HashMap<>();
+        d.computeIfAbsent(0, o -> new ArrayList<>()).add(-1);
+        int cnt1 = 0;
+        for (int c : s.toCharArray()) {
+            cnt1 += c - '0';
         }
-        // 交换一次
-        Map<Integer, List<Integer>> d1 = new HashMap<>();
-        d1.computeIfAbsent(0, o -> new ArrayList<>()).add(-1);
-        int[] pre0 = new int[n + 1];
-        int[] pre1 = new int[n + 1];
-        for (int i = 0; i < n; ++i) {
-            pre0[i + 1] = pre0[i] + (s.charAt(i) == '0' ? 1 : 0);
-            pre1[i + 1] = pre1[i] + (s.charAt(i) == '1' ? 1 : 0);
-        }
-        pre = 0;
+        int cnt0 = n - cnt1;
         for (int i = 0; i < n; ++i) {
             pre += (s.charAt(i) == '1') ? 1 : -1;
-            if (d1.containsKey(pre - 2)) {
-                List<Integer> a = d1.get(pre - 2);
-                if (a.get(0) >= 0 && pre0[a.get(0)] > 0 || pre0[n] - pre0[i + 1] > 0) {
+            // 不交换
+            if (d.containsKey(pre)) {
+                res = Math.max(res, i - d.get(pre).get(0));
+            }
+            // 交换一次
+            if (d.containsKey(pre - 2)) {
+                List<Integer> a = d.get(pre - 2);
+                if ((i - a.get(0) - 2) / 2 < cnt0) {
                     res = Math.max(res, i - a.get(0));
                 } else if (a.size() >= 2) {
                     res = Math.max(res, i - a.get(1));
                 }
             }
 
-            if (d1.containsKey(pre + 2)) {
-                List<Integer> a = d1.get(pre + 2);
-                if (a.get(0) >= 0 && pre1[a.get(0)] > 0 || pre1[n] - pre1[i + 1] > 0) {
+            if (d.containsKey(pre + 2)) {
+                List<Integer> a = d.get(pre + 2);
+                if ((i - a.get(0) - 2) / 2 < cnt1) {
                     res = Math.max(res, i - a.get(0));
                 } else if (a.size() >= 2) {
                     res = Math.max(res, i - a.get(1));
                 }
             }
-            if (d1.getOrDefault(pre, new ArrayList<>()).size() < 2) {
-                d1.computeIfAbsent(pre, o -> new ArrayList<>()).add(i);
+            if (d.getOrDefault(pre, new ArrayList<>()).size() < 2) {
+                d.computeIfAbsent(pre, o -> new ArrayList<>()).add(i);
             }
         }
 
