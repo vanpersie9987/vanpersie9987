@@ -9479,7 +9479,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 交通信号灯的颜色 (Traffic Signal Color)
+    // 3894. 交通信号灯的颜色 (Traffic Signal Color)
     public String trafficSignal(int timer) {
         if (timer == 0) {
             return "Green";
@@ -9494,7 +9494,7 @@ public class Leetcode_10 {
 
     }
 
-    // 统计数字出现总次数 (Count Digit Appearances)
+    // 3895. 统计数字出现总次数 (Count Digit Appearances)
     public int countDigitOccurrences(int[] nums, int digit) {
         int res = 0;
         for (int x : nums) {

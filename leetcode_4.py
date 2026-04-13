@@ -2712,7 +2712,7 @@ class LcaBinaryLifting:
         def getDir(self) -> str:
             return self.dirs[self.d_idx]
 
-    # 交通信号灯的颜色 (Traffic Signal Color)
+    # 3894. 交通信号灯的颜色 (Traffic Signal Color)
     def trafficSignal(self, timer: int) -> str:
         if timer == 0:
             return "Green"
@@ -2720,7 +2720,7 @@ class LcaBinaryLifting:
             return "Orange"
         return "Red" if 30 <= timer <= 90 else "Invalid"
 
-    # 统计数字出现总次数 (Count Digit Appearances)
+    # 3895. 统计数字出现总次数 (Count Digit Appearances)
     def countDigitOccurrences(self, nums: list[int], digit: int) -> int:
         res = 0
         for x in nums:
