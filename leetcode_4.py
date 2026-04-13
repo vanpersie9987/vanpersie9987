@@ -2757,7 +2757,7 @@ class LcaBinaryLifting:
             res += cnts[x]
         return res
 
-    # 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
+    # 3897. 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
     def maxValue(self, nums1: list[int], nums0: list[int]) -> int:
         MOD = 10**9 + 7
         MX = 2 * (10**5) + 1
@@ -2766,14 +2766,10 @@ class LcaBinaryLifting:
         for i in range(1, MX):
             pow2[i] = pow2[i - 1] * 2 % MOD
         a = []
-        c1 = 0
         for x, y in zip(nums1, nums0):
-            if y == 0:
-                c1 += x
-            else:
-                a.append((x, y))
-        a.sort(key=lambda o: (-o[0], o[1]))
-        res = (pow2[c1] - 1) % MOD
+            a.append((x, y))
+        a.sort(key=lambda o: (o[1] != 0, -o[0], o[1]))
+        res = 0
         for x, y in a:
             res = (res * pow2[x + y] % MOD + (pow2[x] - 1) * pow2[y]) % MOD
         return res
