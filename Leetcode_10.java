@@ -9551,7 +9551,12 @@ public class Leetcode_10 {
     // 3897. 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
     public int maxValue(int[] nums1, int[] nums0) {
         final int MOD = (int) (1e9 + 7);
-        long res = 0L;
+        final int MX = (int) (2e5 + 1);
+        int[] pow2 = new int[MX];
+        pow2[0] = 1;
+        for (int i = 1; i < MX; ++i) {
+            pow2[i] = (pow2[i - 1] << 1) % MOD;
+        }
         List<int[]> a = new ArrayList<>();
         for (int i = 0; i < nums1.length; ++i) {
             a.add(new int[] { nums1[i], nums0[i] });
@@ -9573,16 +9578,12 @@ public class Leetcode_10 {
             }
 
         });
+        long res = 0L;
         for (int[] x : a) {
-            for (int i = 0; i < x[0]; ++i) {
-                res <<= 1L;
-                res |= 1L;
-                res %= MOD;
-            }
-            for (int i = 0; i < x[1]; ++i) {
-                res <<= 1L;
-                res %= MOD;
-            }
+            int cnt1 = x[0];
+            int cnt0 = x[1];
+            int s = cnt0 + cnt1;
+            res = (((res + 1) * pow2[s] % MOD - pow2[cnt0]) % MOD + MOD) % MOD;
         }
         return (int) res;
 

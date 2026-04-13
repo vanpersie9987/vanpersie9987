@@ -2771,7 +2771,7 @@ class LcaBinaryLifting:
         a.sort(key=lambda o: (o[1] != 0, -o[0], o[1]))
         res = 0
         for x, y in a:
-            res = (res * pow2[x + y] % MOD + (pow2[x] - 1) * pow2[y]) % MOD
+            res = ((1 + res) * pow2[x + y] % MOD - pow2[y]) % MOD
         return res
 
     # 3898. 统计每个顶点的度 (Find the Degree of Each Vertex)
