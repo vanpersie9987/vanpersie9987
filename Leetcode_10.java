@@ -9508,9 +9508,9 @@ public class Leetcode_10 {
 
     }
 
-    // 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into Alternating
-    // Prime)
-    public int minOperations(int[] nums) {
+    // 3896. 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into
+    // Alternating Prime)
+    public int minOperations3896(int[] nums) {
         final int MX = (int) (1e5 + 50);
         boolean[] isPrime = new boolean[MX];
         Arrays.fill(isPrime, true);
@@ -9524,9 +9524,16 @@ public class Leetcode_10 {
             }
         }
         int[] d = new int[MX];
+        int lastPrime = MX;
         for (int i = MX - 2; i >= 1; --i) {
             if (!isPrime[i]) {
-                d[i] = d[i + 1] + 1;
+                d[i] = lastPrime - i;
+            } else if (i == 2) {
+                lastPrime = i;
+                d[i] = 2;
+            } else {
+                lastPrime = i;
+                d[i] = 1;
             }
         }
         int res = 0;
@@ -9535,13 +9542,7 @@ public class Leetcode_10 {
             if (isPrime[x] == ((i & 1) == 0)) {
                 continue;
             }
-            if (x == 2) {
-                res += 2;
-            } else if (isPrime[x]) {
-                ++res;
-            } else {
-                res += d[x];
-            }
+            res += d[x];
         }
         return res;
 

@@ -2730,7 +2730,7 @@ class LcaBinaryLifting:
                     res += 1
         return res
 
-    # 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into Alternating Prime)
+    # 3896. 将数组转换为交替质数数组的最少操作次数 (Minimum Operations to Transform Array into Alternating Prime)
     def minOperations(self, nums: list[int]) -> int:
         MX = 10**5 + 50
         primes = [True] * MX
@@ -2739,20 +2739,22 @@ class LcaBinaryLifting:
             if primes[i]:
                 for j in range(i * i, MX, i):
                     primes[j] = False
-        non_prime_to_prime = [0] * MX
+        cnts = [0] * MX
+        last_prime = inf
         for i in range(MX - 2, 0, -1):
             if not primes[i]:
-                non_prime_to_prime[i] = non_prime_to_prime[i + 1] + 1
+                cnts[i] = last_prime - i
+            elif i == 2:
+                last_prime = i
+                cnts[i] = 2
+            else:
+                last_prime = i
+                cnts[i] = 1
         res = 0
         for i, x in enumerate(nums):
             if (i & 1 == 0) == primes[x]:
                 continue
-            if x == 2:
-                res += 2
-            elif primes[x]:
-                res += 1
-            else:
-                res += non_prime_to_prime[x]
+            res += cnts[x]
         return res
 
     # 连接二进制片段得到的最大值 (Maximum Value of Concatenated Binary Segments)
