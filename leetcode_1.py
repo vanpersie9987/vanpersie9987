@@ -109,21 +109,17 @@ class leetcode_1:
                 return 0
             if j < 0:
                 return inf
-            # 不修
             res = dfs(i, j - 1)
-            c = factory[j][1]
             d = 0
-            while min(i, c - 1) >= 0:
-                d += abs(robot[i] - factory[j][0])
-                i -= 1
-                c -= 1
-                # 修
-                res = min(res, dfs(i, j - 1) + d)
+            for k in range(i, max(i - factory[j][1], -1), -1):
+                d += abs(robot[k] - factory[j][0])
+                res = min(res, dfs(k - 1, j - 1) + d)
             return res
 
         robot.sort()
         factory.sort()
-        return dfs(len(robot) - 1, len(factory) - 1)
+        m, n = len(robot), len(factory)
+        return dfs(m - 1, n - 1)
 
     # 1478. 安排邮筒 (Allocate Mailboxes)
     def minDistance(self, houses: List[int], k: int) -> int:

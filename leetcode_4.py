@@ -2848,3 +2848,4 @@ class LcaBinaryLifting:
                 if nums[j] == target:
                     return j - start
                 j += 1
+        
