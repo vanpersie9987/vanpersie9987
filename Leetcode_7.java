@@ -9649,13 +9649,13 @@ public class Leetcode_7 {
     }
 
     // 2463. 最小移动总距离 (Minimum Total Distance Traveled)
+    private long[][] memo2463;
     private List<Integer> robot2463;
     private int[][] factory2463;
-    private long[][] memo2463;
-    private int m2463;
-    private int n2463;
 
     public long minimumTotalDistance(List<Integer> robot, int[][] factory) {
+        int m = robot.size();
+        int n = factory.length;
         Collections.sort(robot);
         Arrays.sort(factory, new Comparator<int[]>() {
 
@@ -9667,33 +9667,29 @@ public class Leetcode_7 {
         });
         this.robot2463 = robot;
         this.factory2463 = factory;
-        this.m2463 = robot.size();
-        this.n2463 = factory.length;
-        this.memo2463 = new long[m2463][n2463];
-        for (int i = 0; i < m2463; ++i) {
-            Arrays.fill(memo2463[i], -1L);
+        this.memo2463 = new long[m][n];
+        for (long[] r : memo2463) {
+            Arrays.fill(r, -1L);
         }
-        return dfs2463(0, 0);
+        return dfs2463(m - 1, n - 1);
 
     }
 
     private long dfs2463(int i, int j) {
-        if (i == m2463) {
-            return 0L;
+        if (i < 0) {
+            return 0;
         }
-        if (j == n2463) {
-            return (long) 1e13;
+        if (j < 0) {
+            return Long.MAX_VALUE / 2;
         }
         if (memo2463[i][j] != -1L) {
             return memo2463[i][j];
         }
-        // 不修
-        long res = dfs2463(i, j + 1);
-        // 修
-        long dis = 0L;
-        for (int k = i; k < m2463 && k - i + 1 <= factory2463[j][1]; ++k) {
-            dis += Math.abs(robot2463.get(k) - factory2463[j][0]);
-            res = Math.min(res, dfs2463(k + 1, j + 1) + dis);
+        long res = dfs2463(i, j - 1);
+        long d = 0L;
+        for (int k = i; k > Math.max(i - factory2463[j][1], -1); --k) {
+            d += Math.abs(robot2463.get(k) - factory2463[j][0]);
+            res = Math.min(res, dfs2463(k - 1, j - 1) + d);
         }
         return memo2463[i][j] = res;
     }
