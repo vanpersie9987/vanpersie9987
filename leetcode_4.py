@@ -2848,4 +2848,13 @@ class LcaBinaryLifting:
                 if nums[j] == target:
                     return j - start
                 j += 1
-        
+
+    # 2515. 到目标字符串的最短距离 (Shortest Distance to Target String in a Circular Array)
+    def closestTarget(self, words: List[str], target: str, startIndex: int) -> int:
+        a = [i for i, w in enumerate(words) if w == target]
+        n = len(words)
+        return (
+            -1
+            if len(a) == 0
+            else min(min(n - abs(i - startIndex), abs(i - startIndex)) for i in a)
+        )
