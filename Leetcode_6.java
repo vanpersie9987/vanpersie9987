@@ -2712,7 +2712,7 @@ public class Leetcode_6 {
         return res;
     }
 
-    // 6269. 到目标字符串的最短距离
+    // 2515. 到目标字符串的最短距离 (Shortest Distance to Target String in a Circular Array)
     public int closetTarget(String[] words, String target, int startIndex) {
         int n = words.length;
         int res = n;
