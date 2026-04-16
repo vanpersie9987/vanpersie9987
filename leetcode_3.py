@@ -5781,10 +5781,10 @@ class SegmentTree2940:
                 x = d
             return res
 
-        d = defaultdict(int)
+        d = defaultdict(lambda: -inf)
         res = inf
         for i, x in enumerate(nums):
-            res = min(res, i - d.get(x, -inf))
+            res = min(res, i - d[x])
             d[reverse(x)] = i
         return res if res < inf else -1
 
