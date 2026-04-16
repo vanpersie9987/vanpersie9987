@@ -9071,37 +9071,21 @@ class Union924:
 
     # 3488. 距离最小相等元素查询 (Closest Equal Element Queries)
     def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
-        def check(_list: List[int], q: int) -> int:
-            left = 0
-            right = len(_list) - 1
-            while left <= right:
-                mid = left + ((right - left) >> 1)
-                if _list[mid] == q:
-                    return mid
-                if _list[mid] < q:
-                    left = mid + 1
-                else:
-                    right = mid - 1
-            return -1
-
-        res = []
         d = defaultdict(list)
+        n = len(nums)
         for i, x in enumerate(nums):
             d[x].append(i)
-
-        for q in queries:
-            x = nums[q]
-            _list = d[x]
-            if len(_list) == 1:
-                res.append(-1)
+        a = [-1] * n
+        for v in d.values():
+            if len(v) <= 1:
                 continue
-            p = check(_list, q)
-            a = abs(_list[p - 1] - _list[p])
-            a = min(a, len(nums) - a)
-            b = abs(_list[(p + 1) % len(_list)] - _list[p])
-            b = min(b, len(nums) - b)
-            res.append(min(a, b))
-        return res
+            for i, p in enumerate(v):
+                r1 = abs(v[i] - v[(i + 1) % len(v)])
+                r2 = n - r1
+                r3 = abs(v[i] - v[(i - 1) % len(v)])
+                r4 = n - r3
+                a[p] = min(r1, r2, r3, r4)
+        return [a[q] for q in queries]
 
     # 3489. 零数组变换 IV (Zero Array Transformation IV)
     def minZeroArray(self, nums: List[int], queries: List[List[int]]) -> int:

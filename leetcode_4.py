@@ -2858,3 +2858,20 @@ class LcaBinaryLifting:
             if len(a) == 0
             else min(min(n - abs(i - startIndex), abs(i - startIndex)) for i in a)
         )
+
+    def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
+        d = defaultdict(list)
+        n = len(nums)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        a = [-1] * n
+        for v in d.values():
+            if len(v) <= 1:
+                continue
+            for i, p in enumerate(v):
+                r1 = abs(v[i] - v[(i + 1) % len(v)])
+                r2 = n - r1
+                r3 = abs(v[i] - v[(i - 1) % len(v)])
+                r4 = n - r3
+                a[p] = min(r1, r2, r3, r4)
+        return [a[q] for q in queries]
