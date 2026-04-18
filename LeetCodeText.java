@@ -9176,14 +9176,15 @@ public class LeetCodeText {
     // 1855. 下标对中的最大距离 (Maximum Distance Between a Pair of Values)
     public int maxDistance(int[] nums1, int[] nums2) {
         int res = 0;
-        int i =0;
-        int m = nums1.length;
+        int i = 0;
         for (int j = 0; j < nums2.length; ++j) {
-            if (i <= Math.min(m - 1, j) && nums2[j] >= nums1[i]) {
-                res = Math.max(res, j - i);
-            } else {
+            while (i < nums1.length && nums1[i] > nums2[j]) {
                 ++i;
             }
+            if (i == nums1.length) {
+                break;
+            }
+            res = Math.max(res, j - i);
         }
         return res;
 
