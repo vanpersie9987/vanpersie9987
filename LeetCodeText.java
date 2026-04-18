@@ -9173,19 +9173,16 @@ public class LeetCodeText {
 
     }
 
-    // 1855. 下标对中的最大距离
+    // 1855. 下标对中的最大距离 (Maximum Distance Between a Pair of Values)
     public int maxDistance(int[] nums1, int[] nums2) {
         int res = 0;
-        int i = nums1.length - 1;
-        for (int j = nums2.length - 1; j >= 0; --j) {
-            i = Math.min(i, j);
-            while (i >= 0) {
-                if (nums1[i] <= nums2[j]) {
-                    res = Math.max(res, j - i);
-                    --i;
-                } else {
-                    break;
-                }
+        int i =0;
+        int m = nums1.length;
+        for (int j = 0; j < nums2.length; ++j) {
+            if (i <= Math.min(m - 1, j) && nums2[j] >= nums1[i]) {
+                res = Math.max(res, j - i);
+            } else {
+                ++i;
             }
         }
         return res;

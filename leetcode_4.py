@@ -3,6 +3,7 @@ from asyncio import FastChildWatcher
 import csv
 from curses.panel import bottom_panel
 from doctest import FAIL_FAST
+from errno import EHWPOISON
 from gettext import find
 import math
 from platform import node
@@ -2875,3 +2876,15 @@ class LcaBinaryLifting:
                 r4 = n - r3
                 a[p] = min(r1, r2, r3, r4)
         return [a[q] for q in queries]
+
+    # 1855. 下标对中的最大距离 (Maximum Distance Between a Pair of Values)
+    def maxDistance(self, nums1: List[int], nums2: List[int]) -> int:
+        m = len(nums1)
+        res = 0
+        i = 0
+        for j, x in enumerate(nums2):
+            if i <= min(j, m - 1) and x >= nums1[i]:
+                res = max(res, j - i)
+            else:
+                i += 1
+        return res
