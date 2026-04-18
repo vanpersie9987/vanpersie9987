@@ -2882,9 +2882,10 @@ class LcaBinaryLifting:
         m = len(nums1)
         res = 0
         i = 0
-        for j, x in enumerate(nums2):
-            if i <= min(j, m - 1) and x >= nums1[i]:
-                res = max(res, j - i)
-            else:
+        for j, y in enumerate(nums2):
+            while i < m and nums1[i] > y:
                 i += 1
+            if i == m:
+                break
+            res = max(res, j - i)
         return res
