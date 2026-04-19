@@ -2889,3 +2889,18 @@ class LcaBinaryLifting:
                 break
             res = max(res, j - i)
         return res
+
+    # 最小稳定下标 I (Smallest Stable Index I)
+    # 最小稳定下标 II (Smallest Stable Index II)
+    def firstStableIndex(self, nums: list[int], k: int) -> int:
+        n = len(nums)
+        suf_min = [inf] * n
+        suf_min[-1] = nums[-1]
+        for i in range(n - 2, -1, -1):
+            suf_min[i] = min(suf_min[i + 1], nums[i])
+        pre_max = 0
+        for i, x in enumerate(nums):
+            pre_max = max(pre_max, x)
+            if pre_max - suf_min[i] <= k:
+                return i
+        return -1
