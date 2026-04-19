@@ -2942,8 +2942,7 @@ class LcaBinaryLifting:
                         res += dfs(i + 1, j, is_limit and up == d)
                 return res
 
-            s = str(x)
-            s = s.zfill(16)
+            s = str(x).zfill(16)
             # dfs(i, j, is_limit) 当前第i位， 上一个数选的是j
             return dfs(0, 0, True)
         
