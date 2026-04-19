@@ -9759,7 +9759,7 @@ public class Leetcode_10 {
 
     private long dfs(int i, int j, int k, boolean isLimit) {
         if (i == 16) {
-            return 1;
+            return 1L;
         }
         if (!isLimit && memo[i][j][k] != -1L) {
             return memo[i][j][k];
