@@ -9689,4 +9689,42 @@ public class Leetcode_10 {
         return -1;
 
     }
+
+    // 多源洪水灌溉 (Multi Source Flood Fill)
+    public int[][] colorGrid(int n, int m, int[][] sources) {
+        int[][] res = new int[n][m];
+        Arrays.sort(sources, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o2[2], o1[2]);
+            }
+
+        });
+        Deque<int[]> q = new ArrayDeque<>();
+        for (int[] s : sources) {
+            res[s[0]][s[1]] = s[2];
+            q.offerLast(new int[] { s[0], s[1], s[2] });
+        }
+        int[][] dirs = { { -1, 0 }, { 1, 0 }, { 0, 1 }, { 0, -1 } };
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; ++i) {
+                int[] cur = q.pollFirst();
+                int x = cur[0];
+                int y = cur[1];
+                int c = cur[2];
+                for (int[] d : dirs) {
+                    int nx = x + d[0];
+                    int ny = y + d[1];
+                    if (nx >= 0 && nx < n && ny >= 0 && ny < m && res[nx][ny] == 0) {
+                        res[nx][ny] = c;
+                        q.offerLast(new int[] { nx, ny, c });
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
 }

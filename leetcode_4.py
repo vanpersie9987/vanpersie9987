@@ -2904,3 +2904,23 @@ class LcaBinaryLifting:
             if pre_max - suf_min[i] <= k:
                 return i
         return -1
+
+    # 多源洪水灌溉 (Multi Source Flood Fill)
+    def colorGrid(self, n: int, m: int, sources: list[list[int]]) -> list[list[int]]:
+        res = [[0] * m for _ in range(n)]
+        sources.sort(key=lambda o: -o[-1])
+        q = deque()
+        for x, y, c in sources:
+            res[x][y] = c
+            q.append((x, y, c))
+
+        while q:
+            s = len(q)
+            for _ in range(s):
+                x, y, c = q.popleft()
+                for dx, dy in (0, 1), (0, -1), (1, 0), (-1, 0):
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < n and 0 <= ny < m and res[nx][ny] == 0:
+                        res[nx][ny] = c
+                        q.append((nx, ny, c))
+        return res
