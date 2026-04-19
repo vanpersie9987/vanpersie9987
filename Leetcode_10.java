@@ -9669,8 +9669,8 @@ public class Leetcode_10 {
 
     }
 
-    // 最小稳定下标 I (Smallest Stable Index I)
-    // 最小稳定下标 II (Smallest Stable Index II)
+    // 3903. 最小稳定下标 I (Smallest Stable Index I)
+    // 3904. 最小稳定下标 II (Smallest Stable Index II)
     public int firstStableIndex(int[] nums, int k) {
         int n = nums.length;
         int[] sufMin = new int[n];
@@ -9690,7 +9690,7 @@ public class Leetcode_10 {
 
     }
 
-    // 多源洪水灌溉 (Multi Source Flood Fill)
+    // 3905. 多源洪水灌溉 (Multi Source Flood Fill)
     public int[][] colorGrid(int n, int m, int[][] sources) {
         int[][] res = new int[n][m];
         Arrays.sort(sources, new Comparator<int[]>() {
@@ -9728,56 +9728,56 @@ public class Leetcode_10 {
 
     }
 
-    // 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
-    private Set<Integer> sPath;
+    // 3906. 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
+    private Set<Integer> sPath3906;
 
     public long countGoodIntegersOnPath(long l, long r, String directions) {
         int p = 0;
-        this.sPath = new HashSet<>();
-        sPath.add(0);
+        this.sPath3906 = new HashSet<>();
+        sPath3906.add(0);
         for (int i = 0; i < 6; ++i) {
             if (directions.charAt(i) == 'R') {
                 ++p;
             } else {
                 p += 4;
             }
-            sPath.add(p);
+            sPath3906.add(p);
         }
         return cal(r) - cal(l - 1);
     }
 
-    private String s;
-    private long[][] memo;
+    private String s3906;
+    private long[][] memo3906;
 
     private long cal(long x) {
-        this.s = String.format("%016d", x);
-        this.memo = new long[16][10];
-        for (long[] r1 : memo) {
+        this.s3906 = String.format("%016d", x);
+        this.memo3906 = new long[16][10];
+        for (long[] r1 : memo3906) {
             Arrays.fill(r1, -1L);
         }
-        return dfs(0, 0, true);
+        return dfs3906(0, 0, true);
     }
 
-    private long dfs(int i, int j, boolean isLimit) {
+    private long dfs3906(int i, int j, boolean isLimit) {
         if (i == 16) {
             return 1L;
         }
-        if (!isLimit && memo[i][j] != -1L) {
-            return memo[i][j];
+        if (!isLimit && memo3906[i][j] != -1L) {
+            return memo3906[i][j];
         }
         long res = 0L;
-        int up = isLimit ? s.charAt(i) - '0' : 9;
+        int up = isLimit ? s3906.charAt(i) - '0' : 9;
         for (int d = 0; d <= up; ++d) {
-            if (sPath.contains(i)) {
+            if (sPath3906.contains(i)) {
                 if (d >= j) {
-                    res += dfs(i + 1, d, isLimit && d == up);
+                    res += dfs3906(i + 1, d, isLimit && d == up);
                 }
             } else {
-                res += dfs(i + 1, j, isLimit && d == up);
+                res += dfs3906(i + 1, j, isLimit && d == up);
             }
         }
         if (!isLimit) {
-            memo[i][j] = res;
+            memo3906[i][j] = res;
         }
         return res;
     }

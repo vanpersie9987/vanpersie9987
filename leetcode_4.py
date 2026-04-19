@@ -2885,8 +2885,8 @@ class LcaBinaryLifting:
             res = max(res, j - i)
         return res
 
-    # 最小稳定下标 I (Smallest Stable Index I)
-    # 最小稳定下标 II (Smallest Stable Index II)
+    # 3903. 最小稳定下标 I (Smallest Stable Index I)
+    # 3904. 最小稳定下标 II (Smallest Stable Index II)
     def firstStableIndex(self, nums: list[int], k: int) -> int:
         n = len(nums)
         suf_min = [inf] * n
@@ -2900,7 +2900,7 @@ class LcaBinaryLifting:
                 return i
         return -1
 
-    # 多源洪水灌溉 (Multi Source Flood Fill)
+    # 3905. 多源洪水灌溉 (Multi Source Flood Fill)
     def colorGrid(self, n: int, m: int, sources: list[list[int]]) -> list[list[int]]:
         res = [[0] * m for _ in range(n)]
         sources.sort(key=lambda o: -o[-1])
@@ -2920,7 +2920,7 @@ class LcaBinaryLifting:
                         q.append((nx, ny, c))
         return res
 
-    # 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
+    # 3906. 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
     def countGoodIntegersOnPath(self, l: int, r: int, directions: str) -> int:
         def cal(x: int) -> int:
             @cache
