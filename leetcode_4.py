@@ -976,21 +976,16 @@ class LcaBinaryLifting:
 
     # 2078. 两栋颜色不同且距离最远的房子 (Two Furthest Houses With Different Colors)
     def maxDistance(self, colors: List[int]) -> int:
-        first = defaultdict(int)
-        last = defaultdict(int)
-        for i, c in enumerate(colors):
-            if c not in first:
-                first[c] = i
-            last[c] = i
+        n = len(colors)
         res = 0
-        _min = inf
-        _max = -inf
-        for color, pos in first.items():
-            pos2 = last[color]
-            if _min != inf:
-                res = max(res, abs(pos2 - _min), abs(pos - _max))
-            _min = min(_min, pos)
-            _max = max(_max, pos2)
+        for i in range(n - 1, 0, -1):
+            if colors[0] != colors[i]:
+                res = i
+                break
+        for i in range(n - 1):
+            if colors[i] != colors[-1]:
+                res = max(res, n - 1 - i)
+                break
         return res
 
     # 2265. 统计值等于子树平均值的节点数 (Count Nodes Equal to Average of Subtree)
@@ -2945,7 +2940,7 @@ class LcaBinaryLifting:
             s = str(x).zfill(16)
             # dfs(i, j, is_limit) 当前第i位， 上一个数选的是j
             return dfs(0, 0, True)
-        
+
         path = set()
         path.add(0)
         p = 0
