@@ -2929,29 +2929,31 @@ class LcaBinaryLifting:
     def countGoodIntegersOnPath(self, l: int, r: int, directions: str) -> int:
         def cal(x: int) -> int:
             @cache
-            def dfs(i: int, j: int, k: int, is_limit: bool) -> int:
+            def dfs(i: int, j: int, is_limit: bool) -> int:
                 if i == 16:
                     return 1
                 res = 0
                 up = int(s[i]) if is_limit else 9
                 for d in range(up + 1):
-                    if i == path[k]:
+                    if i in path:
                         if d >= j:
-                            res += dfs(i + 1, d, k + 1, is_limit and up == d)
+                            res += dfs(i + 1, d, is_limit and up == d)
                     else:
-                        res += dfs(i + 1, j, k, is_limit and up == d)
+                        res += dfs(i + 1, j, is_limit and up == d)
                 return res
 
             s = str(x)
             s = s.zfill(16)
-            # dfs(i, j, k, is_limit) 当前第i位， 上一个数选的是j，即将选择path中的第k位
-            return dfs(0, 0, 0, True)
-
-        path = [0]
+            # dfs(i, j, is_limit) 当前第i位， 上一个数选的是j
+            return dfs(0, 0, True)
+        
+        path = set()
+        path.add(0)
+        p = 0
         for d in directions:
             if d == "R":
-                path.append(path[-1] + 1)
+                p += 1
             else:
-                path.append(path[-1] + 4)
-
+                p += 4
+            path.add(p)
         return cal(r) - cal(l - 1)
