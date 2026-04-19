@@ -2924,3 +2924,34 @@ class LcaBinaryLifting:
                         res[nx][ny] = c
                         q.append((nx, ny, c))
         return res
+
+    # 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
+    def countGoodIntegersOnPath(self, l: int, r: int, directions: str) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, k: int, is_limit: bool) -> int:
+                if i == 16:
+                    return 1
+                res = 0
+                up = int(s[i]) if is_limit else 9
+                for d in range(up + 1):
+                    if i == path[k]:
+                        if d >= j:
+                            res += dfs(i + 1, d, k + 1, is_limit and up == d)
+                    else:
+                        res += dfs(i + 1, j, k, is_limit and up == d)
+                return res
+
+            s = str(x)
+            s = s.zfill(16)
+            # dfs(i, j, k, is_limit) 当前第i位， 上一个数选的是j，即将选择path中的第k位
+            return dfs(0, 0, 0, True)
+
+        path = [0]
+        for d in directions:
+            if d == "R":
+                path.append(path[-1] + 1)
+            else:
+                path.append(path[-1] + 4)
+
+        return cal(r) - cal(l - 1)
