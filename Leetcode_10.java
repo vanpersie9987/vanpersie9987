@@ -9727,4 +9727,57 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
+    private int[] path;
+
+    public long countGoodIntegersOnPath(long l, long r, String directions) {
+        this.path = new int[7];
+        for (int i = 0; i < 6; ++i) {
+            if (directions.charAt(i) == 'R') {
+                path[i + 1] = path[i] + 1;
+            } else {
+                path[i + 1] = path[i] + 4;
+            }
+        }
+        return cal(r) - cal(l - 1);
+    }
+
+    private String s;
+    private long[][][] memo;
+
+    private long cal(long x) {
+        this.s = String.format("%016d", x);
+        this.memo = new long[16][10][7];
+        for (long[][] r1 : memo) {
+            for (long[] r2 : r1) {
+                Arrays.fill(r2, -1L);
+            }
+        }
+        return dfs(0, 0, 0, true);
+    }
+
+    private long dfs(int i, int j, int k, boolean isLimit) {
+        if (i == 16) {
+            return 1;
+        }
+        if (!isLimit && memo[i][j][k] != -1L) {
+            return memo[i][j][k];
+        }
+        long res = 0L;
+        int up = isLimit ? s.charAt(i) - '0' : 9;
+        for (int d = 0; d <= up; ++d) {
+            if (i == path[k]) {
+                if (d >= j) {
+                    res += dfs(i + 1, d, k + 1, isLimit && d == up);
+                }
+            } else {
+                res += dfs(i + 1, j, k, isLimit && d == up);
+            }
+        }
+        if (!isLimit) {
+            memo[i][j][k] = res;
+        }
+        return res;
+    }
 }
