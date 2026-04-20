@@ -2929,12 +2929,8 @@ class LcaBinaryLifting:
                     return 1
                 res = 0
                 up = int(s[i]) if is_limit else 9
-                for d in range(up + 1):
-                    if in_path[i]:
-                        if d >= j:
-                            res += dfs(i + 1, d, is_limit and up == d)
-                    else:
-                        res += dfs(i + 1, j, is_limit and up == d)
+                for d in range(j if in_path[i] else 0, up + 1):
+                    res += dfs(i + 1, d if in_path[i] else j, is_limit and up == d)
                 return res
 
             s = str(x).zfill(16)

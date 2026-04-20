@@ -9767,14 +9767,8 @@ public class Leetcode_10 {
         }
         long res = 0L;
         int up = isLimit ? s3906.charAt(i) - '0' : 9;
-        for (int d = 0; d <= up; ++d) {
-            if (inPath3906[i]) {
-                if (d >= j) {
-                    res += dfs3906(i + 1, d, isLimit && d == up);
-                }
-            } else {
-                res += dfs3906(i + 1, j, isLimit && d == up);
-            }
+        for (int d = inPath3906[i] ? j : 0; d <= up; ++d) {
+            res += dfs3906(i + 1, inPath3906[i] ? d : j, isLimit && d == up);
         }
         if (!isLimit) {
             memo3906[i][j] = res;
