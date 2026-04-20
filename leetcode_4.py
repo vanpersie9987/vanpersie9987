@@ -2930,7 +2930,7 @@ class LcaBinaryLifting:
                 res = 0
                 up = int(s[i]) if is_limit else 9
                 for d in range(up + 1):
-                    if i in path:
+                    if in_path[i]:
                         if d >= j:
                             res += dfs(i + 1, d, is_limit and up == d)
                     else:
@@ -2941,13 +2941,13 @@ class LcaBinaryLifting:
             # dfs(i, j, is_limit) 当前第i位， 上一个数选的是j
             return dfs(0, 0, True)
 
-        path = set()
-        path.add(0)
+        in_path = [False] * 16
+        in_path[0] = True
         p = 0
         for d in directions:
             if d == "R":
                 p += 1
             else:
                 p += 4
-            path.add(p)
+            in_path[p] = True
         return cal(r) - cal(l - 1)
