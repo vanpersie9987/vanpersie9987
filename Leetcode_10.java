@@ -9729,19 +9729,19 @@ public class Leetcode_10 {
     }
 
     // 3906. 统计网格路径中好整数的数目 (Count Good Integers on a Grid Path)
-    private Set<Integer> sPath3906;
+    private boolean[] inPath3906;
 
     public long countGoodIntegersOnPath(long l, long r, String directions) {
         int p = 0;
-        this.sPath3906 = new HashSet<>();
-        sPath3906.add(0);
-        for (int i = 0; i < 6; ++i) {
+        this.inPath3906 = new boolean[16];
+        inPath3906[0] = true;
+        for (int i = 0; i < directions.length(); ++i) {
             if (directions.charAt(i) == 'R') {
                 ++p;
             } else {
                 p += 4;
             }
-            sPath3906.add(p);
+            inPath3906[p] = true;
         }
         return cal(r) - cal(l - 1);
     }
@@ -9768,7 +9768,7 @@ public class Leetcode_10 {
         long res = 0L;
         int up = isLimit ? s3906.charAt(i) - '0' : 9;
         for (int d = 0; d <= up; ++d) {
-            if (sPath3906.contains(i)) {
+            if (inPath3906[i]) {
                 if (d >= j) {
                     res += dfs3906(i + 1, d, isLimit && d == up);
                 }
