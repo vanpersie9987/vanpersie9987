@@ -2855,6 +2855,7 @@ class LcaBinaryLifting:
             else min(min(n - abs(i - startIndex), abs(i - startIndex)) for i in a)
         )
 
+    # 3488. 距离最小相等元素查询 (Closest Equal Element Queries)
     def solveQueries(self, nums: List[int], queries: List[int]) -> List[int]:
         d = defaultdict(list)
         n = len(nums)
