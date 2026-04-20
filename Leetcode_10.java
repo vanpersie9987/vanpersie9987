@@ -9743,13 +9743,13 @@ public class Leetcode_10 {
             }
             inPath3906[p] = true;
         }
-        return cal(r) - cal(l - 1);
+        return cal3906(r) - cal3906(l - 1);
     }
 
     private String s3906;
     private long[][] memo3906;
 
-    private long cal(long x) {
+    private long cal3906(long x) {
         this.s3906 = String.format("%016d", x);
         this.memo3906 = new long[16][10];
         for (long[] r1 : memo3906) {
