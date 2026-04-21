@@ -2996,3 +2996,29 @@ class LcaBinaryLifting:
                 d[target[i]] -= 1
             res += sum(abs(x) for x in d.values()) // 2
         return res
+
+    # 1722. 执行交换操作后的最小汉明距离 (Minimize Hamming Distance After Swap Operations)
+    def minimumHammingDistance(
+        self, source: List[int], target: List[int], allowedSwaps: List[List[int]]
+    ) -> int:
+        def dfs(x: int):
+            vis[x] = True
+            diff[source[x]] += 1
+            diff[target[x]] -= 1
+            for y in g[x]:
+                if not vis[y]:
+                    dfs(y)
+
+        n = len(source)
+        g = [[] for _ in range(n)]
+        for u, v in allowedSwaps:
+            g[u].append(v)
+            g[v].append(u)
+        res = 0
+        vis = [False] * n
+        for i in range(n):
+            if not vis[i]:
+                diff = defaultdict(int)
+                dfs(i)
+                res += sum(abs(v) for v in diff.values())
+        return res // 2
