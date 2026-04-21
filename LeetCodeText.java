@@ -10330,54 +10330,44 @@ public class LeetCodeText {
 
     }
 
-    // 1722. 执行交换操作后的最小汉明距离
+    // 1722. 执行交换操作后的最小汉明距离 (Minimize Hamming Distance After Swap Operations)
     public int minimumHammingDistance(int[] source, int[] target, int[][] allowedSwaps) {
+        int n = source.length;
+        Union1722 u = new Union1722(n);
+        for (int[] s : allowedSwaps) {
+            u.union(s[0], s[1]);
+        }
+        Map<Integer, List<Integer>> g = new HashMap<>();
+        for (int i = 0; i < n; ++i) {
+            int r = u.getRoot(i);
+            g.computeIfAbsent(r, o -> new ArrayList<>()).add(i);
+        }
         int res = 0;
-        Union1722 union = new Union1722(source.length);
-
-        for (int[] allowedSwap : allowedSwaps) {
-            union.union(allowedSwap[0], allowedSwap[1]);
-        }
-        Map<Integer, List<Integer>> map = new HashMap<>();
-        for (int i = 0; i < source.length; ++i) {
-            map.computeIfAbsent(target[i], k -> new LinkedList<>()).add(i);
-        }
-        for (int i = 0; i < source.length; ++i) {
-            if (!map.containsKey(source[i])) {
-                ++res;
-                continue;
+        for (List<Integer> list : g.values()) {
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i : list) {
+                map.merge(source[i], 1, Integer::sum);
+                map.merge(target[i], -1, Integer::sum);
             }
-            List<Integer> list = map.get(source[i]);
-            Iterator<Integer> iterator = list.iterator();
-            boolean flag = false;
-            while (iterator.hasNext()) {
-                Integer index = iterator.next();
-                if (union.isConnected(i, index)) {
-                    iterator.remove();
-                    flag = true;
-                    break;
-                }
+            int s = 0;
+            for (int v : map.values()) {
+                s += Math.abs(v);
             }
-            if (!flag) {
-                ++res;
-
-            }
+            res += s / 2;
         }
-
         return res;
-
     }
 
     public class Union1722 {
-        private int[] rank;
         private int[] parent;
+        private int[] rank;
 
         public Union1722(int n) {
-            rank = new int[n];
-            parent = new int[n];
-            Arrays.fill(rank, 1);
+            this.parent = new int[n];
+            this.rank = new int[n];
             for (int i = 0; i < n; ++i) {
                 parent[i] = i;
+                rank[i] = 1;
             }
         }
 
@@ -10393,18 +10383,18 @@ public class LeetCodeText {
         }
 
         public void union(int p1, int p2) {
-            int root1 = getRoot(p1);
-            int root2 = getRoot(p2);
-            if (root1 == root2) {
+            int r1 = getRoot(p1);
+            int r2 = getRoot(p2);
+            if (r1 == r2) {
                 return;
             }
-            if (rank[root1] < rank[root2]) {
-                parent[root1] = root2;
-            } else if (rank[root1] > rank[root2]) {
-                parent[root2] = root1;
+            if (rank[r1] < rank[r2]) {
+                parent[r1] = r2;
             } else {
-                parent[root1] = root2;
-                ++rank[root2];
+                parent[r2] = r1;
+                if (rank[r1] == rank[r2]) {
+                    ++rank[r1];
+                }
             }
         }
 
