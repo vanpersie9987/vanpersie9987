@@ -13,7 +13,7 @@ import queue
 from signal import valid_signals
 from sqlite3 import paramstyle
 import stat
-from termios import CINTR
+from termios import CINTR, N_PPP
 from tokenize import String
 from tty import CC
 from unicodedata import numeric
@@ -2949,3 +2949,50 @@ class LcaBinaryLifting:
                 p += 4
             in_path |= 1 << p
         return cal(r) - cal(l - 1)
+
+    # 1722. 执行交换操作后的最小汉明距离 (Minimize Hamming Distance After Swap Operations)
+    def minimumHammingDistance(
+        self, source: List[int], target: List[int], allowedSwaps: List[List[int]]
+    ) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        n = len(source)
+        _union = union(n)
+        for u, v in allowedSwaps:
+            _union.union(u, v)
+        g = defaultdict(list)
+        for i in range(n):
+            r = _union.get_root(i)
+            g[r].append(i)
+        res = 0
+        for l in g.values():
+            d = defaultdict(int)
+            for i in l:
+                d[source[i]] += 1
+                d[target[i]] -= 1
+            res += sum(abs(x) for x in d.values()) // 2
+        return res
