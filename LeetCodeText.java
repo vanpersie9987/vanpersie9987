@@ -10400,6 +10400,49 @@ public class LeetCodeText {
 
     }
 
+    // 1722. 执行交换操作后的最小汉明距离 (Minimize Hamming Distance After Swap Operations)
+    private List<Integer>[] g1722;
+    private Map<Integer, Integer> cnts1722;
+    private boolean[] vis1722;
+    private int[] source1722;
+    private int[] target1722;
+
+    public int minimumHammingDistance2(int[] source, int[] target, int[][] allowedSwaps) {
+        int n = source.length;
+        this.source1722 = source;
+        this.target1722 = target;
+        this.g1722 = new ArrayList[n];
+        Arrays.setAll(g1722, o -> new ArrayList<>());
+        for (int[] s : allowedSwaps) {
+            g1722[s[0]].add(s[1]);
+            g1722[s[1]].add(s[0]);
+        }
+        this.vis1722 = new boolean[n];
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            this.cnts1722 = new HashMap<>();
+            if (!vis1722[i]) {
+                dfs1722(i);
+            }
+            for (int v : cnts1722.values()) {
+                res += Math.abs(v);
+            }
+        }
+        return res / 2;
+
+    }
+
+    private void dfs1722(int x) {
+        vis1722[x] = true;
+        cnts1722.merge(source1722[x], 1, Integer::sum);
+        cnts1722.merge(target1722[x], -1, Integer::sum);
+        for (int y : g1722[x]) {
+            if (!vis1722[y]) {
+                dfs1722(y);
+            }
+        }
+    }
+
     // 130. 被围绕的区域 (Surrounded Regions) --并查集
     public void solve(char[][] board) {
         int m = board.length;
