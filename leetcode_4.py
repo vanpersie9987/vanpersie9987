@@ -3022,3 +3022,13 @@ class LcaBinaryLifting:
                 dfs(i)
                 res += sum(abs(v) for v in diff.values())
         return res // 2
+
+    # 2452. 距离字典两次编辑以内的单词 (Words Within Two Edits of Dictionary)
+    def twoEditWords(self, queries: List[str], dictionary: List[str]) -> List[str]:
+        res = []
+        for q in queries:
+            for d in dictionary:
+                if sum(x != y for x, y in zip(q, d)) <= 2:
+                    res.append(q)
+                    break
+        return res
