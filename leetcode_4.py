@@ -3032,3 +3032,21 @@ class LcaBinaryLifting:
                     res.append(q)
                     break
         return res
+
+    # 2615. 等值距离和 (Sum of Distances)
+    def distance(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        res = [0] * n
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        for l in d.values():
+            pre = [0] * len(l)
+            for i in range(1, len(l)):
+                pre[i] = pre[i - 1] + i * (l[i] - l[i - 1])
+            res[l[-1]] = pre[-1]
+            suf = 0
+            for i in range(len(l) - 2, -1, -1):
+                suf += (len(l) - i - 1) * (l[i + 1] - l[i])
+                res[l[i]] = pre[i] + suf
+        return res
