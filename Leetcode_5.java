@@ -6251,32 +6251,27 @@ public class Leetcode_5 {
         return res;
     }
 
-    // 6228. 距离字典两次编辑以内的单词
+    // 2452. 距离字典两次编辑以内的单词 (Words Within Two Edits of Dictionary)
     public List<String> twoEditWords(String[] queries, String[] dictionary) {
         List<String> res = new ArrayList<>();
-        for (String query : queries) {
-            if (check6228(query, dictionary)) {
-                res.add(query);
+        for (String q : queries) {
+            for (String d : dictionary) {
+                int cnt = 0;
+                for (int i = 0; i < q.length(); ++i) {
+                    if (q.charAt(i) != d.charAt(i)) {
+                        if (++cnt > 2) {
+                            break;
+                        }
+                    }
+                }
+                if (cnt <= 2) {
+                    res.add(q);
+                    break;
+                }
             }
         }
         return res;
 
-    }
-
-    private boolean check6228(String query, String[] dictionary) {
-        search: for (String dic : dictionary) {
-            int count = 0;
-            for (int i = 0; i < dic.length(); ++i) {
-                if (dic.charAt(i) != query.charAt(i)) {
-                    ++count;
-                    if (count > 2) {
-                        continue search;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
     }
 
     // 6226. 摧毁一系列目标
