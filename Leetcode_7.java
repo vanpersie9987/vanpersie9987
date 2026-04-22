@@ -2378,7 +2378,7 @@ public class Leetcode_7 {
         return num != 1;
     }
 
-    // 6360. 等值距离和 (Sum of Distances)
+    // 2615. 等值距离和 (Sum of Distances)
     public long[] distance(int[] nums) {
         int n = nums.length;
         Map<Integer, List<Integer>> map = new HashMap<>();
@@ -2386,21 +2386,18 @@ public class Leetcode_7 {
             map.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
         }
         long[] res = new long[n];
-        for (int i = 0; i < n; ++i) {
-            List<Integer> list = map.getOrDefault(nums[i], new ArrayList<>());
-            if (list.size() <= 1) {
-                continue;
+        for (List<Integer> g : map.values()) {
+            int size = g.size();
+            long[] pre = new long[size];
+            for (int i = 1; i < size; ++i) {
+                pre[i] = pre[i - 1] + (long) i * (g.get(i) - g.get(i - 1));
             }
-            long sum = 0l;
-            for (int num : list) {
-                sum += num;
+            res[g.get(size - 1)] = pre[size - 1];
+            long suf = 0L;
+            for (int i = size - 2; i >= 0; --i) {
+                suf += ((long) size - i - 1) * (g.get(i + 1) - g.get(i));
+                res[g.get(i)] = pre[i] + suf;
             }
-            long pre = 0l;
-            for (int j = 0; j < list.size(); ++j) {
-                res[list.get(j)] = (long) list.get(j) * j - pre + sum - pre - (list.size() - j) * (long) list.get(j);
-                pre += list.get(j);
-            }
-            map.remove(nums[i]);
         }
         return res;
 
