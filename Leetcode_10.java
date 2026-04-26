@@ -9812,4 +9812,45 @@ public class Leetcode_10 {
         return 1;
 
     }
+
+    // 3910. 统计节点和为偶数的连通子图 (Count Connected Subgraphs with Even Node Sum)
+    private int res3910;
+    private int u3910;
+    private List<Integer>[] g3910;
+
+    public int evenSumSubgraphs(int[] nums, int[][] edges) {
+        int n = nums.length;
+        this.g3910 = new ArrayList[n];
+        Arrays.setAll(g3910, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3910[e[0]].add(e[1]);
+            g3910[e[1]].add(e[0]);
+        }
+        int[] s = new int[1 << n];
+        for (int mask = 1; mask < 1 << n; ++mask) {
+            int lb = Integer.numberOfTrailingZeros(mask);
+            s[mask] = (s[mask & (mask - 1)] + nums[lb]) % 2;
+            if (s[mask] == 0) {
+                u3910 = 0;
+                dfs3910(lb, mask);
+                if (u3910 == mask) {
+                    ++res3910;
+                }
+            }
+        }
+        return res3910;
+
+    }
+
+    private void dfs3910(int x, int mask) {
+        u3910 |= 1 << x;
+        if (mask == u3910) {
+            return;
+        }
+        for (int y : g3910[x]) {
+            if ((mask >> y & 1) != 0 && (u3910 >> y & 1) == 0) {
+                dfs3910(y, mask);
+            }
+        }
+    }
 }
