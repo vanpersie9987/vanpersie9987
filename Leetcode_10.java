@@ -9883,4 +9883,18 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    // 3914. 使数组非递减需要的最小累计值 (Minimum Operations to Make Array Non Decreasing)
+    public long minOperations3914(int[] nums) {
+        long pre = 0L;
+        long res = 0L;
+        for (long x : nums) {
+            x += res;
+            long add = Math.max(0L, pre - x);
+            res += add;
+            pre = x + add;
+        }
+        return res;
+
+    }
 }
