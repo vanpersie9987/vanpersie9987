@@ -3050,3 +3050,44 @@ class LcaBinaryLifting:
                 suf += (len(l) - i - 1) * (l[i + 1] - l[i])
                 res[l[i]] = pre[i] + suf
         return res
+
+    # 1559. 二维网格图中探测环 (Detect Cycles in 2D Grid)
+    def containsCycle(self, grid: List[List[str]]) -> bool:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+        def cal(x: int, y: int) -> int:
+            return x * n + y
+        m, n = len(grid), len(grid[0])
+        _u = union(m * n)
+        for i in range(m):
+            for j in range(n):
+                if i and j and grid[i][j] == grid[i - 1][j] == grid[i][j - 1] and _u.is_connected(cal(i - 1, j), cal(i, j - 1)):
+                    return True
+                if i and grid[i - 1][j] == grid[i][j]:
+                    _u.union(cal(i - 1, j), cal(i, j))
+                if j and grid[i][j - 1] == grid[i][j]:
+                    _u.union(cal(i, j - 1), cal(i, j))
+        return False
