@@ -9774,4 +9774,19 @@ public class Leetcode_10 {
         }
         return res;
     }
+
+    // 有效数字 (Valid Digit Number)
+    public boolean validDigit(int n, int x) {
+        boolean hasX = false;
+        int last = 0;
+        for (; n != 0; n /= 10) {
+            int m = n % 10;
+            if (m == x) {
+                hasX = true;
+            }
+            last = m;
+        }
+        return last != x && hasX;
+
+    }
 }
