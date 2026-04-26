@@ -3098,3 +3098,14 @@ class LcaBinaryLifting:
                 if j and grid[i][j - 1] == grid[i][j]:
                     _u.union(cal(i, j - 1), cal(i, j))
         return False
+
+    # 有效数字 (Valid Digit Number)
+    def validDigit(self, n: int, x: int) -> bool:
+        last = 0
+        has_x = False
+        while n:
+            n, mod = divmod(n, 10)
+            if mod == x:
+                has_x = True
+            last = mod
+        return last != x and has_x
