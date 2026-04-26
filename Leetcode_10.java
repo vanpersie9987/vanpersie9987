@@ -9884,6 +9884,56 @@ public class Leetcode_10 {
 
     }
 
+    // 3913. 按频率对元音排序 (Sort Vowels by Frequency)
+    public String sortVowels(String s) {
+        Map<Integer, int[]> map = new HashMap<>();
+        int u = 0;
+        for (char c : "aeiou".toCharArray()) {
+            u |= 1 << (c - 'a');
+        }
+        for (int i = 0; i < s.length(); ++i) {
+            if (((u >> (s.charAt(i) - 'a')) & 1) != 0) {
+                if (!map.containsKey(s.charAt(i) - 'a')) {
+                    map.put(s.charAt(i) - 'a', new int[] { 1, i });
+                } else {
+                    int[] cur = map.get(s.charAt(i) - 'a');
+                    ++cur[0];
+                }
+            }
+        }
+        List<int[]> cnts = new ArrayList<>();
+        for (Map.Entry<Integer, int[]> entry : map.entrySet()) {
+            cnts.add(new int[] { entry.getKey(), entry.getValue()[0], entry.getValue()[1] });
+        }
+        Collections.sort(cnts, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                // 出现频率相同
+                if (o1[1] == o2[1]) {
+                    // 首次出现位置
+                    return Integer.compare(o1[2], o2[2]);
+                }
+                return Integer.compare(o2[1], o1[1]);
+            }
+
+        });
+        int j = 0;
+        StringBuilder res = new StringBuilder();
+        for (int i = 0; i < s.length(); ++i) {
+            if (((u >> (s.charAt(i) - 'a')) & 1) == 0) {
+                res.append(s.charAt(i));
+            } else {
+                res.append((char) ('a' + cnts.get(j)[0]));
+                if (--cnts.get(j)[1] == 0) {
+                    ++j;
+                }
+            }
+        }
+        return res.toString();
+
+    }
+
     // 3914. 使数组非递减需要的最小累计值 (Minimum Operations to Make Array Non Decreasing)
     public long minOperations3914(int[] nums) {
         long pre = 0L;
