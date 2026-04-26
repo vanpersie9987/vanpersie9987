@@ -3151,3 +3151,20 @@ class LcaBinaryLifting:
                 if u == mask:
                     res += 1
         return res
+
+    # 3912. 数组中的有效元素 (Valid Elements in an Array)
+    def findValidElements(self, nums: list[int]) -> list[int]:
+        n = len(nums)
+        b = [False] * n
+        b[0] = b[-1] = True
+        mx = nums[0]
+        for i in range(1, n):
+            if nums[i] > mx:
+                b[i] = True
+            mx = max(mx, nums[i])
+        mx = nums[-1]
+        for i in range(n - 2, -1, -1):
+            if nums[i] > mx:
+                b[i] = True
+                mx = nums[i]
+        return [nums[i] for i, x in enumerate(b) if x]

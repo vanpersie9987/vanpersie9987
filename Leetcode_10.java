@@ -9863,16 +9863,16 @@ public class Leetcode_10 {
         for (int i = 1; i < n; ++i) {
             if (nums[i] > mx) {
                 b[i] = true;
+                mx = nums[i];
             }
-            mx = Math.max(mx, nums[i]);
         }
 
         mx = nums[n - 1];
         for (int i = n - 2; i >= 0; --i) {
             if (nums[i] > mx) {
                 b[i] = true;
+                mx = nums[i];
             }
-            mx = Math.max(mx, nums[i]);
         }
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
