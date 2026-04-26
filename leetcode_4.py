@@ -3168,3 +3168,14 @@ class LcaBinaryLifting:
                 b[i] = True
                 mx = nums[i]
         return [nums[i] for i, x in enumerate(b) if x]
+
+    # 3914. 使数组非递减需要的最小累计值 (Minimum Operations to Make Array Non Decreasing)
+    def minOperations(self, nums: list[int]) -> int:
+        pre = 0
+        res = 0
+        for x in nums:
+            x += res
+            add = max(0, pre - x)
+            res += add
+            pre = x + add
+        return res
