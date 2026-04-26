@@ -9853,4 +9853,34 @@ public class Leetcode_10 {
             }
         }
     }
+
+    // 3912. 数组中的有效元素 (Valid Elements in an Array)
+    public List<Integer> findValidElements(int[] nums) {
+        int n = nums.length;
+        boolean[] b = new boolean[n];
+        b[0] = b[n - 1] = true;
+        int mx = nums[0];
+        for (int i = 1; i < n; ++i) {
+            if (nums[i] > mx) {
+                b[i] = true;
+            }
+            mx = Math.max(mx, nums[i]);
+        }
+
+        mx = nums[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums[i] > mx) {
+                b[i] = true;
+            }
+            mx = Math.max(mx, nums[i]);
+        }
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; ++i) {
+            if (b[i]) {
+                res.add(nums[i]);
+            }
+        }
+        return res;
+
+    }
 }
