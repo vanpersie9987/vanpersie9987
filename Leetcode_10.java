@@ -9789,4 +9789,27 @@ public class Leetcode_10 {
         return last != x && hasX;
 
     }
+
+    // 比较双调部分的和 (Compare Sums of Bitonic Parts)
+    public int compareBitonicSums(int[] nums) {
+        long pre = 0L;
+        long s = 0L;
+        int mx = 0;
+        for (int x : nums) {
+            s += x;
+            if (x > mx) {
+                pre += x;
+                mx = x;
+            }
+        }
+        s += mx;
+        if (pre == s - pre) {
+            return -1;
+        }
+        if (pre > s - pre) {
+            return 0;
+        }
+        return 1;
+
+    }
 }

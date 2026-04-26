@@ -3109,3 +3109,17 @@ class LcaBinaryLifting:
                 has_x = True
             last = mod
         return last != x and has_x
+
+    # 比较双调部分的和 (Compare Sums of Bitonic Parts)
+    def compareBitonicSums(self, nums: list[int]) -> int:
+        mx = max(nums)
+        s = sum(nums) + mx
+        pre = 0
+        for x in nums:
+            pre += x
+            if x == mx:
+                if pre == s - pre:
+                    return -1
+                if pre > s - pre:
+                    return 0
+                return 1
