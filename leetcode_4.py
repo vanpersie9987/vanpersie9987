@@ -3169,6 +3169,32 @@ class LcaBinaryLifting:
                 mx = nums[i]
         return [nums[i] for i, x in enumerate(b) if x]
 
+    # 3913. 按频率对元音排序 (Sort Vowels by Frequency)
+    def sortVowels(self, s: str) -> str:
+        d = defaultdict(list)
+        for i, x in enumerate(s):
+            if x in "aeiou":
+                if x not in d:
+                    d[x] = [1, i]
+                else:
+                    cur = d[x]
+                    cur[0] += 1
+        a = []
+        for k, v in d.items():
+            a.append([k, v[0], v[1]])
+        a.sort(key=lambda o: (-o[1], o[2]))
+        j = 0
+        res = []
+        for x in s:
+            if x not in "aeiou":
+                res.append(x)
+            else:
+                res.append(a[j][0])
+                a[j][1] -= 1
+                if a[j][1] == 0:
+                    j += 1
+        return "".join(res)
+
     # 3914. 使数组非递减需要的最小累计值 (Minimum Operations to Make Array Non Decreasing)
     def minOperations(self, nums: list[int]) -> int:
         pre = 0
