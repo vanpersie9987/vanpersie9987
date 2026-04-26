@@ -3123,3 +3123,31 @@ class LcaBinaryLifting:
                 if pre > s - pre:
                     return 0
                 return 1
+
+    # 统计节点和为偶数的连通子图 (Count Connected Subgraphs with Even Node Sum)
+    def evenSumSubgraphs(self, nums: list[int], edges: list[list[int]]) -> int:
+        def dfs(x: int, fa: int):
+            nonlocal u
+            u |= 1 << x
+            if u == mask:
+                return
+            for y in g[x]:
+                if y != fa and (mask >> y) & 1 and (u >> y) & 1 == 0:
+                    dfs(y, x)
+
+        n = len(nums)
+        g = [[] for _ in range(1 << n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        s = [0] * (1 << n)
+        res = 0
+        for mask in range(1, 1 << n):
+            u = 0
+            lb = (mask & -mask).bit_length() - 1
+            s[mask] = (s[mask & (mask - 1)] + nums[lb]) % 2
+            if s[mask] == 0:
+                dfs(lb, -1)
+                if u == mask:
+                    res += 1
+        return res
