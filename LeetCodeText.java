@@ -13353,7 +13353,7 @@ public class LeetCodeText {
         }
     }
 
-    // 1559. 二维网格图中探测环
+    // 1559. 二维网格图中探测环 (Detect Cycles in 2D Grid)
     public boolean containsCycle(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
