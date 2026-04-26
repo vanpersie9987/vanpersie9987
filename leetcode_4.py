@@ -3099,7 +3099,7 @@ class LcaBinaryLifting:
                     _u.union(cal(i, j - 1), cal(i, j))
         return False
 
-    # 有效数字 (Valid Digit Number)
+    # 3908. 有效数字 (Valid Digit Number)
     def validDigit(self, n: int, x: int) -> bool:
         last = 0
         has_x = False
@@ -3110,7 +3110,7 @@ class LcaBinaryLifting:
             last = mod
         return last != x and has_x
 
-    # 比较双调部分的和 (Compare Sums of Bitonic Parts)
+    # 3909. 比较双调部分的和 (Compare Sums of Bitonic Parts)
     def compareBitonicSums(self, nums: list[int]) -> int:
         mx = max(nums)
         s = sum(nums) + mx

@@ -9775,7 +9775,7 @@ public class Leetcode_10 {
         return res;
     }
 
-    // 有效数字 (Valid Digit Number)
+    // 3908. 有效数字 (Valid Digit Number)
     public boolean validDigit(int n, int x) {
         boolean hasX = false;
         int last = 0;
@@ -9790,7 +9790,7 @@ public class Leetcode_10 {
 
     }
 
-    // 比较双调部分的和 (Compare Sums of Bitonic Parts)
+    // 3909. 比较双调部分的和 (Compare Sums of Bitonic Parts)
     public int compareBitonicSums(int[] nums) {
         long pre = 0L;
         long s = 0L;
