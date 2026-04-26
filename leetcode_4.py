@@ -3078,13 +3078,20 @@ class LcaBinaryLifting:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r2] += 1
+
         def cal(x: int, y: int) -> int:
             return x * n + y
+
         m, n = len(grid), len(grid[0])
         _u = union(m * n)
         for i in range(m):
             for j in range(n):
-                if i and j and grid[i][j] == grid[i - 1][j] == grid[i][j - 1] and _u.is_connected(cal(i - 1, j), cal(i, j - 1)):
+                if (
+                    i
+                    and j
+                    and grid[i][j] == grid[i - 1][j] == grid[i][j - 1]
+                    and _u.is_connected(cal(i - 1, j), cal(i, j - 1))
+                ):
                     return True
                 if i and grid[i - 1][j] == grid[i][j]:
                     _u.union(cal(i - 1, j), cal(i, j))
