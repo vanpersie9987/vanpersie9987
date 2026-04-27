@@ -3205,3 +3205,54 @@ class LcaBinaryLifting:
             res += add
             pre = x + add
         return res
+
+    # 1391. 检查网格中是否存在有效路径 (Check if There is a Valid Path in a Grid)
+    def hasValidPath(self, grid: List[List[int]]) -> bool:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+
+        def cal(x: int, y: int) -> int:
+            return x * n + y
+
+        m, n = len(grid), len(grid[0])
+        u = union(m * n)
+        for i in range(m):
+            for j in range(n):
+                if i:
+                    if (grid[i][j] == 2 or grid[i][j] == 5 or grid[i][j] == 6) and (
+                        grid[i - 1][j] == 2
+                        or grid[i - 1][j] == 3
+                        or grid[i - 1][j] == 4
+                    ):
+                        u.union(cal(i, j), cal(i - 1, j))
+                if j:
+                    if (grid[i][j] == 1 or grid[i][j] == 3 or grid[i][j] == 5) and (
+                        grid[i][j - 1] == 1
+                        or grid[i][j - 1] == 4
+                        or grid[i][j - 1] == 6
+                    ):
+                        u.union(cal(i, j), cal(i, j - 1))
+        return u.is_connected(cal(0, 0), cal(m - 1, n - 1))
