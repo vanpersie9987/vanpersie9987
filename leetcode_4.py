@@ -3262,23 +3262,19 @@ class LcaBinaryLifting:
         m, n = len(grid), len(grid[0])
         mod = grid[0][0] % x 
         a = []
+        s = 0
         for i in range(m):
             for j in range(n):
                 if grid[i][j] % x != mod:
                     return -1
                 a.append(grid[i][j])
+                s += grid[i][j]
         a.sort()
-        pre = [0] * len(a)
-        s = 0
-        for i, v in enumerate(a):
-            s += v
-            pre[i] = (v * (i + 1) - s) // x
         res = inf
-        s = 0
-        for i in range(len(a) - 1, -1, -1):
-            s += a[i]
-            suf = (s - (len(a) - i) * a[i]) // x
-            res = min(res, pre[i] + suf)
-            if res == 0:
-                break
+        pre_s = 0
+        for i, v in enumerate(a):
+            _a1 = (v * i - pre_s) // x
+            pre_s += v
+            _a2 = ((s - pre_s) - (len(a) - i - 1) * v) // x
+            res = min(res, _a1 + _a2)
         return res
