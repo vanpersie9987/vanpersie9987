@@ -3256,3 +3256,29 @@ class LcaBinaryLifting:
                     ):
                         u.union(cal(i, j), cal(i, j - 1))
         return u.is_connected(cal(0, 0), cal(m - 1, n - 1))
+
+    # 2033. 获取单值网格的最小操作数 (Minimum Operations to Make a Uni-Value Grid)
+    def minOperations(self, grid: List[List[int]], x: int) -> int:
+        m, n = len(grid), len(grid[0])
+        mod = grid[0][0] % x 
+        a = []
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] % x != mod:
+                    return -1
+                a.append(grid[i][j])
+        a.sort()
+        pre = [0] * len(a)
+        s = 0
+        for i, v in enumerate(a):
+            s += v
+            pre[i] = (v * (i + 1) - s) // x
+        res = inf
+        s = 0
+        for i in range(len(a) - 1, -1, -1):
+            s += a[i]
+            suf = (s - (len(a) - i) * a[i]) // x
+            res = min(res, pre[i] + suf)
+            if res == 0:
+                break
+        return res
