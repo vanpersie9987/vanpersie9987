@@ -5262,7 +5262,6 @@ public class Leetcode_3 {
         return true;
     }
 
-
     // 886. 可能的二分法 (Possible Bipartition) --dfs
     public boolean possibleBipartition2(int n, int[][] dislikes) {
         List<Integer>[] g = new ArrayList[n];
@@ -8666,15 +8665,16 @@ public class Leetcode_3 {
 
     // 396. 旋转函数 (Rotate Function)
     public int maxRotateFunction(int[] nums) {
+        int n = nums.length;
         int res = 0;
         int sum = 0;
-        for (int i = 0; i < nums.length; ++i) {
+        for (int i = 0; i < n; ++i) {
             res += nums[i] * i;
             sum += nums[i];
         }
         int cur = res;
-        for (int i = 1; i < nums.length; ++i) {
-            cur += sum - nums[nums.length - i] * nums.length;
+        for (int i = 1; i < n; ++i) {
+            cur += sum - nums[n - i] * n;
             res = Math.max(cur, res);
         }
         return res;
