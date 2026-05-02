@@ -88,6 +88,7 @@ import copy
 # curl https://bootstrap.pypa.io/pip/get-pip.py -o get-pip.py
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
+from pandas import isnull
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
@@ -3290,8 +3291,6 @@ class LcaBinaryLifting:
             f += s - n * nums[i]
             ans = max(ans, f)
         return ans
-        
-            
 
 
 

@@ -6320,7 +6320,7 @@ class SegmentTree2940:
 
         return dfs(n - 2, 0)
 
-    # 788. 分割的最大得分 (Maximum Score of a Split)
+    # 3788. 分割的最大得分 (Maximum Score of a Split)
     def maximumScore(self, nums: List[int]) -> int:
         n = len(nums)
         suf_min = [inf] * n

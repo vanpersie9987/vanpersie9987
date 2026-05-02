@@ -4275,70 +4275,21 @@ class leetcode_1:
 
     # 788. 旋转数字 (Rotated Digits)
     def rotatedDigits(self, n: int) -> int:
-        s = str(n)
-        l = len(s)
-        legal = [0, 0, 1, -1, -1, 1, 1, -1, 0, 1]
-
         @cache
-        def dfs(i: int, hasDiff: bool, isLimit: bool, isNum: bool) -> int:
+        def dfs(i: int, is_limit: bool, is_legal: bool) -> int:
             if i == l:
-                return hasDiff
+                return is_legal
             res = 0
-            if not isNum:
-                res += dfs(i + 1, False, False, False)
-            up = int(s[i]) if isLimit else 9
-            for d in range(0 if isNum else 1, up + 1):
-                if legal[d] != -1:
-                    res += dfs(i + 1, hasDiff or legal[d], isLimit and d == up, True)
-            return res
-
-        return dfs(0, False, True, False)
-
-    # 788. 旋转数字 (Rotated Digits)
-    def rotatedDigits(self, n: int) -> int:
-        def check(_s: set) -> int:
-            @cache
-            def dfs(i: int, is_limit: bool) -> int:
-                if i == l:
-                    return 1
-                res = 0
-                up = int(s[i]) if is_limit else 9
-                for d in range(up + 1):
-                    if d in _s:
-                        res += dfs(i + 1, d == up and is_limit)
-                return res
-
-            s = str(n)
-            l = len(s)
-            return dfs(0, True)
-
-        s = set([0, 1, 2, 5, 6, 8, 9])
-        s2 = set([0, 1, 8])
-        return check(s) - check(s2)
-
-    # 788. 旋转数字 (Rotated Digits)
-    def rotatedDigits(self, n: int) -> int:
-        s = str(n)
-        l = len(s)
-        u = 0
-        for x in [0, 1, 2, 5, 6, 8, 9]:
-            u |= 1 << x
-        legal_u = 0
-        for x in [2, 5, 6, 9]:
-            legal_u |= 1 << x
-
-        @cache
-        def dfs(i: int, bit: int, isLimit: bool) -> int:
-            if i == l:
-                return legal_u & bit != 0
-            res = 0
-            up = int(s[i]) if isLimit else 9
+            up = int(s[i]) if is_limit else 9
             for d in range(up + 1):
-                if (u >> d) & 1:
-                    res += dfs(i + 1, bit | (1 << d), isLimit and d == up)
+                if d in (3, 4, 7):
+                    continue
+                res += dfs(i + 1, is_limit and up == d, is_legal or d in (2, 5, 6, 9))
             return res
 
-        return dfs(0, 0, True)
+        s = str(n)
+        l = len(s)
+        return dfs(0, True, False)
 
     # 611. 有效三角形的个数 (Valid Triangle Number)
     def triangleNumber(self, nums: List[int]) -> int:
@@ -4472,7 +4423,7 @@ class leetcode_1:
             q = [(0, i)]
             heapq.heapify(q)
             while q:
-                (d, x) = heapq.heappop(q)
+                d, x = heapq.heappop(q)
                 for y, w in g[x]:
                     if d + w < dis[y]:
                         dis[y] = d + w
@@ -4614,7 +4565,7 @@ class leetcode_1:
         cnt = 0
         dirs = [[2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2], [2, -1], [-2, 1], [-2, -1]]
         while q:
-            (x, y) = q.pop(0)
+            x, y = q.pop(0)
             cnt += 1
             for dx, dy in dirs:
                 nx = x + dx
@@ -4760,7 +4711,7 @@ class leetcode_1:
             level += 1
             size = len(q)
             for _ in range(size):
-                (x, y) = q.pop(0)
+                x, y = q.pop(0)
                 for dx, dy in dirs:
                     nx = x + dx
                     ny = y + dy
@@ -7272,7 +7223,7 @@ class leetcode_1:
         while q:
             size = len(q)
             for _ in range(size):
-                (x, y) = q.popleft()
+                x, y = q.popleft()
                 for dx, dy in dirs:
                     nx = x + dx
                     ny = y + dy
@@ -7311,7 +7262,7 @@ class leetcode_1:
             size = len(q)
             f = -2
             for _ in range(size):
-                (node, fa) = q.popleft()
+                node, fa = q.popleft()
                 if f == -2 and (node.val == x or node.val == y):
                     f = fa
                 elif f != -2 and (node.val == x or node.val == y):
@@ -8602,7 +8553,7 @@ class leetcode_1:
         row = [0] * m
         col = [0] * n
         for i, v in enumerate(arr):
-            (x, y) = dic[v]
+            x, y = dic[v]
             row[x] += 1
             col[y] += 1
             if row[x] == n or col[y] == m:
@@ -9923,7 +9874,7 @@ class leetcode_1:
         while q:
             size = len(q)
             for _ in range(size):
-                (x, y) = q.pop(0)
+                x, y = q.pop(0)
                 for dx, dy in dirs:
                     nx = x + dx
                     ny = y + dy
@@ -9936,7 +9887,7 @@ class leetcode_1:
         q.append((-dis[0][0], 0, 0))
         heapq.heapify(q)
         while q:
-            (d, x, y) = heapq.heappop(q)
+            d, x, y = heapq.heappop(q)
             if vis[x][y]:
                 continue
             res = min(res, -d)
