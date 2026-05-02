@@ -3261,7 +3261,7 @@ class LcaBinaryLifting:
     # 2033. 获取单值网格的最小操作数 (Minimum Operations to Make a Uni-Value Grid)
     def minOperations(self, grid: List[List[int]], x: int) -> int:
         m, n = len(grid), len(grid[0])
-        mod = grid[0][0] % x 
+        mod = grid[0][0] % x
         a = []
         s = 0
         for i in range(m):
@@ -3279,7 +3279,7 @@ class LcaBinaryLifting:
             _a2 = ((s - pre_s) - (len(a) - i - 1) * v) // x
             res = min(res, _a1 + _a2)
         return res
-    
+
     # 396. 旋转函数 (Rotate Function)
     def maxRotateFunction(self, nums: list[int]) -> int:
         n = len(nums)
@@ -3292,5 +3292,6 @@ class LcaBinaryLifting:
             ans = max(ans, f)
         return ans
 
-
-
+    # 796. 旋转字符串 (Rotate String)
+    def rotateString(self, s: str, goal: str) -> bool:
+        return any(s[i:] + s[:i] == goal for i in range(len(s)))
