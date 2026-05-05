@@ -9952,12 +9952,12 @@ public class Leetcode_10 {
     public int[] countOppositeParity(int[] nums) {
         int n = nums.length;
         int[] cnts = new int[2];
-        int[] res = new int[n];
         for (int i = n - 1; i >= 0; --i) {
-            res[i] = cnts[(nums[i] & 1) ^ 1];
-            ++cnts[nums[i] & 1];
+            int x = nums[i] & 1;
+            nums[i] = cnts[x ^ 1];
+            ++cnts[x];
         }
-        return res;
+        return nums;
 
     }
 }

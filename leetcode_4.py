@@ -3319,3 +3319,13 @@ class LcaBinaryLifting:
         res = slow.next
         slow.next = None
         return res
+
+    # 3917. 统计下标的相反奇偶性得分 (Count Indices With Opposite Parity)
+    def countOppositeParity(self, nums: list[int]) -> list[int]:
+        n = len(nums)
+        cnts = [0] * 2
+        for i in range(n - 1, -1, -1):
+            x = nums[i] & 1
+            nums[i] = cnts[x ^ 1]
+            cnts[x] += 1
+        return nums
