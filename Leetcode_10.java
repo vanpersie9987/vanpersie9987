@@ -9960,4 +9960,34 @@ public class Leetcode_10 {
         return nums;
 
     }
+
+    // 3918. 区间内的质数和 (Sum of Primes Between Number and Its Reverse)
+    public int sumOfPrimesInRange(int n) {
+        int r = rev3918(n);
+        int res = 0;
+        for (int i = Math.min(r, n); i <= Math.max(r, n); ++i) {
+            if (isPrime3918(i)) {
+                res += i;
+            }
+        }
+        return res;
+
+    }
+
+    private boolean isPrime3918(int x) {
+        for (int d = 2; d <= Math.sqrt(x); ++d) {
+            if (x % d == 0) {
+                return false;
+            }
+        }
+        return x >= 2;
+    }
+
+    private int rev3918(int n) {
+        int res = 0;
+        for (int d = n; d != 0; d /= 10) {
+            res = res * 10 + d % 10;
+        }
+        return res;
+    }
 }
