@@ -2,6 +2,7 @@ from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
 import csv
 from curses.panel import bottom_panel
+from dbm import dumb
 from doctest import FAIL_FAST
 from errno import EHWPOISON
 from gettext import find
@@ -42,7 +43,7 @@ from locale import DAY_4
 from logging import _Level, root
 from math import comb, cos, e, fabs, floor, gcd, inf, isqrt, lcm, pi, sqrt, ulp
 from mimetypes import init
-from multiprocessing import reduction
+from multiprocessing import dummy, reduction
 from operator import is_, le, ne, truediv
 from os import eventfd, lseek, minor, name, pread
 from pickletools import read_uint1
@@ -3295,3 +3296,26 @@ class LcaBinaryLifting:
     # 796. 旋转字符串 (Rotate String)
     def rotateString(self, s: str, goal: str) -> bool:
         return any(s[i:] + s[:i] == goal for i in range(len(s)))
+
+    # 61. 旋转链表 (Rotate List)
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        n = 0
+        p = head
+        while p:
+            n += 1
+            p = p.next
+        if n == 0:
+            return head
+        k %= n
+        fast = head
+        while k:
+            k -= 1
+            fast = fast.next
+        slow = head
+        while fast.next:
+            slow = slow.next
+            fast = fast.next
+        fast.next = head
+        res = slow.next
+        slow.next = None
+        return res
