@@ -9092,29 +9092,51 @@ public class LeetCodeText {
 
     }
 
-    // 1861. 旋转盒子
+    // 1861. 旋转盒子 (Rotating the Box)
     public char[][] rotateTheBox(char[][] box) {
-        char[][] res = new char[box[0].length][box.length];
-        for (int i = 0; i < box.length; ++i) {
-            int pos = box[i].length - 1;
-            for (int j = box[i].length - 1; j >= 0; --j) {
-                if (box[i][j] == '*') {
-                    pos = j - 1;
-                } else if (box[i][j] == '#') {
-                    box[i][pos--] = '#';
-                    if (pos != j - 1) {
-                        box[i][j] = '.';
-                    }
+        int m = box.length;
+        int n = box[0].length;
+        char[][] res = new char[n][m];
+        for (int i = m - 1; i >= 0; --i) {
+            int[] r = cal1861(box[i]);
+            int cnt = 0;
+            for (int j = n - 1; j >= 0; --j) {
+                if (r[j] == -1) {
+                    res[j][m - i - 1] = '*';
+                } else if (r[j] > 0) {
+                    cnt = r[j] - 1;
+                    res[j][m - i - 1] = '#';
+                } else if (cnt-- > 0) {
+                    res[j][m - i - 1] = '#';
+                } else {
+                    res[j][m - i - 1] = '.';
                 }
-            }
-        }
-        for (int i = 0; i < box.length; ++i) {
-            for (int j = 0; j < box[0].length; ++j) {
-                res[j][box.length - i - 1] = box[i][j];
             }
         }
         return res;
 
+    }
+
+    private int[] cal1861(char[] a) {
+        int[] res = new int[a.length];
+        int cnt = 0;
+        for (int i = 0; i < a.length; ++i) {
+            if (a[i] == '*') {
+                res[i] = -1;
+                if (cnt > 0) {
+                    res[i - 1] = cnt;
+                    cnt = 0;
+                }
+                continue;
+            }
+            if (a[i] == '#') {
+                ++cnt;
+            }
+            if (i == a.length - 1) {
+                res[i] = cnt;
+            }
+        }
+        return res;
     }
 
     // 367. 有效的完全平方数
