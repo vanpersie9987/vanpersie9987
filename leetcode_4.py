@@ -3329,3 +3329,28 @@ class LcaBinaryLifting:
             nums[i] = cnts[x ^ 1]
             cnts[x] += 1
         return nums
+
+    # 3918. 区间内的质数和 (Sum of Primes Between Number and Its Reverse)
+    def sumOfPrimesInRange(self, n: int) -> int:
+        def is_prime(x: int) -> bool:
+            if x == 1:
+                return False
+            if x == 2:
+                return True
+            for i in range(2, isqrt(x) + 1):
+                if x % i == 0:
+                    return False
+            return True
+
+        def rev(x: int) -> int:
+            res = 0
+            while x:
+                res = res * 10 + x % 10
+                x //= 10
+            return res
+        r = rev(n)
+        res = 0
+        for i in range(min(r, n), max(r, n) + 1):
+            if is_prime(i):
+                res += i
+        return res
