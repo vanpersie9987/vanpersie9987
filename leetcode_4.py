@@ -3350,3 +3350,34 @@ class LcaBinaryLifting:
             if is_prime(i):
                 res += i
         return res
+
+    # 3919. 在下标间移动的最小代价 (Minimum Cost to Move Between Indices)
+    def minCost(self, nums: list[int], queries: list[list[int]]) -> list[int]:
+        n = len(nums)
+        sum_l = [0] * n  # sum_l[i] 等于从 i 移动到 0 的代价和
+        sum_r = [0] * n  # sum_r[i] 等于从 0 移动到 i 的代价和
+        for i in range(1, n):
+            # 往左走 i -> i-1
+            if i < n - 1 and nums[i] - nums[i - 1] > nums[i + 1] - nums[i]:  # closest(i) = i+1
+                cost = nums[i] - nums[i - 1]  # 只能用方式一往左走
+            else:
+                cost = 1
+            sum_l[i] = sum_l[i - 1] + cost
+
+            # 往右走 i-1 -> i
+            if i > 1 and nums[i - 1] - nums[i - 2] <= nums[i] - nums[i - 1]:  # closest(i-1) = i-2
+                cost = nums[i] - nums[i - 1]  # 只能用方式一往右走
+            else:
+                cost = 1
+            sum_r[i] = sum_r[i - 1] + cost
+
+        ans = [0] * len(queries)
+        for i, q in enumerate(queries):
+            l, r = q
+            if l < r:
+                # cost(0 -> r) - cost(0 -> l) = cost(l -> r)
+                ans[i] = sum_r[r] - sum_r[l]
+            else:
+                # cost(l -> 0) - cost(r -> 0) = cost(l -> r)
+                ans[i] = sum_l[l] - sum_l[r]
+        return ans
