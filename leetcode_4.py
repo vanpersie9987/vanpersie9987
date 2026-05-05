@@ -3381,3 +3381,39 @@ class LcaBinaryLifting:
                 # cost(l -> 0) - cost(r -> 0) = cost(l -> r)
                 ans[i] = sum_l[l] - sum_l[r]
         return ans
+
+    # 1861. 旋转盒子 (Rotating the Box)
+    def rotateTheBox(self, boxGrid: List[List[str]]) -> List[List[str]]:
+        def check(a: List[str]) -> List[int]:
+            res = [0] * len(a)
+            cnt = 0
+            for i, x in enumerate(a):
+                if x == '*':
+                    res[i] = -1
+                    if cnt:
+                        res[i - 1] = cnt
+                        cnt = 0
+                    continue
+                if x == '#':
+                    cnt += 1
+                if i == len(a) - 1:
+                    res[i] = cnt
+            return res
+
+        m, n = len(boxGrid), len(boxGrid[0])
+        res = [[None] * m for _ in range(n)]
+        for i in range(m - 1, -1, -1):
+            r = check(boxGrid[i])
+            cnt = 0
+            for j in range(n - 1, -1, -1):
+                if r[j] == -1:
+                    res[j][m - i - 1] = '*'
+                elif r[j] > 0:
+                    cnt = r[j] - 1
+                    res[j][m - i - 1] = '#'
+                elif cnt:
+                    cnt -= 1
+                    res[j][m - i - 1] = '#'
+                else:
+                    res[j][m - i - 1] = "."
+        return res
