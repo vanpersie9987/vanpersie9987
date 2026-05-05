@@ -1124,28 +1124,28 @@ public class LeetCode_2 {
 
    // 61. 旋转链表 (Rotate List)
    public ListNode rotateRight(ListNode head, int k) {
-      if (k == 0 || head == null || head.next == null) {
+      int n = 0;
+      ListNode p = head;
+      while (p != null) {
+         ++n;
+         p = p.next;
+      }
+      if (n == 0) {
          return head;
       }
-      int count = 1;
-      ListNode cur = head;
-      while (cur.next != null) {
-         cur = cur.next;
-         ++count;
+      k %= n;
+      ListNode fast = head;
+      while (k-- > 0) {
+         fast = fast.next;
       }
-      int move = count - k % count;
-
-      if (move == count) {
-         return head;
+      ListNode slow = head;
+      while (fast.next != null) {
+         fast = fast.next;
+         slow = slow.next;
       }
-      cur.next = head;
-
-      while (move-- > 0) {
-         cur = cur.next;
-      }
-      ListNode res = cur.next;
-      cur.next = null;
-
+      fast.next = head;
+      ListNode res = slow.next;
+      slow.next = null;
       return res;
    }
 
@@ -3393,26 +3393,26 @@ public class LeetCode_2 {
       int count10 = 0;
       for (int bill : bills) {
          switch (bill) {
-            case 5:
-               ++count5;
-               break;
-            case 10:
-               if (count5 == 0) {
-                  return false;
-               }
+         case 5:
+            ++count5;
+            break;
+         case 10:
+            if (count5 == 0) {
+               return false;
+            }
+            --count5;
+            ++count10;
+            break;
+         case 20:
+            if (count10 >= 1 && count5 >= 1) {
+               --count10;
                --count5;
-               ++count10;
-               break;
-            case 20:
-               if (count10 >= 1 && count5 >= 1) {
-                  --count10;
-                  --count5;
-               } else if (count5 >= 3) {
-                  count5 -= 3;
-               } else {
-                  return false;
-               }
-               break;
+            } else if (count5 >= 3) {
+               count5 -= 3;
+            } else {
+               return false;
+            }
+            break;
          }
       }
       return true;
@@ -6395,30 +6395,30 @@ public class LeetCode_2 {
       int curY = startPos[1];
       for (char c : s.toCharArray()) {
          switch (c) {
-            case 'U':
-               if (--curX < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'D':
-               if (++curX == n) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'L':
-               if (--curY < 0) {
-                  return count;
-               }
-               ++count;
-               break;
-            case 'R':
-               if (++curY == n) {
-                  return count;
-               }
-               ++count;
-               break;
+         case 'U':
+            if (--curX < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'D':
+            if (++curX == n) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'L':
+            if (--curY < 0) {
+               return count;
+            }
+            ++count;
+            break;
+         case 'R':
+            if (++curY == n) {
+               return count;
+            }
+            ++count;
+            break;
          }
 
       }

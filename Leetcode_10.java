@@ -9947,4 +9947,30 @@ public class Leetcode_10 {
         return res;
 
     }
+
+    public ListNode rotateRight(ListNode head, int k) {
+        int n = 0;
+        ListNode p = head;
+        while (p != null) {
+            ++n;
+            p = p.next;
+        }
+        if (n == 0) {
+            return head;
+        }
+        k %= n;
+        ListNode fast = head;
+        while (k-- > 0) {
+            fast = fast.next;
+        }
+        ListNode slow = head;
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        fast.next = head;
+        ListNode res = slow.next;
+        slow.next = null;
+        return res;
+    }
 }
