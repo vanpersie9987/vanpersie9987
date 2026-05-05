@@ -9948,29 +9948,16 @@ public class Leetcode_10 {
 
     }
 
-    public ListNode rotateRight(ListNode head, int k) {
-        int n = 0;
-        ListNode p = head;
-        while (p != null) {
-            ++n;
-            p = p.next;
+    // 3917. 统计下标的相反奇偶性得分 (Count Indices With Opposite Parity)
+    public int[] countOppositeParity(int[] nums) {
+        int n = nums.length;
+        int[] cnts = new int[2];
+        int[] res = new int[n];
+        for (int i = n - 1; i >= 0; --i) {
+            res[i] = cnts[(nums[i] & 1) ^ 1];
+            ++cnts[nums[i] & 1];
         }
-        if (n == 0) {
-            return head;
-        }
-        k %= n;
-        ListNode fast = head;
-        while (k-- > 0) {
-            fast = fast.next;
-        }
-        ListNode slow = head;
-        while (fast.next != null) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-        fast.next = head;
-        ListNode res = slow.next;
-        slow.next = null;
         return res;
+
     }
 }
