@@ -3332,11 +3332,13 @@ class LcaBinaryLifting:
 
     # 3918. 区间内的质数和 (Sum of Primes Between Number and Its Reverse)
     def sumOfPrimesInRange(self, n: int) -> int:
-        def is_prime(x: int) -> bool:
-            for i in range(2, isqrt(x) + 1):
-                if x % i == 0:
-                    return False
-            return x >= 2
+        MX = 1001
+        prime = [True] * MX
+        prime[1] = False
+        for i in range(2, MX):
+            if prime[i]:
+                for j in range(i * i, MX, i):
+                    prime[j] = False
 
         def rev(x: int) -> int:
             res = 0
@@ -3344,12 +3346,9 @@ class LcaBinaryLifting:
                 res = res * 10 + x % 10
                 x //= 10
             return res
+
         r = rev(n)
-        res = 0
-        for i in range(min(r, n), max(r, n) + 1):
-            if is_prime(i):
-                res += i
-        return res
+        return sum(i for i in range(min(r, n), max(r, n) + 1) if prime[i])
 
     # 3919. 在下标间移动的最小代价 (Minimum Cost to Move Between Indices)
     def minCost(self, nums: list[int], queries: list[list[int]]) -> list[int]:
@@ -3358,14 +3357,18 @@ class LcaBinaryLifting:
         sum_r = [0] * n  # sum_r[i] 等于从 0 移动到 i 的代价和
         for i in range(1, n):
             # 往左走 i -> i-1
-            if i < n - 1 and nums[i] - nums[i - 1] > nums[i + 1] - nums[i]:  # closest(i) = i+1
+            if (
+                i < n - 1 and nums[i] - nums[i - 1] > nums[i + 1] - nums[i]
+            ):  # closest(i) = i+1
                 cost = nums[i] - nums[i - 1]  # 只能用方式一往左走
             else:
                 cost = 1
             sum_l[i] = sum_l[i - 1] + cost
 
             # 往右走 i-1 -> i
-            if i > 1 and nums[i - 1] - nums[i - 2] <= nums[i] - nums[i - 1]:  # closest(i-1) = i-2
+            if (
+                i > 1 and nums[i - 1] - nums[i - 2] <= nums[i] - nums[i - 1]
+            ):  # closest(i-1) = i-2
                 cost = nums[i] - nums[i - 1]  # 只能用方式一往右走
             else:
                 cost = 1
@@ -3388,13 +3391,13 @@ class LcaBinaryLifting:
             res = [0] * len(a)
             cnt = 0
             for i, x in enumerate(a):
-                if x == '*':
+                if x == "*":
                     res[i] = -1
                     if cnt:
                         res[i - 1] = cnt
                         cnt = 0
                     continue
-                if x == '#':
+                if x == "#":
                     cnt += 1
                 if i == len(a) - 1:
                     res[i] = cnt
@@ -3407,13 +3410,13 @@ class LcaBinaryLifting:
             cnt = 0
             for j in range(n - 1, -1, -1):
                 if r[j] == -1:
-                    res[j][m - i - 1] = '*'
+                    res[j][m - i - 1] = "*"
                 elif r[j] > 0:
                     cnt = r[j] - 1
-                    res[j][m - i - 1] = '#'
+                    res[j][m - i - 1] = "#"
                 elif cnt:
                     cnt -= 1
-                    res[j][m - i - 1] = '#'
+                    res[j][m - i - 1] = "#"
                 else:
                     res[j][m - i - 1] = "."
         return res
