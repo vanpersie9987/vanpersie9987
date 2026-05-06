@@ -65,13 +65,13 @@ public class Leetcode_10 {
         public Node left;
         public Node right;
         public Node parent;
-    };
+    }
 
     class Node2 {
         public int val;
         public Node2 prev;
         public Node2 next;
-    };
+    }
 
     // 3688. 偶数的按位或运算 (Bitwise OR of Even Numbers in an Array)
     public int evenNumberBitwiseORs(int[] nums) {
@@ -9989,44 +9989,5 @@ public class Leetcode_10 {
             res = res * 10 + d % 10;
         }
         return res;
-    }
-
-    // 3919. 在下标间移动的最小代价 (Minimum Cost to Move Between Indices)
-    public int[] minCost(int[] nums, int[][] queries) {
-        int n = nums.length;
-        int[] sumL = new int[n]; // sumL[i] 等于从 i 移动到 0 的代价和
-        int[] sumR = new int[n]; // sumR[i] 等于从 0 移动到 i 的代价和
-        for (int i = 1, cost; i < n; i++) {
-            // 往左走 i -> i-1
-            if (i < n - 1 && nums[i] - nums[i - 1] > nums[i + 1] - nums[i]) { // closest(i) = i+1
-                cost = nums[i] - nums[i - 1]; // 只能用方式一往左走
-            } else {
-                cost = 1;
-            }
-            sumL[i] = sumL[i - 1] + cost;
-
-            // 往右走 i-1 -> i
-            if (i > 1 && nums[i - 1] - nums[i - 2] <= nums[i] - nums[i - 1]) { // closest(i-1) = i-2
-                cost = nums[i] - nums[i - 1]; // 只能用方式一往右走
-            } else {
-                cost = 1;
-            }
-            sumR[i] = sumR[i - 1] + cost;
-        }
-
-        int[] ans = new int[queries.length];
-        for (int i = 0; i < queries.length; i++) {
-            int l = queries[i][0];
-            int r = queries[i][1];
-            if (l < r) {
-                // cost(0 -> r) - cost(0 -> l) = cost(l -> r)
-                ans[i] = sumR[r] - sumR[l];
-            } else {
-                // cost(l -> 0) - cost(r -> 0) = cost(l -> r)
-                ans[i] = sumL[l] - sumL[r];
-            }
-        }
-        return ans;
-
     }
 }
