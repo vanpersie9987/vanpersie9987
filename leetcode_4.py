@@ -3420,3 +3420,48 @@ class LcaBinaryLifting:
                 else:
                     res[j][m - i - 1] = "."
         return res
+
+    # 1914. 循环轮转矩阵 (Cyclically Rotating a Grid)
+    def rotateGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        m, n = len(grid), len(grid[0])
+        i0, i1, j0, j1 = 0, m - 1, 0, n - 1
+        for _ in range(min(m, n) // 2):
+            a = []
+            i, j = i0, j0
+            while j < j1:
+                a.append(grid[i][j])
+                j += 1
+            while i < i1:
+                a.append(grid[i][j])
+                i += 1
+            while j > j0:
+                a.append(grid[i][j])
+                j -= 1
+            while i > i0:
+                a.append(grid[i][j])
+                i -= 1
+            l = len(a)
+            k0 = k % l
+            a = a[k0:] + a[:k0]
+            id = 0
+            while j < j1:
+                grid[i][j] = a[id]
+                id += 1
+                j += 1
+            while i < i1:
+                grid[i][j] = a[id]
+                id += 1
+                i += 1
+            while j > j0:
+                grid[i][j] = a[id]
+                id += 1
+                j -= 1
+            while i > i0:
+                grid[i][j] = a[id]
+                id += 1
+                i -= 1
+            i0 += 1
+            i1 -= 1
+            j0 += 1
+            j1 -= 1
+        return grid
