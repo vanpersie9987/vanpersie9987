@@ -3465,3 +3465,11 @@ class LcaBinaryLifting:
             j0 += 1
             j1 -= 1
         return grid
+
+    # 2553. 分割数组中数字的数位 (Separate the Digits in an Array)
+    def separateDigits(self, nums: List[int]) -> List[int]:
+        res = []
+        for x in nums:
+            for d in str(x):
+                res.append(int(d))
+        return res
