@@ -111,4 +111,25 @@ public class Leetcode_11 {
 
     }
 
+    // 3921. 分数验证器 (Score Validator)
+    public int[] scoreValidator(String[] events) {
+        int score = 0;
+        int counter = 0;
+        for (String e : events) {
+            if ("W".equals(e)) {
+                if (++counter == 10) {
+                    break;
+                }
+            } else {
+                if (e.length() == 1) {
+                    score += Integer.parseInt(e);
+                } else {
+                    ++score;
+                }
+            }
+        }
+        return new int[] { score, counter };
+
+    }
+
 }
