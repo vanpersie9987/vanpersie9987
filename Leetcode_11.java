@@ -139,10 +139,11 @@ public class Leetcode_11 {
             cnt1 += c - '0';
         }
         int n = s.length();
+        // 都是1或都是0
         int res = Math.min(cnt1, n - cnt1);
+        // 既有1也有0的情况，若首尾都是1，则吧中间的都变成0
+        // 否则需要整个字符串只保留1个1
         return Math.min(res, Math.max(0, cnt1 - 1 - (s.charAt(0) == '1' && s.charAt(n - 1) == '1' ? 1 : 0)));
     }
-
-
 
 }
