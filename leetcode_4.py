@@ -3497,3 +3497,7 @@ class LcaBinaryLifting:
         # 既有1也有0的情况，若首尾都是1，则吧中间的都变成0
         # 否则需要整个字符串只保留1个1
         return min(res, max(0, max(0, cnt1 - 1 - int(s[0] == s[-1] == "1"))))
+
+    # 3925. 连接逆序数组 (Concatenate Array With Reverse)
+    def concatWithReverse(self, nums: list[int]) -> list[int]:
+        return nums + list(reversed(nums))
