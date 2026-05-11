@@ -3487,3 +3487,14 @@ class LcaBinaryLifting:
             if counter == 10:
                 break
         return [score, counter]
+
+    # 3922. 使二进制字符串连贯的最少翻转次数 (Minimum Flips to Make Binary String Coherent)
+    def minFlips(self, s: str) -> int:
+        n = len(s)
+        cnt0 = s.count("0")
+        # 都是1或都是0
+        res = min(cnt0, n - cnt0)
+        cnt1 = n - cnt0
+        # 既有1也有0的情况，若首尾都是1，则吧中间的都变成0
+        # 否则需要整个字符串只保留1个1
+        return min(res, max(0, n - cnt0 - 1 - int(s[0] == s[-1] == "1")))

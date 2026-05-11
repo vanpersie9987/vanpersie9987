@@ -132,4 +132,17 @@ public class Leetcode_11 {
 
     }
 
+    // 3922. 使二进制字符串连贯的最少翻转次数 (Minimum Flips to Make Binary String Coherent)
+    public int minFlips(String s) {
+        int cnt1 = 0;
+        for (char c : s.toCharArray()) {
+            cnt1 += c - '0';
+        }
+        int n = s.length();
+        int res = Math.min(cnt1, n - cnt1);
+        return Math.min(res, Math.max(0, cnt1 - 1 - (s.charAt(0) == '1' && s.charAt(n - 1) == '1' ? 1 : 0)));
+    }
+
+
+
 }
