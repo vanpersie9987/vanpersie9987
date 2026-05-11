@@ -146,4 +146,16 @@ public class Leetcode_11 {
         return Math.min(res, Math.max(0, cnt1 - 1 - (s.charAt(0) == '1' && s.charAt(n - 1) == '1' ? 1 : 0)));
     }
 
+    // 3925. 连接逆序数组 (Concatenate Array With Reverse)
+    public int[] concatWithReverse(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n * 2];
+        for (int i = 0; i < n; ++i) {
+            res[i] = nums[i];
+            res[i + n] = nums[n - i - 1];
+        }
+        return res;
+
+    }
+
 }
