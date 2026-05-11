@@ -184,4 +184,53 @@ public class Leetcode_11 {
         return ans;
     }
 
+    // 3927. 可整除替换后的数组最小元素和 (Minimize Array Sum Using Divisible Replacements)
+    public long minArraySum(int[] nums) {
+        long res = 0L;
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : nums) {
+            if (x == 1) {
+                return nums.length;
+            }
+            cnts.merge(x, 1, Integer::sum);
+        }
+        int MX = (int) (1e5 + 1);
+        boolean[] isPrime = new boolean[MX];
+        Arrays.fill(isPrime, true);
+        for (int i = 2; i < MX; ++i) {
+            if (isPrime[i]) {
+                for (long j = (long) i * i; j < MX; j += i) {
+                    isPrime[(int) j] = false;
+                }
+            }
+        }
+        search: for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            int x = entry.getKey();
+            int c = entry.getValue();
+            if (isPrime[x]) {
+                res += (long) x * c;
+            } else {
+                int min = Integer.MAX_VALUE;
+                for (int i = 2; i <= Math.sqrt(x); ++i) {
+                    if (x % i == 0) {
+                        if (cnts.containsKey(i)) {
+                            res += (long) i * c;
+                            continue search;
+                        }
+                        if (cnts.containsKey(x / i)) {
+                            min = Math.min(min, x / i);
+                        }
+                    }
+                }
+                if (min == Integer.MAX_VALUE) {
+                    res += (long) x * c;
+                } else {
+                    res += (long) min * c;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
