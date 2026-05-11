@@ -158,4 +158,30 @@ public class Leetcode_11 {
 
     }
 
+    // 3926. 有效单词计数 (Count Valid Word Occurrences)
+    public int[] countWordOccurrences(String[] chunks, String[] queries) {
+        char[] s = String.join("", chunks).toCharArray();
+        int n = s.length;
+        Map<String, Integer> cnt = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            if (s[i] == ' ' || s[i] == '-') {
+                continue;
+            }
+            int start = i;
+            // 遇到 ' ' 或者 "--" 或者 "- " 时，跳出循环
+            while (i < n && s[i] != ' ' && (s[i] != '-' || i < n - 1 && s[i + 1] != '-' && s[i + 1] != ' ')) {
+                i++;
+            }
+            String word = new String(s, start, i - start);
+            cnt.merge(word, 1, Integer::sum); // cnt[word]++
+        }
+
+        int[] ans = new int[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            ans[i] = cnt.getOrDefault(queries[i], 0);
+        }
+        return ans;
+    }
+
 }
