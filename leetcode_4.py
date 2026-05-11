@@ -3501,7 +3501,7 @@ class LcaBinaryLifting:
     # 3925. 连接逆序数组 (Concatenate Array With Reverse)
     def concatWithReverse(self, nums: list[int]) -> list[int]:
         return nums + list(reversed(nums))
-    
+
     # 3926. 有效单词计数 (Count Valid Word Occurrences)
     def countWordOccurrences(self, chunks: list[str], queries: list[str]) -> list[int]:
         s = "".join(chunks)
@@ -3521,3 +3521,37 @@ class LcaBinaryLifting:
                 cnt[t[start:i]] += 1
 
         return [cnt[q] for q in queries]
+
+    # 3927. 可整除替换后的数组最小元素和 (Minimize Array Sum Using Divisible Replacements)
+    def minArraySum(self, nums: list[int]) -> int:
+        d = defaultdict(int)
+        n = len(nums)
+        for x in nums:
+            if x == 1:
+                return n
+            d[x] += 1
+        MX = 10**5 + 1
+        prime = [True] * MX
+        for i in range(2, MX):
+            if prime[i]:
+                for j in range(i * i, MX, i):
+                    prime[j] = False
+        res = 0
+        for k, v in d.items():
+            if prime[k]:
+                res += k * v
+            else:
+                _min = inf
+                for i in range(2, isqrt(k) + 1):
+                    if k % i == 0:
+                        if i in d:
+                            res += i * v
+                            break
+                        if k // i in d:
+                            _min = min(_min, k // i)
+                else:
+                    if _min < inf:
+                        res += _min * v
+                    else:
+                        res += k * v
+        return res
