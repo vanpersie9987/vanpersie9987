@@ -3473,3 +3473,17 @@ class LcaBinaryLifting:
             for d in str(x):
                 res.append(int(d))
         return res
+
+    # 3921. 分数验证器 (Score Validator)
+    def scoreValidator(self, events: list[str]) -> list[int]:
+        score, counter = 0, 0
+        for x in events:
+            if x.isdigit():
+                score += int(x)
+            elif x == "W":
+                counter += 1
+            else:
+                score += 1
+            if counter == 10:
+                break
+        return [score, counter]
