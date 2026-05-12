@@ -3555,3 +3555,11 @@ class LcaBinaryLifting:
                     else:
                         res += k * v
         return res
+
+    # 1665. 完成所有任务的最少初始能量 (Minimum Initial Energy to Finish Tasks)
+    def minimumEffort(self, tasks: List[List[int]]) -> int:
+        tasks.sort(key=lambda o : o[1] - o[0])
+        res = 0
+        for actual, minimum in tasks:
+            res = max(res + actual, minimum)
+        return res
