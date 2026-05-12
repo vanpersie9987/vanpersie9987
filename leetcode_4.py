@@ -3558,8 +3558,51 @@ class LcaBinaryLifting:
 
     # 1665. 完成所有任务的最少初始能量 (Minimum Initial Energy to Finish Tasks)
     def minimumEffort(self, tasks: List[List[int]]) -> int:
-        tasks.sort(key=lambda o : o[1] - o[0])
+        tasks.sort(key=lambda o: o[1] - o[0])
         res = 0
         for actual, minimum in tasks:
             res = max(res + actual, minimum)
         return res
+
+    # 3924. 有限重边的最小阈值路径 (Minimum Threshold Path With Limited Heavy Edges)
+    def minimumThreshold(
+        self, n: int, edges: List[List[int]], source: int, target: int, k: int
+    ) -> int:
+        def check(limit: int) -> bool:
+            dis = [inf] * n
+            dis[source] = 0
+            q = []
+            q.append((0, source))
+            heapq.heapify(q)
+            while q:
+                c, x = heapq.heappop(q)
+                if x == target:
+                    return True
+                for y, w in g[x]:
+                    if w > limit:
+                        if c + 1 < dis[y] and c + 1 <= k:
+                            dis[y] = c + 1
+                            heapq.heappush(q, (c + 1, y))
+                    else:
+                        if c < dis[y]:
+                            dis[y] = c
+                            heapq.heappush(q, (c, y))
+            return False
+
+        if source == target:
+            return 0
+        g = [[] for _ in range(n)]
+        mx = 0
+        for u, v, w in edges:
+            g[u].append((v, w))
+            g[v].append((u, w))
+            mx = max(mx, w)
+        left = 0
+        right = mx
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return -1 if right + 1 > mx else right + 1
