@@ -347,14 +347,12 @@ public class Leetcode_11 {
             dis1[i] = cal3928(i, g, true, prices);
         }
         int[] res = new int[n];
+        Arrays.fill(res, Integer.MAX_VALUE);
         for (int i = 0; i < n; ++i) {
-            int s = prices[i];
+            res[i] = Integer.MAX_VALUE;
             for (int j = 0; j < n; ++j) {
-                if (i != j) {
-                    s = (int) Math.min(s, (long) dis0[i][j] + dis1[j][i] + prices[j]);
-                }
+                res[i] = (int) Math.min(res[i], (long) dis0[i][j] + dis1[j][i] + prices[j]);
             }
-            res[i] = s;
         }
         return res;
 
