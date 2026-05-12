@@ -3647,12 +3647,11 @@ class LcaBinaryLifting:
             g[v].append((u, cost, tax))
         # dis0[i][j] : 从i到j 不携带苹果，的最小值
         dis0 = [[inf] * n for _ in range(n)]
-        for i in range(n):
-            # 从i出发，不携带苹果
-            dis0[i] = cal(i, False)
         # dis1[i][j] : 从i到j 携带苹果，的最小值
         dis1 = [[inf] * n for _ in range(n)]
         for i in range(n):
+            # 从i出发，不携带苹果
+            dis0[i] = cal(i, False)
             # 从i出发，携带苹果
             dis1[i] = cal(i, True)
         res = [inf] * n
