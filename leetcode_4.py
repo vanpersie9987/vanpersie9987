@@ -3578,15 +3578,12 @@ class LcaBinaryLifting:
                 c, x = heapq.heappop(q)
                 if x == target:
                     return True
+                if c > dis[x]:
+                    continue
                 for y, w in g[x]:
-                    if w > limit:
-                        if c + 1 < dis[y]:
-                            dis[y] = c + 1
-                            heapq.heappush(q, (c + 1, y))
-                    else:
-                        if c < dis[y]:
-                            dis[y] = c
-                            heapq.heappush(q, (c, y))
+                    if c + (w > limit) < dis[y]:
+                        dis[y] = c + (w > limit)
+                        heapq.heappush(q, (c + (w > limit), y))
             return False
 
         if source == target:

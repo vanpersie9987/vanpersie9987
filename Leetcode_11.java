@@ -282,16 +282,10 @@ public class Leetcode_11 {
             for (int[] nxt : g[x]) {
                 int y = nxt[0];
                 int w = nxt[1];
-                if (w > limit) {
-                    if (d + 1 < dis[y] && d + 1 <= k) {
-                        dis[y] = d + 1;
-                        q.offer(new int[] { d + 1, y });
-                    }
-                } else {
-                    if (d < dis[y]) {
-                        dis[y] = d;
-                        q.offer(new int[] { d, y });
-                    }
+                int dx = w > limit ? 1 : 0;
+                if (d + dx < dis[y]) {
+                    dis[y] = d + dx;
+                    q.offer(new int[] { d + dx, y });
                 }
             }
         }
