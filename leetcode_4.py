@@ -3621,3 +3621,45 @@ class LcaBinaryLifting:
             if len(nxt) == len(cur):
                 return -1
             cur = nxt
+
+    # 3928. 购买苹果的最低成本 II (Minimum Cost to Buy Apples II)
+    def minCost(self, n: int, prices: List[int], roads: List[List[int]]) -> List[int]:
+        def cal(start: int, carry_apple: bool) -> List[int]:
+            dis = [inf if carry_apple else prices[start]] * n
+            dis[start] = 0
+            q = []
+            heapq.heapify(q)
+            q.append((0, start))
+            while q:
+                d, x = heapq.heappop(q)
+                if d > dis[x]:
+                    continue
+                for y, cost, tax in g[x]:
+                    dx = cost * tax if carry_apple else cost
+                    if d + dx < dis[y]:
+                        dis[y] = d + dx
+                        heapq.heappush(q, (d + dx, y))
+            return dis
+
+        g = [[] for _ in range(n)]
+        for u, v, cost, tax in roads:
+            g[u].append((v, cost, tax))
+            g[v].append((u, cost, tax))
+        # dis0[i][j] : 从i到j 不携带苹果，的最小值
+        dis0 = [[inf] * n for _ in range(n)]
+        for i in range(n):
+            # 从i出发，不携带苹果
+            dis0[i] = cal(i, False)
+        # dis1[i][j] : 从i到j 携带苹果，的最小值
+        dis1 = [[inf] * n for _ in range(n)]
+        for i in range(n):
+            # 从i出发，携带苹果
+            dis1[i] = cal(i, True)
+        res = []
+        for i in range(n):
+            s = prices[i]
+            for j in range(n):
+                if i != j:
+                    s = min(s, dis0[i][j] + dis1[j][i] + prices[j])
+            res.append(s)
+        return res
