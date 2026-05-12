@@ -261,7 +261,7 @@ public class Leetcode_11 {
 
     private boolean check3924(int limit, int n, int source, int target, int k, List<int[]>[] g) {
         int[] dis = new int[n];
-        Arrays.fill(dis, Integer.MAX_VALUE);
+        Arrays.fill(dis, k + 1);
         dis[source] = 0;
         Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 

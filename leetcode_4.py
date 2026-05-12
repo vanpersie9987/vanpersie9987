@@ -3569,7 +3569,7 @@ class LcaBinaryLifting:
         self, n: int, edges: List[List[int]], source: int, target: int, k: int
     ) -> int:
         def check(limit: int) -> bool:
-            dis = [inf] * n
+            dis = [k + 1] * n
             dis[source] = 0
             q = []
             q.append((0, source))
@@ -3580,7 +3580,7 @@ class LcaBinaryLifting:
                     return True
                 for y, w in g[x]:
                     if w > limit:
-                        if c + 1 < dis[y] and c + 1 <= k:
+                        if c + 1 < dis[y]:
                             dis[y] = c + 1
                             heapq.heappush(q, (c + 1, y))
                     else:
