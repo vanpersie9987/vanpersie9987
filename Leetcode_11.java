@@ -298,4 +298,36 @@ public class Leetcode_11 {
         return false;
     }
 
+    // 3923. 得到目标点的最少代数 (Minimum Generations to Target Point)
+    private record Group3923(int x, int y, int z) {
+    }
+
+    public int minGenerations(int[][] points, int[] target) {
+        Set<Group3923> cur = new HashSet<>();
+        for (int[] p : points) {
+            cur.add(new Group3923(p[0], p[1], p[2]));
+        }
+        Group3923 tar = new Group3923(target[0], target[1], target[2]);
+        int res = 0;
+        while (true) {
+            if (cur.contains(tar)) {
+                return res;
+            }
+            Set<Group3923> nxt = new HashSet<>();
+            for (Group3923 g : cur) {
+                nxt.add(g);
+            }
+            for (Group3923 g0 : cur) {
+                for (Group3923 g1 : cur) {
+                    nxt.add(new Group3923((g0.x + g1.x) / 2, (g0.y + g1.y) / 2, (g0.z + g1.z) / 2));
+                }
+            }
+            if (cur.size() == nxt.size()) {
+                return -1;
+            }
+            ++res;
+            cur = nxt;
+        }
+    }
+
 }
