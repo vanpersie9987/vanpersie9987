@@ -3655,11 +3655,8 @@ class LcaBinaryLifting:
         for i in range(n):
             # 从i出发，携带苹果
             dis1[i] = cal(i, True)
-        res = []
+        res = [inf] * n
         for i in range(n):
-            s = prices[i]
             for j in range(n):
-                if i != j:
-                    s = min(s, dis0[i][j] + dis1[j][i] + prices[j])
-            res.append(s)
+                res[i] = min(res[i], dis0[i][j] + dis1[j][i] + prices[j])
         return res
