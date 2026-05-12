@@ -330,4 +330,65 @@ public class Leetcode_11 {
         }
     }
 
+    // 3928. 购买苹果的最低成本 II (Minimum Cost to Buy Apples II)
+    public int[] minCost(int n, int[] prices, int[][] roads) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] r : roads) {
+            g[r[0]].add(new int[] { r[1], r[2], r[3] });
+            g[r[1]].add(new int[] { r[0], r[2], r[3] });
+        }
+        // dis0[i][j] : 从i到j 不携带苹果，的最小值
+        int[][] dis0 = new int[n][n];
+        // dis1[i][j] : 从i到j 携带苹果，的最小值
+        int[][] dis1 = new int[n][n];
+        for (int i = 0; i < n; ++i) {
+            dis0[i] = cal3928(i, g, false, prices);
+            dis1[i] = cal3928(i, g, true, prices);
+        }
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int s = prices[i];
+            for (int j = 0; j < n; ++j) {
+                if (i != j) {
+                    s = (int) Math.min(s, (long) dis0[i][j] + dis1[j][i] + prices[j]);
+                }
+            }
+            res[i] = s;
+        }
+        return res;
+
+    }
+
+    private int[] cal3928(int start, List<int[]>[] g, boolean carryApple, int[] prices) {
+        int[] dis = new int[g.length];
+        Arrays.fill(dis, carryApple ? Integer.MAX_VALUE : prices[start]);
+        dis[start] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        q.offer(new int[] { 0, start });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int d = cur[0];
+            int x = cur[1];
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int cost = nxt[1];
+                int tax = nxt[2];
+                long dx = carryApple ? (long) cost * tax : cost;
+                if (d + dx < dis[y]) {
+                    dis[y] = (int) (d + dx);
+                    q.offer(new int[] { (int) (d + dx), y });
+                }
+            }
+        }
+        return dis;
+    }
+
 }
