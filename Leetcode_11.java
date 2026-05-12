@@ -233,4 +233,69 @@ public class Leetcode_11 {
 
     }
 
+    // 3924. 有限重边的最小阈值路径 (Minimum Threshold Path With Limited Heavy Edges)
+    public int minimumThreshold(int n, int[][] edges, int source, int target, int k) {
+        if (source == target) {
+            return 0;
+        }
+        List<int[]>[] g = new ArrayList[n];
+        int mx = 0;
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g[e[0]].add(new int[] { e[1], e[2] });
+            g[e[1]].add(new int[] { e[0], e[2] });
+            mx = Math.max(mx, e[2]);
+        }
+        int left = 0;
+        int right = mx;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3924(mid, n, source, target, k, g)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1 > mx ? -1 : right + 1;
+    }
+
+    private boolean check3924(int limit, int n, int source, int target, int k, List<int[]>[] g) {
+        int[] dis = new int[n];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        dis[source] = 0;
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        q.offer(new int[] { 0, source });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int d = cur[0];
+            int x = cur[1];
+            if (x == target) {
+                return true;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int w = nxt[1];
+                if (w > limit) {
+                    if (d + 1 < dis[y] && d + 1 <= k) {
+                        dis[y] = d + 1;
+                        q.offer(new int[] { d + 1, y });
+                    }
+                } else {
+                    if (d < dis[y]) {
+                        dis[y] = d;
+                        q.offer(new int[] { d, y });
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }
