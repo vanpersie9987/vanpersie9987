@@ -374,6 +374,9 @@ public class Leetcode_11 {
             int[] cur = q.poll();
             int d = cur[0];
             int x = cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
             for (int[] nxt : g[x]) {
                 int y = nxt[0];
                 int cost = nxt[1];
