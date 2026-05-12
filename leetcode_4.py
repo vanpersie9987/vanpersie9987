@@ -3606,3 +3606,18 @@ class LcaBinaryLifting:
             else:
                 left = mid + 1
         return -1 if right + 1 > mx else right + 1
+
+    # 3923. 得到目标点的最少代数 (Minimum Generations to Target Point)
+    def minGenerations(self, points: List[List[int]], target: List[int]) -> int:
+        tar = tuple(target)
+        cur = set(map(tuple, points))
+        res = 0
+        for res in count(0):
+            if tar in cur:
+                return res
+            nxt = cur.copy()
+            for (x0, y0, z0), (x1, y1, z1) in combinations(cur, 2):
+                nxt.add((((x0 + x1) // 2), ((y0 + y1) // 2), ((z0 + z1) // 2)))
+            if len(nxt) == len(cur):
+                return -1
+            cur = nxt
