@@ -2032,16 +2032,17 @@ public class Leetcode_8 {
         return memo1388[i][j] = Math.max(dfs1388(i + 1, j), dfs1388(i + 2, j + 1) + nums1388[i]);
     }
 
-    // 6930. 检查数组是否是好的 (Check if Array is Good)
+    // 2784. 检查数组是否是好的 (Check if Array is Good)
     public boolean isGood(int[] nums) {
         Arrays.sort(nums);
         int n = nums.length;
-        for (int i = 0; i < n - 1; ++i) {
+        ++nums[n - 1];
+        for (int i = 0; i < n; ++i) {
             if (nums[i] != i + 1) {
                 return false;
             }
         }
-        return nums[n - 1] == n - 1;
+        return true;
 
     }
 
