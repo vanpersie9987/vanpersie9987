@@ -184,13 +184,8 @@ class leetcode_1:
     # 2784. 检查数组是否是好的 (Check if Array is Good)
     def isGood(self, nums: List[int]) -> bool:
         nums.sort()
-        n = len(nums)
-        if nums[-1] != n - 1:
-            return False
-        for i in range(0, n - 1):
-            if i + 1 != nums[i]:
-                return False
-        return True
+        nums[-1] += 1
+        return all(i == x for i, x in enumerate(nums, start=1))
 
     # 2786. 访问数组中的位置使分数最大 (Visit Array Positions to Maximize Score)
     def maxScore(self, nums: List[int], x: int) -> int:
