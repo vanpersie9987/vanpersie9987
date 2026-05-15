@@ -7,6 +7,7 @@ from doctest import FAIL_FAST
 from errno import EHWPOISON
 from gettext import find
 import math
+from pdb import run
 from platform import node
 from posixpath import isabs
 from pydoc import plain
@@ -3656,3 +3657,17 @@ class LcaBinaryLifting:
             for j in range(n):
                 res[i] = min(res[i], dis0[i][j] + dis1[j][i] + prices[j])
         return res
+
+    # 153. 寻找旋转排序数组中的最小值 (Find Minimum in Rotated Sorted Array)
+    def findMin(self, nums: List[int]) -> int:
+        n = len(nums)
+        x = nums[-1]
+        left = 0
+        right = n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] < x:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return nums[right] if right == n - 1 else nums[right + 1]
