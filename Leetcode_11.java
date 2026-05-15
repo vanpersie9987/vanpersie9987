@@ -385,4 +385,22 @@ public class Leetcode_11 {
         return dis;
     }
 
+    // 153. 寻找旋转排序数组中的最小值 (Find Minimum in Rotated Sorted Array)
+    public int findMin(int[] nums) {
+        int n = nums.length;
+        int left = 0;
+        int right = n - 1;
+        int x = nums[n - 1];
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] < x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return nums[Math.min(right + 1, n - 1)];
+
+    }
+
 }
