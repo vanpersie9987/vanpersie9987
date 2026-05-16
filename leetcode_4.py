@@ -3671,7 +3671,7 @@ class LcaBinaryLifting:
             else:
                 left = mid + 1
         return nums[right + 1]
-    
+
     # 154. 寻找旋转排序数组中的最小值 II (Find Minimum in Rotated Sorted Array II)
     def findMin(self, nums: List[int]) -> int:
         left, right = -1, len(nums) - 1  # 开区间 (-1, n-1)
@@ -3684,5 +3684,22 @@ class LcaBinaryLifting:
             else:
                 left = mid
         return nums[right]
-    
 
+    # 1306. 跳跃游戏 III (Jump Game III)
+    def canReach(self, arr: List[int], start: int) -> bool:
+        n = len(arr)
+        q = deque()
+        q.append(start)
+        vis = [False] * n
+        vis[start] = True
+        while q:
+            x = q.popleft()
+            if arr[x] == 0:
+                return True
+            if x - arr[x] >= 0 and not vis[x - arr[x]]:
+                vis[x - arr[x]] = True
+                q.append(x - arr[x])
+            if x + arr[x] < n and not vis[x + arr[x]]:
+                vis[x + arr[x]] = True
+                q.append(x + arr[x])
+        return False
