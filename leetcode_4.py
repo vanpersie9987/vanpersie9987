@@ -3660,6 +3660,20 @@ class LcaBinaryLifting:
 
     # 153. 寻找旋转排序数组中的最小值 (Find Minimum in Rotated Sorted Array)
     def findMin(self, nums: List[int]) -> int:
+        n = len(nums)
+        x = nums[-1]
+        left = 0
+        right = n - 2
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] < x:
+                right = mid - 1
+            else:
+                left = mid + 1
+        return nums[right + 1]
+    
+    # 154. 寻找旋转排序数组中的最小值 II (Find Minimum in Rotated Sorted Array II)
+    def findMin(self, nums: List[int]) -> int:
         left, right = -1, len(nums) - 1  # 开区间 (-1, n-1)
         while left + 1 < right:  # 开区间不为空
             mid = (left + right) // 2
@@ -3670,3 +3684,5 @@ class LcaBinaryLifting:
             else:
                 left = mid
         return nums[right]
+    
+
