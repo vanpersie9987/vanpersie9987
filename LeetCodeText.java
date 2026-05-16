@@ -1606,7 +1606,7 @@ public class LeetCodeText {
         int n = nums.length;
         int left = 0;
         int right = n - 1;
-        int x = nums[n - 1];
+        int x = nums[n - 2];
         while (left <= right) {
             int mid = left + ((right - left) >> 1);
             if (nums[mid] < x) {
@@ -1615,11 +1615,11 @@ public class LeetCodeText {
                 left = mid + 1;
             }
         }
-        return nums[Math.min(right + 1, n - 1)];
+        return nums[right + 1];
 
     }
 
-    // 154. 寻找旋转排序数组中的最小值 II (Find Minimum in Rotated Sorted Array II) --需要掌握二分查找
+    // 154. 寻找旋转排序数组中的最小值 II (Find Minimum in Rotated Sorted Array II)
     // 剑指 Offer 11. 旋转数组的最小数字
     public int findMin154(int[] nums) {
         int left = 0;
