@@ -3785,6 +3785,4 @@ class LcaBinaryLifting:
             for j in range(n):
                 s.add(matrix[i][j])
         s.discard(0)
-        if len(s) == 0:
-            return 0
         return sum(check(x) for x in s)

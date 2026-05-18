@@ -417,4 +417,62 @@ public class Leetcode_11 {
 
     }
 
+    // 3933. 矩阵中的局部最大值 II (Largest Local Values in a Matrix II)
+    public int countLocalMaximums(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        Set<Integer> s = new HashSet<>();
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                s.add(matrix[i][j]);
+            }
+        }
+        s.remove(0);
+        int res = 0;
+        for (int x : s) {
+            res += check3933(matrix, x);
+        }
+        return res;
+
+    }
+
+    private int check3933(int[][] matrix, int x) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] pre = new int[m + 1][n + 1];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                pre[i + 1][j + 1] = pre[i + 1][j] + pre[i][j + 1] - pre[i][j] + (matrix[i][j] > x ? 1 : 0);
+            }
+        }
+        int res = 0;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (matrix[i][j] == x) {
+                    int x1 = Math.min(m, i + x + 1);
+                    int y1 = Math.min(n, j + x + 1);
+                    int x0 = Math.max(0, i - x);
+                    int y0 = Math.max(0, j - x);
+                    int cnt = pre[x1][y1] - pre[x1][y0] - pre[x0][y1] + pre[x0][y0];
+                    if (i - x >= 0 && j - x >= 0) {
+                        cnt -= matrix[i - x][j - x] > x ? 1 : 0;
+                    }
+                    if (i - x >= 0 && j + x < n) {
+                        cnt -= matrix[i - x][j + x] > x ? 1 : 0;
+                    }
+                    if (i + x < m && j - x >= 0) {
+                        cnt -= matrix[i + x][j - x] > x ? 1 : 0;
+                    }
+                    if (i + x < m && j + x < n) {
+                        cnt -= matrix[i + x][j + x] > x ? 1 : 0;
+                    }
+                    if (cnt == 0) {
+                        ++res;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
 }
