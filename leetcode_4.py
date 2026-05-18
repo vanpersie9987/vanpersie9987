@@ -3784,3 +3784,39 @@ class LcaBinaryLifting:
                 if matrix[i][j]:
                     d[matrix[i][j]].append((i, j))
         return sum(check(k, v) for k, v in d.items())
+
+    # 3934. 最短唯一子数组 (Smallest Unique Subarray) --滚动哈希
+    def smallestUniqueSubarray(self, nums: List[int]) -> int:
+        def has_unique_subarray(k: int):
+            BASE = 131
+            MOD = (1 << 61) - 1  # 梅森素数，碰撞率极低
+
+            # 预计算 BASE^k mod MOD（用于滚出最左元素）
+            power = pow(BASE, k, MOD)
+
+            # 计算第一个窗口的哈希值
+            h = 0
+            for i in range(k):
+                h = (h * BASE + nums[i]) % MOD
+
+            count = {h: 1}
+
+            # 滑动窗口，O(1) 滚动哈希
+            for i in range(1, n - k + 1):
+                # 滚出左边元素，滚入右边元素
+                h = (h * BASE - nums[i - 1] * power + nums[i + k - 1]) % MOD
+                count[h] = count.get(h, 0) + 1
+
+            # 检查是否存在只出现一次的子数组
+            return any(v == 1 for v in count.values())
+
+        n = len(nums)
+        left = 1
+        right = n
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if has_unique_subarray(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
