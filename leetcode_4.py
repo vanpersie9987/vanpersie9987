@@ -3730,3 +3730,7 @@ class LcaBinaryLifting:
                 vis[pos + 1] = True
                 q.append((pos + 1, step + 1))
         return -1
+    
+    # 3931. 检查相邻数字差 (Check Adjacent Digit Differences)
+    def isAdjacentDiffAtMostTwo(self, s: str) -> bool:
+        return all(abs(int(x) - int(y)) <= 2 for x, y in pairwise(s))
