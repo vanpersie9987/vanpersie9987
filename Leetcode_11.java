@@ -421,22 +421,22 @@ public class Leetcode_11 {
     public int countLocalMaximums(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
-        Set<Integer> s = new HashSet<>();
+        Map<Integer, List<int[]>> map = new HashMap<>();
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                s.add(matrix[i][j]);
+                map.computeIfAbsent(matrix[i][j], o -> new ArrayList<>()).add(new int[] { i, j });
             }
         }
-        s.remove(0);
+        map.remove(0);
         int res = 0;
-        for (int x : s) {
-            res += check3933(matrix, x);
+        for (Map.Entry<Integer, List<int[]>> entry : map.entrySet()) {
+            res += check3933(matrix, entry.getKey(), entry.getValue());
         }
         return res;
 
     }
 
-    private int check3933(int[][] matrix, int x) {
+    private int check3933(int[][] matrix, int x, List<int[]> list) {
         int m = matrix.length;
         int n = matrix[0].length;
         int[][] pre = new int[m + 1][n + 1];
@@ -446,31 +446,30 @@ public class Leetcode_11 {
             }
         }
         int res = 0;
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (matrix[i][j] == x) {
-                    int x1 = Math.min(m, i + x + 1);
-                    int y1 = Math.min(n, j + x + 1);
-                    int x0 = Math.max(0, i - x);
-                    int y0 = Math.max(0, j - x);
-                    int cnt = pre[x1][y1] - pre[x1][y0] - pre[x0][y1] + pre[x0][y0];
-                    if (i - x >= 0 && j - x >= 0) {
-                        cnt -= matrix[i - x][j - x] > x ? 1 : 0;
-                    }
-                    if (i - x >= 0 && j + x < n) {
-                        cnt -= matrix[i - x][j + x] > x ? 1 : 0;
-                    }
-                    if (i + x < m && j - x >= 0) {
-                        cnt -= matrix[i + x][j - x] > x ? 1 : 0;
-                    }
-                    if (i + x < m && j + x < n) {
-                        cnt -= matrix[i + x][j + x] > x ? 1 : 0;
-                    }
-                    if (cnt == 0) {
-                        ++res;
-                    }
-                }
+        for (int[] p : list) {
+            int i = p[0];
+            int j = p[1];
+            int x1 = Math.min(m, i + x + 1);
+            int y1 = Math.min(n, j + x + 1);
+            int x0 = Math.max(0, i - x);
+            int y0 = Math.max(0, j - x);
+            int cnt = pre[x1][y1] - pre[x1][y0] - pre[x0][y1] + pre[x0][y0];
+            if (i - x >= 0 && j - x >= 0) {
+                cnt -= matrix[i - x][j - x] > x ? 1 : 0;
             }
+            if (i - x >= 0 && j + x < n) {
+                cnt -= matrix[i - x][j + x] > x ? 1 : 0;
+            }
+            if (i + x < m && j - x >= 0) {
+                cnt -= matrix[i + x][j - x] > x ? 1 : 0;
+            }
+            if (i + x < m && j + x < n) {
+                cnt -= matrix[i + x][j + x] > x ? 1 : 0;
+            }
+            if (cnt == 0) {
+                ++res;
+            }
+
         }
         return res;
     }
