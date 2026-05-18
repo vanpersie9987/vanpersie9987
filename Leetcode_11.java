@@ -532,7 +532,8 @@ public class Leetcode_11 {
 
     private long modMul3934(long a, long b) {
         // Java 9+ 提供无符号128位乘法的高64位
-        long hi = Math.unsignedMultiplyHigh(a, b);
+
+        long hi = Math.multiplyHigh(a, b);
         long lo = a * b; // 低64位（自动截断）
 
         // 128位数 hi:lo 对 2^61-1 取模
