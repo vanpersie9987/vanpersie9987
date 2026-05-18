@@ -385,4 +385,15 @@ public class Leetcode_11 {
         return dis;
     }
 
+    // 3931. 检查相邻数字差 (Check Adjacent Digit Differences)
+    public boolean isAdjacentDiffAtMostTwo(String s) {
+        for (int i = 1; i < s.length(); ++i) {
+            if (Math.abs(s.charAt(i) - s.charAt(i - 1)) > 2) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
 }
