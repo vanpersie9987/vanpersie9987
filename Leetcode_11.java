@@ -396,4 +396,25 @@ public class Leetcode_11 {
 
     }
 
+    // 3932. 统计区间内的完全 K 次幂数量 (Count K-th Roots in a Range)
+    public int countKthRoots(int l, int r, int k) {
+        if (k == 1) {
+            return r - l + 1;
+        }
+        int res = 0;
+        int x = 0;
+        while (true) {
+            long y = (long) Math.pow(x, k);
+            if (y > r) {
+                break;
+            }
+            if (y >= l) {
+                ++res;
+            }
+            ++x;
+        }
+        return res;
+
+    }
+
 }

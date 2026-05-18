@@ -1,6 +1,7 @@
 from ast import Return, Tuple, literal_eval
 from asyncio import FastChildWatcher
 import csv
+import math
 from curses.panel import bottom_panel
 from dbm import dumb
 from doctest import FAIL_FAST
@@ -3730,7 +3731,19 @@ class LcaBinaryLifting:
                 vis[pos + 1] = True
                 q.append((pos + 1, step + 1))
         return -1
-    
+
     # 3931. 检查相邻数字差 (Check Adjacent Digit Differences)
     def isAdjacentDiffAtMostTwo(self, s: str) -> bool:
         return all(abs(int(x) - int(y)) <= 2 for x, y in pairwise(s))
+
+    # 3932. 统计区间内的完全 K 次幂数量 (Count K-th Roots in a Range)
+    def countKthRoots(self, l: int, r: int, k: int) -> int:
+        if k == 1:
+            return r - l + 1
+        res = 0
+        for x in count(0):
+            if pow(x, k) > r:
+                break
+            if l <= pow(x, k) <= r:
+                res += 1
+        return res
