@@ -474,4 +474,92 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 3934. 最短唯一子数组 (Smallest Unique Subarray) --滚动哈希
+    public int smallestUniqueSubarray(int[] nums) {
+        int n = nums.length;
+        int left = 1;
+        int right = n;
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (hasUniqueSubarray3934(nums, mid)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+
+    }
+
+    public boolean hasUniqueSubarray3934(int[] arr, int k) {
+        int n = arr.length;
+        final long BASE = 131L;
+        final long MOD = (1L << 61) - 1; // 梅森素数
+
+        // 预计算 BASE^k mod MOD
+        long power = modPow3934(BASE, k);
+
+        // 计算第一个窗口的哈希值
+        long h = 0;
+        for (int i = 0; i < k; i++) {
+            h = modMul3934(h, BASE);
+            h = (h + arr[i]) % MOD;
+        }
+
+        Map<Long, Integer> count = new HashMap<>();
+        count.put(h, 1);
+
+        // 滑动窗口
+        for (int i = 1; i <= n - k; i++) {
+            // 滚出左边元素，滚入右边元素
+            long left = modMul3934(arr[i - 1], power);
+            h = modMul3934(h, BASE);
+            h = ((h - left + arr[i + k - 1] + MOD) % MOD + MOD) % MOD;
+            count.merge(h, 1, Integer::sum);
+        }
+
+        // 检查是否存在只出现一次的子数组
+        for (int v : count.values()) {
+            if (v == 1)
+                return true;
+        }
+        return false;
+    }
+
+    /** 模乘：防止 long 溢出，使用 128 位分段乘法 */
+    /** 梅森素数专用快速模乘，彻底安全 */
+    private static final long MOD3934 = (1L << 61) - 1;
+
+    private long modMul3934(long a, long b) {
+        // Java 9+ 提供无符号128位乘法的高64位
+        long hi = Math.unsignedMultiplyHigh(a, b);
+        long lo = a * b; // 低64位（自动截断）
+
+        // 128位数 hi:lo 对 2^61-1 取模
+        // 利用 2^61 ≡ 1，所以 x * 2^61k ≡ x
+        // hi:lo = hi * 2^64 + lo
+        // 2^64 = 2^3 * 2^61 ≡ 2^3 = 8
+        // 所以 hi * 2^64 ≡ hi * 8
+        // 最终 = (hi * 8 + lo) mod (2^61-1)
+        //
+        // 但 hi*8 + lo 仍可能 > 2^64，需再次折叠
+        // hi < 2^64, hi*8 < 2^67, 取高3位折叠
+        long result = (hi << 3 | lo >>> 61) + (lo & MOD3934);
+        if (result >= MOD3934)
+            result -= MOD3934;
+        return result;
+    }
+
+    private long modPow3934(long base, long exp) {
+        long result = 1L;
+        base %= MOD3934;
+        while (exp > 0) {
+            if ((exp & 1) == 1)
+                result = modMul3934(result, base);
+            base = modMul3934(base, base);
+            exp >>= 1;
+        }
+        return result;
+    }
+
 }
