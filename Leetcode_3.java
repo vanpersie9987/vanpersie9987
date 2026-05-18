@@ -5441,47 +5441,36 @@ public class Leetcode_3 {
     // 1345. 跳跃游戏 IV (Jump Game IV) --bfs
     public int minJumps(int[] arr) {
         int n = arr.length;
-        if (n == 1) {
-            return 0;
-        }
-        if (arr[0] == arr[n - 1]) {
-            return 1;
-        }
-        Map<Integer, List<Integer>> numToIndex = new HashMap<>();
+        Deque<int[]> q = new ArrayDeque<>();
+        boolean[] vis = new boolean[n];
+        vis[0] = true;
+        Map<Integer, List<Integer>> d = new HashMap<>();
         for (int i = 0; i < n; ++i) {
-            numToIndex.computeIfAbsent(arr[i], k -> new LinkedList<>()).add(i);
+            d.computeIfAbsent(arr[i], o -> new ArrayList<>()).add(i);
         }
-        boolean[] visited = new boolean[n];
-        Queue<int[]> queue = new LinkedList<>();
-        queue.offer(new int[] { 0, 0 });
-        visited[0] = true;
-        while (!queue.isEmpty()) {
-            int[] node = queue.poll();
-            if (numToIndex.get(arr[node[0]]) != null) {
-                for (int neighbor : numToIndex.get(arr[node[0]])) {
-                    if (!visited[neighbor]) {
-                        if (neighbor == n - 1) {
-                            return node[1] + 1;
-                        }
-                        visited[neighbor] = true;
-                        queue.offer(new int[] { neighbor, node[1] + 1 });
-                    }
+        q.offer(new int[] { 0, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.pollFirst();
+            int pos = cur[0];
+            int step = cur[1];
+            if (pos == n - 1) {
+                return step;
+            }
+            for (int nxt : d.getOrDefault(arr[pos], new ArrayList<>())) {
+                if (!vis[nxt]) {
+                    vis[nxt] = true;
+                    q.offer(new int[] { nxt, step + 1 });
                 }
-                numToIndex.remove(arr[node[0]]);
             }
-
-            if (node[0] - 1 >= 0 && !visited[node[0] - 1]) {
-                visited[node[0] - 1] = true;
-                queue.offer(new int[] { node[0] - 1, node[1] + 1 });
+            d.remove(arr[pos]);
+            if (pos - 1 >= 0 && !vis[pos - 1]) {
+                vis[pos - 1] = true;
+                q.offer(new int[] { pos - 1, step + 1 });
             }
-            if (node[0] + 1 < n && !visited[node[0] + 1]) {
-                if (node[0] + 1 == n - 1) {
-                    return node[1] + 1;
-                }
-                visited[node[0] + 1] = true;
-                queue.offer(new int[] { node[0] + 1, node[1] + 1 });
+            if (!vis[pos + 1]) {
+                vis[pos + 1] = true;
+                q.offer(new int[] { pos + 1, step + 1 });
             }
-
         }
         return -1;
 
