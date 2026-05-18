@@ -3750,7 +3750,7 @@ class LcaBinaryLifting:
 
     # 3933. 矩阵中的局部最大值 II (Largest Local Values in a Matrix II)
     def countLocalMaximums(self, matrix: List[List[int]]) -> int:
-        def check(x: int) -> int:
+        def check(x: int, a: List[List[int]]) -> int:
             pre = [[0] * (n + 1) for _ in range(m + 1)]
             for i in range(m):
                 for j in range(n):
@@ -3761,28 +3761,26 @@ class LcaBinaryLifting:
                         + int(matrix[i][j] > x)
                     )
             res = 0
-            for i in range(m):
-                for j in range(n):
-                    if matrix[i][j] == x:
-                        x1, y1 = min(m, i + x + 1), min(n, j + x + 1)
-                        x0, y0 = max(0, i - x), max(0, j - x)
-                        cnt = pre[x1][y1] - pre[x1][y0] - pre[x0][y1] + pre[x0][y0]
-                        if i - x >= 0 and j - x >= 0:
-                            cnt -= matrix[i - x][j - x] > x
-                        if i - x >= 0 and j + x < n:
-                            cnt -= matrix[i - x][j + x] > x
-                        if i + x < m and j - x >= 0:
-                            cnt -= matrix[i + x][j - x] > x
-                        if i + x < m and j + x < n:
-                            cnt -= matrix[i + x][j + x] > x
-                        if cnt == 0:
-                            res += 1
+            for i, j in a:
+                x1, y1 = min(m, i + x + 1), min(n, j + x + 1)
+                x0, y0 = max(0, i - x), max(0, j - x)
+                cnt = pre[x1][y1] - pre[x1][y0] - pre[x0][y1] + pre[x0][y0]
+                if i - x >= 0 and j - x >= 0:
+                    cnt -= matrix[i - x][j - x] > x
+                if i - x >= 0 and j + x < n:
+                    cnt -= matrix[i - x][j + x] > x
+                if i + x < m and j - x >= 0:
+                    cnt -= matrix[i + x][j - x] > x
+                if i + x < m and j + x < n:
+                    cnt -= matrix[i + x][j + x] > x
+                if cnt == 0:
+                    res += 1
             return res
 
         m, n = len(matrix), len(matrix[0])
-        s = set()
+        d = defaultdict(list)
         for i in range(m):
             for j in range(n):
-                s.add(matrix[i][j])
-        s.discard(0)
-        return sum(check(x) for x in s)
+                if matrix[i][j]:
+                    d[matrix[i][j]].append((i, j))
+        return sum(check(k, v) for k, v in d.items())
