@@ -3703,3 +3703,30 @@ class LcaBinaryLifting:
                 vis[x + arr[x]] = True
                 q.append(x + arr[x])
         return False
+
+    # 1345. 跳跃游戏 IV (Jump Game IV)
+    def minJumps(self, arr: List[int]) -> int:
+        n = len(arr)
+        q = deque()
+        d = defaultdict(list)
+        for i, x in enumerate(arr):
+            d[x].append(i)
+        q.append((0, 0))
+        vis = [False] * n
+        vis[0] = True
+        while q:
+            pos, step = q.popleft()
+            if pos == n - 1:
+                return step
+            for nxt in d[arr[pos]]:
+                if not vis[nxt]:
+                    vis[nxt] = True
+                    q.append((nxt, step + 1))
+            del d[arr[pos]]
+            if pos - 1 >= 0 and not vis[pos - 1]:
+                vis[pos - 1] = True
+                q.append((pos - 1, step + 1))
+            if not vis[pos + 1]:
+                vis[pos + 1] = True
+                q.append((pos + 1, step + 1))
+        return -1
