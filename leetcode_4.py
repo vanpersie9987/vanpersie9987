@@ -3820,3 +3820,15 @@ class LcaBinaryLifting:
             else:
                 left = mid + 1
         return right + 1
+
+    # 2540. 最小公共值 (Minimum Common Value)
+    def getCommon(self, nums1: List[int], nums2: List[int]) -> int:
+        j = 0
+        for x in nums1:
+            while j < len(nums2) and nums2[j] < x:
+                j += 1
+            if j == len(nums2):
+                break
+            if nums2[j] == x:
+                return x
+        return -1
