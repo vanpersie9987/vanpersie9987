@@ -5371,20 +5371,18 @@ public class Leetcode_6 {
 
     }
 
-    // 6300. 最小公共值
+    // 2540. 最小公共值 (Minimum Common Value)
     public int getCommon(int[] nums1, int[] nums2) {
-        int i = 0;
         int j = 0;
-        int n1 = nums1.length;
-        int n2 = nums2.length;
-        while (i < n1 && j < n2) {
-            if (nums1[i] == nums2[j]) {
-                return nums1[i];
-            }
-            if (nums1[i] < nums2[j]) {
-                ++i;
-            } else {
+        for (int x : nums1) {
+            while (j < nums2.length && nums2[j] < x) {
                 ++j;
+            }
+            if (j == nums2.length) {
+                break;
+            }
+            if (nums2[j] == x) {
+                return x;
             }
         }
         return -1;
