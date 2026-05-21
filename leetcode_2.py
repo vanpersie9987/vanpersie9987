@@ -1264,18 +1264,31 @@ class Union924:
 
     # 3043. 最长公共前缀的长度 (Find the Length of the Longest Common Prefix)
     def longestCommonPrefix(self, arr1: List[int], arr2: List[int]) -> int:
-        s = set()
+        class trie:
+            def __init__(self):
+                self.children = [None] * 10
+
+            def insert(self, s: str):
+                node = self
+                for x in s:
+                    id = int(x)
+                    if node.children[id] is None:
+                        node.children[id] = trie()
+                    node = node.children[id]
+
+            def check(self, s: str) -> int:
+                node = self
+                for i, x in enumerate(s):
+                    id = int(x)
+                    if node.children[id] is None:
+                        return i
+                    node = node.children[id]
+                return len(s)
+
+        t = trie()
         for x in arr1:
-            a = str(x)
-            for i in range(1, len(a) + 1):
-                s.add(a[:i])
-        res = 0
-        for x in arr2:
-            a = str(x)
-            for i in range(1, len(a) + 1):
-                if a[:i] in s:
-                    res = max(res, i)
-        return res
+            t.insert(str(x))
+        return max(t.check(str(x)) for x in arr2)
 
     # 3044. 出现频率最高的质数 (Most Frequent Prime)
     def mostFrequentPrime(self, mat: List[List[int]]) -> int:
@@ -2985,7 +2998,7 @@ class Union924:
                     self.dfs(y, d + 1, x)
 
         def getKthAncestor(self, node: int, k: int) -> int:
-            (d, t) = self.node_to_layer[node]
+            d, t = self.node_to_layer[node]
             if d - k < 0:
                 return -1
             return self.binary_search(self.level[d - k], t)
@@ -3602,7 +3615,7 @@ class Union924:
         q = [(0, n - 1)]
         heapq.heapify(q)
         while q:
-            (d, x) = heapq.heappop(q)
+            d, x = heapq.heappop(q)
             if d > dis[x] or x == 0:
                 continue
             for y, dx, _ in g[x]:
@@ -5817,7 +5830,7 @@ class Union924:
 
         def adjacentSum(self, value: int) -> int:
             res = 0
-            (x, y) = self.d[value]
+            x, y = self.d[value]
             for i in range(max(0, x - 1), min(self.n, x + 2)):
                 for j in range(max(0, y - 1), min(self.n, y + 2)):
                     if i == x or j == y:
@@ -6192,7 +6205,7 @@ class Union924:
                 step += 1
                 size = len(q)
                 for _ in range(size):
-                    (x, y) = q.popleft()
+                    x, y = q.popleft()
                     for dx, dy in (
                         [-1, -2],
                         [-1, 2],
@@ -6701,7 +6714,7 @@ class Union924:
         q.append((passingFees[0], 0, 0))
         heapq.heapify(q)
         while q:
-            (fee, x, time) = heapq.heappop(q)
+            fee, x, time = heapq.heappop(q)
             if time > maxTime:
                 continue
             if x == n - 1:
@@ -7102,7 +7115,7 @@ class Union924:
         heapq.heapify(q)
         q.append((0, 0, 0))
         while q:
-            (t, x, y) = heapq.heappop(q)
+            t, x, y = heapq.heappop(q)
             if t > dis[x][y]:
                 continue
             if x == m - 1 and y == n - 1:
@@ -7341,7 +7354,7 @@ class Union924:
         cnt = 0
         heapq.heapify(q)
         while q:
-            (t, x) = heapq.heappop(q)
+            t, x = heapq.heappop(q)
             if t > dis[x]:
                 continue
             cnt += 1
@@ -8674,7 +8687,7 @@ class Union924:
                 self.cuisine_to_food_score[cuisine].add((self.n - rating, food))
 
         def changeRating(self, food: str, newRating: int) -> None:
-            (old_rating, cuisine) = self.food_to_rating_cuisine[food]
+            old_rating, cuisine = self.food_to_rating_cuisine[food]
             self.food_to_rating_cuisine[food] = (newRating, cuisine)
             self.cuisine_to_food_score[cuisine].remove((self.n - old_rating, food))
             self.cuisine_to_food_score[cuisine].add((self.n - newRating, food))
@@ -8949,11 +8962,11 @@ class Union924:
             self.sheets = [[0] * 26 for _ in range(rows + 1)]
 
         def setCell(self, cell: str, value: int) -> None:
-            (r, c) = self.check(cell)
+            r, c = self.check(cell)
             self.sheets[r][c] = value
 
         def resetCell(self, cell: str) -> None:
-            (r, c) = self.check(cell)
+            r, c = self.check(cell)
             self.sheets[r][c] = 0
 
         def getValue(self, formula: str) -> int:
@@ -8963,7 +8976,7 @@ class Union924:
             if 9 >= ord(x[0]) - ord("0") >= 0:
                 a = int(x)
             else:
-                (r, c) = self.check(x)
+                r, c = self.check(x)
                 a = self.sheets[r][c]
 
             y = formula[plus_pos + 1 :]
@@ -8971,7 +8984,7 @@ class Union924:
             if 9 >= ord(y[0]) - ord("0") >= 0:
                 b = int(y)
             else:
-                (r, c) = self.check(y)
+                r, c = self.check(y)
                 b = self.sheets[r][c]
             return a + b
 
