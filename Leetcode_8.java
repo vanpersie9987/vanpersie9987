@@ -7861,24 +7861,47 @@ public class Leetcode_8 {
 
     // 3043. 最长公共前缀的长度 (Find the Length of the Longest Common Prefix)
     public int longestCommonPrefix(int[] arr1, int[] arr2) {
-        Set<String> set = new HashSet<>();
-        for (int i = 0; i < arr1.length; ++i) {
-            String s = String.valueOf(arr1[i]);
-            for (int j = 1; j <= s.length(); ++j) {
-                set.add(s.substring(0, j));
-            }
+        Trie3043 trie = new Trie3043();
+        for (int x : arr1) {
+            trie.insert(String.valueOf(x));
         }
         int res = 0;
-        for (int i = 0; i < arr2.length; ++i) {
-            String s = String.valueOf(arr2[i]);
-            for (int j = 1; j <= s.length(); ++j) {
-                if (set.contains(s.substring(0, j))) {
-                    res = Math.max(res, j);
-                }
-            }
+        for (int x : arr2) {
+            res = Math.max(res, trie.check(String.valueOf(x)));
         }
         return res;
 
+    }
+
+    class Trie3043 {
+        private Trie3043[] children;
+
+        public Trie3043() {
+            this.children = new Trie3043[10];
+        }
+
+        public void insert(String s) {
+            Trie3043 node = this;
+            for (char c : s.toCharArray()) {
+                int id = c - '0';
+                if (node.children[id] == null) {
+                    node.children[id] = new Trie3043();
+                }
+                node = node.children[id];
+            }
+        }
+
+        public int check(String s) {
+            Trie3043 node = this;
+            for (int i = 0; i < s.length(); ++i) {
+                int id = s.charAt(i) - '0';
+                if (node.children[id] == null) {
+                    return i;
+                }
+                node = node.children[id];
+            }
+            return s.length();
+        }
     }
 
     // 3044. 出现频率最高的质数 (Most Frequent Prime)
