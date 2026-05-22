@@ -3832,3 +3832,36 @@ class LcaBinaryLifting:
             if nums2[j] == x:
                 return x
         return -1
+
+    # 33. 搜索旋转排序数组 (Search in Rotated Sorted Array)
+    def search(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        x = nums[-1]
+        left = 0
+        right = n - 2
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] < x:
+                right = mid - 1
+            else:
+                left = mid + 1
+        # 最小值对应的下标
+        i = right + 1
+        # target只可能在[0, i - 1] 中
+        left, right = -1, -1
+        if target > nums[-1]:
+            left = 0
+            right = i - 1
+        # target只可能在[i, n - 1] 中
+        else:
+            left = i
+            right = n - 1
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if nums[mid] == target:
+                return mid
+            if nums[mid] < target:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return -1
