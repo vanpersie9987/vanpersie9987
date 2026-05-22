@@ -326,54 +326,40 @@ public class LeetCodeText {
 
     }
 
-    // 33. 搜索旋转排序数组
-    public int search(final int[] nums, final int target) {
-        int rotateIndex = findRotateIndex2(nums, 0, nums.length - 1);
-        if (nums[rotateIndex] == target) {
-            return rotateIndex;
-        }
-        if (rotateIndex == 0) {
-            return binarySearch2(nums, target, 0, nums.length - 1);
-        }
-        if (nums[0] > target) {
-            return binarySearch2(nums, target, rotateIndex, nums.length - 1);
-        } else {
-            return binarySearch2(nums, target, 0, rotateIndex - 1);
-        }
-
-    }
-
-    private int binarySearch2(int[] nums, int target, int left, int right) {
+    // 33. 搜索旋转排序数组 (Search in Rotated Sorted Array)
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        int left = 0;
+        int right = n - 2;
+        int x = nums[n - 1];
         while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (nums[mid] == target) {
-                return mid;
-            } else if (nums[mid] < target) {
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] > x) {
                 left = mid + 1;
-            } else if (nums[mid] > target) {
+            } else {
                 right = mid - 1;
             }
         }
-        return -1;
-
-    }
-
-    private int findRotateIndex2(int[] nums, int left, int right) {
-        if (nums[left] < nums[right]) {
-            return 0;
+        int i = right + 1;
+        if (x >= target) {
+            left = i;
+            right = n - 1;
+        } else {
+            left = 0;
+            right = i - 1;
         }
         while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if ((mid + 1 < nums.length) && nums[mid] > nums[mid + 1]) {
-                return mid + 1;
+            int mid = left + ((right - left) >> 1);
+            if (nums[mid] == target) {
+                return mid;
             }
-            if (nums[left] > nums[mid]) {
+            if (nums[mid] > target) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
-        return 0;
+        return -1;
 
     }
 
