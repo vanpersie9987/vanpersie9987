@@ -3875,3 +3875,21 @@ class LcaBinaryLifting:
                 if cnt == 2:
                     return False
         return cnt == 0 or nums[-1] <= nums[0]
+
+    # 将 0 移到末尾的最少交换次数 (Minimum Swaps to Move Zeros to End)
+    def minimumSwaps(self, nums: list[int]) -> int:
+        n = len(nums)
+        left = 0
+        right = n - 1
+        res = 0
+        while left < right:
+            while left < right and nums[left]:
+                left += 1
+            while left < right and nums[right] == 0:
+                right -= 1
+            if left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+                res += 1
+        return res
