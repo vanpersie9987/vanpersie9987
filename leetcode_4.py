@@ -3865,3 +3865,13 @@ class LcaBinaryLifting:
             else:
                 right = mid - 1
         return -1
+
+    # 1752. 检查数组是否经排序和轮转得到 (Check if Array Is Sorted and Rotated)
+    def check(self, nums: List[int]) -> bool:
+        cnt = 0
+        for x, y in pairwise(nums):
+            if x > y:
+                cnt += 1
+                if cnt == 2:
+                    return False
+        return cnt == 0 or nums[-1] <= nums[0]
