@@ -5352,17 +5352,15 @@ public class LeetCodeText {
     // 1752. 检查数组是否经排序和轮转得到 (Check if Array Is Sorted and Rotated)
     public boolean check(int[] nums) {
         int n = nums.length;
-        int i = 1;
         int count = 0;
-        while (i < n) {
+        for (int i = 1; i < n; ++i) {
             if (nums[i] < nums[i - 1]) {
-                if (++count > 1) {
+                if (++count == 2) {
                     return false;
                 }
             }
-            ++i;
         }
-        return count == 0 || (count == 1 && nums[0] >= nums[n - 1]);
+        return count == 0 || nums[0] >= nums[n - 1];
 
     }
 
