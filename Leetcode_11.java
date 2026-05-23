@@ -562,4 +562,54 @@ public class Leetcode_11 {
         }
         return result;
     }
+
+    // 3936. 将 0 移到末尾的最少交换次数 (Minimum Swaps to Move Zeros to End)
+    public int minimumSwaps(int[] nums) {
+        int n = nums.length;
+        int left = 0;
+        int right = n - 1;
+        int res = 0;
+        while (left < right) {
+            while (left < right && nums[left] != 0) {
+                ++left;
+            }
+            while (left < right && nums[right] == 0) {
+                --right;
+            }
+            if (left < right) {
+                ++left;
+                --right;
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
+    // 3937. 使数组变为模交替数组的最少操作次数 I (Minimum Operations to Make Array Modulo
+    // Alternating I)
+    public int minOperations(int[] nums, int k) {
+        int res = Integer.MAX_VALUE;
+        for (int x = 0; x < k; ++x) {
+            for (int y = 0; y < k; ++y) {
+                if (x == y) {
+                    continue;
+                }
+                int s = 0;
+                for (int i = 0; i < nums.length; ++i) {
+                    int v = nums[i] % k;
+                    if (i % 2 == 0) {
+                        int d = Math.abs(v - x);
+                        s += Math.min(d, k - d);
+                    } else {
+                        int d = Math.abs(v - y);
+                        s += Math.min(d, k - d);
+                    }
+                }
+                res = Math.min(res, s);
+            }
+        }
+        return res;
+
+    }
 }

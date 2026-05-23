@@ -3876,7 +3876,7 @@ class LcaBinaryLifting:
                     return False
         return cnt == 0 or nums[-1] <= nums[0]
 
-    # 将 0 移到末尾的最少交换次数 (Minimum Swaps to Move Zeros to End)
+    # 3936. 将 0 移到末尾的最少交换次数 (Minimum Swaps to Move Zeros to End)
     def minimumSwaps(self, nums: list[int]) -> int:
         n = len(nums)
         left = 0
@@ -3888,8 +3888,27 @@ class LcaBinaryLifting:
             while left < right and nums[right] == 0:
                 right -= 1
             if left < right:
-                nums[left], nums[right] = nums[right], nums[left]
                 left += 1
                 right -= 1
                 res += 1
+        return res
+
+    # 3937. 使数组变为模交替数组的最少操作次数 I (Minimum Operations to Make Array Modulo Alternating I)
+    def minOperations(self, nums: list[int], k: int) -> int:
+        res = inf
+        for x in range(k):
+            for y in range(k):
+                if x == y:
+                    continue
+                s = 0
+                for i, v in enumerate(nums):
+                    v %= k
+                    # v 变成 x
+                    if i % 2 == 0:
+                        d = abs(v - x)
+                        s += min(d, k - d)
+                    else:
+                        d = abs(v - y)
+                        s += min(d, k - d)
+                res = min(res, s)
         return res
