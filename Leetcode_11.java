@@ -662,4 +662,22 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
+    public int[] limitOccurrences(int[] nums, int k) {
+        int pre = -1;
+        int cnt = 0;
+        List<Integer> res = new ArrayList<>();
+        for (int x : nums) {
+            if (pre != x) {
+                cnt = 0;
+                pre = x;
+            }
+            if (cnt++ < k) {
+                res.add(x);
+            }
+        }
+        return res.stream().mapToInt(i -> i).toArray();
+
+    }
+
 }

@@ -3948,3 +3948,17 @@ class LcaBinaryLifting:
         r_grid = rotate(grid)
         res1 = check(r_grid)
         return max(res0, res1)
+
+    # 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
+    def limitOccurrences(self, nums: list[int], k: int) -> list[int]:
+        cnt = 0
+        pre = -1
+        res = []
+        for x in nums:
+            if x != pre:
+                cnt = 0
+                pre = x
+            cnt += 1
+            if cnt <= k:
+                res.append(x)
+        return res
