@@ -618,4 +618,48 @@ public class Leetcode_11 {
         }
         return List.of(s0, x0, s1);
     }
+
+    // 3938. 矩阵中最大共享路径和 (Maximum Path Intersection Sum in a Grid)
+    public int maxScore(int[][] grid) {
+        return Math.max(check3938(grid), check3938(rotate3938(grid)));
+    }
+
+    private int[][] rotate3938(int[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        int[][] res = new int[n][m];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res[j][i] = a[i][j];
+            }
+        }
+        return res;
+    }
+
+    private int check3938(int[][] a) {
+        int m = a.length;
+        int n = a[0].length;
+        int res = Integer.MIN_VALUE;
+        for (int i = 1; i < m - 1; ++i) {
+            for (int j = 1; j < n - 1; ++j) {
+                res = Math.max(res, a[i][j]);
+            }
+        }
+
+        for (int[] row : a) {
+            int s0 = 0;
+            int s1 = 0;
+            int pre = 0;
+            int min_s1 = Integer.MAX_VALUE / 2;
+            for (int x : row) {
+                pre += x;
+                res = Math.max(res, pre - min_s1);
+                s1 = s0;
+                s0 = pre;
+                min_s1 = Math.min(min_s1, s1);
+            }
+        }
+        return res;
+    }
+
 }
