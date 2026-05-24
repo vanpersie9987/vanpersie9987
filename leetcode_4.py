@@ -17,7 +17,7 @@ from signal import valid_signals
 from sqlite3 import paramstyle
 import stat
 from termios import CINTR, N_PPP
-from tokenize import String
+from tokenize import String, group
 from tty import CC
 from unicodedata import numeric
 from xxlimited import foo
@@ -3910,8 +3910,41 @@ class LcaBinaryLifting:
                 elif s <= s1:
                     s1 = s
             return [s0, x0, s1]
+
         s0, x0, s1 = check(0)
         s2, y0, s3 = check(1)
         if x0 != y0:
             return s0 + s2
         return min(s0 + s3, s1 + s2)
+
+    # 3938. 矩阵中最大共享路径和 (Maximum Path Intersection Sum in a Grid)
+    def maxScore(self, grid: List[List[int]]) -> int:
+        def check(a: List[List[int]]) -> int:
+            m, n = len(a), len(a[0])
+            res = -inf
+            for i in range(1, m - 1):
+                for j in range(1, n - 1):
+                    res = max(res, a[i][j])
+            for row in a:
+                s0, s1, pre = 0, 0, 0
+                min_s1 = inf
+                for x in row:
+                    pre += x
+                    res = max(res, pre - min_s1)
+                    s1 = s0
+                    s0 = pre
+                    min_s1 = min(min_s1, s1)
+            return res
+
+        def rotate(grid: List[List[int]]) -> List[List[int]]:
+            m, n = len(grid), len(grid[0])
+            res = [[0] * m for _ in range(n)]
+            for i in range(m):
+                for j in range(n):
+                    res[j][i] = grid[i][j]
+            return res
+
+        res0 = check(grid)
+        r_grid = rotate(grid)
+        res1 = check(r_grid)
+        return max(res0, res1)
