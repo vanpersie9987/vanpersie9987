@@ -680,4 +680,26 @@ public class Leetcode_11 {
 
     }
 
+    // 密码强度 (Password Strength)
+    public int passwordStrength(String password) {
+        Set<Character> s = new HashSet<>();
+        for (char c : password.toCharArray()) {
+            s.add(c);
+        }
+        int res = 0;
+        for (char c : s) {
+            if (c >= '0' && c <= '9') {
+                res += 3;
+            } else if (c >= 'a' && c <= 'z') {
+                ++res;
+            } else if (c >= 'A' && c <= 'Z') {
+                res += 2;
+            } else {
+                res += 5;
+            }
+        }
+        return res;
+
+    }
+
 }

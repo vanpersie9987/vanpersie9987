@@ -3962,3 +3962,18 @@ class LcaBinaryLifting:
             if cnt <= k:
                 res.append(x)
         return res
+
+    # 密码强度 (Password Strength)
+    def passwordStrength(self, password: str) -> int:
+        s = set(password)
+        res = 0
+        for c in s:
+            if 'a' <= c <= 'z':
+                res += 1
+            elif 'A' <= c <= 'Z':
+                res += 2
+            elif '0' <= c <= '9':
+                res += 3
+            else:
+                res += 5
+        return res
