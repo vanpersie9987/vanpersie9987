@@ -3895,20 +3895,23 @@ class LcaBinaryLifting:
 
     # 3937. 使数组变为模交替数组的最少操作次数 I (Minimum Operations to Make Array Modulo Alternating I)
     def minOperations(self, nums: list[int], k: int) -> int:
-        res = inf
-        for x in range(k):
-            for y in range(k):
-                if x == y:
-                    continue
+        def check(start: int) -> List[int]:
+            s0, x0, s1 = inf, inf, inf
+            for x in range(k):
                 s = 0
-                for i, v in enumerate(nums):
-                    v %= k
-                    # v 变成 x
-                    if i % 2 == 0:
-                        d = abs(v - x)
-                        s += min(d, k - d)
-                    else:
-                        d = abs(v - y)
-                        s += min(d, k - d)
-                res = min(res, s)
-        return res
+                for i in range(start, len(nums), 2):
+                    v = nums[i] % k
+                    d = abs(v - x)
+                    s += min(d, k - d)
+                if s <= s0:
+                    s1 = s0
+                    s0 = s
+                    x0 = x
+                elif s <= s1:
+                    s1 = s
+            return [s0, x0, s1]
+        s0, x0, s1 = check(0)
+        s2, y0, s3 = check(1)
+        if x0 != y0:
+            return s0 + s2
+        return min(s0 + s3, s1 + s2)
