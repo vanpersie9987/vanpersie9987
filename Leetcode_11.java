@@ -589,27 +589,33 @@ public class Leetcode_11 {
     // 3937. 使数组变为模交替数组的最少操作次数 I (Minimum Operations to Make Array Modulo
     // Alternating I)
     public int minOperations(int[] nums, int k) {
-        int res = Integer.MAX_VALUE;
+        List<Integer> s0 = check3937(nums, 0, k);
+        List<Integer> s1 = check3937(nums, 1, k);
+        if (s0.get(1) != s1.get(1)) {
+            return s0.get(0) + s1.get(0);
+        }
+        return Math.min(s0.get(0) + s1.get(2), s0.get(2) + s1.get(0));
+    }
+
+    private List<Integer> check3937(int[] nums, int start, int k) {
+        int s0 = Integer.MAX_VALUE;
+        int x0 = Integer.MAX_VALUE;
+        int s1 = Integer.MAX_VALUE;
         for (int x = 0; x < k; ++x) {
-            for (int y = 0; y < k; ++y) {
-                if (x == y) {
-                    continue;
-                }
-                int s = 0;
-                for (int i = 0; i < nums.length; ++i) {
-                    int v = nums[i] % k;
-                    if (i % 2 == 0) {
-                        int d = Math.abs(v - x);
-                        s += Math.min(d, k - d);
-                    } else {
-                        int d = Math.abs(v - y);
-                        s += Math.min(d, k - d);
-                    }
-                }
-                res = Math.min(res, s);
+            int s = 0;
+            for (int i = start; i < nums.length; i += 2) {
+                int v = nums[i] % k;
+                int d = Math.abs(v - x);
+                s += Math.min(d, k - d);
+            }
+            if (s <= s0) {
+                s1 = s0;
+                s0 = s;
+                x0 = x;
+            } else if (s <= s1) {
+                s1 = s;
             }
         }
-        return res;
-
+        return List.of(s0, x0, s1);
     }
 }
