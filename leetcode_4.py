@@ -3949,7 +3949,7 @@ class LcaBinaryLifting:
         res1 = check(r_grid)
         return max(res0, res1)
 
-    # 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
+    # 3940. 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
     def limitOccurrences(self, nums: list[int], k: int) -> list[int]:
         cnt = 0
         pre = -1
@@ -3963,7 +3963,7 @@ class LcaBinaryLifting:
                 res.append(x)
         return res
 
-    # 密码强度 (Password Strength)
+    # 3941. 密码强度 (Password Strength)
     def passwordStrength(self, password: str) -> int:
         s = set(password)
         res = 0

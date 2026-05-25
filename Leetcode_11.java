@@ -662,7 +662,7 @@ public class Leetcode_11 {
         return res;
     }
 
-    // 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
+    // 3940. 限制有序数组中的元素出现次数 (Limit Occurrences in Sorted Array)
     public int[] limitOccurrences(int[] nums, int k) {
         int pre = -1;
         int cnt = 0;
@@ -680,7 +680,7 @@ public class Leetcode_11 {
 
     }
 
-    // 密码强度 (Password Strength)
+    // 3941. 密码强度 (Password Strength)
     public int passwordStrength(String password) {
         Set<Character> s = new HashSet<>();
         for (char c : password.toCharArray()) {
