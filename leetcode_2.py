@@ -3658,23 +3658,19 @@ class Union924:
 
     # 3121. 统计特殊字母的数量 II (Count the Number of Special Characters II)
     def numberOfSpecialChars(self, word: str) -> int:
-        status = [0] * 26
-        for c in map(ord, word):
-            x = (c & 31) - 1
-            if status[x] == -1:
-                continue
-            # 小写
-            if c >> 5 & 1 == 1:
-                if status[x] == 2:
-                    status[x] = -1
-                else:
-                    status[x] = 1
+        # 统计每种小写字母最后一次出现的位置
+        # 统计每种大写字母第一次出现的位置
+        last = [-1] * 26
+        first = [-1] * 26
+        for i, x in enumerate(word):
+            idx = ord(x)
+            # 小写字母
+            if idx >> 5 & 1:
+                last[idx - ord("a")] = i
             else:
-                if status[x] == 0:
-                    status[x] = -1
-                else:
-                    status[x] = 2
-        return sum(int(s == 2) for s in status)
+                if first[idx - ord("A")] == -1:
+                    first[idx - ord("A")] = i
+        return sum(l != -1 and l < f for l, f in zip(last, first))
 
     # 3120. 统计特殊字母的数量 I (Count the Number of Special Characters I)
     def numberOfSpecialChars(self, word: str) -> int:
