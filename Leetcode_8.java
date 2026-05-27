@@ -9685,35 +9685,30 @@ public class Leetcode_8 {
 
     // 3121. 统计特殊字母的数量 II (Count the Number of Special Characters II)
     public int numberOfSpecialChars2(String word) {
-        int[] status = new int[26];
-        for (char c : word.toCharArray()) {
-            int x = (c & 31) - 1;
-            if (status[x] == -1) {
-                continue;
-            }
+        // 统计每种小写字母最后一次出现的位置
+        // 统计每种大写字母第一次出现的位置
+        int[] last = new int[26];
+        int[] first = new int[26];
+        Arrays.fill(last, -1);
+        Arrays.fill(first, -1);
+        for (int i = 0; i < word.length(); ++i) {
+            char c = word.charAt(i);
             // 小写
-            if ((c >> 5 & 1) == 1) {
-                if (status[x] == 2) {
-                    status[x] = -1;
-                } else {
-                    status[x] = 1;
-                }
+            if ((c >> 5 & 1) != 0) {
+                last[c - 'a'] = i;
             } else {
-                if (status[x] == 0) {
-                    status[x] = -1;
-                } else {
-                    status[x] = 2;
+                if (first[c - 'A'] == -1) {
+                    first[c - 'A'] = i;
                 }
             }
         }
         int res = 0;
-        for (int s : status) {
-            if (s == 2) {
+        for (int i = 0; i < 26; ++i) {
+            if (last[i] != -1 && first[i] > last[i]) {
                 ++res;
             }
         }
         return res;
-
     }
 
     // 3122. 使矩阵满足条件的最少操作次数 (Minimum Number of Operations to Satisfy Conditions)
