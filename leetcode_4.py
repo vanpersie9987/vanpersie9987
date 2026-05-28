@@ -3977,22 +3977,3 @@ class LcaBinaryLifting:
             else:
                 res += 5
         return res
-
-    def numberOfSpecialChars(self, word: str) -> int:
-        # 统计每种小写字母最后一次出现的位置
-        # 统计每种大写字母第一次出现的位置
-        last = [-1] * 26
-        first = [-1] * 26
-        for i, x in enumerate(word):
-            idx = ord(x)
-            # 小写字母
-            if idx >> 5 & 1:
-                last[idx - ord("a")] = i
-            else:
-                if first[idx - ord("A")] == -1:
-                    first[idx - ord("A")] = i
-        res = 0
-        for l, f in zip(last, first):
-            if l != -1 and l < f:
-                res += 1
-        return res
