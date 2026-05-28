@@ -2541,42 +2541,39 @@ class Union924:
     def stringIndices(
         self, wordsContainer: List[str], wordsQuery: List[str]
     ) -> List[int]:
-        class Trie:
-            def __init__(self) -> None:
-                self.children = [None] * 26
-                self.index = -1
-                self.len = inf
+        class trie:
+            def __init__(self):
+                self.childern = [None] * 26
+                self.l = inf
+                self.idx = 0
 
-            def insert(self, s: str, id: int, l: int) -> None:
+            def insert(self, s: str, idx: int):
                 node = self
-                if l < node.len:
-                    node.len = l
-                    node.index = id
+                if len(s) < node.l:
+                    node.l = len(s)
+                    node.idx = idx
                 for i in range(len(s) - 1, -1, -1):
-                    j = ord(s[i]) - ord("a")
-                    if node.children[j] is None:
-                        node.children[j] = Trie()
-                    node = node.children[j]
-                    if l < node.len:
-                        node.len = l
-                        node.index = id
+                    index = ord(s[i]) - ord("a")
+                    if node.childern[index] is None:
+                        node.childern[index] = trie()
+                    node = node.childern[index]
+                    if len(s) < node.l:
+                        node.l = len(s)
+                        node.idx = idx
 
             def check(self, s: str) -> int:
                 node = self
                 for i in range(len(s) - 1, -1, -1):
-                    j = ord(s[i]) - ord("a")
-                    if node.children[j] is None:
+                    index = ord(s[i]) - ord("a")
+                    if node.childern[index] is None:
                         break
-                    node = node.children[j]
-                return node.index
+                    node = node.childern[index]
+                return node.idx
 
-        root = Trie()
-        for id, s in enumerate(wordsContainer):
-            root.insert(s, id, len(s))
-        res = []
-        for w in wordsQuery:
-            res.append(root.check(w))
-        return res
+        _trie = trie()
+        for i, w in enumerate(wordsContainer):
+            _trie.insert(w, i)
+        return [_trie.check(w) for w in wordsQuery]
 
     # 363. 矩形区域不超过 K 的最大数值和 (Max Sum of Rectangle No Larger Than K)
     def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:
