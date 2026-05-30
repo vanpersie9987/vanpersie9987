@@ -3977,3 +3977,12 @@ class LcaBinaryLifting:
             else:
                 res += 5
         return res
+
+    # 2126. 摧毁小行星 (Destroying Asteroids)
+    def asteroidsDestroyed(self, mass: int, asteroids: List[int]) -> bool:
+        asteroids.sort()
+        for x in asteroids:
+            if mass < x:
+                return False
+            mass += x
+        return True
