@@ -3986,3 +3986,11 @@ class LcaBinaryLifting:
                 return False
             mass += x
         return True
+
+    # 2144. 打折购买糖果的最小开销 (Minimum Cost of Buying Candies With Discount)
+    def minimumCost(self, cost: List[int]) -> int:
+        cost.sort()
+        res = 0
+        for i in range(len(cost) - 3, -1, -3):
+            res += cost[i]
+        return sum(cost) - res
