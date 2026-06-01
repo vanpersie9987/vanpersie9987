@@ -714,7 +714,51 @@ public class Leetcode_11 {
             res += i * cnts[i];
         }
         return res;
-        
+
+    }
+
+    // 3946. 购买最多物品数目 I (Maximum Number of Items From Sale I)
+    private int[][] memo3946;
+    private int[][] items3946;
+    private int[] cnts3946;
+
+    public int maximumSaleItems(int[][] items, int budget) {
+        int n = items.length;
+        this.cnts3946 = new int[n];
+        int minPrice = Integer.MAX_VALUE;
+        for (int i = 0; i < n; ++i) {
+            minPrice = Math.min(minPrice, items[i][1]);
+            for (int j = 0; j < n; ++j) {
+                if (i != j && items[j][0] % items[i][0] == 0) {
+                    ++cnts3946[i];
+                }
+            }
+        }
+        this.memo3946 = new int[n][budget + 1];
+        this.items3946 = items;
+        for (int i = 0; i < n; ++i) {
+            Arrays.fill(memo3946[i], -1);
+        }
+        int res = 0;
+        for (int i = 1; i <= budget; ++i) {
+            res = Math.max(res, dfs3946(n - 1, i) + (budget - i) / minPrice);
+        }
+        return res;
+
+    }
+
+    private int dfs3946(int i, int j) {
+        if (i < 0) {
+            return 0;
+        }
+        if (memo3946[i][j] != -1) {
+            return memo3946[i][j];
+        }
+        int res = dfs3946(i - 1, j);
+        if (j >= items3946[i][1]) {
+            res = Math.max(res, dfs3946(i - 1, j - items3946[i][1]) + 1 + cnts3946[i]);
+        }
+        return memo3946[i][j] = res;
     }
 
 }
