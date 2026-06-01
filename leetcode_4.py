@@ -4002,3 +4002,30 @@ class LcaBinaryLifting:
             n, m = divmod(n, 10)
             cnts[m] += 1
         return sum(i * c for i, c in enumerate(cnts))
+
+    # 3946. 购买最多物品数目 I (Maximum Number of Items From Sale I)
+    def maximumSaleItems(self, items: List[List[int]], budget: int) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0
+            # 不选i
+            res = dfs(i - 1, j)
+            # 选i
+            if j >= items[i][1]:
+                res = max(res, dfs(i - 1, j - items[i][1]) + 1 + cnts[i])
+            return res
+
+        cnts = [0] * len(items)
+        min_price = inf
+        for i, (fi, p) in enumerate(items):
+            min_price = min(min_price, p)
+            for j, (fj, _) in enumerate(items):
+                if i != j:
+                    if fj % fi == 0:
+                        cnts[i] += 1
+        res = 0
+        for i in range(1, budget + 1):
+            res = max(res, dfs(len(items) - 1, i) + (budget - i) // min_price)
+        dfs.cache_clear()
+        return res
