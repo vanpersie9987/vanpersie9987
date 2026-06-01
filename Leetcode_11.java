@@ -703,4 +703,18 @@ public class Leetcode_11 {
 
     }
 
+    // 3945. 计算数字频率得分 (Digit Frequency Score)
+    public int digitFrequencyScore(int n) {
+        int[] cnts = new int[10];
+        for (; n > 0; n /= 10) {
+            ++cnts[n % 10];
+        }
+        int res = 0;
+        for (int i = 0; i < 10; ++i) {
+            res += i * cnts[i];
+        }
+        return res;
+        
+    }
+
 }
