@@ -3990,7 +3990,15 @@ class LcaBinaryLifting:
     # 2144. 打折购买糖果的最小开销 (Minimum Cost of Buying Candies With Discount)
     def minimumCost(self, cost: List[int]) -> int:
         cost.sort()
-        res = 0
+        res = sum(cost)
         for i in range(len(cost) - 3, -1, -3):
-            res += cost[i]
-        return sum(cost) - res
+            res -= cost[i]
+        return res
+
+    # 3945. 计算数字频率得分 (Digit Frequency Score)
+    def digitFrequencyScore(self, n: int) -> int:
+        cnts = [0] * 10
+        while n:
+            n, m = divmod(n, 10)
+            cnts[m] += 1
+        return sum(i * c for i, c in enumerate(cnts))
