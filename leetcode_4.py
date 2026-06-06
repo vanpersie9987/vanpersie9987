@@ -4029,3 +4029,18 @@ class LcaBinaryLifting:
             res = max(res, dfs(len(items) - 1, i) + (budget - i) // min_price)
         dfs.cache_clear()
         return res
+
+    # 2574. 左右元素和的差值 (Left and Right Sum Differences)
+    def leftRightDifference(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        suf = [0] * n
+        s = 0
+        for i in range(n - 1, -1, -1):
+            suf[i] = s
+            s += nums[i]
+        res = [0] * n
+        s = 0
+        for i, x in enumerate(nums):
+            res[i] = abs(s - suf[i])
+            s += x
+        return res
