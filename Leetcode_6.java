@@ -8410,20 +8410,19 @@ public class Leetcode_6 {
     // 2574. 左右元素和的差值 (Left and Right Sum Differences)
     public int[] leftRigthDifference(int[] nums) {
         int n = nums.length;
+        int[] suf = new int[n];
+        int s = 0;
+        for (int i = n - 1; i >= 0; --i) {
+            suf[i] = s;
+            s += nums[i];
+        }
         int[] res = new int[n];
-        int[] leftSum = new int[n];
-        for (int i = 1; i < n; ++i) {
-            leftSum[i] = leftSum[i - 1] + nums[i - 1];
-        }
-        int[] rightSum = new int[n];
-        for (int i = n - 2; i >= 0; --i) {
-            rightSum[i] = rightSum[i + 1] + nums[i + 1];
-        }
+        s = 0;
         for (int i = 0; i < n; ++i) {
-            res[i] = Math.abs(Math.abs(leftSum[i] - rightSum[i]));
+            res[i] = Math.abs(s - suf[i]);
+            s += nums[i];
         }
         return res;
-
     }
 
     // 2575. 找出字符串的可整除数组 (Find the Divisibility Array of a String)
