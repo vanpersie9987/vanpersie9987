@@ -850,4 +850,35 @@ public class Leetcode_11 {
 
     }
 
+    // 3955. 成本限制的有效二进制字符串 (Valid Binary Strings With Cost Limit)
+    private List<String> res3955;
+    private int n3955;
+    private int k3955;
+    private StringBuilder path3955;
+
+    public List<String> generateValidStrings(int n, int k) {
+        this.res3955 = new ArrayList<>();
+        this.n3955 = n;
+        this.k3955 = k;
+        this.path3955 = new StringBuilder();
+        dfs3955(0);
+        return res3955;
+    }
+
+    private void dfs3955(int c) {
+        if (path3955.length() == n3955) {
+            res3955.add(path3955.toString());
+            return;
+        }
+        path3955.append('0');
+        dfs3955(c);
+        path3955.deleteCharAt(path3955.length() - 1);
+        if ((path3955.length() == 0 || path3955.charAt(path3955.length() - 1) == '0') && c + path3955.length() <= k3955) {
+            int nc = c + path3955.length();
+            path3955.append('1');
+            dfs3955(nc);
+            path3955.deleteCharAt(path3955.length() - 1);
+        }
+    }
+
 }

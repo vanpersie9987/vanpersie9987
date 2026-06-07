@@ -4115,3 +4115,23 @@ class LcaBinaryLifting:
             if x & n == 0:
                 res += x
         return res
+
+    # 3955. 成本限制的有效二进制字符串 (Valid Binary Strings With Cost Limit)
+    def generateValidStrings(self, n: int, k: int) -> list[str]:
+        def dfs(s: int):
+            if len(path) == n:
+                res.append("".join(path))
+                return
+            path.append("0")
+            dfs(s)
+            path.pop()
+            if (len(path) == 0 or path[-1] == "0") and s + len(path) <= k:
+                ns = s + len(path)
+                path.append("1")
+                dfs(ns)
+                path.pop()
+
+        path = []
+        res = []
+        dfs(0)
+        return res
