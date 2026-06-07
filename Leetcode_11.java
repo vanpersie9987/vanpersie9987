@@ -761,4 +761,31 @@ public class Leetcode_11 {
         return memo3946[i][j] = res;
     }
 
+
+    public TreeNode createBinaryTree(int[][] descriptions) {
+        Map<Integer, TreeNode> map = new HashMap<>();
+        int root = 0;
+        for (int[] d : descriptions) {
+            int x = d[0];
+            int y = d[1];
+            int isLeft = d[2];
+            if (!map.containsKey(x)) {
+                map.put(x, new TreeNode(x));
+                root ^= x;
+            }
+            if (!map.containsKey(y)) {
+                map.put(y, new TreeNode(y));
+                root ^= y;
+            }
+            if (isLeft == 1) {
+                map.get(x).left = map.get(y);
+            } else {
+                map.get(x).right = map.get(y);
+            }
+            root ^= y;
+        }
+        return map.get(root);
+
+    }
+
 }

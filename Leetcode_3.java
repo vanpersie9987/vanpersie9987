@@ -2759,41 +2759,29 @@ public class Leetcode_3 {
     }
 
     // 2196. 根据描述创建二叉树 (Create Binary Tree From Descriptions)
-    private Map<Integer, List<int[]>> g2196;
-
     public TreeNode createBinaryTree(int[][] descriptions) {
-        Set<Integer> set = new HashSet<>();
-        this.g2196 = new HashMap<>();
+        Map<Integer, TreeNode> map = new HashMap<>();
+        int root = 0;
         for (int[] d : descriptions) {
-            g2196.computeIfAbsent(d[0], k -> new ArrayList<>()).add(new int[] { d[1], d[2] });
-            set.add(d[1]);
-        }
-        int r = -1;
-        for (int[] d : descriptions) {
-            if (!set.contains(d[0])) {
-                r = d[0];
-                break;
+            int x = d[0];
+            int y = d[1];
+            int isLeft = d[2];
+            if (!map.containsKey(x)) {
+                map.put(x, new TreeNode(x));
+                root ^= x;
             }
-        }
-        TreeNode root = new TreeNode(r);
-        dfs2196(root);
-        return root;
-
-    }
-
-    private void dfs2196(TreeNode root) {
-        int x = root.val;
-        for (int[] son : g2196.getOrDefault(x, new ArrayList<>())) {
-            int isLeft = son[1];
-            int y = son[0];
-            TreeNode node = new TreeNode(y);
+            if (!map.containsKey(y)) {
+                map.put(y, new TreeNode(y));
+                root ^= y;
+            }
             if (isLeft == 1) {
-                root.left = node;
+                map.get(x).left = map.get(y);
             } else {
-                root.right = node;
+                map.get(x).right = map.get(y);
             }
-            dfs2196(node);
+            root ^= y;
         }
+        return map.get(root);
     }
 
     // 733. 图像渲染 (Flood Fill) --bfs
