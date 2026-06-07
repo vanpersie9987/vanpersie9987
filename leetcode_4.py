@@ -4064,3 +4064,8 @@ class LcaBinaryLifting:
             root ^= y
 
         return nodes[root]
+
+    # 3950. 恰好一对连续置位 (Exactly One Consecutive Set Bits Pair)
+    def consecutiveSetBits(self, n: int) -> bool:
+        s = n & (n >> 1)
+        return s.bit_count() == 1
