@@ -794,4 +794,47 @@ public class Leetcode_11 {
 
     }
 
+    // 3952. 下标覆盖处的最大总和 (Maximum Total Value of Covered Indices)
+    private long[][] memo3952;
+    private boolean[] pre3952;
+    private String s3952;
+    private int[] nums3952;
+    public long maxTotal(int[] nums, String s) {
+        int n = nums.length;
+        this.s3952 = s;
+        this.nums3952 = nums;
+        this.pre3952 = new boolean[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre3952[i + 1] = pre3952[i] || (s.charAt(i) == '0');
+        }
+        this.memo3952 = new long[n][2];
+        for (long[] r : memo3952) {
+            Arrays.fill(r, Long.MAX_VALUE);
+        }
+        return dfs3952(n - 1, 0);
+
+    }
+
+    private long dfs3952(int i, int j) {
+        if (i < 0) {
+            return 0L;
+        }
+        if(!pre3952[i + 1] && j == 1){
+            return Long.MIN_VALUE / 2;
+        }
+        if (memo3952[i][j] != Long.MAX_VALUE) {
+            return memo3952[i][j];
+        }
+        if (s3952.charAt(i) == '0') {
+            return memo3952[i][j] = dfs3952(i - 1, 0) + (j == 1 ? nums3952[i] : 0);
+        }
+        if (j == 0) {
+            return memo3952[i][j] = Math.max(dfs3952(i - 1, 0) + nums3952[i], dfs3952(i - 1, 1));
+        }
+        if (pre3952[i + 1]) {
+            return memo3952[i][j] = dfs3952(i - 1, 1) + nums3952[i];
+        }
+        return memo3952[i][j] = Long.MIN_VALUE / 2;
+    }
+
 }
