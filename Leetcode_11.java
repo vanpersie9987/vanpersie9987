@@ -799,6 +799,7 @@ public class Leetcode_11 {
     private boolean[] pre3952;
     private String s3952;
     private int[] nums3952;
+
     public long maxTotal(int[] nums, String s) {
         int n = nums.length;
         this.s3952 = s;
@@ -819,7 +820,7 @@ public class Leetcode_11 {
         if (i < 0) {
             return 0L;
         }
-        if(!pre3952[i + 1] && j == 1){
+        if (!pre3952[i + 1] && j == 1) {
             return Long.MIN_VALUE / 2;
         }
         if (memo3952[i][j] != Long.MAX_VALUE) {
@@ -835,6 +836,18 @@ public class Leetcode_11 {
             return memo3952[i][j] = dfs3952(i - 1, 1) + nums3952[i];
         }
         return memo3952[i][j] = Long.MIN_VALUE / 2;
+    }
+
+    // 3954. 区间内的兼容数字之和 I (Sum of Compatible Numbers in Range I)
+    public int sumOfGoodIntegers(int n, int k) {
+        int res = 0;
+        for (int x = Math.max(0, n - k); x <= n + k; ++x) {
+            if ((n & x) == 0) {
+                res += x;
+            }
+        }
+        return res;
+
     }
 
 }

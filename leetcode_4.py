@@ -4107,3 +4107,11 @@ class LcaBinaryLifting:
         for i in range(n):
             pre[i + 1] = pre[i] or (s[i] == "0")
         return dfs(n - 1, 0)
+
+    # 3954. 区间内的兼容数字之和 I (Sum of Compatible Numbers in Range I)
+    def sumOfGoodIntegers(self, n: int, k: int) -> int:
+        res = 0
+        for x in range(max(1, n - k), n + k + 1):
+            if x & n == 0:
+                res += x
+        return res
