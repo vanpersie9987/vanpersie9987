@@ -4094,15 +4094,14 @@ class LcaBinaryLifting:
                 return 0
             if not pre[i + 1] and j:
                 return -inf
-            if s[i] == "1":
-                if j == 1:
-                    if pre[i + 1]:
-                        return dfs(i - 1, 1) + nums[i]
-                else:
-                    return max(dfs(i - 1, 0) + nums[i], dfs(i - 1, 1))
-            else:
+            if s[i] == "0":
                 return dfs(i - 1, 0) + (nums[i] if j else 0)
+            if j == 0:
+                return max(dfs(i - 1, 0) + nums[i], dfs(i - 1, 1))
+            if pre[i + 1]:
+                return dfs(i - 1, 1) + nums[i]
             return -inf
+
         n = len(s)
         pre = [False] * (n + 1)
         for i in range(n):
