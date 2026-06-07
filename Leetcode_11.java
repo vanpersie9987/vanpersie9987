@@ -768,4 +768,30 @@ public class Leetcode_11 {
 
     }
 
+    // 3951. 维持亮度的最小总能量 (Minimum Energy to Maintain Brightness)
+    public long minEnergy(int n, int brightness, int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        int i = 0;
+        long cnt = 0L;
+        while (i < intervals.length) {
+            int left = intervals[i][0];
+            int right = intervals[i][1];
+            int j = i;
+            while (j < intervals.length && right >= intervals[j][0]) {
+                right = Math.max(right, intervals[j++][1]);
+            }
+            cnt += right - left + 1;
+            i = j;
+        }
+        return (brightness + 3 - 1) / 3 * cnt;
+
+    }
+
 }
