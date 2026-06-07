@@ -4069,3 +4069,19 @@ class LcaBinaryLifting:
     def consecutiveSetBits(self, n: int) -> bool:
         s = n & (n >> 1)
         return s.bit_count() == 1
+
+    # 3951. 维持亮度的最小总能量 (Minimum Energy to Maintain Brightness)
+    def minEnergy(self, n: int, brightness: int, intervals: list[list[int]]) -> int:
+        intervals.sort()
+        i = 0
+        cnts = 0
+        while i < len(intervals):
+            right = intervals[i][1]
+            left = intervals[i][0]
+            j = i + 1
+            while j < len(intervals) and intervals[j][0] <= right:
+                right = max(right, intervals[j][1])
+                j += 1
+            cnts += right - left + 1
+            i = j
+        return cnts * ((brightness + 3 - 1) // 3)
