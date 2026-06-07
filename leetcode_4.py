@@ -4085,3 +4085,26 @@ class LcaBinaryLifting:
             cnts += right - left + 1
             i = j
         return cnts * ((brightness + 3 - 1) // 3)
+
+    # 3952. 下标覆盖处的最大总和 (Maximum Total Value of Covered Indices)
+    def maxTotal(self, nums: List[int], s: str) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i < 0:
+                return 0
+            if not pre[i + 1] and j:
+                return -inf
+            if s[i] == "1":
+                if j == 1:
+                    if pre[i + 1]:
+                        return dfs(i - 1, 1) + nums[i]
+                else:
+                    return max(dfs(i - 1, 0) + nums[i], dfs(i - 1, 1))
+            else:
+                return dfs(i - 1, 0) + (nums[i] if j else 0)
+            return -inf
+        n = len(s)
+        pre = [False] * (n + 1)
+        for i in range(n):
+            pre[i + 1] = pre[i] or (s[i] == "0")
+        return dfs(n - 1, 0)
