@@ -761,4 +761,11 @@ public class Leetcode_11 {
         return memo3946[i][j] = res;
     }
 
+    // 3950. 恰好一对连续置位 (Exactly One Consecutive Set Bits Pair)
+    public boolean consecutiveSetBits(int n) {
+        int s = n & (n >> 1);
+        return Integer.bitCount(s) == 1;
+
+    }
+
 }
