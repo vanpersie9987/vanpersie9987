@@ -9506,32 +9506,23 @@ public class LeetCode_2 {
 
    }
 
-   // 5985. 根据给定数字划分数组 (Partition Array According to Given Pivot)
+   // 2161. 根据给定数字划分数组 (Partition Array According to Given Pivot)
    public int[] pivotArray(int[] nums, int pivot) {
-      int index = 0;
-      int actIndex = 0;
-      int[] res = new int[nums.length];
-      while (index < nums.length) {
-         if (nums[index] < pivot) {
-            res[actIndex++] = nums[index];
+      List<Integer> left = new ArrayList<>();
+      List<Integer> middle = new ArrayList<>();
+      List<Integer> right = new ArrayList<>();
+      for (int x : nums) {
+         if (x < pivot) {
+            left.add(x);
+         } else if (x == pivot) {
+            middle.add(x);
+         } else {
+            right.add(x);
          }
-         ++index;
       }
-      index = 0;
-      while (index < nums.length) {
-         if (nums[index] == pivot) {
-            res[actIndex++] = nums[index];
-         }
-         ++index;
-      }
-      index = 0;
-      while (index < nums.length) {
-         if (nums[index] > pivot) {
-            res[actIndex++] = nums[index];
-         }
-         ++index;
-      }
-      return res;
+      left.addAll(middle);
+      left.addAll(right);
+      return left.stream().mapToInt(o -> o).toArray();
 
    }
 
