@@ -4135,3 +4135,17 @@ class LcaBinaryLifting:
         res = []
         dfs(0)
         return res
+
+    # 2161. 根据给定数字划分数组 (Partition Array According to Given Pivot)
+    def pivotArray(self, nums: List[int], pivot: int) -> List[int]:
+        left = []
+        right = []
+        cnt = 0
+        for x in nums:
+            if x < pivot:
+                left.append(x)
+            elif x > pivot:
+                right.append(x)
+            else:
+                cnt += 1
+        return left + [pivot] * cnt + right
