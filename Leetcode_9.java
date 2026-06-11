@@ -6131,7 +6131,6 @@ public class Leetcode_9 {
     }
 
     // 3558. 给边赋权值的方案数 I (Number of Ways to Assign Edge Weights I)
-    private int mx3558;
     private int[][] memo3558;
 
     public int assignEdgeWeights(int[][] edges) {
@@ -6142,33 +6141,34 @@ public class Leetcode_9 {
             g[e[0] - 1].add(e[1] - 1);
             g[e[1] - 1].add(e[0] - 1);
         }
-        maxDepth3558(0, -1, 0, g);
-        this.memo3558 = new int[mx3558][2];
-        for (int i = 0; i < mx3558; ++i) {
+        int mx = maxDepth3558(0, -1, g);
+        this.memo3558 = new int[mx][2];
+        for (int i = 0; i < mx; ++i) {
             Arrays.fill(memo3558[i], -1);
         }
-        return dfs3558(0, 0);
+        return dfs3558(mx - 1, 0);
 
     }
 
     private int dfs3558(int i, int j) {
-        if (i == mx3558) {
-            return j & 1;
+        if (i < 0) {
+            return j;
         }
         if (memo3558[i][j] != -1) {
             return memo3558[i][j];
         }
         final int MOD = (int) (1e9 + 7);
-        return memo3558[i][j] = (dfs3558(i + 1, j) + dfs3558(i + 1, j ^ 1)) % MOD;
+        return memo3558[i][j] = (dfs3558(i - 1, j) + dfs3558(i - 1, j ^ 1)) % MOD;
     }
 
-    private void maxDepth3558(int x, int fa, int d, List<Integer>[] g) {
-        this.mx3558 = Math.max(mx3558, d);
+    private int maxDepth3558(int x, int fa, List<Integer>[] g) {
+        int d = 0;
         for (int y : g[x]) {
             if (y != fa) {
-                maxDepth3558(y, x, d + 1, g);
+                d = Math.max(d, maxDepth3558(y, x, g) + 1);
             }
         }
+        return d;
     }
 
     // 3560. 木材运输的最小成本 (Find Minimum Log Transportation Cost)
