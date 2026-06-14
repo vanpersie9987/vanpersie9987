@@ -4149,3 +4149,25 @@ class LcaBinaryLifting:
             else:
                 cnt += 1
         return left + [pivot] * cnt + right
+
+    # 2130. 链表最大孪生和 (Maximum Twin Sum of a Linked List)
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        # 快慢指针
+        fast = slow = head
+        while fast:
+            slow = slow.next
+            fast = fast.next.next
+        # 反转 slow
+        pre = None
+        cur = slow
+        while cur:
+            nxt = cur.next
+            cur.next = pre
+            pre = cur
+            cur = nxt
+        res = 0
+        while pre and head:
+            res = max(res, pre.val + head.val)
+            pre = pre.next
+            head = head.next
+        return res
