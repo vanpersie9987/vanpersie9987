@@ -936,4 +936,36 @@ public class Leetcode_11 {
 
     }
 
+    // 3961. 设备评分的最大和 (Maximize Sum of Device Ratings)
+    public long maxRatings(int[][] units) {
+        int n = units[0].length;
+        long res = 0L;
+        if (n == 1) {
+            for (int[] unit : units) {
+                res += unit[0];
+            }
+            return res;
+        }
+        int mn1 = Integer.MAX_VALUE;
+        int mn2 = Integer.MAX_VALUE;
+        for (int[] unit : units) {
+            int min1 = Integer.MAX_VALUE;
+            int min2 = Integer.MAX_VALUE;
+            for (int x : unit) {
+                if (x <= min1) {
+                    min2 = min1;
+                    min1 = x;
+                } else if (x <= min2) {
+                    min2 = x;
+                }
+            }
+            res += min2;
+            mn2 = Math.min(min2, mn2);
+            mn1 = Math.min(min1, mn1);
+        }
+        res += mn1 - mn2;
+        return res;
+
+    }
+
 }

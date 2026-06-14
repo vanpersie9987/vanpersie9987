@@ -4205,3 +4205,23 @@ class LcaBinaryLifting:
                     if a[0] * 2 == a[1] or a[1] * 2 == a[0]:
                         res = max(res, j - i + 1)
         return res
+
+    # 3961. 设备评分的最大和 (Maximize Sum of Device Ratings)
+    def maxRatings(self, units: List[List[int]]) -> int:
+        if len(units[0]) == 1:
+            return sum(unit[0] for unit in units)
+        res = 0
+        mn = mn2 = inf
+        for unit in units:
+            unit_min = unit_min2 = inf
+            for x in unit:
+                if x <= unit_min:
+                    unit_min2 = unit_min
+                    unit_min = x
+                elif x <= unit_min2:
+                    unit_min2 = x
+            res += unit_min2
+            mn2 = min(mn2, unit_min2)
+            mn = min(mn, unit_min)
+        res += mn - mn2
+        return res
