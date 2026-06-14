@@ -4171,3 +4171,12 @@ class LcaBinaryLifting:
             pre = pre.next
             head = head.next
         return res
+
+    # 3959. 判定好整数 (Check Good Integer)
+    def checkGoodInteger(self, n: int) -> bool:
+        squareSum = digitSum = 0
+        while n:
+            n, m = divmod(n, 10)
+            squareSum += m * m
+            digitSum += m
+        return squareSum - digitSum >= 50
