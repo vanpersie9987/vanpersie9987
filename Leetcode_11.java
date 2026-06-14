@@ -896,4 +896,70 @@ public class Leetcode_11 {
 
     }
 
+    public int getLength(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            map.clear();
+            int maxCnt = 0;
+            for (int j = i; j < nums.length; ++j) {
+                map.merge(nums[j], 1, Integer::sum);
+                if (map.size() == 1) {
+                    res = Math.max(res, j - i + 1);
+                }
+                if (map.get(nums[j]) == maxCnt) {
+                    ++maxCnt;
+                    int s = j - i + 1 - map.get(nums[j]) * maxCnt;
+                    int k = map.size() - maxCnt;
+                    if (k != 0 && s % k == 0) {
+                    }
+                } else if (map.get(nums[j]) > maxCnt) {
+                    maxCnt = 1;
+                }
+            }
+        }
+        return res;
+
+    }
+
+    // 3960. 频率平衡子数组 (Frequency Balance Subarray)
+    public int getLength(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> cnts = new HashMap<>();
+        int res = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            map.clear();
+            cnts.clear();
+            for (int j = i; j < nums.length; ++j) {
+                int c = map.getOrDefault(nums[j], 0);
+                if (c != 0) {
+                    cnts.merge(c, -1, Integer::sum);
+                    if (cnts.get(c) == 0) {
+                        cnts.remove(c);
+                    }
+                }
+                map.merge(nums[j], 1, Integer::sum);
+                cnts.merge(c + 1, 1, Integer::sum);
+                if (map.size() == 1) {
+                    res = Math.max(res, j - i + 1);
+                } else if (cnts.size() == 2) {
+                    int c1 = 0;
+                    int c2 = 0;
+                    for (int cnt : cnts.keySet()) {
+                        if (c1 == 0) {
+                            c1 = cnt;
+                        } else if (c2 == 0) {
+                            c2 = cnt;
+                        }
+                    }
+                    if (c1 * 2 == c2 || c2 * 2 == c1) {
+                        res = Math.max(res, j - i + 1);
+                    }
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
