@@ -9750,37 +9750,27 @@ public class LeetCode_2 {
 
    // 2130. 链表最大孪生和 (Maximum Twin Sum of a Linked List)
    public int pairSum(ListNode head) {
-      ListNode middle = getMiddle2130(head);
-      ListNode reversed = getReversed2130(middle);
-      int res = 0;
-      while (reversed != null) {
-         res = Math.max(res, reversed.val + head.val);
-         head = head.next;
-         reversed = reversed.next;
-      }
-      return res;
-
-   }
-
-   private ListNode getReversed2130(ListNode head) {
-      ListNode pre = null;
-      while (head != null) {
-         ListNode temp = head.next;
-         head.next = pre;
-         pre = head;
-         head = temp;
-      }
-      return pre;
-   }
-
-   private ListNode getMiddle2130(ListNode head) {
       ListNode slow = head;
       ListNode fast = head;
-      while (fast != null && fast.next != null) {
+      while (fast != null) {
          slow = slow.next;
          fast = fast.next.next;
       }
-      return slow;
+      ListNode pre = null;
+      ListNode cur = slow;
+      while (cur != null) {
+         ListNode nxt = cur.next;
+         cur.next = pre;
+         pre = cur;
+         cur = nxt;
+      }
+      int res = 0;
+      while (pre != null) {
+         res = Math.max(res, head.val + pre.val);
+         head = head.next;
+         pre = pre.next;
+      }
+      return res;
    }
 
    // 116. 填充每个节点的下一个右侧节点指针 (Populating Next Right Pointers in Each Node) --bfs

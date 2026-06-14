@@ -4166,7 +4166,7 @@ class LcaBinaryLifting:
             pre = cur
             cur = nxt
         res = 0
-        while pre and head:
+        while pre:
             res = max(res, pre.val + head.val)
             pre = pre.next
             head = head.next

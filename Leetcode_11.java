@@ -873,7 +873,8 @@ public class Leetcode_11 {
         path3955.append('0');
         dfs3955(c);
         path3955.deleteCharAt(path3955.length() - 1);
-        if ((path3955.length() == 0 || path3955.charAt(path3955.length() - 1) == '0') && c + path3955.length() <= k3955) {
+        if ((path3955.length() == 0 || path3955.charAt(path3955.length() - 1) == '0')
+                && c + path3955.length() <= k3955) {
             int nc = c + path3955.length();
             path3955.append('1');
             dfs3955(nc);
