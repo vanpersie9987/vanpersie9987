@@ -4180,3 +4180,28 @@ class LcaBinaryLifting:
             squareSum += m * m
             digitSum += m
         return squareSum - digitSum >= 50
+
+    # 3960. 频率平衡子数组 (Frequency Balance Subarray)
+    def getLength(self, nums: List[int]) -> int:
+        n = len(nums)
+        res = 0
+        d = defaultdict(int)
+        cnts = defaultdict(int)
+        for i in range(n):
+            d.clear()
+            cnts.clear()
+            for j in range(i, n):
+                c = d[nums[j]]
+                if c:
+                    cnts[c] -= 1
+                    if cnts[c] == 0:
+                        del cnts[c]
+                d[nums[j]] += 1
+                cnts[c + 1] += 1
+                if len(d) == 1:
+                    res = max(res, j - i + 1)
+                elif len(cnts) == 2:
+                    a = list(cnts.keys())
+                    if a[0] * 2 == a[1] or a[1] * 2 == a[0]:
+                        res = max(res, j - i + 1)
+        return res
