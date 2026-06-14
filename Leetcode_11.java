@@ -882,4 +882,18 @@ public class Leetcode_11 {
         }
     }
 
+    // 3959. 判定好整数 (Check Good Integer)
+    public boolean checkGoodInteger(int n) {
+        int squareSum = 0;
+        int digitSum = 0;
+        while (n != 0) {
+            int m = n % 10;
+            squareSum += m * m;
+            digitSum += m;
+            n /= 10;
+        }
+        return squareSum - digitSum >= 50;
+
+    }
+
 }
