@@ -4225,3 +4225,12 @@ class LcaBinaryLifting:
             mn = min(mn, unit_min)
         res += mn - mn2
         return res
+
+    # 2095. 删除链表的中间节点 (Delete the Middle Node of a Linked List)
+    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = slow = fast = ListNode(0, head)
+        while fast and fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+        slow.next = slow.next.next
+        return dummy.next
