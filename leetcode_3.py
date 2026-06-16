@@ -1912,27 +1912,25 @@ class leetcode_3:
 
     # 3612. 用特殊操作处理字符串 I (Process String with Special Operations I)
     def processStr(self, s: str) -> str:
-        flag = True
-        q = deque()
-        for c in s:
-            if c.islower():
-                if flag:
-                    q.append(c)
-                else:
-                    q.appendleft(c)
-            elif c == "*":
-                if q:
-                    if flag:
-                        q.pop()
+        res = []
+        rev = 0
+        for x in s:
+            if x == "*":
+                if res:
+                    if rev:
+                        res.pop(0)
                     else:
-                        q.popleft()
-            elif c == "#":
-                q.extend(q)
+                        res.pop()
+            elif x == "#":
+                res.extend(res)
+            elif x == "%":
+                rev ^= 1
             else:
-                flag = not flag
-        if not flag:
-            q = reversed(q)
-        return "".join(q)
+                if rev:
+                    res.insert(0, x)
+                else:
+                    res.append(x)
+        return "".join(reversed(res) if rev else res)
 
     # 3613. 最小化连通分量的最大成本 (Minimize Maximum Component Cost)
     def minCost(self, n: int, edges: List[List[int]], k: int) -> int:
