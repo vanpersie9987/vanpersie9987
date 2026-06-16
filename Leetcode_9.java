@@ -8000,35 +8000,34 @@ public class Leetcode_9 {
 
     // 3612. 用特殊操作处理字符串 I (Process String with Special Operations I)
     public String processStr(String s) {
-        Deque<Character> deque = new LinkedList<>();
-        boolean flag = true;
+        StringBuilder res = new StringBuilder();
+        boolean rev = false;
         for (char c : s.toCharArray()) {
-            if (Character.isLetter(c)) {
-                if (flag) {
-                    deque.addLast(c);
-                } else {
-                    deque.addFirst(c);
-                }
-            } else if (c == '*') {
-                if (flag) {
-                    deque.pollLast();
-                } else {
-                    deque.pollFirst();
+            if (c == '*') {
+                if (res.length() > 0) {
+                    if (rev) {
+                        res.deleteCharAt(0);
+                    } else {
+                        res.deleteCharAt(res.length() - 1);
+                    }
                 }
             } else if (c == '#') {
-                deque.addAll(deque);
+                res.append(res);
+            } else if (c == '%') {
+                rev = !rev;
             } else {
-                flag = !flag;
+                if (rev) {
+                    res.insert(0, String.valueOf(c));
+                } else {
+                    res.append(c);
+                }
             }
         }
-        StringBuilder res = new StringBuilder();
-        for (char c : deque) {
-            res.append(c);
-        }
-        if (!flag) {
+        if (rev) {
             res.reverse();
         }
         return res.toString();
+
     }
 
     // 3613. 最小化连通分量的最大成本 (Minimize Maximum Component Cost)
