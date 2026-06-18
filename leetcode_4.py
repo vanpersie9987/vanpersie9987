@@ -4234,3 +4234,11 @@ class LcaBinaryLifting:
             fast = fast.next.next
         slow.next = slow.next.next
         return dummy.next
+    
+    # 1344. 时钟指针的夹角 (Angle Between Hands of a Clock)
+    def angleClock(self, hour: int, minutes: int) -> float:
+        x = hour * 5 + 5 * minutes / 60
+        y = minutes
+        _abs = abs(x - y)
+        _min = min(_abs, 60 - _abs)
+        return _min * 6
