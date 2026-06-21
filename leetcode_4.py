@@ -4293,7 +4293,28 @@ class LcaBinaryLifting:
                     if not is_num or abs(d - j) <= k:
                         res += dfs(i + 1, d, is_limit and up == d, True)
                 return res
+
             s = str(x)
             n = len(s)
             return dfs(0, 0, True, False)
+
         return cal(r) - cal(l - 1)
+
+    # 3965. 任务完成时间 I (Finish Time of Tasks I)
+    def finishTime(self, n: int, edges: List[List[int]], baseTime: List[int]) -> int:
+        def dfs(x: int) -> int:
+            latest, earliest = -inf, inf
+            for y in g[x]:
+                t = dfs(y)
+                latest = max(latest, t)
+                earliest = min(earliest, t)
+            return (
+                baseTime[x]
+                if earliest == inf
+                else latest - earliest + baseTime[x] + latest
+            )
+
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+        return dfs(0)
