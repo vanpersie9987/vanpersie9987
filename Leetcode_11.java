@@ -1012,4 +1012,50 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 3966. 统计范围内的好整数 (Count Good Integers in a Range)
+    private int k3966;
+
+    public long goodIntegers(long l, long r, int k) {
+        this.k3966 = k;
+        return cal3966(r) - cal3966(l - 1);
+
+    }
+
+    private String s3966;
+    private int n3966;
+    private long[][] memo3966;
+
+    private long cal3966(long x) {
+        this.s3966 = String.valueOf(x);
+        this.n3966 = s3966.length();
+        this.memo3966 = new long[n3966][10];
+        for (long[] r : memo3966) {
+            Arrays.fill(r, -1L);
+        }
+        return dfs3966(0, 0, true, false);
+    }
+
+    private long dfs3966(int i, int j, boolean isLimit, boolean isNum) {
+        if (i == n3966) {
+            return isNum ? 1 : 0;
+        }
+        if (!isLimit && isNum && memo3966[i][j] != -1L) {
+            return memo3966[i][j];
+        }
+        long res = 0L;
+        if (!isNum) {
+            res = dfs3966(i + 1, j, false, false);
+        }
+        int up = isLimit ? s3966.charAt(i) - '0' : 9;
+        for (int d = isNum ? 0 : 1; d <= up; ++d) {
+            if (!isNum || Math.abs(j - d) <= k3966) {
+                res += dfs3966(i + 1, d, isLimit && up == d, true);
+            }
+        }
+        if (!isLimit && isNum) {
+            memo3966[i][j] = res;
+        }
+        return res;
+    }
+
 }
