@@ -4256,3 +4256,24 @@ class LcaBinaryLifting:
         for i in range(m):
             res[i][-1] = "."
         return ["".join(r) for r in res]
+
+    # 3964. 照亮道路的最少灯泡数 (Minimum Lights to Illuminate a Road)
+    def minLights(self, lights: list[int]) -> int:
+        n = len(lights)
+        diff = [0] * (n + 1)
+        for i, x in enumerate(lights):
+            if x:
+                diff[max(0, i - x)] += 1
+                diff[min(n, i + x + 1)] -= 1
+        res = 0
+        s = 0
+        cur = 0
+        for d in diff[:-1]:
+            s += d
+            if s == 0:
+                cur += 1
+            else:
+                res += (cur + 2) // 3
+                cur = 0
+        res += (cur + 2) // 3
+        return res
