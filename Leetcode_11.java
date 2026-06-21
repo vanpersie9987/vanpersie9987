@@ -1058,4 +1058,29 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 3965. 任务完成时间 I (Finish Time of Tasks I)
+    private List<Integer>[] g3965;
+    private int[] baseTime3965;
+
+    public long finishTime(int n, int[][] edges, int[] baseTime) {
+        this.g3965 = new ArrayList[n];
+        this.baseTime3965 = baseTime;
+        Arrays.setAll(g3965, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            g3965[e[0]].add(e[1]);
+        }
+        return dfs3965(0);
+    }
+
+    private long dfs3965(int x) {
+        long latest = (long) -1e12;
+        long earliest = (long) 1e12;
+        for (int y : g3965[x]) {
+            long t = dfs3965(y);
+            latest = Math.max(latest, t);
+            earliest = Math.min(earliest, t);
+        }
+        return Math.max(0L, latest - earliest + latest) + baseTime3965[x];
+    }
+
 }

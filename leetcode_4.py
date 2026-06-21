@@ -4308,11 +4308,7 @@ class LcaBinaryLifting:
                 t = dfs(y)
                 latest = max(latest, t)
                 earliest = min(earliest, t)
-            return (
-                baseTime[x]
-                if earliest == inf
-                else latest - earliest + baseTime[x] + latest
-            )
+            return max(0, latest - earliest + latest) + baseTime[x]
 
         g = [[] for _ in range(n)]
         for u, v in edges:
