@@ -4277,3 +4277,23 @@ class LcaBinaryLifting:
                 cur = 0
         res += (cur + 2) // 3
         return res
+
+    # 3966. 统计范围内的好整数 (Count Good Integers in a Range)
+    def goodIntegers(self, l: int, r: int, k: int) -> int:
+        def cal(x: int) -> int:
+            @cache
+            def dfs(i: int, j: int, is_limit: bool, is_num: bool) -> int:
+                if i == n:
+                    return int(is_num)
+                res = 0
+                if not is_num:
+                    res = dfs(i + 1, j, False, False)
+                up = int(s[i]) if is_limit else 9
+                for d in range(0 if is_num else 1, up + 1):
+                    if j == 10 or abs(d - j) <= k:
+                        res += dfs(i + 1, d, is_limit and up == d, True)
+                return res
+            s = str(x)
+            n = len(s)
+            return dfs(0, 10, True, False)
+        return cal(r) - cal(l - 1)
