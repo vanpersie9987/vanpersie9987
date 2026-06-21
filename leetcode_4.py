@@ -4247,3 +4247,12 @@ class LcaBinaryLifting:
     def largestAltitude(self, gain: List[int]) -> int:
         gain.insert(0, 0)
         return max(accumulate(gain))
+
+    # 3963. 构造恰好一条路径的网格 (Create Grid With Exactly One Path)
+    def createGrid(self, m: int, n: int) -> list[str]:
+        res = [["#"] * n for _ in range(m)]
+        for j in range(n):
+            res[0][j] = "."
+        for i in range(m):
+            res[i][-1] = "."
+        return ["".join(r) for r in res]
