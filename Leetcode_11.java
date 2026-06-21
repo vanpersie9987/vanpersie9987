@@ -984,7 +984,32 @@ public class Leetcode_11 {
         }
         return res;
 
-        
+    }
+
+    // 3964. 照亮道路的最少灯泡数 (Minimum Lights to Illuminate a Road)
+    public int minLights(int[] lights) {
+        int n = lights.length;
+        int[] diff = new int[n + 1];
+        for (int i = 0; i < n; ++i) {
+            if (lights[i] > 0) {
+                ++diff[Math.max(0, i - lights[i])];
+                --diff[Math.min(n, i + lights[i] + 1)];
+            }
+        }
+        int res = 0;
+        int s = 0;
+        int cur = 0;
+        for (int i = 0; i < n; ++i) {
+            s += diff[i];
+            if (s == 0) {
+                ++cur;
+            } else {
+                res += (cur + 2) / 3;
+                cur = 0;
+            }
+        }
+        res += (cur + 2) / 3;
+        return res;
     }
 
 }
