@@ -4290,10 +4290,10 @@ class LcaBinaryLifting:
                     res = dfs(i + 1, j, False, False)
                 up = int(s[i]) if is_limit else 9
                 for d in range(0 if is_num else 1, up + 1):
-                    if j == 10 or abs(d - j) <= k:
+                    if not is_num or abs(d - j) <= k:
                         res += dfs(i + 1, d, is_limit and up == d, True)
                 return res
             s = str(x)
             n = len(s)
-            return dfs(0, 10, True, False)
+            return dfs(0, 0, True, False)
         return cal(r) - cal(l - 1)
