@@ -4330,3 +4330,24 @@ class LcaBinaryLifting:
             elif x == "n":
                 n += 1
         return min(b, a, l // 2, o // 2, n)
+
+    # 3968. 移动后的最大曼哈顿距离 (Maximum Manhattan Distance After All Moves)
+    def maxDistance(self, moves: str) -> int:
+        def check(d: str) -> int:
+            x = 0
+            y = 0
+            dx, dy = 0, 0
+            for m in moves:
+                if m == "_":
+                    dx, dy = _dic[d]
+                else:
+                    dx, dy = _dic[m]
+                x += dx
+                y += dy
+            return abs(x) + abs(y)
+        _dic = defaultdict(tuple)
+        _dic["L"] = (-1, 0)
+        _dic["R"] = (1, 0)
+        _dic["U"] = (0, 1)
+        _dic["D"] = (0, -1)
+        return max(check(d) for d in "UDLR")
