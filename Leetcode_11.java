@@ -1151,10 +1151,6 @@ public class Leetcode_11 {
             int d = cur[0];
             int curK = cur[1];
             int x = cur[2];
-            int key = x * 100 + curK;
-            if (d > dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
-                continue;
-            }
             if (x == n - 1) {
                 return d;
             }
@@ -1162,13 +1158,13 @@ public class Leetcode_11 {
                 int y = nxt[0];
                 int dx = nxt[1];
                 if (labels.charAt(y) != labels.charAt(x)) {
-                    key = y * 100 + 1;
+                    int key = y * 100 + 1;
                     if (d + dx < dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
                         dis.put(key, d + dx);
                         q.offer(new int[] { d + dx, 1, y });
                     }
                 } else if (curK + 1 <= k) {
-                    key = y * 100 + curK + 1;
+                    int key = y * 100 + curK + 1;
                     if (d + dx < dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
                         dis.put(key, d + dx);
                         q.offer(new int[] { d + dx, curK + 1, y });

@@ -4361,3 +4361,29 @@ class LcaBinaryLifting:
                 if s % 10 == x == int(str(s)[0]):
                     res += 1
         return res
+
+    # 3970. 最多 K 个连续相同字符的最短路径 (Shortest Path With At Most K Consecutive Identical Characters)
+    def shortestPath(self, n: int, edges: List[List[int]], labels: str, k: int) -> int:
+        g = [[] for _ in range(n)]
+        for u, v, w in edges:
+            g[u].append((v, w))
+        dis = defaultdict(lambda: inf)
+        # (x, k)
+        dis[(0, 1)] = 0
+        # d, k, x
+        q = [(0, 1, 0)]
+        heapq.heapify(q)
+        while q:
+            d, _k, x = heapq.heappop(q)
+            if x == n - 1:
+                return d
+            for y, w in g[x]:
+                if labels[x] != labels[y]:
+                    if d + w < dis[(y, 1)]:
+                        dis[(y, 1)] = d + w
+                        heapq.heappush(q, (d + w, 1, y))
+                elif _k + 1 <= k:
+                    if d + w < dis[(y, _k + 1)]:
+                        dis[(y, _k + 1)] = d + w
+                        heapq.heappush(q, (d + w, _k + 1, y))
+        return -1
