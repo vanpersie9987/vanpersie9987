@@ -1106,4 +1106,20 @@ public class Leetcode_11 {
         return Math.abs(x) + Math.abs(y) + cnt;
     }
 
+    // 3969. 求和后首尾数字相同的有效子数组 I (Valid Subarrays With Matching Sum Digits I)
+    public int countValidSubarrays(int[] nums, int x) {
+        int res = 0;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            long s = 0L;
+            for (int j = i; j < n; ++j) {
+                s += nums[j];
+                if (s % 10 == x && String.valueOf(s).charAt(0) - '0' == x) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
 }
