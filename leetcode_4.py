@@ -4349,3 +4349,15 @@ class LcaBinaryLifting:
                 x += dx
                 y += dy
         return abs(x) + abs(y) + cnt
+
+    # 3969. 求和后首尾数字相同的有效子数组 I (Valid Subarrays With Matching Sum Digits I)
+    def countValidSubarrays(self, nums: list[int], x: int) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            s = 0
+            for j in range(i, n):
+                s += nums[j]
+                if str(s)[-1] == str(s)[0] == str(x):
+                    res += 1
+        return res
