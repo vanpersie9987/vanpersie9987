@@ -1122,4 +1122,60 @@ public class Leetcode_11 {
         return res;
 
     }
+
+    // 3970. 最多 K 个连续相同字符的最短路径 (Shortest Path With At Most K Consecutive Identical
+    // Characters)
+    public int shortestPath(int n, int[][] edges, String labels, int k) {
+        Map<Integer, Integer> dis = new HashMap<>();
+        dis.put(1, 0);
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+            g[u].add(new int[] { v, w });
+        }
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+
+        });
+        // d, k, x
+        q.offer(new int[] { 0, 1, 0 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int d = cur[0];
+            int curK = cur[1];
+            int x = cur[2];
+            int key = x * 100 + curK;
+            if (d > dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
+                continue;
+            }
+            if (x == n - 1) {
+                return d;
+            }
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int dx = nxt[1];
+                if (labels.charAt(y) != labels.charAt(x)) {
+                    key = y * 100 + 1;
+                    if (d + dx < dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
+                        dis.put(key, d + dx);
+                        q.offer(new int[] { d + dx, 1, y });
+                    }
+                } else if (curK + 1 <= k) {
+                    key = y * 100 + curK + 1;
+                    if (d + dx < dis.getOrDefault(key, Integer.MAX_VALUE / 2)) {
+                        dis.put(key, d + dx);
+                        q.offer(new int[] { d + dx, curK + 1, y });
+                    }
+                }
+            }
+        }
+        return -1;
+    }
 }
