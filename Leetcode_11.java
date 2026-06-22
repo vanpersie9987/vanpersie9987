@@ -1083,4 +1083,27 @@ public class Leetcode_11 {
         return Math.max(0L, latest - earliest + latest) + baseTime3965[x];
     }
 
+    // 3968. 移动后的最大曼哈顿距离 (Maximum Manhattan Distance After All Moves)
+    public int maxDistance(String moves) {
+        int cnt = 0;
+        int x = 0;
+        int y = 0;
+        Map<Character, int[]> dir = new HashMap<>();
+        dir.put('L', new int[] { -1, 0 });
+        dir.put('R', new int[] { 1, 0 });
+        dir.put('U', new int[] { 0, 1 });
+        dir.put('D', new int[] { 0, -1 });
+        for (char d : moves.toCharArray()) {
+            if (d == '_') {
+                ++cnt;
+            } else {
+                int dx = dir.get(d)[0];
+                int dy = dir.get(d)[1];
+                x += dx;
+                y += dy;
+            }
+        }
+        return Math.abs(x) + Math.abs(y) + cnt;
+    }
+
 }
