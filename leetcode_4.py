@@ -4358,6 +4358,6 @@ class LcaBinaryLifting:
             s = 0
             for j in range(i, n):
                 s += nums[j]
-                if str(s)[-1] == str(s)[0] == str(x):
+                if s % 10 == x == int(str(s)[0]):
                     res += 1
         return res
