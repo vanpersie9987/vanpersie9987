@@ -1029,9 +1029,6 @@ public class Leetcode_11 {
         this.s3966 = String.valueOf(x);
         this.n3966 = s3966.length();
         this.memo3966 = new long[n3966][10];
-        for (long[] r : memo3966) {
-            Arrays.fill(r, -1L);
-        }
         return dfs3966(0, 0, true, false);
     }
 
@@ -1039,7 +1036,7 @@ public class Leetcode_11 {
         if (i == n3966) {
             return isNum ? 1 : 0;
         }
-        if (!isLimit && isNum && memo3966[i][j] != -1L) {
+        if (!isLimit && isNum && memo3966[i][j] != 0L) {
             return memo3966[i][j];
         }
         long res = 0L;
