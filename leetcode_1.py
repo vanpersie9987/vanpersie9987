@@ -10126,19 +10126,21 @@ class leetcode_1:
 
     # 3020. 子集中元素的最大数量 (Find the Maximum Number of Elements in Subset)
     def maximumLength(self, nums: List[int]) -> int:
-        # 若使用 collections.defaultDict(int) 就会报错
-        dic = Counter(nums)
-        res = dic[1] - ((dic[1] % 2) ^ 1)
-        del dic[1]
-        for k in dic:
-            cur = 0
-            while dic[k] >= 2:
-                cur += 2
-                k *= k
-            if dic[k] >= 1:
-                res = max(res, cur + 1)
-            else:
-                res = max(res, cur - 1)
+        @cache
+        def dfs(x: int) -> int:
+            if x not in d:
+                return -inf
+            if x * x not in d or d[x] == 1:
+                return 1
+            return dfs(x * x) + 2
+
+        d = defaultdict(int)
+        for x in nums:
+            d[x] += 1
+        res = max(0, d[1] - 1) if d[1] % 2 == 0 else d[1]
+        del d[1]
+        for x in d.keys():
+            res = max(res, dfs(x))
         return res
 
     # 3021. Alice 和 Bob 玩鲜花游戏 (Alice and Bob Playing Flower Game)

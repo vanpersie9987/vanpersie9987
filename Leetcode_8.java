@@ -6916,27 +6916,41 @@ public class Leetcode_8 {
     }
 
     // 3020. 子集中元素的最大数量 (Find the Maximum Number of Elements in Subset)
+    private Map<Long, Integer> memo3020;
+    private Map<Long, Integer> cnts3020;
+
     public int maximumLength(int[] nums) {
-        Map<Long, Integer> map = new HashMap<>();
-        for (long num : nums) {
-            map.merge(num, 1, Integer::sum);
-        }
-        int cnt1 = map.getOrDefault(1L, 0);
-        int res = cnt1 - ((cnt1 % 2) ^ 1);
-        map.remove(1L);
-        for (long num : map.keySet()) {
-            int k = 1;
-            int cur = 0;
-            while (map.getOrDefault((long) Math.pow(num, k), 0) >= 2) {
-                cur += 2;
-                k <<= 1;
-            }
-            if (map.getOrDefault((long) Math.pow(num, k), 0) >= 1) {
-                res = Math.max(res, cur + 1);
+        this.cnts3020 = new HashMap<>();
+        int cnt1 = 0;
+        for (long x : nums) {
+            if (x == 1) {
+                ++cnt1;
             } else {
-                res = Math.max(res, cur - 1);
+                cnts3020.merge(x, 1, Integer::sum);
             }
         }
+        int res = cnt1 % 2 == 0 ? Math.max(0, cnt1 - 1) : cnt1;
+        this.memo3020 = new HashMap<>();
+        for (long x : cnts3020.keySet()) {
+            res = Math.max(res, dfs3020(x));
+        }
+        return res;
+    }
+
+    private int dfs3020(long x) {
+        if (memo3020.containsKey(x)) {
+            return memo3020.get(x);
+        }
+        if (!cnts3020.containsKey(x)) {
+            return Integer.MIN_VALUE / 2;
+        }
+        if (cnts3020.get(x) == 1 || !cnts3020.containsKey(x * x)) {
+            memo3020.put(x, 1);
+            return 1;
+
+        }
+        int res = dfs3020(x * x) + 2;
+        memo3020.put(x, res);
         return res;
     }
 
