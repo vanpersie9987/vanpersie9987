@@ -7839,7 +7839,7 @@ public class LeetCode_2 {
       int res = 0;
       int val = 0;
       for (int x : arr) {
-         val = Math.min(x, ++val);
+         val = Math.min(x, val + 1);
          res = Math.max(res, val);
       }
       return res;
