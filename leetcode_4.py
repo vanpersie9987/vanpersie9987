@@ -4387,3 +4387,12 @@ class LcaBinaryLifting:
                         dis[(y, _k + 1)] = d + w
                         heapq.heappush(q, (d + w, _k + 1, y))
         return -1
+
+    # 1846. 减小和重新排列数组后的最大元素 (Maximum Element After Decreasing and Rearranging)
+    def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
+        arr.sort()
+        res = val = 0
+        for x in arr:
+            val = min(x, val + 1)
+            res = max(res, val)
+        return res
