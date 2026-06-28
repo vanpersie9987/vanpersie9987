@@ -1186,4 +1186,41 @@ public class Leetcode_11 {
         return res;
 
     }
+
+    // 3975. 筛选忙碌区间 (Filter Occupied Intervals)
+    public List<List<Integer>> filterOccupiedIntervals(int[][] occupiedIntervals, int freeStart, int freeEnd) {
+        Arrays.sort(occupiedIntervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
+            
+        });
+        List<List<Integer>> res = new ArrayList<>();
+        int i = 0;
+        int n = occupiedIntervals.length;
+        while (i < n) {
+            int l = occupiedIntervals[i][0];
+            int r = occupiedIntervals[i][1];
+            int j = i;
+            while (j < n && occupiedIntervals[j][0] - 1 <= r) {
+                r = Math.max(r, occupiedIntervals[j++][1]);
+            }
+            if (freeStart > r || freeEnd < l) {
+                res.add(List.of(l, r));
+            } else {
+                if (l <= freeStart - 1) {
+                    res.add(List.of(l, freeStart - 1));
+                }
+                if (freeEnd + 1 <= r) {
+                    res.add(List.of(freeEnd + 1, r));
+                }
+            }
+            i = j;
+        }
+        return res;
+
+
+    }
 }
