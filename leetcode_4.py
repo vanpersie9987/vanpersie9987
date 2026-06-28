@@ -4440,19 +4440,16 @@ class LcaBinaryLifting:
         g = [[] for _ in range(n)]
         for u, v, t in edges:
             g[u].append((v, t))
-        res = [-1, -1]
         # t, p, x
         q = [(0, -power, source)]
         heapq.heapify(q)
         while q:
             t, p, x = heapq.heappop(q)
             if x == target:
-                res[0] = t
-                res[1] = max(res[1], -p)
-                break
+                return (t, -p)
             if -p >= cost[x]:
                 for y, dt in g[x]:
                     if t + dt < dis_t[(y, -p - cost[x])]:
                         dis_t[(y, -p - cost[x])] = t + dt
                         heapq.heappush(q, (t + dt, p + cost[x], y))
-        return res
+        return (-1, -1)

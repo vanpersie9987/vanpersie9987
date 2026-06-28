@@ -1195,7 +1195,7 @@ public class Leetcode_11 {
             public int compare(int[] o1, int[] o2) {
                 return Integer.compare(o1[0], o2[0]);
             }
-            
+
         });
         List<List<Integer>> res = new ArrayList<>();
         int i = 0;
@@ -1221,6 +1221,56 @@ public class Leetcode_11 {
         }
         return res;
 
+    }
 
+    // 3977. 有限电量到达目标节点的最少时间 (Minimum Time to Reach Target With Limited Power)
+    public long[] minTimeMaxPower(int n, int[][] edges, int power, int[] cost, int source, int target) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int t = edge[2];
+            g[u].add(new int[] { v, t });
+        }
+        long[][] dis = new long[n][power + 1];
+        for (long[] r : dis) {
+            Arrays.fill(r, Long.MAX_VALUE);
+        }
+        dis[source][power] = 0L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                if (o1[0] == o2[0]) {
+                    return Long.compare(o2[1], o1[1]);
+                }
+                return Long.compare(o1[0], o2[0]);
+
+            }
+
+        });
+        // t, p, x
+        q.offer(new long[] { 0L, power, source });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            long t = cur[0];
+            int p = (int) cur[1];
+            int x = (int) cur[2];
+            if (x == target) {
+                return new long[] { t, p };
+            }
+            if (p >= cost[x]) {
+                for (int[] nxt : g[x]) {
+                    int y = nxt[0];
+                    int dt = nxt[1];
+                    if (t + dt < dis[y][p - cost[x]]) {
+                        dis[y][p - cost[x]] = t + dt;
+                        q.offer(new long[] { t + dt, p - cost[x], y });
+                    }
+                }
+            }
+        }
+        return new long[] { -1L, -1L };
     }
 }
