@@ -4432,3 +4432,27 @@ class LcaBinaryLifting:
                     a.append((freeEnd + 1, r))
             i = j
         return a
+
+    # 3977. 有限电量到达目标节点的最少时间 (Minimum Time to Reach Target With Limited Power)
+    def minTimeMaxPower(self, n: int, edges: List[List[int]], power: int, cost: List[int], source: int, target: int) -> List[int]:
+        dis_t = defaultdict(lambda: inf)
+        dis_t[(source, power)] = 0
+        g = [[] for _ in range(n)]
+        for u, v, t in edges:
+            g[u].append((v, t))
+        res = [-1, -1]
+        # t, p, x
+        q = [(0, -power, source)]
+        heapq.heapify(q)
+        while q:
+            t, p, x = heapq.heappop(q)
+            if x == target:
+                res[0] = t
+                res[1] = max(res[1], -p)
+                break
+            if -p >= cost[x]:
+                for y, dt in g[x]:
+                    if t + dt < dis_t[(y, -p - cost[x])]:
+                        dis_t[(y, -p - cost[x])] = t + dt
+                        heapq.heappush(q, (t + dt, p + cost[x], y))
+        return res
