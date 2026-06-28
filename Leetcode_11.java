@@ -1171,4 +1171,19 @@ public class Leetcode_11 {
         }
         return -1;
     }
+
+    // 3974. K 个元素的最大总和 (Maximum Total Sum of K Selected Elements)
+    public long maxSum(int[] nums, int k, int mul) {
+        long res = 0L;
+        Arrays.sort(nums);
+        for (int i = nums.length - 1; i >= nums.length - k; --i) {
+            if (mul == 0) {
+                res += nums[i];
+            } else {
+                res += (long) nums[i] * mul--;
+            }
+        }
+        return res;
+
+    }
 }
