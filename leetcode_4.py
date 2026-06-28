@@ -4408,3 +4408,27 @@ class LcaBinaryLifting:
                 res += x * mul
                 mul -= 1
         return res
+
+    # 3975. 筛选忙碌区间 (Filter Occupied Intervals)
+    def filterOccupiedIntervals(
+        self, occupiedIntervals: List[List[int]], freeStart: int, freeEnd: int
+    ) -> List[List[int]]:
+        occupiedIntervals.sort()
+        a = []
+        n = len(occupiedIntervals)
+        i = 0
+        while i < n:
+            l, r = occupiedIntervals[i]
+            j = i
+            while j < n and occupiedIntervals[j][0] - 1 <= r:
+                r = max(r, occupiedIntervals[j][1])
+                j += 1
+            if freeStart > r or freeEnd < l:
+                a.append((l, r))
+            else:
+                if l <= freeStart - 1:
+                    a.append((l, freeStart - 1))
+                if freeEnd + 1 <= r:
+                    a.append((freeEnd + 1, r))
+            i = j
+        return a
