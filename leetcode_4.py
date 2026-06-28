@@ -4396,3 +4396,15 @@ class LcaBinaryLifting:
             val = min(x, val + 1)
             res = max(res, val)
         return res
+
+    # 3974. K 个元素的最大总和 (Maximum Total Sum of K Selected Elements)
+    def maxSum(self, nums: list[int], k: int, mul: int) -> int:
+        nums.sort(reverse=True)
+        res = 0
+        for x in nums[:k]:
+            if mul == 0:
+                res += x
+            else:
+                res += x * mul
+                mul -= 1
+        return res
