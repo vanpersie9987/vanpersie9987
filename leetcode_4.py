@@ -4453,3 +4453,7 @@ class LcaBinaryLifting:
                         dis_t[(y, -p - cost[x])] = t + dt
                         heapq.heappush(q, (t + dt, p + cost[x], y))
         return (-1, -1)
+
+    # 1967. 作为子字符串出现在单词中的字符串数目 (Number of Strings That Appear as Substrings in Word)
+    def numOfStrings(self, patterns: List[str], word: str) -> int:
+        return sum(x in word for x in patterns)
