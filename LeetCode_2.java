@@ -4306,17 +4306,21 @@ public class LeetCode_2 {
    // 1358. 包含所有三种字符的子字符串数目 (Number of Substrings Containing All Three Characters)
    // --滑动窗口
    public int numberOfSubstrings(String s) {
+      int[] cnts = new int[3];
+      int mask = 0;
       int left = 0;
-      int right = 0;
       int res = 0;
-      int[] counts = new int[3];
-      while (right < s.length()) {
-         ++counts[s.charAt(right) - 'a'];
-         while (counts[0] > 0 && counts[1] > 0 && counts[2] > 0) {
-            res += s.length() - right;
-            --counts[s.charAt(left++) - 'a'];
+      for (char c : s.toCharArray()) {
+         int v = c - 'a';
+         ++cnts[v];
+         mask |= 1 << v;
+         while (mask == (1 << 3) - 1) {
+            v = s.charAt(left++) - 'a';
+            if (--cnts[v] == 0) {
+               mask ^= 1 << v;
+            }
          }
-         ++right;
+         res += left;
       }
       return res;
 
