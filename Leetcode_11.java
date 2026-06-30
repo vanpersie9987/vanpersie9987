@@ -1177,11 +1177,7 @@ public class Leetcode_11 {
         long res = 0L;
         Arrays.sort(nums);
         for (int i = nums.length - 1; i >= nums.length - k; --i) {
-            if (mul == 0) {
-                res += nums[i];
-            } else {
-                res += (long) nums[i] * mul--;
-            }
+            res += (long) nums[i] * Math.max(1, mul--);
         }
         return res;
 

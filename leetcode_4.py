@@ -4402,11 +4402,8 @@ class LcaBinaryLifting:
         nums.sort(reverse=True)
         res = 0
         for x in nums[:k]:
-            if mul == 0:
-                res += x
-            else:
-                res += x * mul
-                mul -= 1
+            res += x * max(1, mul)
+            mul -= 1
         return res
 
     # 3975. 筛选忙碌区间 (Filter Occupied Intervals)
