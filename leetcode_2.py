@@ -1430,19 +1430,20 @@ class Union924:
     # 1358. 包含所有三种字符的子字符串数目 (Number of Substrings Containing All Three Characters)
     def numberOfSubstrings(self, s: str) -> int:
         res = 0
-        j = 0
-        cnt = [0] * 3
-        m = 0
-        for i, v in enumerate(s):
-            x = ord(v) - ord("a")
-            cnt[x] += 1
-            m |= 1 << x
-            while m == (1 << 3) - 1:
-                res += len(s) - i
-                cnt[ord(s[j]) - ord("a")] -= 1
-                if cnt[ord(s[j]) - ord("a")] == 0:
-                    m ^= 1 << (ord(s[j]) - ord("a"))
-                j += 1
+        cnts = [0] * 3
+        mask = 0
+        left = 0
+        for x in s:
+            v = ord(x) - ord("a")
+            cnts[v] += 1
+            mask |= 1 << v
+            while mask == (1 << 3) - 1:
+                v = ord(s[left]) - ord("a")
+                cnts[v] -= 1
+                if cnts[v] == 0:
+                    mask ^= 1 << v
+                left += 1
+            res += left
         return res
 
     # 2302. 统计得分小于 K 的子数组数目 (Count Subarrays With Score Less Than K)
