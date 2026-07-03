@@ -2201,6 +2201,43 @@ class leetcode_3:
                 right = mid - 1
         return left - 1
 
+    # 3620. 恢复网络路径 (Network Recovery Pathways)
+    def findMaxPathScore(
+        self, edges: List[List[int]], online: List[bool], k: int
+    ) -> int:
+        def check(limit: int) -> bool:
+            dis = [k + 1] * n
+            dis[0] = 0
+            q = []
+            # d, x
+            q.append((0, 0))
+            heapq.heapify(q)
+            while q:
+                d, x = heapq.heappop(q)
+                if d > dis[x]:
+                    continue
+                if x == n - 1:
+                    return True
+                for y, dx in g[x]:
+                    if online[y] and dx >= limit and d + dx < dis[y]:
+                        dis[y] = d + dx
+                        heapq.heappush(q, (d + dx, y))
+
+        n = len(online)
+        g = [[] for _ in range(n)]
+        for u, v, cost in edges:
+            g[u].append((v, cost))
+        if not check(0):
+            return -1
+        left, right = 0, k
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                left = mid + 1
+            else:
+                right = mid - 1
+        return left - 1
+
     # 3621. 位计数深度为 K 的整数数目 I (Number of Integers With Popcount-Depth Equal to K I)
     def popcountDepth(self, n: int, k: int) -> int:
         @cache
