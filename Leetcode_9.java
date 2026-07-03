@@ -8237,6 +8237,71 @@ public class Leetcode_9 {
         return false;
     }
 
+    // 3620. 恢复网络路径 (Network Recovery Pathways)
+    private List<int[]>[] g3620;
+    private boolean[] online3620;
+    private long k3620;
+    private int n3620;
+
+    public int findMaxPathScore2(int[][] edges, boolean[] online, long k) {
+        this.n3620 = online.length;
+        this.g3620 = new ArrayList[n3620];
+        Arrays.setAll(g3620, o -> new ArrayList<>());
+        int left = 0;
+        int right = 0;
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int cost = edge[2];
+            right = Math.max(right, cost);
+            g3620[u].add(new int[] { v, cost });
+        }
+        this.online3620 = online;
+        this.k3620 = k;
+        if (!check3620(0)) {
+            return -1;
+        }
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            if (check3620(mid)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left - 1;
+
+    }
+
+    private boolean check3620(int limit) {
+        long[] dis = new long[n3620];
+        Arrays.fill(dis, k3620 + 1);
+        dis[0] = 0L;
+        Queue<long[]> q = new ArrayDeque<>();
+        // d, x
+        q.offer(new long[] { 0L, 0L });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            long d = cur[0];
+            int x = (int) cur[1];
+            if (d > dis[x]) {
+                continue;
+            }
+            if (x == n3620 - 1) {
+                return true;
+            }
+            for (int[] nxt : g3620[x]) {
+                int y = nxt[0];
+                int dx = nxt[1];
+                if (online3620[y] && dx >= limit && d + dx < dis[y]) {
+                    dis[y] = d + dx;
+                    q.offer(new long[] { d + dx, y });
+                }
+            }
+        }
+        return false;
+    }
+
     // 3621. 位计数深度为 K 的整数数目 I (Number of Integers With Popcount-Depth Equal to K I)
     private long[][] memo3621;
     private int m3621;
