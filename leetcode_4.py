@@ -4465,23 +4465,21 @@ class LcaBinaryLifting:
 
     # 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     def minScore(self, n: int, roads: List[List[int]]) -> int:
-        def dfs(x: int, fa: int):
+        def dfs(x: int) -> int:
+            res = inf
             if vis[x]:
-                return
+                return res
             vis[x] = True
-            nonlocal res
             for y, d in g[x]:
-                res = min(res, d)
-                dfs(y, x)
+                res = min(res, d, dfs(y))
+            return res
 
         g = [[] for _ in range(n)]
         for u, v, d in roads:
             g[u - 1].append((v - 1, d))
             g[v - 1].append((u - 1, d))
         vis = [False] * n
-        res = inf
-        dfs(0, -1)
-        return res
+        return dfs(0)
 
     # 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     def minScore(self, n: int, roads: List[List[int]]) -> int:
@@ -4515,7 +4513,7 @@ class LcaBinaryLifting:
         for u, v, _ in roads:
             _u.union(u, v)
         return min(d for u, _, d in roads if _u.is_connected(u, 1))
-    
+
     # 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     def minScore(self, n: int, roads: List[List[int]]) -> int:
         g = [[] for _ in range(n)]
@@ -4535,4 +4533,3 @@ class LcaBinaryLifting:
                 res = min(res, d)
                 q.append(y)
         return res
-        
