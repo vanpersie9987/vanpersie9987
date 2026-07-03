@@ -10334,6 +10334,38 @@ public class Leetcode_5 {
 
     }
 
+    // 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
+    private int res;
+    public int minScore3(int n, int[][] roads) {
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] road : roads) {
+            int u = road[0] - 1;
+            int v = road[1] - 1;
+            int d = road[2];
+            g[u].add(new int[] { v, d });
+            g[v].add(new int[] { u, d });
+        }
+        res = Integer.MAX_VALUE;
+        boolean[] vis = new boolean[n];
+        dfs(0, vis, g);
+        return res;
+
+    }
+
+    private void dfs(int x, boolean[] vis, List<int[]>[] g) {
+        if (vis[x]) {
+            return;
+        }
+        vis[x] = true;
+        for (int[] nxt : g[x]) {
+            int y = nxt[0];
+            int d = nxt[1];
+            res = Math.min(res, d);
+            dfs(y, vis, g);
+        }
+    }
+
     // 2493. 将节点分成尽可能多的组 (Divide Nodes Into the Maximum Number of Groups)
     private Map<Integer, List<Integer>> graph2493;
     private Union2493 union2493;
