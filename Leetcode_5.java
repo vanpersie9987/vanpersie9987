@@ -10346,11 +10346,11 @@ public class Leetcode_5 {
             g[v].add(new int[] { u, d });
         }
         boolean[] vis = new boolean[n];
-        return dfs(0, vis, g);
+        return dfs2492(0, vis, g);
 
     }
 
-    private int dfs(int x, boolean[] vis, List<int[]>[] g) {
+    private int dfs2492(int x, boolean[] vis, List<int[]>[] g) {
         int res = Integer.MAX_VALUE;
         if (vis[x]) {
             return res;
@@ -10359,7 +10359,7 @@ public class Leetcode_5 {
         for (int[] nxt : g[x]) {
             int y = nxt[0];
             int d = nxt[1];
-            res = Math.min(res, Math.min(d, dfs(y, vis, g)));
+            res = Math.min(res, Math.min(d, dfs2492(y, vis, g)));
         }
         return res;
     }
