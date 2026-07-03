@@ -2208,12 +2208,11 @@ class leetcode_3:
         def check(limit: int) -> bool:
             dis = [k + 1] * n
             dis[0] = 0
-            q = []
+            q = deque()
             # d, x
             q.append((0, 0))
-            heapq.heapify(q)
             while q:
-                d, x = heapq.heappop(q)
+                d, x = q.popleft()
                 if d > dis[x]:
                     continue
                 if x == n - 1:
@@ -2221,7 +2220,7 @@ class leetcode_3:
                 for y, dx in g[x]:
                     if online[y] and dx >= limit and d + dx < dis[y]:
                         dis[y] = d + dx
-                        heapq.heappush(q, (d + dx, y))
+                        q.append((d + dx, y))
 
         n = len(online)
         g = [[] for _ in range(n)]
