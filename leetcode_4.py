@@ -4482,7 +4482,8 @@ class LcaBinaryLifting:
         res = inf
         dfs(0, -1)
         return res
-
+    
+    # 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     def minScore(self, n: int, roads: List[List[int]]) -> int:
         class union:
             def __init__(self, n: int):
