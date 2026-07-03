@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10243,27 +10244,31 @@ public class Leetcode_5 {
 
     // 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
     public int minScore(int n, int[][] roads) {
-        Map<Integer, List<int[]>> map = new HashMap<>();
+        List<int[]>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
         for (int[] road : roads) {
-            map.computeIfAbsent(road[0] - 1, k -> new ArrayList<>()).add(new int[] { road[1] - 1, road[2] });
-            map.computeIfAbsent(road[1] - 1, k -> new ArrayList<>()).add(new int[] { road[0] - 1, road[2] });
+            int u = road[0] - 1;
+            int v = road[1] - 1;
+            int d = road[2];
+            g[u].add(new int[] { v, d });
+            g[v].add(new int[] { u, d });
 
         }
         int res = Integer.MAX_VALUE;
-        boolean[] visited = new boolean[n];
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(0);
-        visited[0] = true;
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            for (int[] neighbor : map.getOrDefault(node, new ArrayList<>())) {
-                int nNode = neighbor[0];
-                int nDis = neighbor[1];
-                if (!visited[nNode]) {
-                    visited[nNode] = true;
-                    queue.offer(nNode);
-                }
-                res = Math.min(res, nDis);
+        boolean[] vis = new boolean[n];
+        Deque<Integer> q = new ArrayDeque<>();
+        q.offer(0);
+        while (!q.isEmpty()) {
+            int x = q.poll();
+            if (vis[x]) {
+                continue;
+            }
+            vis[x] = true;
+            for (int[] nxt : g[x]) {
+                int d = nxt[1];
+                res = Math.min(res, d);
+                int y = nxt[0];
+                q.offer(y);
             }
         }
         return res;
