@@ -4482,3 +4482,35 @@ class LcaBinaryLifting:
         res = inf
         dfs(0, -1)
         return res
+
+    def minScore(self, n: int, roads: List[List[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+
+        _u = union(n + 1)
+        for u, v, _ in roads:
+            _u.union(u, v)
+        return min(d for u, _, d in roads if _u.is_connected(u, 1))
