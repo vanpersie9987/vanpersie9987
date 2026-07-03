@@ -4431,7 +4431,15 @@ class LcaBinaryLifting:
         return a
 
     # 3977. 有限电量到达目标节点的最少时间 (Minimum Time to Reach Target With Limited Power)
-    def minTimeMaxPower(self, n: int, edges: List[List[int]], power: int, cost: List[int], source: int, target: int) -> List[int]:
+    def minTimeMaxPower(
+        self,
+        n: int,
+        edges: List[List[int]],
+        power: int,
+        cost: List[int],
+        source: int,
+        target: int,
+    ) -> List[int]:
         dis_t = defaultdict(lambda: inf)
         dis_t[(source, power)] = 0
         g = [[] for _ in range(n)]
@@ -4454,3 +4462,23 @@ class LcaBinaryLifting:
     # 1967. 作为子字符串出现在单词中的字符串数目 (Number of Strings That Appear as Substrings in Word)
     def numOfStrings(self, patterns: List[str], word: str) -> int:
         return sum(x in word for x in patterns)
+
+    # 2492. 两个城市间路径的最小分数 (Minimum Score of a Path Between Two Cities)
+    def minScore(self, n: int, roads: List[List[int]]) -> int:
+        def dfs(x: int, fa: int):
+            if vis[x]:
+                return
+            vis[x] = True
+            nonlocal res
+            for y, d in g[x]:
+                res = min(res, d)
+                dfs(y, x)
+
+        g = [[] for _ in range(n)]
+        for u, v, d in roads:
+            g[u - 1].append((v - 1, d))
+            g[v - 1].append((u - 1, d))
+        vis = [False] * n
+        res = inf
+        dfs(0, -1)
+        return res
