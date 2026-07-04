@@ -2937,10 +2937,12 @@ class leetcode_1:
 
         @cache
         def ways(i: int, j: int, k: int) -> int:
-            if i < 0 or j < 0 or board[i][j] == "X":
+            if i < 0 or j < 0:
                 return 0
             if i == 0 and j == 0:
                 return 1
+            if dfs(i, j) != k:
+                return 0
             res = 0
             x = 0 if board[i][j] == "S" else int(board[i][j])
             if dfs(i - 1, j) == k - x:
@@ -2951,12 +2953,12 @@ class leetcode_1:
                 res += ways(i - 1, j - 1, k - x)
             return res % MOD
 
-        m, n = len(board), len(board[0])
-        mx = dfs(m - 1, n - 1)
+        n = len(board)
+        mx = dfs(n - 1, n - 1)
         if mx < 0:
             return (0, 0)
         MOD = 10**9 + 7
-        return (mx, ways(m - 1, n - 1, mx))
+        return (mx, ways(n - 1, n - 1, mx))
 
     # 1278. 分割回文串 III (Palindrome Partitioning III)
     def palindromePartition(self, s: str, k: int) -> int:
