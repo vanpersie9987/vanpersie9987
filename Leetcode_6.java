@@ -7818,70 +7818,68 @@ public class Leetcode_6 {
     }
 
     // 1301. 最大得分的路径数目 (Number of Paths with Max Score)
-    private int n1301;
     private List<String> board1301;
-    // 最大分数
     private int[][] memo1301;
-    // 最大分数的方案数
     private int[][] ways1301;
 
     public int[] pathsWithMaxScore(List<String> board) {
-        this.n1301 = board.size();
+        int n = board.size();
         this.board1301 = board;
-        this.memo1301 = new int[n1301][n1301];
-        for (int i = 0; i < n1301; ++i) {
-            Arrays.fill(memo1301[i], -1);
+        this.memo1301 = new int[n][n];
+        for (int[] r : memo1301) {
+            Arrays.fill(r, -1);
         }
-        this.ways1301 = new int[n1301][n1301];
-        ways1301[n1301 - 1][n1301 - 1] = 1;
-        int max = dfs1301(0, 0);
-        if (max < 0) {
+        int mx = dfs1301(n - 1, n - 1);
+        if (mx < 0) {
             return new int[] { 0, 0 };
         }
-        return new int[] { max, ways1301[0][0] };
+        this.ways1301 = new int[n][n];
+        for (int[] r : ways1301) {
+            Arrays.fill(r, -1);
+        }
+        int cnt = dfsWays1301(n - 1, n - 1, mx);
+        return new int[] { mx, cnt };
     }
 
-    // 从[i, j]出发，向右、右下、下走的最大分数
+    private int dfsWays1301(int i, int j, int k) {
+        if (i < 0 || j < 0) {
+            return 0;
+        }
+        if (i == 0 && j == 0) {
+            return 1;
+        }
+        if (ways1301[i][j] != -1) {
+            return ways1301[i][j];
+        }
+        int res = 0;
+        final int MOD = (int) (1e9 + 7);
+        int x = board1301.get(i).charAt(j) == 'S' ? 0 : board1301.get(i).charAt(j) - '0';
+        if (dfs1301(i - 1, j) == k - x) {
+            res += dfsWays1301(i - 1, j, k - x);
+        }
+        if (dfs1301(i, j - 1) == k - x) {
+            res += dfsWays1301(i, j - 1, k - x);
+            res %= MOD;
+        }
+        if (dfs1301(i - 1, j - 1) == k - x) {
+            res += dfsWays1301(i - 1, j - 1, k - x);
+            res %= MOD;
+        }
+        return ways1301[i][j] = res;
+    }
+
     private int dfs1301(int i, int j) {
-        if (i == n1301 - 1 && j == n1301 - 1) {
+        if (i < 0 || j < 0 || board1301.get(i).charAt(j) == 'X') {
+            return Integer.MIN_VALUE / 2;
+        }
+        if (i == 0 && j == 0) {
             return 0;
         }
         if (memo1301[i][j] != -1) {
             return memo1301[i][j];
         }
-        int max1 = (int) -1e5;
-        int max2 = (int) -1e5;
-        int max3 = (int) -1e5;
-        if (i + 1 < n1301 && board1301.get(i + 1).charAt(j) != 'X') {
-            max1 = dfs1301(i + 1, j);
-        }
-        if (i + 1 < n1301 && j + 1 < n1301 && board1301.get(i + 1).charAt(j + 1) != 'X') {
-            max2 = dfs1301(i + 1, j + 1);
-        }
-        if (j + 1 < n1301 && board1301.get(i).charAt(j + 1) != 'X') {
-            max3 = dfs1301(i, j + 1);
-        }
-        int max = (int) -1e5;
-        max = Math.max(max, max1);
-        max = Math.max(max, max2);
-        max = Math.max(max, max3);
-        if (max >= 0) {
-            final int MOD = (int) (1e9 + 7);
-            if (max == max1) {
-                ways1301[i][j] = (ways1301[i][j] + ways1301[i + 1][j]) % MOD;
-            }
-            if (max == max2) {
-                ways1301[i][j] = (ways1301[i][j] + ways1301[i + 1][j + 1]) % MOD;
-            }
-            if (max == max3) {
-                ways1301[i][j] = (ways1301[i][j] + ways1301[i][j + 1]) % MOD;
-            }
-        }
-        // [0, 0]是起始点没有分数
-        if (!(i == 0 && j == 0)) {
-            max += board1301.get(i).charAt(j) - '0';
-        }
-        return memo1301[i][j] = max;
+        int x = board1301.get(i).charAt(j) == 'S' ? 0 : board1301.get(i).charAt(j) - '0';
+        return memo1301[i][j] = Math.max(dfs1301(i - 1, j - 1), Math.max(dfs1301(i - 1, j), dfs1301(i, j - 1))) + x;
     }
 
     // 1326. 灌溉花园的最少水龙头数目 (Minimum Number of Taps to Open to Water a Garden)
