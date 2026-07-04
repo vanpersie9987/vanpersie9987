@@ -2927,39 +2927,36 @@ class leetcode_1:
     def pathsWithMaxScore(self, board: List[str]) -> List[int]:
         @cache
         def dfs(i: int, j: int) -> int:
-            if i == n or j == n or board[i][j] == "X":
+            if i < 0 or j < 0 or board[i][j] == "X":
                 return -inf
-            if i == n - 1 and j == n - 1:
+            if i == 0 and j == 0:
                 return 0
-            return max(dfs(i + 1, j), dfs(i, j + 1), dfs(i + 1, j + 1)) + (
-                0 if board[i][j] == "E" else int(board[i][j])
+            return max(dfs(i - 1, j), dfs(i, j - 1), dfs(i - 1, j - 1)) + (
+                0 if board[i][j] == "S" else int(board[i][j])
             )
 
-        n = len(board)
-        mx = dfs(0, 0)
-        if mx < 0:
-            return [0, 0]
-        MOD = 10**9 + 7
-
         @cache
-        def cal(i: int, j: int, k: int) -> int:
-            if i == n or j == n or board[i][j] == "X" or k < 0:
+        def ways(i: int, j: int, k: int) -> int:
+            if i < 0 or j < 0 or board[i][j] == "X":
                 return 0
-            if i == n - 1 and j == n - 1:
-                return k == 0
-            s = 0 if board[i][j] == "E" else int(board[i][j])
+            if i == 0 and j == 0:
+                return 1
             res = 0
-            if dfs(i + 1, j) + s == k:
-                res += cal(i + 1, j, k - s)
-            if dfs(i, j + 1) + s == k:
-                res += cal(i, j + 1, k - s)
-            if dfs(i + 1, j + 1) + s == k:
-                res += cal(i + 1, j + 1, k - s)
+            x = 0 if board[i][j] == "S" else int(board[i][j])
+            if dfs(i - 1, j) == k - x:
+                res += ways(i - 1, j, k - x)
+            if dfs(i, j - 1) == k - x:
+                res += ways(i, j - 1, k - x)
+            if dfs(i - 1, j - 1) == k - x:
+                res += ways(i - 1, j - 1, k - x)
             return res % MOD
 
-        cnt = cal(0, 0, mx)
-        cal.cache_clear()
-        return [mx, cnt]
+        m, n = len(board), len(board[0])
+        mx = dfs(m - 1, n - 1)
+        if mx < 0:
+            return (0, 0)
+        MOD = 10**9 + 7
+        return (mx, ways(m - 1, n - 1, mx))
 
     # 1278. 分割回文串 III (Palindrome Partitioning III)
     def palindromePartition(self, s: str, k: int) -> int:
