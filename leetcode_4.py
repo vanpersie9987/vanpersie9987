@@ -4593,3 +4593,23 @@ class LcaBinaryLifting:
         n = len(s1)
         res = dfs(0)
         return res if res < inf else -1
+    
+    # 3982. 最大数字范围的整数之和 (Sum of Integers with Maximum Digit Range)
+    def maxDigitRange(self, nums: list[int]) -> int:
+        diff = res = 0
+        for x in nums:
+            v = x
+            mx = 0
+            mn = 9
+            while v:
+                v, m = divmod(v, 10)
+                mx = max(mx, m)
+                mn = min(mn, m)
+            if mx - mn > diff:
+                diff = mx - mn
+                res = x
+            elif mx - mn == diff:
+                res += x
+        return res
+
+
