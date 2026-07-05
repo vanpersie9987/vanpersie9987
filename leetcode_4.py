@@ -4539,7 +4539,7 @@ class LcaBinaryLifting:
         n = len(nums)
         x = nums[n // 2]
         return all(v != x for i, v in enumerate(nums) if i != n // 2)
-    
+
     # 3979. 最大有效数对和 (Maximum Valid Pair Sum)
     def maxValidPairSum(self, nums: list[int], k: int) -> int:
         pre = -inf
@@ -4548,3 +4548,48 @@ class LcaBinaryLifting:
             res = max(res, nums[i] + pre)
             pre = max(pre, nums[i - k + 1])
         return res
+
+    # 3980. 变换二进制字符串的最少操作次数 (Minimum Operations to Transform Binary String)
+    def minOperations(self, s1: str, s2: str) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == n:
+                return 0
+            res = inf
+            if s1[i] == s2[i]:
+                res = min(res, dfs(i + 1))
+                if i < n - 1 and s1[i + 1] == '1' and s2[i + 1] == '0':
+                    res = min(res, dfs(i + 2) + 2)
+            else:
+                if s1[i] == '0':
+                    res = min(res, dfs(i + 1) + 1)
+                    if i < n - 1 and s1[i + 1] == '1' and s2[i + 1] == '0':
+                        res = min(res, dfs(i + 2) + 3)
+                else:
+                    if i < n - 1:
+                        # 11 -> 00
+                        if s1[i + 1] == '1' and s2[i + 1] == '0':
+                            res = min(res, dfs(i + 2) + 1)
+                            # 111 -> 000
+                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                                res = min(res, dfs(i + 3) + 3)
+                        # 10 -> 01
+                        elif s1[i + 1] == '0' and s2[i + 1] == '1':
+                            res = min(res, dfs(i + 2) + 3)
+                            # 101 -> 010
+                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                                res = min(res, dfs(i + 3) + 5)
+                        # 10 -> 00
+                        # 11 -> 01
+                        else:
+                            res = min(res, dfs(i + 2) + 2)
+                            # 101 -> 000
+                            # 111 -> 010
+                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                                res = min(res, dfs(i + 3) + 4)
+
+            return res
+
+        n = len(s1)
+        res = dfs(0)
+        return res if res < inf else -1
