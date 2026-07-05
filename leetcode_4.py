@@ -4533,3 +4533,9 @@ class LcaBinaryLifting:
                 res = min(res, d)
                 q.append(y)
         return res
+
+    # 3978. 唯一中间元素 (Unique Middle Element)
+    def isMiddleElementUnique(self, nums: list[int]) -> bool:
+        n = len(nums)
+        x = nums[n // 2]
+        return all(v != x for i, v in enumerate(nums) if i != n // 2)
