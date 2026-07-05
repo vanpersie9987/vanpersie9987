@@ -1358,4 +1358,29 @@ public class Leetcode_11 {
         }
         return memo3980[i] = res;
     }
+
+    // 3982. 最大数字范围的整数之和 (Sum of Integers with Maximum Digit Range)
+    public int maxDigitRange(int[] nums) {
+        int diff = 0;
+        int res = 0;
+        for (int x : nums) {
+            int mx = 0;
+            int mn = 9;
+            int v = x;
+            while (x > 0) {
+                int d = x % 10;
+                mx = Math.max(mx, d);
+                mn = Math.min(mn, d);
+                x /= 10;
+            }
+            if (mx - mn > diff) {
+                diff = mx - mn;
+                res = v;
+            } else if (mx - mn == diff) {
+                res += v;
+            }
+        }
+        return res;
+
+    }
 }
