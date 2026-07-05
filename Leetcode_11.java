@@ -1282,7 +1282,7 @@ public class Leetcode_11 {
         return true;
 
     }
-    
+
     // 3979. 最大有效数对和 (Maximum Valid Pair Sum)
     public int maxValidPairSum(int[] nums, int k) {
         int pre = Integer.MIN_VALUE / 2;
@@ -1293,5 +1293,69 @@ public class Leetcode_11 {
 
         }
         return res;
+    }
+
+    // 3980. 变换二进制字符串的最少操作次数 (Minimum Operations to Transform Binary String)
+    private char[] s1_3980;
+    private char[] s2_3980;
+    private int[] memo3980;
+    private int n3980;
+
+    public int minOperations(String s1, String s2) {
+        this.s1_3980 = s1.toCharArray();
+        this.s2_3980 = s2.toCharArray();
+        this.n3980 = s1.length();
+        this.memo3980 = new int[n3980];
+        Arrays.fill(memo3980, -1);
+        int res = dfs3980(0);
+        if (res >= Integer.MAX_VALUE / 2) {
+            return -1;
+        }
+        return res;
+
+    }
+
+    private int dfs3980(int i) {
+        if (i == n3980) {
+            return 0;
+        }
+        if (memo3980[i] != -1) {
+            return memo3980[i];
+        }
+        int res = Integer.MAX_VALUE / 2;
+        if (s1_3980[i] == s2_3980[i]) {
+            res = Math.min(res, dfs3980(i + 1));
+            if (i < n3980 - 1 && s1_3980[i + 1] == '1' && s2_3980[i + 1] == '0') {
+                res = Math.min(res, dfs3980(i + 2) + 2);
+            }
+        } else {
+            if (s1_3980[i] == '0') {
+                res = Math.min(res, dfs3980(i + 1) + 1);
+                if (i < n3980 - 1 && s1_3980[i + 1] == '1' && s2_3980[i + 1] == '0') {
+                    res = Math.min(res, dfs3980(i + 2) + 3);
+                }
+            } else {
+                if (i < n3980 - 1) {
+                    if (s1_3980[i + 1] == '1' && s2_3980[i + 1] == '0') {
+                        res = Math.min(res, dfs3980(i + 2) + 1);
+                        // 111 -> 000
+                        if (i < n3980 - 2 && s1_3980[i + 2] == '1' && s2_3980[i + 2] == '0') {
+                            res = Math.min(res, dfs3980(i + 3) + 3);
+                        }
+                    } else if (s1_3980[i + 1] == '0' && s2_3980[i + 1] == '1') {
+                        res = Math.min(res, dfs3980(i + 2) + 3);
+                        if (i < n3980 - 2 && s1_3980[i + 2] == '1' && s2_3980[i + 2] == '0') {
+                            res = Math.min(res, dfs3980(i + 3) + 5);
+                        }
+                    } else {
+                        res = Math.min(res, dfs3980(i + 2) + 2);
+                        if (i < n3980 - 2 && s1_3980[i + 2] == '1' && s2_3980[i + 2] == '0') {
+                            res = Math.min(res, dfs3980(i + 3) + 4);
+                        }
+                    }
+                }
+            }
+        }
+        return memo3980[i] = res;
     }
 }
