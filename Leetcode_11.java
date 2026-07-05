@@ -1282,4 +1282,16 @@ public class Leetcode_11 {
         return true;
 
     }
+    
+    // 3979. 最大有效数对和 (Maximum Valid Pair Sum)
+    public int maxValidPairSum(int[] nums, int k) {
+        int pre = Integer.MIN_VALUE / 2;
+        int res = 0;
+        for (int i = k - 1; i < nums.length; ++i) {
+            res = Math.max(res, nums[i] + pre);
+            pre = Math.max(pre, nums[i - k + 1]);
+
+        }
+        return res;
+    }
 }

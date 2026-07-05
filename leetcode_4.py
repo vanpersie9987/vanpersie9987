@@ -4539,3 +4539,12 @@ class LcaBinaryLifting:
         n = len(nums)
         x = nums[n // 2]
         return all(v != x for i, v in enumerate(nums) if i != n // 2)
+    
+    # 3979. 最大有效数对和 (Maximum Valid Pair Sum)
+    def maxValidPairSum(self, nums: list[int], k: int) -> int:
+        pre = -inf
+        res = 0
+        for i in range(k - 1, len(nums)):
+            res = max(res, nums[i] + pre)
+            pre = max(pre, nums[i - k + 1])
+        return res
