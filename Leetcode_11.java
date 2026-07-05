@@ -1269,4 +1269,17 @@ public class Leetcode_11 {
         }
         return new long[] { -1L, -1L };
     }
+
+    // 3978. 唯一中间元素 (Unique Middle Element)
+    public boolean isMiddleElementUnique(int[] nums) {
+        int n = nums.length;
+        int x = nums[n / 2];
+        for (int i = 0; i < n; ++i) {
+            if (i != n / 2 && x == nums[i]) {
+                return false;
+            }
+        }
+        return true;
+
+    }
 }
