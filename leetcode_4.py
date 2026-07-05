@@ -4558,26 +4558,26 @@ class LcaBinaryLifting:
             res = inf
             if s1[i] == s2[i]:
                 res = min(res, dfs(i + 1))
-                if i < n - 1 and s1[i + 1] == '1' and s2[i + 1] == '0':
+                if i < n - 1 and s1[i + 1] == "1" and s2[i + 1] == "0":
                     res = min(res, dfs(i + 2) + 2)
             else:
-                if s1[i] == '0':
+                if s1[i] == "0":
                     res = min(res, dfs(i + 1) + 1)
-                    if i < n - 1 and s1[i + 1] == '1' and s2[i + 1] == '0':
+                    if i < n - 1 and s1[i + 1] == "1" and s2[i + 1] == "0":
                         res = min(res, dfs(i + 2) + 3)
                 else:
                     if i < n - 1:
                         # 11 -> 00
-                        if s1[i + 1] == '1' and s2[i + 1] == '0':
+                        if s1[i + 1] == "1" and s2[i + 1] == "0":
                             res = min(res, dfs(i + 2) + 1)
                             # 111 -> 000
-                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                            if i < n - 2 and s1[i + 2] == "1" and s2[i + 2] == "0":
                                 res = min(res, dfs(i + 3) + 3)
                         # 10 -> 01
-                        elif s1[i + 1] == '0' and s2[i + 1] == '1':
+                        elif s1[i + 1] == "0" and s2[i + 1] == "1":
                             res = min(res, dfs(i + 2) + 3)
                             # 101 -> 010
-                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                            if i < n - 2 and s1[i + 2] == "1" and s2[i + 2] == "0":
                                 res = min(res, dfs(i + 3) + 5)
                         # 10 -> 00
                         # 11 -> 01
@@ -4585,7 +4585,7 @@ class LcaBinaryLifting:
                             res = min(res, dfs(i + 2) + 2)
                             # 101 -> 000
                             # 111 -> 010
-                            if i < n - 2 and s1[i + 2] == '1' and s2[i + 2] == '0':
+                            if i < n - 2 and s1[i + 2] == "1" and s2[i + 2] == "0":
                                 res = min(res, dfs(i + 3) + 4)
 
             return res
@@ -4593,7 +4593,7 @@ class LcaBinaryLifting:
         n = len(s1)
         res = dfs(0)
         return res if res < inf else -1
-    
+
     # 3982. 最大数字范围的整数之和 (Sum of Integers with Maximum Digit Range)
     def maxDigitRange(self, nums: list[int]) -> int:
         diff = res = 0
@@ -4612,4 +4612,26 @@ class LcaBinaryLifting:
                 res += x
         return res
 
-
+    # 3983. 一次替换后的子序列 (Subsequence After One Replacement)
+    def canMakeSubsequence(self, s: str, t: str) -> bool:
+        m, n = len(s), len(t)
+        if m > n:
+            return False
+        if m == 1:
+            return True
+        left = [inf] * m
+        i = 0
+        for j, x in enumerate(t):
+            if i < m and s[i] == x:
+                left[i] = j
+                i += 1
+        right = [-inf] * m
+        i = m - 1
+        for j in range(n - 1, -1, -1):
+            if i >= 0 and s[i] == t[j]:
+                right[i] = j
+                i -= 1
+        for i in range(1, m - 1):
+            if left[i - 1] + 1 < right[i + 1]:
+                return True
+        return right[1] > 0 or left[-2] < n - 1
