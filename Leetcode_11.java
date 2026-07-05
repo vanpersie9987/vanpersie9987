@@ -1383,4 +1383,39 @@ public class Leetcode_11 {
         return res;
 
     }
+
+    // 3983. 一次替换后的子序列 (Subsequence After One Replacement)
+    public boolean canMakeSubsequence(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        if (m > n) {
+            return false;
+        }
+        if (m == 1) {
+            return true;
+        }
+        int[] left = new int[m];
+        Arrays.fill(left, Integer.MAX_VALUE / 2);
+        int i = 0;
+        for (int j = 0; j < n && i < m; ++j) {
+            if (s.charAt(i) == t.charAt(j)) {
+                left[i++] = j;
+            }
+        }
+        int[] right = new int[m];
+        Arrays.fill(right, -1);
+        i = m - 1;
+        for (int j = n - 1; j >= 0 && i >= 0; --j) {
+            if (s.charAt(i) == t.charAt(j)) {
+                right[i--] = j;
+            }
+        }
+        for (int j = 1; j < m - 1; ++j) {
+            if (left[j - 1] + 1 < right[j + 1]) {
+                return true;
+            }
+        }
+        return right[1] > 0 || left[m - 2] < n - 1;
+
+    }
 }
