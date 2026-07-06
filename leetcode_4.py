@@ -4635,3 +4635,37 @@ class LcaBinaryLifting:
             if left[i - 1] + 1 < right[i + 1]:
                 return True
         return right[1] > 0 or left[-2] < n - 1
+
+    # 3984. 可整除游戏 (Divisible Game)
+    def divisibleGame(self, nums: list[int]) -> int:
+        if all(x == 1 for x in nums):
+            return 10**9 + 5
+        # ------------------------------- 将此处代码段写在class外部可通过
+        MX = 10**6 + 1
+        prime = [[] for _ in range(MX)]
+        for i in range(2, MX):
+            if not prime[i]:
+                for j in range(i, MX, i):
+                    prime[j].append(i)
+        # -------------------------------
+        all_primes = set()
+        for x in nums:
+            all_primes.update(prime[x])
+        a = sorted(all_primes)
+        diff = -inf
+        k = 0
+        for p in a:
+            if p > mx:
+                break
+            pre = 0
+            s = 0
+            mx = -inf
+            for x in nums:
+                s += x if x % p == 0 else -x
+                mx = max(mx, s - pre)
+                pre = min(pre, s)
+            if mx > diff:
+                k = p
+                diff = mx
+        MOD = 10**9 + 7
+        return diff * k % MOD
