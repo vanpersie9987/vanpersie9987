@@ -4651,10 +4651,9 @@ class LcaBinaryLifting:
         all_primes = set()
         for x in nums:
             all_primes.update(prime[x])
-        a = sorted(all_primes)
         diff = -inf
         k = 0
-        for p in a:
+        for p in sorted(all_primes):
             if p > mx:
                 break
             pre = 0
