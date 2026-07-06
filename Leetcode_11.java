@@ -1418,4 +1418,53 @@ public class Leetcode_11 {
         return right[1] > 0 || left[m - 2] < n - 1;
 
     }
+
+    // 3984. 可整除游戏 (Divisible Game)
+    public int divisibleGame(int[] nums) {
+        int MOD = 1_000_000_007;
+        boolean f = true;
+        for (int x : nums) {
+            if (x != 1) {
+                f = false;
+                break;
+            }
+        }
+        if (f) {
+            return MOD - 2;
+        }
+        Set<Integer> primes = new HashSet<>();
+        for (int x : nums) {
+            for (int p = 2; p * p <= x; p++) {
+                if (x % p == 0) {
+                    primes.add(p);
+                    do {
+                        x /= p;
+                    } while (x % p == 0);
+                }
+            }
+            if (x > 1) {
+                primes.add(x);
+            }
+        }
+        List<Integer> a = new ArrayList<>(primes);
+        Collections.sort(a);
+        int diff = Integer.MIN_VALUE;
+        int k = 0;
+        for (int p : a) {
+            int s = 0;
+            int pre = 0;
+            int mx = Integer.MIN_VALUE;
+            for (int x : nums) {
+                s += x % p == 0 ? x : -x;
+                mx = Math.max(mx, s - pre);
+                pre = Math.min(pre, s);
+            }
+            if (mx > diff) {
+                diff = mx;
+                k = p;
+            }
+
+        }
+        return (int) ((long) diff * k % MOD + MOD) % MOD;
+    }
 }
