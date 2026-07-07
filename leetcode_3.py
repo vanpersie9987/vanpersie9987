@@ -5648,17 +5648,15 @@ class SegmentTree2940:
 
     # 3754. 连接非零数字并乘以其数字和 I (Concatenate Non-Zero Digits and Multiply by Sum I)
     def sumAndMultiply(self, n: int) -> int:
-        x = 0
-        p = 1
-        s = 0
+        x = sum = 0
+        mul = 1
         while n:
-            d, m = divmod(n, 10)
-            if m:
-                s += m
-                x += p * m
-                p *= 10
-            n = d
-        return x * s
+            n, d = divmod(n, 10)
+            if d:
+                x = mul * d + x
+                mul *= 10
+            sum += d
+        return sum * x
 
     # 3756. 连接非零数字并乘以其数字和 II (Concatenate Non-Zero Digits and Multiply by Sum II)
     def sumAndMultiply(self, s: str, queries: List[List[int]]) -> List[int]:

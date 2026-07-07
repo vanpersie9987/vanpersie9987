@@ -1751,19 +1751,18 @@ public class Leetcode_10 {
 
     // 3754. 连接非零数字并乘以其数字和 I (Concatenate Non-Zero Digits and Multiply by Sum I)
     public long sumAndMultiply(int n) {
-        long x = 0L;
-        int s = 0;
-        long p = 1L;
-        while (n != 0) {
-            int m = n % 10;
-            if (m != 0) {
-                x += p * m;
-                s += m;
-                p *= 10L;
+        int x = 0;
+        int mul = 1;
+        int sum = 0;
+        for (; n > 0; n /= 10) {
+            int d = n % 10;
+            if (d != 0) {
+                x = mul * d + x;
+                mul *= 10;
             }
-            n /= 10;
+            sum += d;
         }
-        return x * s;
+        return (long) sum * x;
 
     }
 
