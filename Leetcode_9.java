@@ -5544,6 +5544,20 @@ public class Leetcode_9 {
         }
     }
 
+    // 3532. 针对图的路径存在性查询 I (Path Existence Queries in a Graph I)
+    public boolean[] pathExistenceQueries2(int n, int[] nums, int maxDiff, int[][] queries) {
+        int[] a = new int[n];
+        for (int i = 1; i < n; ++i) {
+            a[i] = a[i - 1] + (nums[i] - nums[i - 1] > maxDiff ? 1 : 0);
+        }
+        boolean[] res = new boolean[queries.length];
+        for (int i = 0; i < queries.length; ++i) {
+            res[i] = a[queries[i][0]] == a[queries[i][1]];
+        }
+        return res;
+
+    }
+
     // 3533. 判断连接可整除性 (Concatenated Divisibility)
     private int[] nums3533;
     private int k3533;
