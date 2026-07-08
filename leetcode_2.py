@@ -9764,6 +9764,19 @@ class Union924:
                 union.union(x, y)
         return [union.is_connected(x, y) for x, y in queries]
 
+    # 3532. 针对图的路径存在性查询 I (Path Existence Queries in a Graph I)
+    def pathExistenceQueries(
+        self, n: int, nums: List[int], maxDiff: int, queries: List[List[int]]
+    ) -> List[bool]:
+        a = [0] * n
+        for i in range(1, n):
+            if nums[i] - nums[i - 1] > maxDiff:
+                a[i] = a[i - 1] + 1
+            else:
+                a[i] = a[i - 1]
+
+        return [a[u] == a[v] for u, v in queries]
+
     # 3533. 判断连接可整除性 (Concatenated Divisibility)
     def concatenatedDivisibility(self, nums: List[int], k: int) -> List[int]:
         @cache
