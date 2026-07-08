@@ -9770,10 +9770,7 @@ class Union924:
     ) -> List[bool]:
         a = [0] * n
         for i in range(1, n):
-            if nums[i] - nums[i - 1] > maxDiff:
-                a[i] = a[i - 1] + 1
-            else:
-                a[i] = a[i - 1]
+            a[i] = a[i - 1] + (nums[i] - nums[i - 1] > maxDiff)
 
         return [a[u] == a[v] for u, v in queries]
 
