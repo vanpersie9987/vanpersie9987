@@ -4715,3 +4715,19 @@ class LcaBinaryLifting:
             if _c[k] == len(v) * (len(v) - 1) // 2:
                 res += 1
         return res
+    
+    # 1331. 数组序号转换 (Rank Transform of an Array)
+    def arrayRankTransform(self, arr: List[int]) -> List[int]:
+        a = []
+        for i, x in enumerate(arr):
+            a.append((x, i))
+        a.sort()
+        res = [0] * len(arr)
+        val = 0
+        pre = -inf
+        for x, i in a:
+            if x != pre:
+                pre = x
+                val += 1
+            res[i] = val
+        return res
