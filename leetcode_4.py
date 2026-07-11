@@ -4668,3 +4668,50 @@ class LcaBinaryLifting:
                 diff = mx
         MOD = 10**9 + 7
         return diff * k % MOD
+
+    # 2685. 统计完全连通分量的数量 (Count the Number of Complete Components)
+    def countCompleteComponents(self, n: int, edges: List[List[int]]) -> int:
+
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                if self.is_connected(p1, p2):
+                    return
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r2] += 1
+        _d = defaultdict(set)
+        _c = defaultdict(int)
+        _s = set()
+        _u = union(n)
+        for u, v in edges:
+            _u.union(u, v)
+            _s.add(u)
+            _s.add(v)
+        for u, v in edges:
+            r = _u.get_root(u)
+            _d[r].add(u)
+            _d[r].add(v)
+            _c[r] += 1
+        res = n - len(_s)
+        for k, v in _d.items():
+            if _c[k] == len(v) * (len(v) - 1) // 2:
+                res += 1
+        return res 
