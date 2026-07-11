@@ -4382,10 +4382,9 @@ class LcaBinaryLifting:
                     if d + w < dis[(y, 1)]:
                         dis[(y, 1)] = d + w
                         heapq.heappush(q, (d + w, 1, y))
-                elif _k + 1 <= k:
-                    if d + w < dis[(y, _k + 1)]:
-                        dis[(y, _k + 1)] = d + w
-                        heapq.heappush(q, (d + w, _k + 1, y))
+                elif _k + 1 <= k and d + w < dis[(y, _k + 1)]:
+                    dis[(y, _k + 1)] = d + w
+                    heapq.heappush(q, (d + w, _k + 1, y))
         return -1
 
     # 1846. 减小和重新排列数组后的最大元素 (Maximum Element After Decreasing and Rearranging)
@@ -4697,6 +4696,7 @@ class LcaBinaryLifting:
                     self.parent[r2] = r1
                     if self.rank[r1] == self.rank[r2]:
                         self.rank[r2] += 1
+
         _d = defaultdict(set)
         _c = defaultdict(int)
         _s = set()
@@ -4714,4 +4714,4 @@ class LcaBinaryLifting:
         for k, v in _d.items():
             if _c[k] == len(v) * (len(v) - 1) // 2:
                 res += 1
-        return res 
+        return res
