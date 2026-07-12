@@ -1562,46 +1562,28 @@ public class Leetcode_11 {
     }
 
     // 3989. 网格中保持一致的最大列数 (Maximum Consistent Columns in a Grid)
-    private int[][] memo3989;
-    private int limit3989;
-    private int[][] grid3989;
-    private boolean[][] legal3989;
-
     public int maxConsistentColumns(int[][] grid, int limit) {
         int n = grid[0].length;
-        this.limit3989 = limit;
-        this.grid3989 = grid;
-        this.memo3989 = new int[n][n + 1];
+        int[] f = new int[n];
         for (int i = 0; i < n; ++i) {
-            Arrays.fill(memo3989[i], -1);
-        }
-        this.legal3989 = new boolean[n][n];
-        for (int j1 = 1; j1 < n; ++j1) {
-            for (int j0 = 0; j0 < j1; ++j0) {
-                legal3989[j0][j1] = check3989(j0, j1);
+            int mx = 0;
+            for (int j = i - 1; j >= 0; --j) {
+                if (f[j] > mx && check3989(i, j, grid, limit)) {
+                    mx = f[j];
+                }
             }
+            f[i] = mx + 1;
         }
-        return dfs3989(n - 1, n);
-
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, f[i]);
+        }
+        return res;
     }
 
-    private int dfs3989(int j, int lastJ) {
-        if (j < 0) {
-            return 0;
-        }
-        if (memo3989[j][lastJ] != -1) {
-            return memo3989[j][lastJ];
-        }
-        int res = dfs3989(j - 1, lastJ);
-        if (lastJ == grid3989[0].length || legal3989[j][lastJ]) {
-            res = Math.max(res, dfs3989(j - 1, j) + 1);
-        }
-        return memo3989[j][lastJ] = res;
-    }
-
-    private boolean check3989(int j0, int j1) {
-        for (int[] r : grid3989) {
-            if (Math.abs(r[j0] - r[j1]) > limit3989) {
+    private boolean check3989(int i, int j, int[][] grid, int limit) {
+        for (int[] r : grid) {
+            if (Math.abs(r[i] - r[j]) > limit) {
                 return false;
             }
         }
