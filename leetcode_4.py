@@ -4736,6 +4736,7 @@ class LcaBinaryLifting:
     def secondsBetweenTimes(self, startTime: str, endTime: str) -> int:
         def cal(s: str) -> int:
             return int(s[:2]) * 3600 + int(s[3:5]) * 60 + int(s[-2:])
+
         return cal(endTime) - cal(startTime)
 
     # 3987. 处理所有元素的成本 (Minimum Total Cost to Process All Elements)
@@ -4749,3 +4750,47 @@ class LcaBinaryLifting:
             c += cur_c
         MOD = 10**9 + 7
         return (1 + c) * c // 2 % MOD
+
+    # 3988. 创建一个恰好有 K 条路径的网格图 I (Create Grid With Exactly K Paths I)
+    def createGrid(self, m: int, n: int, k: int) -> list[str]:
+        f = [[0] * n for _ in range(m)]
+        f[0][0] = 1
+        for i in range(m):
+            for j in range(n):
+                if i - 1 >= 0 and j - 1 >= 0:
+                    f[i][j] = f[i - 1][j] + f[i][j - 1]
+                elif i - 1 >= 0:
+                    f[i][j] = f[i - 1][j]
+                elif j - 1 >= 0:
+                    f[i][j] = f[i][j - 1]
+        if f[-1][-1] < k:
+            return []
+        rev = False
+        if m > n:
+            rev = True
+            m, n = n, m
+        res = [["#"] * n for _ in range(m)]
+        for j in range(n):
+            res[0][j] = "."
+        for i in range(m):
+            res[i][-1] = "."
+        if k == 2:
+            res[1][-2] = "."
+        if k == 3:
+            res[1][-2] = res[1][-3] = "."
+        if k == 4:
+            if n >= 4:
+                res[1][-2] = res[1][-3] = res[1][-4] = "."
+            else:
+                return ["..#", "...", "#.."]
+        _res = []
+        if rev:
+            # 反转
+            rev_res = [["#"] * m for _ in range(n)]
+            for i in range(n):
+                for j in range(m):
+                    rev_res[i][j] = res[j][i]
+            res = rev_res
+        for r in res:
+            _res.append("".join(r))
+        return _res
