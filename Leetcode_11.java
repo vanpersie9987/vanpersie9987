@@ -1467,4 +1467,17 @@ public class Leetcode_11 {
         }
         return (int) ((long) diff * k % MOD + MOD) % MOD;
     }
+
+    // 3986. 统计起止时间经过的秒数 (Number of Elapsed Seconds Between Two Times)
+    public int secondsBetweenTimes(String startTime, String endTime) {
+        return cal3986(endTime) - cal3986(startTime);
+
+    }
+
+    private int cal3986(String s) {
+        String[] a = s.split(":");
+        return Integer.parseInt(a[0]) * 3600 + Integer.parseInt(a[1]) * 60 + Integer.parseInt(a[2]);
+    }
+
+
 }
