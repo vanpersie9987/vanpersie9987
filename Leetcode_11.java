@@ -1494,5 +1494,72 @@ public class Leetcode_11 {
         return (int) ((1L + c) * c / 2 % MOD);
     }
 
+    // 3988. 创建一个恰好有 K 条路径的网格图 I (Create Grid With Exactly K Paths I)
+    public String[] createGrid(int m, int n, int k) {
+        int[][] f = new int[m][n];
+        f[0][0] = 1;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (i - 1 >= 0 && j - 1 >= 0) {
+                    f[i][j] = f[i - 1][j] + f[i][j - 1];
+                } else if (i - 1 >= 0) {
+                    f[i][j] = f[i - 1][j];
+                } else if (j - 1 >= 0) {
+                    f[i][j] = f[i][j - 1];
+                }
+            }
+        }
+        if (f[m - 1][n - 1] < k) {
+            return new String[0];
+        }
+        boolean rev = false;
+        if (m > n) {
+            int t = m;
+            m = n;
+            n = t;
+            rev = true;
+        }
+        char[][] res = new char[m][n];
+        for (int i = 0; i < m; ++i) {
+            Arrays.fill(res[i], '#');
+        }
+        for (int j = 0; j < n; ++j) {
+            res[0][j] = '.';
+        }
+        for (int i = 0; i < m; ++i) {
+            res[i][n - 1] = '.';
+        }
+        if (k == 2) {
+            res[1][n - 2] = '.';
+        }
+        if (k == 3) {
+            res[1][n - 2] = '.';
+            res[1][n - 3] = '.';
+        }
+        if (k == 4) {
+            if (n >= 4) {
+                res[1][n - 2] = '.';
+                res[1][n - 3] = '.';
+                res[1][n - 4] = '.';
+            } else {
+                return new String[] { "..#", "...", "#.." };
+            }
+        }
+        if (rev) {
+            char[][] tmp = new char[n][m];
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    tmp[j][i] = res[i][j];
+                }
+            }
+            res = tmp;
+        }
+        String[] ans = new String[res.length];
+        for (int i = 0; i < res.length; ++i) {
+            ans[i] = new String(res[i]);
+        }
+        return ans;
+    }
+
 
 }
