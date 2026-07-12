@@ -4715,7 +4715,7 @@ class LcaBinaryLifting:
             if _c[k] == len(v) * (len(v) - 1) // 2:
                 res += 1
         return res
-    
+
     # 1331. 数组序号转换 (Rank Transform of an Array)
     def arrayRankTransform(self, arr: List[int]) -> List[int]:
         a = []
@@ -4731,3 +4731,9 @@ class LcaBinaryLifting:
                 val += 1
             res[i] = val
         return res
+
+    # 3986. 统计起止时间经过的秒数 (Number of Elapsed Seconds Between Two Times)
+    def secondsBetweenTimes(self, startTime: str, endTime: str) -> int:
+        def cal(s: str) -> int:
+            return int(s[:2]) * 3600 + int(s[3:5]) * 60 + int(s[-2:])
+        return cal(endTime) - cal(startTime)
