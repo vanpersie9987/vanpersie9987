@@ -1479,5 +1479,20 @@ public class Leetcode_11 {
         return Integer.parseInt(a[0]) * 3600 + Integer.parseInt(a[1]) * 60 + Integer.parseInt(a[2]);
     }
 
+    // 3987. 处理所有元素的成本 (Minimum Total Cost to Process All Elements)
+    public int minimumCost(int[] nums, int k) {
+        final int MOD = 1_000_000_007;
+        long c = 0L;
+        long s = k;
+        for (int x : nums) {
+            long d = Math.max(0L, x - s);
+            long t = (d + k - 1) / k;
+            c += t;
+            s += t * k - x;
+            c %= MOD;
+        }
+        return (int) ((1L + c) * c / 2 % MOD);
+    }
+
 
 }
