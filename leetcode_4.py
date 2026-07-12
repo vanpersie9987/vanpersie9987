@@ -4783,7 +4783,6 @@ class LcaBinaryLifting:
                 res[1][-2] = res[1][-3] = res[1][-4] = "."
             else:
                 return ["..#", "...", "#.."]
-        _res = []
         if rev:
             # 反转
             rev_res = [["#"] * m for _ in range(n)]
@@ -4791,9 +4790,7 @@ class LcaBinaryLifting:
                 for j in range(m):
                     rev_res[i][j] = res[j][i]
             res = rev_res
-        for r in res:
-            _res.append("".join(r))
-        return _res
+        return ["".join(r) for r in res]
 
     # 3989. 网格中保持一致的最大列数 (Maximum Consistent Columns in a Grid)
     def maxConsistentColumns(self, grid: List[List[int]], limit: int) -> int:
