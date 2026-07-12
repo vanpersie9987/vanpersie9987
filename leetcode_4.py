@@ -4737,3 +4737,15 @@ class LcaBinaryLifting:
         def cal(s: str) -> int:
             return int(s[:2]) * 3600 + int(s[3:5]) * 60 + int(s[-2:])
         return cal(endTime) - cal(startTime)
+
+    # 3987. 处理所有元素的成本 (Minimum Total Cost to Process All Elements)
+    def minimumCost(self, nums: list[int], k: int) -> int:
+        c = 0
+        s = k
+        for x in nums:
+            d = max(0, x - s)
+            cur_c = (d + k - 1) // k
+            s += k * cur_c - x
+            c += cur_c
+        MOD = 10**9 + 7
+        return (1 + c) * c // 2 % MOD
