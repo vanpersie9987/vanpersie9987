@@ -4794,3 +4794,24 @@ class LcaBinaryLifting:
         for r in res:
             _res.append("".join(r))
         return _res
+
+    # 3989. 网格中保持一致的最大列数 (Maximum Consistent Columns in a Grid)
+    def maxConsistentColumns(self, grid: List[List[int]], limit: int) -> int:
+        @cache
+        def dfs(j: int, last_j: int) -> int:
+            if j == n:
+                return 0
+            # 不保留j列
+            res = dfs(j + 1, last_j)
+            # 保留j列
+            if last_j == -1 or legal[last_j][j]:
+                res = max(res, dfs(j + 1, j) + 1)
+            return res
+
+        m, n = len(grid), len(grid[0])
+        legal = [[False] * n for _ in range(n)]
+        for j1 in range(1, n):
+            for j0 in range(0, j1):
+                if all(abs(grid[i][j1] - grid[i][j0]) <= limit for i in range(m)):
+                    legal[j0][j1] = True
+        return dfs(0, -1)
