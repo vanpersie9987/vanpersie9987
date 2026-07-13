@@ -4829,11 +4829,9 @@ class LcaBinaryLifting:
                 _add = _add * 10 + 1
 
             for _ in range(10 - _l):
-                if val < low:
-                    val += _add
-                    continue
                 if val > high:
                     return res
-                res.append(val)
+                if val >= low:
+                    res.append(val)
                 val += _add
         return res
