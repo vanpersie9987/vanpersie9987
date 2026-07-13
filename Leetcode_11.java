@@ -1590,5 +1590,43 @@ public class Leetcode_11 {
         return true;
     }
 
+    // 3989. 网格中保持一致的最大列数 (Maximum Consistent Columns in a Grid)
+    private int[] memo3989;
+    private int limit3989;
+    private int[][] grid3989;
+
+    public int maxConsistentColumns2(int[][] grid, int limit) {
+        int n = grid[0].length;
+        this.memo3989 = new int[n];
+        this.limit3989 = limit;
+        this.grid3989 = grid;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            res = Math.max(res, dfs3989(i));
+        }
+        return res;
+    }
+
+    private int dfs3989(int i) {
+        if (memo3989[i] != 0) {
+            return memo3989[i];
+        }
+        int mx = 0;
+        for (int j = i - 1; j >= 0; --j) {
+            if (dfs3989(j) > mx && check3989(i, j)) {
+                mx = Math.max(mx, dfs3989(j));
+            }
+        }
+        return memo3989[i] = mx + 1;
+    }
+
+    private boolean check3989(int i, int j) {
+        for (int[] r : grid3989) {
+            if (Math.abs(r[i] - r[j]) > limit3989) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
