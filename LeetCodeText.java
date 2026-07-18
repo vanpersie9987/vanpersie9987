@@ -1,7 +1,9 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11922,26 +11924,39 @@ public class LeetCodeText {
     // 316. 去除重复字母 (Remove Duplicate Letters)
     // 1081. 不同字符的最小子序列 (Smallest Subsequence of Distinct Characters)
     public String removeDuplicateLetters(String s) {
-        int[] counts = new int[26];
-        boolean[] seen = new boolean[26];
-        for (char c : s.toCharArray()) {
-            ++counts[c - 'a'];
+        Deque<Integer>[] pos = new ArrayDeque[26];
+        int k = 0;
+        Arrays.setAll(pos, o -> new ArrayDeque<>());
+        for (int i = 0; i < s.length(); ++i) {
+            if (pos[s.charAt(i) - 'a'].isEmpty()) {
+                ++k;
+            }
+            pos[s.charAt(i) - 'a'].add(i);
         }
         StringBuilder res = new StringBuilder();
-        for (char c : s.toCharArray()) {
-            if (!seen[c - 'a']) {
-                while (res.length() != 0 && c < res.charAt(res.length() - 1)) {
-                    if (counts[res.charAt(res.length() - 1) - 'a'] > 0) {
-                        seen[res.charAt(res.length() - 1) - 'a'] = false;
-                        res.setLength(res.length() - 1);
-                    } else {
-                        break;
+        while (res.length() != k) {
+            search: for (int i = 0; i < 26; ++i) {
+                if (pos[i].isEmpty()) {
+                    continue;
+                }
+                int index = pos[i].peekFirst();
+                for (int j = 0; j < 26; ++j) {
+                    if (pos[j].isEmpty()) {
+                        continue;
+                    }
+                    if (pos[j].peekLast() < index) {
+                        continue search;
                     }
                 }
-                res.append(c);
-                seen[c - 'a'] = true;
+                res.append((char) (i + 'a'));
+                pos[i].clear();
+                for (int j = 0; j < 26; ++j) {
+                    while (!pos[j].isEmpty() && pos[j].peekFirst() < index) {
+                        pos[j].pollFirst();
+                    }
+                }
+                break;
             }
-            --counts[c - 'a'];
         }
         return res.toString();
 
