@@ -64,6 +64,7 @@ from tkinter.messagebox import RETRY
 from token import NL, RIGHTSHIFT
 from turtle import (
     RawTurtle,
+    Turtle,
     color,
     heading,
     left,
@@ -4835,3 +4836,34 @@ class LcaBinaryLifting:
                     res.append(val)
                 val += _add
         return res
+
+    # 1081. 不同字符的最小子序列 (Smallest Subsequence of Distinct Characters)
+    def smallestSubsequence(self, s: str) -> str:
+        pos = [deque() for _ in range(26)]
+        k = 0
+        for i, x in enumerate(s):
+            id = ord(x) - ord("a")
+            if len(pos[id]) == 0:
+                k += 1
+            pos[id].append(i)
+        res = []
+        while len(res) != k:
+            for i, x in enumerate(pos):
+                if len(x) == 0:
+                    continue
+                for y in pos:
+                    if len(y) == 0:
+                        continue
+                    if y[-1] < x[0]:
+                        break
+                else:
+                    res.append(chr(ord("a") + i))
+                    p = x[0]
+                    pos[i].clear()
+                    for z in pos:
+                        if len(z) == 0:
+                            continue
+                        while z and z[0] < p:
+                            z.popleft()
+                    break
+        return "".join(res)
