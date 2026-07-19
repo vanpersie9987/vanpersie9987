@@ -1655,7 +1655,7 @@ public class Leetcode_11 {
     public boolean canReach(int[] start, int[] target) {
         int x = start[0];
         int y = start[1];
-        int tx = target[0];
+        int tx = target[0]; 
         int ty = target[1];
         int d = Math.abs(x - tx) + Math.abs(y - ty);
         return d % 2 == 0;
