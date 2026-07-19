@@ -4868,3 +4868,10 @@ class LcaBinaryLifting:
                             z.popleft()
                     break
         return "".join(res)
+
+    # 3992. 重新排列字符串以避免字符对 (Rearrange String to Avoid Character Pair)
+    def rearrangeString(self, s: str, x: str, y: str) -> str:
+        a = [x for x in s]
+        if y < x:
+            return "".join(sorted(a))
+        return "".join(sorted(a, reverse=True))
