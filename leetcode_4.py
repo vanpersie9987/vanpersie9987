@@ -4873,3 +4873,9 @@ class LcaBinaryLifting:
     def rearrangeString(self, s: str, x: str, y: str) -> str:
         a = [x for x in s]
         return "".join(sorted(a, reverse=y > x))
+
+    # 3993. 交替数列的最大元素 (Maximum Value of an Alternating Sequence)
+    def maximumValue(self, n: int, s: int, m: int) -> int:
+        if n & 1:
+            n -= 1
+        return s + m * n // 2 - (max(0, n - 1)) // 2
