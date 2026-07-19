@@ -1643,4 +1643,12 @@ public class Leetcode_11 {
 
     }
 
+    // 3993. 交替数列的最大元素 (Maximum Value of an Alternating Sequence)
+    public long maximumValue(int n, int s, int m) {
+        if ((n & 1) != 0) {
+            --n;
+        }
+        return s + (long) m * n / 2 - Math.max(0, n - 1) / 2;
+    }
+
 }
