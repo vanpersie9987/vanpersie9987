@@ -4901,3 +4901,16 @@ class LcaBinaryLifting:
         res = 0
         dfs(root)
         return res
+
+    # 1260. 二维网格迁移 (Shift 2D Grid)
+    def shiftGrid(self, grid: List[List[int]], k: int) -> List[List[int]]:
+        m, n = len(grid), len(grid[0])
+        k %= m * n
+        res = [[0] * n for _ in range(m)]
+        for i in range(m):
+            for j in range(n):
+                p = (i * n + j + k) % (m * n)
+                x = p // n
+                y = p % n
+                res[x][y] = grid[i][j]
+        return res
