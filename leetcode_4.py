@@ -4886,3 +4886,18 @@ class LcaBinaryLifting:
         tx, ty = target[0], target[1]
         return (abs(x - tx) + abs(y - ty)) % 2 == 0
 
+    # 3997. 统计二叉树中支配节点的数量 (Count Dominant Nodes in a Binary Tree)
+    def countDominantNodes(self, root: TreeNode | None) -> int:
+        def dfs(node: TreeNode | None) -> int:
+            if node is None:
+                return 0
+            left = dfs(node.left)
+            right = dfs(node.right)
+            mx = max(left, right, node.val)
+            if mx == node.val:
+                nonlocal res
+                res += 1
+            return mx
+        res = 0
+        dfs(root)
+        return res
