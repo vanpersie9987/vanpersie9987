@@ -1661,4 +1661,25 @@ public class Leetcode_11 {
         return d % 2 == 0;
     }
 
+    // 3997. 统计二叉树中支配节点的数量 (Count Dominant Nodes in a Binary Tree)
+    private int res3997;
+
+    public int countDominantNodes(TreeNode root) {
+        dfs3997(root);
+        return res3997;
+    }
+
+    private int dfs3997(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int left = dfs3997(node.left);
+        int right = dfs3997(node.right);
+        int mx = Math.max(Math.max(left, right), node.val);
+        if (mx == node.val) {
+            res3997++;
+        }
+        return mx;
+    }
+
 }
