@@ -1651,4 +1651,14 @@ public class Leetcode_11 {
         return s + (long) m * n / 2 - Math.max(0, n - 1) / 2;
     }
 
+    // 3996. 偶数次骑士移动 (Even Number of Knight Moves)
+    public boolean canReach(int[] start, int[] target) {
+        int x = start[0];
+        int y = start[1];
+        int tx = target[0];
+        int ty = target[1];
+        int d = Math.abs(x - tx) + Math.abs(y - ty);
+        return d % 2 == 0;
+    }
+
 }
