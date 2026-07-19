@@ -1629,4 +1629,18 @@ public class Leetcode_11 {
         return true;
     }
 
+    // 3992. 重新排列字符串以避免字符对 (Rearrange String to Avoid Character Pairs)
+    public String rearrangeString(String s, char x, char y) {
+        StringBuilder res = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (c == y) {
+                res.insert(0, c);
+            } else {
+                res.append(c);
+            }
+        }
+        return res.toString();
+
+    }
+
 }
