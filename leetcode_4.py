@@ -4882,22 +4882,7 @@ class LcaBinaryLifting:
 
     # 3996. 偶数次骑士移动 (Even Number of Knight Moves)
     def canReach(self, start: list[int], target: list[int]) -> bool:
-        vis = [[False] * 8 for _ in range(8)]
-        dirs = (2, 1), (1, 2), (-1, 2), (1, -2), (-1, -2), (-2, -1), (2, -1), (-2, 1)
-        vis[start[0]][start[1]] = True
-        q = deque()
-        q.append(start)
-        step = 0
-        while q:
-            s = len(q)
-            for _ in range(s):
-                x, y = q.popleft()
-                if x == target[0] and y == target[1]:
-                    return step & 1 == 0
-                for dx, dy in dirs:
-                    nx, ny = x + dx, y + dy
-                    if 0 <= nx < 8 and 0 <= ny < 8 and not vis[nx][ny]:
-                        vis[nx][ny] = True
-                        q.append((nx, ny))
-            step += 1
-        return False
+        x, y = start[0], start[1]
+        tx, ty = target[0], target[1]
+        return (abs(x - tx) + abs(y - ty)) % 2 == 0
+
