@@ -4944,3 +4944,16 @@ class LcaBinaryLifting:
         n = len(source)
         res = dfs(0)
         return res if res < inf else -1
+    
+    # 3994. 划分数组的最少相邻交换次数 (Minimum Adjacent Swaps to Partition Array)
+    def minAdjacentSwaps(self, nums: list[int], a: int, b: int) -> int:
+        ans = cnt1 = cnt2 = 0
+        for x in nums:
+            if x < a:  # x 视作 0
+                ans += cnt1 + cnt2
+            elif x <= b:  # x 视作 1
+                ans += cnt2
+                cnt1 += 1
+            else:  # x 视作 2
+                cnt2 += 1
+        return ans % 1_000_000_007
