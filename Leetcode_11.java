@@ -1755,4 +1755,28 @@ public class Leetcode_11 {
         return true;
     }
 
+    // 3994. 划分数组的最少相邻交换次数 (Minimum Adjacent Swaps to Partition Array)
+    public int minAdjacentSwaps(int[] nums, int a, int b) {
+        int res = 0;
+        int cnt1 = 0;
+        int cnt2 = 0;
+        final int MOD = 1_000_000_007;
+        for (int x : nums) {
+            if (x < a) {
+                res += cnt1;
+                res %= MOD;
+                res += cnt2;
+                res %= MOD;
+            } else if (x <= b) {
+                res += cnt2;
+                res %= MOD;
+                ++cnt1;
+            } else {
+                ++cnt2;
+            }
+        }
+        return res;
+
+    }
+
 }
