@@ -4923,12 +4923,7 @@ class LcaBinaryLifting:
         @cache
         def dfs(i: int) -> int:
             def is_pattern(s: str, t: str) -> bool:
-                for x, y in zip(s, t):
-                    if x == "*":
-                        continue
-                    if x != y:
-                        return False
-                return True
+                return all(x == "*" or x == y for x, y in zip(s, t))
 
             if i == n:
                 return 0
@@ -4936,15 +4931,12 @@ class LcaBinaryLifting:
             if source[i] == target[i]:
                 res = min(res, dfs(i + 1))
             for key in d.keys():
-                if i + len(key) - 1 < n:
-                    if is_pattern(key, source[i : i + len(key)]):
-                        for r, c in d[key]:
-                            if r == target[i : i + len(key)]:
-                                res = min(res, dfs(i + len(key)) + c)
+                if i + len(key) - 1 < n and is_pattern(key, source[i : i + len(key)]):
+                    for r, c in d[key]:
+                        if r == target[i : i + len(key)]:
+                            res = min(res, dfs(i + len(key)) + c)
             return res
 
-        if len(source) != len(target):
-            return -1
         d = defaultdict(list)
         for (pattern, replacemnt), cost in zip(rules, costs):
             cnt = pattern.count("*")

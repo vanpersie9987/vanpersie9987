@@ -1655,7 +1655,7 @@ public class Leetcode_11 {
     public boolean canReach(int[] start, int[] target) {
         int x = start[0];
         int y = start[1];
-        int tx = target[0]; 
+        int tx = target[0];
         int ty = target[1];
         int d = Math.abs(x - tx) + Math.abs(y - ty);
         return d % 2 == 0;
@@ -1680,6 +1680,79 @@ public class Leetcode_11 {
             res3997++;
         }
         return mx;
+    }
+
+    // 3995. 转换字符串的最小成本 III (Minimum Cost to Convert String III)
+    private record Pair3995<T, U>(T first, U second) {
+    }
+
+    private Map<String, List<Pair3995<String, Integer>>> g3995;
+    private int n3995;
+    private int[] memo3995;
+    private String source3995;
+    private String target3995;
+
+    public int minCost(String source, String target, List<List<String>> rules, int[] costs) {
+        this.source3995 = source;
+        this.target3995 = target;
+        this.n3995 = source.length();
+        this.g3995 = new HashMap<>();
+        this.memo3995 = new int[n3995];
+        Arrays.fill(memo3995, -1);
+        for (int i = 0; i < rules.size(); i++) {
+            List<String> rule = rules.get(i);
+            String pattern = rule.get(0);
+            String replacement = rule.get(1);
+            int cost = costs[i];
+            int cnt = 0;
+            for (char c : pattern.toCharArray()) {
+                if (c == '*') {
+                    ++cnt;
+                }
+            }
+            g3995.computeIfAbsent(pattern, k -> new ArrayList<>()).add(new Pair3995<>(replacement, cost + cnt));
+        }
+        int res = dfs3995(0);
+        if (res >= Integer.MAX_VALUE / 2) {
+            return -1;
+        }
+        return res;
+
+    }
+
+    private int dfs3995(int i) {
+        if (i == n3995) {
+            return 0;
+        }
+        if (memo3995[i] != -1) {
+            return memo3995[i];
+        }
+        int res = Integer.MAX_VALUE / 2;
+        if (source3995.charAt(i) == target3995.charAt(i)) {
+            res = Math.min(res, dfs3995(i + 1));
+        }
+        for (Map.Entry<String, List<Pair3995<String, Integer>>> entry : g3995.entrySet()) {
+            String pattern = entry.getKey();
+            List<Pair3995<String, Integer>> replacements = entry.getValue();
+            if (i + pattern.length() <= n3995 && isPattern3995(pattern, source3995.substring(i, i + pattern.length()))) {
+                for (Pair3995<String, Integer> replacement : replacements) {
+                    if (replacement.first().equals(target3995.substring(i, i + pattern.length()))) {
+                        int cost = replacement.second();
+                        res = Math.min(res, cost + dfs3995(i + replacement.first().length()));
+                    }
+                }
+            }
+        }
+        return memo3995[i] = res;
+    }
+
+    private boolean isPattern3995(String s, String t) {
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != '*' && s.charAt(i) != t.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
