@@ -4898,6 +4898,7 @@ class LcaBinaryLifting:
                 nonlocal res
                 res += 1
             return mx
+
         res = 0
         dfs(root)
         return res
@@ -4913,4 +4914,41 @@ class LcaBinaryLifting:
                 x = p // n
                 y = p % n
                 res[x][y] = grid[i][j]
-        return 
+        return res
+
+    # 3995. 转换字符串的最小成本 III (Minimum Cost to Convert String III)
+    def minCost(
+        self, source: str, target: str, rules: list[list[str]], costs: list[int]
+    ) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            def is_pattern(s: str, t: str) -> bool:
+                for x, y in zip(s, t):
+                    if x == "*":
+                        continue
+                    if x != y:
+                        return False
+                return True
+
+            if i == n:
+                return 0
+            res = inf
+            if source[i] == target[i]:
+                res = min(res, dfs(i + 1))
+            for key in d.keys():
+                if i + len(key) - 1 < n:
+                    if is_pattern(key, source[i : i + len(key)]):
+                        for r, c in d[key]:
+                            if r == target[i : i + len(key)]:
+                                res = min(res, dfs(i + len(key)) + c)
+            return res
+
+        if len(source) != len(target):
+            return -1
+        d = defaultdict(list)
+        for (pattern, replacemnt), cost in zip(rules, costs):
+            cnt = pattern.count("*")
+            d[pattern].append((replacemnt, cost + cnt))
+        n = len(source)
+        res = dfs(0)
+        return res if res < inf else -1
