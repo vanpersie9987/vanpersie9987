@@ -4913,4 +4913,4 @@ class LcaBinaryLifting:
                 x = p // n
                 y = p % n
                 res[x][y] = grid[i][j]
-        return res
+        return 
