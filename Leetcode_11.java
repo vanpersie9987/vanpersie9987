@@ -1779,4 +1779,18 @@ public class Leetcode_11 {
 
     }
 
+    // 4000. 给定数位和的最大整数 (Largest Integer With Given Digit Sum)
+    public int largestInteger(int n, int s) {
+        if (n * 9 < s) {
+            return -1;
+        }
+        int res = 0;
+        while (n-- > 0 || s > 0) {
+            int d = Math.min(9, s);
+            res = res * 10 + d;
+            s -= d;
+        }
+        return res;
+    }
+
 }

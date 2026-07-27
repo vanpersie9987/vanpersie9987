@@ -4957,3 +4957,21 @@ class LcaBinaryLifting:
             else:  # x 视作 2
                 cnt2 += 1
         return ans % 1_000_000_007
+
+
+    # 4000. 给定数位和的最大整数 (Largest Integer With Given Digit Sum)
+    def largestInteger(self, n: int, s: int) -> int:
+        if n * 9 < s:
+            return -1
+        res = 0
+        while s or n:
+            d = min(9, s)
+            res = res * 10 + d
+            s -= d
+            n -= 1
+        return res
+
+
+
+
+
