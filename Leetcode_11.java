@@ -1793,4 +1793,35 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4001. 聚合两个时间序列 (Aggregate Two Time Series)
+    public List<List<Integer>> aggregateTimeSeries(int[][] series1, int[][] series2) {
+        int i = 0;
+        int j = 0;
+        int m = series1.length;
+        int n = series2.length;
+        List<List<Integer>> res = new ArrayList<>();
+        while (i < m && j < n) {
+            int s = series1[i][1] + series2[j][1];
+            if (series1[i][0] < series2[j][0]) {
+                res.add(List.of(series1[i++][0], s));
+            } else if (series1[i][0] > series2[j][0]) {
+                res.add(List.of(series2[j++][0], s));
+            } else {
+                res.add(List.of(series1[i][0], s));
+                ++i;
+                ++j;
+            }
+        }
+        while (i < m) {
+            res.add(List.of(series1[i][0], series1[i][1]));
+            ++i;
+        }
+        while (j < n) {
+            res.add(List.of(series2[j][0], series2[j][1]));
+            ++j;
+        }
+        return res;
+
+    }
+
 }
