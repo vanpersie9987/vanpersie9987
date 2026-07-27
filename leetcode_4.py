@@ -4971,6 +4971,33 @@ class LcaBinaryLifting:
             n -= 1
         return res
 
+    # 4001. 聚合两个时间序列 (Aggregate Two Time Series)
+    def aggregateTimeSeries(self, series1: list[list[int]], series2: list[list[int]]) -> list[list[int]]:
+        m, n = len(series1), len(series2)
+        i, j = 0, 0
+        res = []
+        while i < m and j < n:
+            s = series1[i][1] + series2[j][1]
+            if series1[i][0] < series2[j][0]:
+                res.append((series1[i][0], s))
+                i += 1
+            elif series1[i][0] > series2[j][0]:
+                res.append((series2[j][0], s))
+                j += 1
+            else:
+                res.append((series1[i][0], s))
+                i += 1
+                j += 1
+        if i < m:
+            res.extend(series1[i:])
+        if j < n:
+            res.extend(series2[j:])
+        return res
+            
+
+
+
+
 
 
 
