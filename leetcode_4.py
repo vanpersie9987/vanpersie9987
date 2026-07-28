@@ -4993,3 +4993,31 @@ class LcaBinaryLifting:
         if j < n:
             res.extend(series2[j:])
         return res
+
+    # 4003. 交替方向的最小路径代价 III (Minimum Cost Path with Alternating Directions III)
+    def minCost(self, m: int, n: int, penalty: List[List[int]]) -> int:
+        dis = [[[inf] * 2 for _ in range(n)] for _ in range(m)]
+        dis[0][0][0] = 1
+        # d, x, y, odd_type
+        q = []
+        q.append((1, 0, 0, 0))
+        heapq.heapify(q)
+        dirs = (0, -1), (1, 0), (-1, 0), (0, 1)
+        while q:
+            d, x, y, odd_type = heapq.heappop(q)
+            if x == m - 1 and y == n - 1:
+                return d
+            if d > dis[x][y][odd_type]:
+                continue
+            nxt_type = odd_type ^ 1
+            # 原地不动
+            if d + penalty[x][y] < dis[x][y][nxt_type]:
+                dis[x][y][nxt_type] = d + penalty[x][y]
+                heapq.heappush(q, (d + penalty[x][y], x, y, nxt_type))
+            for i, (dx, dy) in enumerate(dirs):
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < m and 0 <= ny < n:
+                    nd = d + (nx + 1) * (ny + 1) + (penalty[x][y] if i & 1 != nxt_type else 0)
+                    if nd < dis[nx][ny][nxt_type]:
+                        dis[nx][ny][nxt_type] = nd
+                        heapq.heappush(q, (nd, nx, ny, nxt_type))
