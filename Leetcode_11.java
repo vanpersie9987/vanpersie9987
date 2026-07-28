@@ -1734,7 +1734,8 @@ public class Leetcode_11 {
         for (Map.Entry<String, List<Pair3995<String, Integer>>> entry : g3995.entrySet()) {
             String pattern = entry.getKey();
             List<Pair3995<String, Integer>> replacements = entry.getValue();
-            if (i + pattern.length() <= n3995 && isPattern3995(pattern, source3995.substring(i, i + pattern.length()))) {
+            if (i + pattern.length() <= n3995
+                    && isPattern3995(pattern, source3995.substring(i, i + pattern.length()))) {
                 for (Pair3995<String, Integer> replacement : replacements) {
                     if (replacement.first().equals(target3995.substring(i, i + pattern.length()))) {
                         int cost = replacement.second();
@@ -1822,6 +1823,60 @@ public class Leetcode_11 {
         }
         return res;
 
+    }
+
+    // 4003. 交替方向的最小路径代价 III (Minimum Cost Path with Alternating Directions III)
+    public long minCost(int m, int n, int[][] penalty) {
+        long[][][] dis = new long[m][n][2];
+        for (long[][] r : dis) {
+            for (long[] c : r) {
+                Arrays.fill(c, Long.MAX_VALUE / 2);
+            }
+        }
+        dis[0][0][0] = 1L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[0], o2[0]);
+            }
+
+        });
+        int[][] dirs = new int[][] { { 0, -1 }, { 1, 0 }, { -1, 0 }, { 0, 1 } };
+
+        // d, x, y, odd/even
+        q.offer(new long[] { 1L, 0, 0, 0 });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            long d = cur[0];
+            int x = (int) cur[1];
+            int y = (int) cur[2];
+            int odd = (int) cur[3];
+            if (x == m - 1 && y == n - 1) {
+                return d;
+            }
+            if (d > dis[x][y][odd]) {
+                continue;
+            }
+            int nxt = odd ^ 1;
+            // 原地不动
+            if (d + penalty[x][y] < dis[x][y][nxt]) {
+                dis[x][y][nxt] = d + penalty[x][y];
+                q.offer(new long[] { d + penalty[x][y], x, y, nxt });
+            }
+            for (int i = 0; i < 4; ++i) {
+                int nx = x + dirs[i][0];
+                int ny = y + dirs[i][1];
+                if (nx >= 0 && ny >= 0 && nx < m && ny < n) {
+                    long nDis = d + (nx + 1) * (ny + 1) + (((i & 1) != nxt) ? penalty[x][y] : 0);
+                    if (nDis < dis[nx][ny][nxt]) {
+                        dis[nx][ny][nxt] = nDis;
+                        q.offer(new long[] { nDis, nx, ny, nxt });
+                    }
+                }
+            }
+        }
+        return -1L;
     }
 
 }

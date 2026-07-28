@@ -4993,12 +4993,3 @@ class LcaBinaryLifting:
         if j < n:
             res.extend(series2[j:])
         return res
-            
-
-
-
-
-
-
-
-
