@@ -5042,3 +5042,13 @@ class LcaBinaryLifting:
             if abs(cnts[0] - cnts[1]) <= 1:
                 res += 1
         return res
+
+    # 4010. 数对的最大强度 (Maximize Pair Strength Using GCD)
+    def maxPairStrength(self, nums: list[int]) -> int:
+        res = 0
+        n = len(nums)
+        for i in range(n):
+            for j in range(i + 1, n):
+                g = gcd(nums[i], nums[j])
+                res = max(res, (nums[i] * nums[j]) // (g * g))
+        return res

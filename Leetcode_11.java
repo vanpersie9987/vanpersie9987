@@ -1891,7 +1891,23 @@ public class Leetcode_11 {
         }
         return res;
 
+    }
 
+    // 4010. 数对的最大强度 (Maximize Pair Strength Using GCD)
+    public long maxPairStrength(int[] nums) {
+        int n = nums.length;
+        long res = 0L;
+        for (int i = 0; i < n; ++i) {
+            for (int j = i + 1; j < n; ++j) {
+                int g = gcd4010(nums[i], nums[j]);
+                res = Math.max(res, ((long) nums[i] * nums[j]) / ((long) g * g));
+            }
+        }
+        return res;
+    }
+
+    private int gcd4010(int a, int b) {
+        return b == 0 ? a : gcd4010(b, a % b);
     }
 
 }
