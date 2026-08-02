@@ -1910,4 +1910,21 @@ public class Leetcode_11 {
         return b == 0 ? a : gcd4010(b, a % b);
     }
 
+    // 4011. 按奇偶比统计子数组 I (Count Subarrays With Even Odd Ratio I)
+    public int countRatioSubarrays(int[] nums, int a, int b) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int[] cnts = new int[2];
+            for (int j = i; j < n; ++j) {
+                ++cnts[nums[j] & 1];
+                if (cnts[1] > 0 && cnts[0] * b <= cnts[1] * a) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
