@@ -5052,3 +5052,15 @@ class LcaBinaryLifting:
                 g = gcd(nums[i], nums[j])
                 res = max(res, (nums[i] * nums[j]) // (g * g))
         return res
+
+    # 4011. 按奇偶比统计子数组 I (Count Subarrays With Even Odd Ratio I)
+    def countRatioSubarrays(self, nums: list[int], a: int, b: int) -> int:
+        n = len(nums)
+        res = 0
+        for i in range(n):
+            cnts = [0] * 2
+            for j in range(i, n):
+                cnts[nums[j] & 1] += 1
+                if cnts[1] and cnts[0] / cnts[1] <= a / b:
+                    res += 1
+        return res
