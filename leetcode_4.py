@@ -5032,3 +5032,13 @@ class LcaBinaryLifting:
             return min(dfs(i + 1, j, not k) - piles[i], dfs(i, j - 1, not k) - piles[j])
         n = len(piles)
         return dfs(0, n - 1, True) > 0
+
+    # 4006. 统计有效前缀数目 (Count Valid Prefixes)
+    def countValidPrefixes(self, s: str) -> int:
+        res = 0
+        cnts = [0] * 2
+        for x in s:
+            cnts[int(x)] += 1
+            if abs(cnts[0] - cnts[1]) <= 1:
+                res += 1
+        return res
