@@ -4944,7 +4944,7 @@ class LcaBinaryLifting:
         n = len(source)
         res = dfs(0)
         return res if res < inf else -1
-    
+
     # 3994. 划分数组的最少相邻交换次数 (Minimum Adjacent Swaps to Partition Array)
     def minAdjacentSwaps(self, nums: list[int], a: int, b: int) -> int:
         ans = cnt1 = cnt2 = 0
@@ -4957,7 +4957,6 @@ class LcaBinaryLifting:
             else:  # x 视作 2
                 cnt2 += 1
         return ans % 1_000_000_007
-
 
     # 4000. 给定数位和的最大整数 (Largest Integer With Given Digit Sum)
     def largestInteger(self, n: int, s: int) -> int:
@@ -5021,3 +5020,15 @@ class LcaBinaryLifting:
                     if nd < dis[nx][ny][nxt_type]:
                         dis[nx][ny][nxt_type] = nd
                         heapq.heappush(q, (nd, nx, ny, nxt_type))
+
+    # 877. 石子游戏 (Stone Game)
+    def stoneGame(self, piles: List[int]) -> bool:
+        @cache
+        def dfs(i: int, j: int, k: bool) -> int:
+            if i > j:
+                return 0
+            if k:
+                return max(dfs(i + 1, j, not k) + piles[i], dfs(i, j - 1, not k) + piles[j])
+            return min(dfs(i + 1, j, not k) - piles[i], dfs(i, j - 1, not k) - piles[j])
+        n = len(piles)
+        return dfs(0, n - 1, True) > 0
