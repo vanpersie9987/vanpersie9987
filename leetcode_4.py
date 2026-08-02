@@ -5061,6 +5061,6 @@ class LcaBinaryLifting:
             cnts = [0] * 2
             for j in range(i, n):
                 cnts[nums[j] & 1] += 1
-                if cnts[1] and cnts[0] / cnts[1] <= a / b:
+                if cnts[1] and cnts[0] * b <= cnts[1] * a:
                     res += 1
         return res
