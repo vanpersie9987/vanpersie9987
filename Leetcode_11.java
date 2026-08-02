@@ -1879,4 +1879,19 @@ public class Leetcode_11 {
         return -1L;
     }
 
+    // 4006. 统计有效前缀数目 (Count Valid Prefixes)
+    public int countValidPrefixes(String s) {
+        int res = 0;
+        int[] cnts = new int[2];
+        for (char c : s.toCharArray()) {
+            ++cnts[c - '0'];
+            if (Math.abs(cnts[0] - cnts[1]) <= 1) {
+                ++res;
+            }
+        }
+        return res;
+
+
+    }
+
 }
