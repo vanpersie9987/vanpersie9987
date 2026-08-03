@@ -1981,4 +1981,42 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4008. 击败所有怪物的最小初始强度 (Minimum Initial Strength to Defeat All Monsters)
+    public long minInitialStrength(int[] monsters, int[][] boosts) {
+        int n = monsters.length;
+        long[] diff = new long[n + 1];
+        for (int[] boost : boosts) {
+            int l = boost[0];
+            int r = boost[1];
+            int v = boost[2];
+            diff[l] += v;
+            diff[r + 1] -= v;
+        }
+        for(int i = 1; i <= n; ++i) {
+            diff[i] += diff[i - 1];
+        }
+        long left = 0L;
+        long right = (long) 1e14;
+        while (left <= right) {
+            long mid = left + ((right - left) >> 1);
+            if (canDefeatAll(monsters, diff, mid)) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
+
+    private boolean canDefeatAll(int[] monsters, long[] diff, long t) {
+        long s = t;
+        for (int i = 0; i < monsters.length; ++i) {
+            if (s + diff[i] < monsters[i]) {
+                return false;
+            }
+            s = Math.max(0L, s - monsters[i]);
+        }
+        return true;
+    }
+
 }
