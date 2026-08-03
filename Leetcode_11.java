@@ -1951,4 +1951,34 @@ public class Leetcode_11 {
 
     }
 
+    // 4012. 统计每个班次结束后的未完成任务数 (Count of Unfinished Tasks After Each Shift)
+    public int[] countTasks(int[] tasks, int[] shifts) {
+        int n = tasks.length;
+        long[] pre = new long[n + 1];
+        for (int i = 0; i < n; ++i) {
+            pre[i + 1] = pre[i] + tasks[i];
+        }
+        int m = shifts.length;
+        int[] res = new int[m];
+        long s = 0L;
+        for (int i = 0; i < m; ++i) {
+            s += shifts[i];
+            int l = 0;
+            int r = n;
+            while (l <= r) {
+                int mid = l + (r - l) / 2;
+                if (pre[mid] <= s) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            res[i] = n - l + 1;
+            if (n == l - 1) {
+                s = 0L;
+            }
+        }
+        return res;
+    }
+
 }
