@@ -1927,4 +1927,28 @@ public class Leetcode_11 {
 
     }
 
+    // 4007. 栅栏的最宽宽度 (Widest Possible Fence)
+    public int maximumWidth(int[] planks) {
+        Map<Integer, Integer> cnts = new HashMap<>();
+        for (int x : planks) {
+            cnts.merge(x, 1, Integer::sum);
+        }
+        Map<Integer, Integer> pairs = new HashMap<>();
+        for (Map.Entry<Integer, Integer> entry : cnts.entrySet()) {
+            int x = entry.getKey();
+            int c = entry.getValue();
+            pairs.merge(x, c, Integer::sum);
+            pairs.merge(x * 2, c / 2, Integer::sum);
+            for (Map.Entry<Integer, Integer> entry2 : cnts.entrySet()) {
+                int y = entry2.getKey();
+                int c2 = entry2.getValue();
+                if (y > x) {
+                    pairs.merge(x + y, Math.min(c, c2), Integer::sum);
+                }
+            }
+        }
+        return Collections.max(pairs.values());
+
+    }
+
 }
