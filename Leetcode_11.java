@@ -1992,11 +1992,14 @@ public class Leetcode_11 {
             diff[l] += v;
             diff[r + 1] -= v;
         }
-        for(int i = 1; i <= n; ++i) {
+        for (int i = 1; i <= n; ++i) {
             diff[i] += diff[i - 1];
         }
         long left = 0L;
-        long right = (long) 1e14;
+        long right = 0L;
+        for(int x : monsters) {
+            right += x;
+        }
         while (left <= right) {
             long mid = left + ((right - left) >> 1);
             if (canDefeatAll(monsters, diff, mid)) {
