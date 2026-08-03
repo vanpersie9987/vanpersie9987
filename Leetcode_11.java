@@ -1997,12 +1997,12 @@ public class Leetcode_11 {
         }
         long left = 0L;
         long right = 0L;
-        for(int x : monsters) {
+        for (int x : monsters) {
             right += x;
         }
         while (left <= right) {
             long mid = left + ((right - left) >> 1);
-            if (canDefeatAll(monsters, diff, mid)) {
+            if (canDefeatAll4008(monsters, diff, mid)) {
                 right = mid - 1;
             } else {
                 left = mid + 1;
@@ -2011,7 +2011,7 @@ public class Leetcode_11 {
         return right + 1;
     }
 
-    private boolean canDefeatAll(int[] monsters, long[] diff, long t) {
+    private boolean canDefeatAll4008(int[] monsters, long[] diff, long t) {
         long s = t;
         for (int i = 0; i < monsters.length; ++i) {
             if (s + diff[i] < monsters[i]) {

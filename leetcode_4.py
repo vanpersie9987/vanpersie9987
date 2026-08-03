@@ -5132,7 +5132,7 @@ class LcaBinaryLifting:
         for i in range(1, n + 1):
             diff[i] += diff[i - 1]
         left = 0
-        right = 10**14
+        right = sum(monsters)
         while left <= right:
             mid = left + ((right - left) >> 1)
             if check(mid):
