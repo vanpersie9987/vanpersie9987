@@ -4971,7 +4971,9 @@ class LcaBinaryLifting:
         return res
 
     # 4001. 聚合两个时间序列 (Aggregate Two Time Series)
-    def aggregateTimeSeries(self, series1: list[list[int]], series2: list[list[int]]) -> list[list[int]]:
+    def aggregateTimeSeries(
+        self, series1: list[list[int]], series2: list[list[int]]
+    ) -> list[list[int]]:
         m, n = len(series1), len(series2)
         i, j = 0, 0
         res = []
@@ -5016,7 +5018,11 @@ class LcaBinaryLifting:
             for i, (dx, dy) in enumerate(dirs):
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < m and 0 <= ny < n:
-                    nd = d + (nx + 1) * (ny + 1) + (penalty[x][y] if i & 1 != nxt_type else 0)
+                    nd = (
+                        d
+                        + (nx + 1) * (ny + 1)
+                        + (penalty[x][y] if i & 1 != nxt_type else 0)
+                    )
                     if nd < dis[nx][ny][nxt_type]:
                         dis[nx][ny][nxt_type] = nd
                         heapq.heappush(q, (nd, nx, ny, nxt_type))
@@ -5028,8 +5034,11 @@ class LcaBinaryLifting:
             if i > j:
                 return 0
             if k:
-                return max(dfs(i + 1, j, not k) + piles[i], dfs(i, j - 1, not k) + piles[j])
+                return max(
+                    dfs(i + 1, j, not k) + piles[i], dfs(i, j - 1, not k) + piles[j]
+                )
             return min(dfs(i + 1, j, not k) - piles[i], dfs(i, j - 1, not k) - piles[j])
+
         n = len(piles)
         return dfs(0, n - 1, True) > 0
 
@@ -5091,6 +5100,7 @@ class LcaBinaryLifting:
                 else:
                     right = mid - 1
             return left - 1
+
         n = len(tasks)
         pre = list(accumulate(tasks, initial=0))
         res = []
@@ -5103,3 +5113,30 @@ class LcaBinaryLifting:
             if i == n:
                 s = 0
         return res
+
+    # 4008. 击败所有怪物的最小初始强度 (Minimum Initial Strength to Defeat All Monsters)
+    def minInitialStrength(self, monsters: list[int], boosts: list[list[int]]) -> int:
+        def check(t: int) -> int:
+            cur = t
+            for i, m in enumerate(monsters):
+                if cur + diff[i] < m:
+                    return False
+                cur = max(0, cur - m)
+            return True
+
+        n = len(monsters)
+        diff = [0] * (n + 1)
+        for l, r, v in boosts:
+            diff[l] += v
+            diff[r + 1] -= v
+        for i in range(1, n + 1):
+            diff[i] += diff[i - 1]
+        left = 0
+        right = 10**14
+        while left <= right:
+            mid = left + ((right - left) >> 1)
+            if check(mid):
+                right = mid - 1
+            else:
+                left = mid + 1
+        return right + 1
