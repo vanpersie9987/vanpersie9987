@@ -5078,4 +5078,28 @@ class LcaBinaryLifting:
                 if y > x:
                     pair[x + y] += min(c, c2)
         return max(pair.values())
-        
+
+    # 4012. 统计每个班次结束后的未完成任务数 (Count of Unfinished Tasks After Each Shift)
+    def countTasks(self, tasks: List[int], shifts: List[int]) -> List[int]:
+        def bin_search(t: int) -> int:
+            left = 0
+            right = n
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if pre[mid] <= t:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return left - 1
+        n = len(tasks)
+        pre = list(accumulate(tasks, initial=0))
+        res = []
+        s = 0
+        for x in shifts:
+            s += x
+            # pre中 <= s 的最大值的索引
+            i = bin_search(s)
+            res.append(n - i)
+            if i == n:
+                s = 0
+        return res
