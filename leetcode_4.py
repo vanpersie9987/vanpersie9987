@@ -5064,3 +5064,18 @@ class LcaBinaryLifting:
                 if cnts[1] and cnts[0] * b <= cnts[1] * a:
                     res += 1
         return res
+
+    # 4007. 栅栏的最宽宽度 (Widest Possible Fence)
+    def maximumWidth(self, planks: list[int]) -> int:
+        cnts = defaultdict(int)
+        for p in planks:
+            cnts[p] += 1
+        pair = defaultdict(int)
+        for x, c in cnts.items():
+            pair[x] += c
+            pair[x * 2] += c // 2
+            for y, c2 in cnts.items():
+                if y > x:
+                    pair[x + y] += min(c, c2)
+        return max(pair.values())
+        
