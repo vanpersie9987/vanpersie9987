@@ -5147,16 +5147,16 @@ class LcaBinaryLifting:
         def dfs(i: int, M: int, is_alice: bool) -> int:
             if i == n:
                 return 0
-            if is_alice:
-                res = -inf
-                s = 0
-                for j in range(i, min(n, i + M * 2)):
-                    s += piles[j]
-                    res = max(res, dfs(j + 1, max(M, j - i + 1), not is_alice) + s)
-                return res
-            res = inf
+            op = max if is_alice else min
+            res = -inf if is_alice else inf
+            s = 0
             for j in range(i, min(n, i + M * 2)):
-                res = min(res, dfs(j + 1, max(M, j - i + 1), not is_alice))
+                s += piles[j]
+                res = op(
+                    res,
+                    dfs(j + 1, max(M, j - i + 1), not is_alice)
+                    + (s if is_alice else 0),
+                )
             return res
 
         n = len(piles)
