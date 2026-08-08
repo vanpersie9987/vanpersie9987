@@ -5140,3 +5140,24 @@ class LcaBinaryLifting:
             else:
                 left = mid + 1
         return right + 1
+
+    # 1140. 石子游戏 II (Stone Game II)
+    def stoneGameII(self, piles: List[int]) -> int:
+        @cache
+        def dfs(i: int, M: int, is_alice: bool) -> int:
+            if i == n:
+                return 0
+            if is_alice:
+                res = -inf
+                s = 0
+                for j in range(i, min(n, i + M * 2)):
+                    s += piles[j]
+                    res = max(res, dfs(j + 1, max(M, j - i + 1), not is_alice) + s)
+                return res
+            res = inf
+            for j in range(i, min(n, i + M * 2)):
+                res = min(res, dfs(j + 1, max(M, j - i + 1), not is_alice))
+            return res
+
+        n = len(piles)
+        return dfs(0, 1, True)
