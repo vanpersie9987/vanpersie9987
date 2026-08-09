@@ -2022,7 +2022,7 @@ public class Leetcode_11 {
         return true;
     }
 
-    // 4015. 应用折扣后的最低总价 (Minimum Total Price After Applying Discounts)
+    // 4014. 应用折扣后的最低总价 (Minimum Total Price After Applying Discounts)
     public double minPrice(int[] prices, int[] discounts) {
         Arrays.sort(prices);
         Arrays.sort(discounts);
@@ -2037,6 +2037,34 @@ public class Leetcode_11 {
         }
         return total;
 
+    }
+
+    // 4015. 树的加权和 (Weighted Sum of a Tree)
+    public long weightedSum(int[] parent, int[] nums) {
+        int n = parent.length;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int i = 1; i < n; ++i) {
+            g[parent[i]].add(i);
+        }
+        int h = dfsHeight4015(0, g, 1);
+        return dfs4015(0, g, nums, h, 1);
+    }
+
+    private long dfs4015(int x, List<Integer>[] g, int[] nums, int h, int d) {
+        long res = (long) nums[x] * (h - d + 1);
+        for (int y : g[x]) {
+            res += dfs4015(y, g, nums, h, d + 1);
+        }
+        return res;
+    }
+
+    private int dfsHeight4015(int x, List<Integer>[] g, int h) {
+        int res = h;
+        for (int y : g[x]) {
+            res = Math.max(res, dfsHeight4015(y, g, h + 1));
+        }
+        return res;
     }
 
 }

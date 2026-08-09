@@ -5162,7 +5162,7 @@ class LcaBinaryLifting:
         n = len(piles)
         return dfs(0, 1, True)
 
-    # 4015. 应用折扣后的最低总价 (Minimum Total Price After Applying Discounts)
+    # 4014. 应用折扣后的最低总价 (Minimum Total Price After Applying Discounts)
     def minPrice(self, prices: list[int], discounts: list[int]) -> float:
         discounts.extend([0] * max(0, len(prices) - len(discounts)))
         prices.sort(reverse=True)
