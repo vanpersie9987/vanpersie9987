@@ -5162,9 +5162,32 @@ class LcaBinaryLifting:
         n = len(piles)
         return dfs(0, 1, True)
 
-    # 应用折扣后的最低总价
+    # 4015. 应用折扣后的最低总价 (Minimum Total Price After Applying Discounts)
     def minPrice(self, prices: list[int], discounts: list[int]) -> float:
         discounts.extend([0] * max(0, len(prices) - len(discounts)))
         prices.sort(reverse=True)
         discounts.sort(reverse=True)
         return sum(p * (100 - d) / 100 for p, d in zip(prices, discounts))
+
+    # 4015. 树的加权和 (Weighted Sum of a Tree)
+    def weightedSum(self, parent: list[int], nums: list[int]) -> int:
+        def dfs_height(x: int, _h: int):
+            nonlocal h
+            h = max(h, _h)
+            for y in g[x]:
+                dfs_height(y, _h + 1)
+
+        def dfs(x: int, d: int) -> int:
+            res = nums[x] * (h - d + 1)
+            for y in g[x]:
+                res += dfs(y, d + 1)
+            return res
+
+        n = len(nums)
+        g = [[] for _ in range(n)]
+        for i, p in enumerate(parent):
+            if i:
+                g[p].append(i)
+        h = 0
+        dfs_height(0, 1)
+        return dfs(0, 1)
