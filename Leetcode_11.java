@@ -2022,4 +2022,8 @@ public class Leetcode_11 {
         return true;
     }
 
+    public double minPrice(int[] prices, int[] discounts) {
+
+    }
+
 }
