@@ -2102,4 +2102,27 @@ public class Leetcode_11 {
 
     }
 
+    // 4021. 得到旋转回文字符串的最少操作次数 I (Minimum Operations to Make a Rotated Palindrome I)
+    public int minOperations(String s) {
+        int res = Integer.MAX_VALUE;
+        int n = s.length();
+        for (int i = 0; i < n; ++i) {
+            int cnt = i;
+            String ss = s.substring(i) + s.substring(0, i);
+            int l = 0;
+            int r = n - 1;
+            while (l < r) {
+                int x = ss.charAt(l) - '0';
+                int y = ss.charAt(r) - '0';
+                int d = Math.abs(x - y);
+                cnt += Math.min(d, 26 - d);
+                ++l;
+                --r;
+            }
+            res = Math.min(res, cnt);
+        }
+        return res;
+
+    }
+
 }
