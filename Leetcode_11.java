@@ -2159,4 +2159,41 @@ public class Leetcode_11 {
 
     }
 
+    // 4027. 电梯请求 III (Elevator Requests III)
+    private long[][] memo4027;
+    private int[][] requests;
+    private int start;
+
+    public long elevatorRequests(int n, int start, int[][] requests) {
+        int m = requests.length;
+        this.requests = requests;
+        this.start = start;
+        this.memo4027 = new long[m][1 << m];
+        for (long[] r : memo4027) {
+            Arrays.fill(r, -1L);
+        }
+        long res = Long.MAX_VALUE;
+        for (int i = 0; i < m; ++i) {
+            res = Math.min(res, dfs4027(i, (1 << m) - 1));
+        }
+        return res;
+
+    }
+
+    private long dfs4027(int i, int mask) {
+        if (memo4027[i][mask] != -1L) {
+            return memo4027[i][mask];
+        }
+        int nMask = mask ^ (1 << i);
+        if(nMask == 0) {
+            return memo4027[i][mask] = Math.max(requests[i][0], Math.abs(requests[i][1] - start));
+        }
+        long res = Long.MAX_VALUE;
+        for (int c = nMask; c > 0; c &= c - 1) {
+            int lb = Integer.numberOfTrailingZeros(c);
+            res = Math.min(res, dfs4027(lb, nMask) + Math.abs(requests[lb][1] - requests[i][1]));
+        }
+        return memo4027[i][mask] = Math.max(res, requests[i][0]);
+    }
+
 }
