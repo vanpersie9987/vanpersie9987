@@ -5244,3 +5244,14 @@ class LcaBinaryLifting:
                 d = dis
                 res = i
         return res
+
+    # 4025. 交通灯的最大等待时间 (Minimize the Maximum Waiting Time at Synchronized Traffic Lights)
+    def minPenalty(self, period: int, lights: list[int], arrivalTime: list[int]) -> int:
+        lights.sort()
+        res = 0
+        for a in arrivalTime:
+            r = a % period
+            if r < lights[-1]:
+                continue
+            res = max(res, period - r)
+        return res
