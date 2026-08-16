@@ -5255,3 +5255,22 @@ class LcaBinaryLifting:
                 continue
             res = max(res, period - r)
         return res
+
+    # 4027. 电梯请求 III (Elevator Requests III)
+    def elevatorRequests(self, n: int, start: int, requests: list[list[int]]) -> int:
+        @cache
+        def dfs(mask: int, i: int) -> int:
+            mask ^= 1 << i
+            t, x = requests[i]
+            if mask == 0:
+                return max(abs(x - start), t)
+            c = mask
+            res = inf
+            while c:
+                lb = (c & -c).bit_length() - 1
+                res = min(res, dfs(mask, lb) + abs(requests[i][1] - requests[lb][1]))
+                c &= c - 1
+            return max(res, t)
+
+        m = len(requests)
+        return min(dfs((1 << m) - 1, i) for i in range(m))
