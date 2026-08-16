@@ -5274,3 +5274,25 @@ class LcaBinaryLifting:
 
         m = len(requests)
         return min(dfs((1 << m) - 1, i) for i in range(m))
+
+    # 4026. 工位的最大间隔 (Maximum Gap Between Stations)
+    def maximumGap(self, skill: str, station: str) -> int:
+        m, n = len(skill), len(station)
+        last = [0] * m
+        j = m - 1
+        for i in range(n - 1, -1, -1):
+            if j >= 0 and skill[j] == station[i]:
+                last[j] = i
+                j -= 1
+        res = 0
+        j = 0
+        for i, x in enumerate(station):
+            if j + 1 < m and skill[j] == x:
+                res = max(res, last[j + 1] - i)
+                j += 1
+        return res 
+
+
+
+
+        
