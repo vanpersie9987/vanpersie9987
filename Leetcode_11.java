@@ -2185,7 +2185,7 @@ public class Leetcode_11 {
             return memo4027[i][mask];
         }
         int nMask = mask ^ (1 << i);
-        if(nMask == 0) {
+        if (nMask == 0) {
             return memo4027[i][mask] = Math.max(requests[i][0], Math.abs(requests[i][1] - start));
         }
         long res = Long.MAX_VALUE;
@@ -2194,6 +2194,29 @@ public class Leetcode_11 {
             res = Math.min(res, dfs4027(lb, nMask) + Math.abs(requests[lb][1] - requests[i][1]));
         }
         return memo4027[i][mask] = Math.max(res, requests[i][0]);
+    }
+    
+    // 4026. 工位的最大间隔 (Maximum Gap Between Stations)
+    public int maximumGap(String skill, String station) {
+        int n = skill.length();
+        int m = station.length();
+        int[] last = new int[n];
+        int j = n - 1;
+        for (int i = m - 1; i >= 0 && j >= 0; --i) {
+            if (station.charAt(i) == skill.charAt(j)) {
+                last[j--] = i;
+            }
+        }
+        int res = 0;
+        j = 0;
+        for (int i = 0; i < m - 1; ++i) {
+            if (j + 1 < n && station.charAt(i) == skill.charAt(j)) {
+                res = Math.max(res, last[j + 1] - i);
+                ++j;
+            }
+        }
+        return res;
+
     }
 
 }
