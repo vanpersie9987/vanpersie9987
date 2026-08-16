@@ -5233,3 +5233,14 @@ class LcaBinaryLifting:
                 r -= 1
             res = min(res, cur)
         return res
+
+    # 4024. 最近的可用无人机 (Nearest Available Drone)
+    def nearestDrone(self, drones: list[list[int]], target: list[int]) -> int:
+        d = inf
+        res = -1
+        for i, (x, y, r) in enumerate(drones):
+            dis = abs(x - target[0]) + abs(y - target[1])
+            if dis <= r and dis < d:
+                d = dis
+                res = i
+        return res
