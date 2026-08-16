@@ -5215,3 +5215,21 @@ class LcaBinaryLifting:
     # 4020. 电梯请求 I (Elevator Requests I)
     def elevatorRequests(self, n: int, requests: list[int]) -> int:
         return requests[0] + sum(abs(x - y) for x, y in pairwise(requests))
+
+    # 4021. 得到旋转回文字符串的最少操作次数 I (Minimum Operations to Make a Rotated Palindrome I)
+    def minOperations(self, s: str) -> int:
+        n = len(s)
+        res = inf
+        for i in range(n):
+            ss = s[i:] + s[:i]
+            cur = i
+            l, r = 0, n - 1
+            while l < r:
+                x = ord(ss[l]) - ord("a")
+                y = ord(ss[r]) - ord("a")
+                d = abs(x - y)
+                cur += min(d, 26 - d)
+                l += 1
+                r -= 1
+            res = min(res, cur)
+        return res
