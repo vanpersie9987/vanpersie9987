@@ -5211,3 +5211,7 @@ class LcaBinaryLifting:
         n = len(stones)
         # 小技巧：交换 cnt[1] 和 cnt[2] 再调用 check，相当于 Alice 第一回合移除了 2
         return check(n, cnt.copy()) or check(n, [cnt[0], cnt[2], cnt[1]])
+
+    # 4020. 电梯请求 I (Elevator Requests I)
+    def elevatorRequests(self, n: int, requests: list[int]) -> int:
+        return requests[0] + sum(abs(x - y) for x, y in pairwise(requests))
