@@ -5191,3 +5191,23 @@ class LcaBinaryLifting:
         h = 0
         dfs_height(0, 1)
         return dfs(0, 1)
+
+    # 2029. 石子游戏 IX (Stone Game IX)
+    def stoneGameIX(self, stones: List[int]) -> bool:
+        def check(n: int, cnt: List[int]) -> bool:
+            if cnt[1] == 0:
+                return False
+            cnt[1] -= 1
+            # 第一回合 Alice 移除 1，后面两人交替移除 1 和 2，中途可以插入 cnt[0] 个 0
+            rounds = 1 + min(cnt[1], cnt[2]) * 2 + cnt[0]
+            if cnt[1] > cnt[2]:  # 可以再移除一个 1
+                rounds += 1
+            return rounds < n and rounds % 2 > 0
+
+        cnt = [0] * 3
+        for x in stones:
+            cnt[x % 3] += 1
+
+        n = len(stones)
+        # 小技巧：交换 cnt[1] 和 cnt[2] 再调用 check，相当于 Alice 第一回合移除了 2
+        return check(n, cnt.copy()) or check(n, [cnt[0], cnt[2], cnt[1]])
