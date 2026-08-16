@@ -2140,4 +2140,23 @@ public class Leetcode_11 {
 
     }
 
+    // 4025. 交通灯的最大等待时间 (Minimize the Maximum Waiting Time at Synchronized Traffic
+    // Lights)
+    public int minPenalty(int period, int[] lights, int[] arrivalTime) {
+        int mx = 0;
+        for (int x : lights) {
+            mx = Math.max(mx, x);
+        }
+        int res = 0;
+        for (int a : arrivalTime) {
+            int r = a % period;
+            if (r < mx) {
+                continue;
+            }
+            res = Math.max(res, period - r);
+        }
+        return res;
+
+    }
+
 }
