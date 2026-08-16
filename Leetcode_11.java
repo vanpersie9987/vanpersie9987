@@ -2125,4 +2125,19 @@ public class Leetcode_11 {
 
     }
 
+    // 4024. 最近的可用无人机 (Nearest Available Drone)
+    public int nearestDrone(int[][] drones, int[] target) {
+        int d = Integer.MAX_VALUE;
+        int res = -1;
+        for (int i = 0; i < drones.length; ++i) {
+            int dist = Math.abs(drones[i][0] - target[0]) + Math.abs(drones[i][1] - target[1]);
+            if (dist <= drones[i][2] && dist < d) {
+                d = dist;
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
 }
