@@ -5292,6 +5292,32 @@ class LcaBinaryLifting:
                 j += 1
         return res 
 
+    # 1563. 石子游戏 V (Stone Game V)
+    def stoneGameV(self, stoneValue: List[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == j:
+                return 0
+            res = 0
+            s = sum(stoneValue[i:j + 1])
+            s1 = 0
+            for k in range(i, j):
+                s1 += stoneValue[k]
+                s2 = s - s1
+                if s1 > s2:
+                    res = max(res, dfs(k + 1, j) + s2)
+                elif s1 < s2:
+                    res = max(res, dfs(i, k) + s1)
+                else:
+                    res = max(res, dfs(i, k) + s1, dfs(k + 1, j) + s1)
+            return res
+        n = len(stoneValue)
+        res = dfs(0, n - 1)
+        dfs.cache_clear()
+        return res
+
+
+
 
 
 
