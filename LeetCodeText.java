@@ -8170,22 +8170,22 @@ public class LeetCodeText {
 
     // 1386. 安排电影院座位 (Cinema Seat Allocation)
     public int maxNumberOfFamilies2(int n, int[][] reservedSeats) {
-        int m0 = 0b1000000001;
-        int m1 = 0b1000011111;
-        int m2 = 0b1111100001;
-        int m3 = 0b1110000111;
+        int m1 = 0b00001111;
+        int m2 = 0b11110000;
+        int m3 = 0b11000011;
 
         Map<Integer, Integer> map = new HashMap<>();
         for (int[] seat : reservedSeats) {
             int r = seat[0];
             int s = seat[1] - 1;
-            map.merge(r, 1 << s, Integer::sum);
+            if (s == 0 || s == 9) {
+                continue;
+            }
+            map.merge(r, 1 << (s - 1), Integer::sum);
         }
         int res = (n - map.size()) * 2;
         for (int v : map.values()) {
-            if ((v | m0) == m0) {
-                res += 2;
-            } else if ((v | m1) == m1 || (v | m2) == m2 || (v | m3) == m3) {
+            if ((v | m1) == m1 || (v | m2) == m2 || (v | m3) == m3) {
                 res += 1;
             }
         }
