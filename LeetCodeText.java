@@ -8169,7 +8169,7 @@ public class LeetCodeText {
     }
 
     // 1386. 安排电影院座位 (Cinema Seat Allocation)
-    public int maxNumberOfFamilies2(int n, int[][] reservedSeats) {
+    public int maxNumberOfFamilies(int n, int[][] reservedSeats) {
         int m1 = 0b00001111;
         int m2 = 0b11110000;
         int m3 = 0b11000011;
