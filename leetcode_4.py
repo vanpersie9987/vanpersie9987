@@ -5321,15 +5321,14 @@ class LcaBinaryLifting:
     def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
         d = defaultdict(int)
         for r, s in reservedSeats:
+            s -= 1
+            if s == 0 or s == 9:
+                continue
             d[r] |= 1 << (s - 1)
-        res = (n - len(d)) * 2
-        m0 = 0b1000000001
-        m1 = 0b1000011111
-        m2 = 0b1111100001
-        m3 = 0b1110000111
-        for v in d.values():
-            if m0 | v == m0:
-                res += 2
-            elif m1 | v == m1 or m2 | v == m2 or m3 | v == m3:
-                res += 1
-        return res
+        m1 = 0b00001111
+        m2 = 0b11110000
+        m3 = 0b11000011
+        return (
+            sum(m1 | v == m1 or m2 | v == m2 or m3 | v == m3 for v in d.values())
+            + (n - len(d)) * 2
+        )
