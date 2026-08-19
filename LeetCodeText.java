@@ -8168,26 +8168,28 @@ public class LeetCodeText {
 
     }
 
-    // 1386. 安排电影院座位
+    // 1386. 安排电影院座位 (Cinema Seat Allocation)
     public int maxNumberOfFamilies2(int n, int[][] reservedSeats) {
-        int mask1 = 0b00001111;
-        int mask2 = 0b11110000;
-        int mask3 = 0b11000011;
+        int m0 = 0b1000000001;
+        int m1 = 0b1000011111;
+        int m2 = 0b1111100001;
+        int m3 = 0b1110000111;
+
         Map<Integer, Integer> map = new HashMap<>();
-        for (int[] reservedSeat : reservedSeats) {
-            if (reservedSeat[1] >= 2 && reservedSeat[1] <= 9) {
-                int origin = map.getOrDefault(reservedSeat[0], 0);
-                int value = origin | (1 << (reservedSeat[1] - 2));
-                map.put(reservedSeat[0], value);
+        for (int[] seat : reservedSeats) {
+            int r = seat[0];
+            int s = seat[1] - 1;
+            map.merge(r, 1 << s, Integer::sum);
+        }
+        int res = (n - map.size()) * 2;
+        for (int v : map.values()) {
+            if ((v | m0) == m0) {
+                res += 2;
+            } else if ((v | m1) == m1 || (v | m2) == m2 || (v | m3) == m3) {
+                res += 1;
             }
         }
-        int result = (n - map.size()) * 2;
-        for (int bitMask : map.values()) {
-            if ((bitMask | mask1) == mask1 || (bitMask | mask2) == mask2 || (bitMask | mask3) == mask3) {
-                ++result;
-            }
-        }
-        return result;
+        return res;
 
     }
 
