@@ -5290,7 +5290,7 @@ class LcaBinaryLifting:
             if j + 1 < m and skill[j] == x:
                 res = max(res, last[j + 1] - i)
                 j += 1
-        return res 
+        return res
 
     # 1563. 石子游戏 V (Stone Game V)
     def stoneGameV(self, stoneValue: List[int]) -> int:
@@ -5299,7 +5299,7 @@ class LcaBinaryLifting:
             if i == j:
                 return 0
             res = 0
-            s = sum(stoneValue[i:j + 1])
+            s = sum(stoneValue[i : j + 1])
             s1 = 0
             for k in range(i, j):
                 s1 += stoneValue[k]
@@ -5311,14 +5311,25 @@ class LcaBinaryLifting:
                 else:
                     res = max(res, dfs(i, k) + s1, dfs(k + 1, j) + s1)
             return res
+
         n = len(stoneValue)
         res = dfs(0, n - 1)
         dfs.cache_clear()
         return res
 
-
-
-
-
-
-        
+    # 1386. 安排电影院座位 (Cinema Seat Allocation)
+    def maxNumberOfFamilies(self, n: int, reservedSeats: List[List[int]]) -> int:
+        d = defaultdict(int)
+        for r, s in reservedSeats:
+            d[r] |= 1 << (s - 1)
+        res = (n - len(d)) * 2
+        m0 = 0b1000000001
+        m1 = 0b1000011111
+        m2 = 0b1111100001
+        m3 = 0b1110000111
+        for v in d.values():
+            if m0 | v == m0:
+                res += 2
+            elif m1 | v == m1 or m2 | v == m2 or m3 | v == m3:
+                res += 1
+        return res
