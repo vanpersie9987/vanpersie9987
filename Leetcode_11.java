@@ -2195,7 +2195,7 @@ public class Leetcode_11 {
         }
         return memo4027[i][mask] = Math.max(res, requests[i][0]);
     }
-    
+
     // 4026. 工位的最大间隔 (Maximum Gap Between Stations)
     public int maximumGap(String skill, String station) {
         int n = skill.length();
@@ -2217,6 +2217,24 @@ public class Leetcode_11 {
         }
         return res;
 
+    }
+
+    // 4030. 判断 ASCII 值回文 (Check ASCII Palindromic)
+    public boolean isPalindromic(String s) {
+        int n = s.length();
+        int i = 0;
+        int j = n - 1;
+        while (i <= j) {
+            String x = String.format("%8s", Integer.toBinaryString(s.charAt(i))).replace(' ', '0');
+            String y = String.format("%8s", Integer.toBinaryString(s.charAt(j))).replace(' ', '0');
+            StringBuilder sb = new StringBuilder(x);
+            if (!sb.reverse().toString().equals(y)) {
+                return false;
+            }
+            ++i;
+            --j;
+        }
+        return true;
     }
 
 }
