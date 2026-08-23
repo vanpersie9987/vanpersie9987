@@ -5332,3 +5332,16 @@ class LcaBinaryLifting:
             sum(m1 | v == m1 or m2 | v == m2 or m3 | v == m3 for v in d.values())
             + (n - len(d)) * 2
         )
+
+    # 4030. 判断 ASCII 值回文 (Check ASCII Palindromic)
+    def isPalindromic(self, s: str) -> bool:
+        n = len(s)
+        i, j = 0, n - 1
+        while i <= j:
+            x = bin(ord(s[i]))[2:].zfill(8)
+            y = bin(ord(s[j]))[2:].zfill(8)
+            if "".join(reversed(x)) != y:
+                return False
+            i += 1
+            j -= 1
+        return True
