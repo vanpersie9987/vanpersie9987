@@ -2237,4 +2237,27 @@ public class Leetcode_11 {
         return true;
     }
 
+    // 4031. 找到所有数组中消失的数字 II (Find All Numbers Disappeared in an Array II)
+    public List<List<Integer>> findDisappearedNumbers(int[] nums, int lower, int upper) {
+        Set<Integer> set = new HashSet<>();
+        for (int x : nums) {
+            set.add(x);
+        }
+        List<List<Integer>> res = new ArrayList<>();
+        int x = lower;
+        while (x <= upper) {
+            int y = x;
+            while (y <= upper && !set.contains(y)) {
+                ++y;
+            }
+            if (y > x) {
+                res.add(List.of(x, y - 1));
+                x = y;
+            } else {
+                ++x;
+            }
+        }
+        return res;
+    }
+
 }
