@@ -2260,18 +2260,50 @@ public class Leetcode_11 {
         return res;
     }
 
-    public int longestSubarray(int[] nums, int k) {
-        int MX = (int) (1e5 + 1);
-        List<Integer>[] p = new ArrayList[MX];
-        Arrays.setAll(p, o -> new ArrayList<>());
-        for (int i = 2; i < MX; ++i) {
-            if (p[i].isEmpty()) {
-                for (int j = i + i; j < MX; j += i) {
-                    p[j].add(i);
+    // 4032. 至多 K 个不同质因数集合的最长子数组 (Longest Subarray With at Most K Distinct Prime
+    // Factors)
+    class Solution4032 {
+        private static final int MX = 100_001;
+        private static final List<Integer>[] p = new ArrayList[MX];
+        private static boolean initialized = false;
+
+        public Solution4032() {
+            if (initialized) {
+                return;
+            }
+            initialized = true;
+            Arrays.setAll(p, o -> new ArrayList<>());
+            for (int i = 2; i < MX; ++i) {
+                if (p[i].isEmpty()) {
+                    for (int j = i; j < MX; j += i) {
+                        p[j].add(i);
+                    }
                 }
             }
         }
 
+        public int longestSubarray(int[] nums, int k) {
+            int j = 0;
+            int res = 0;
+            Map<Integer, Integer> cnts = new HashMap<>();
+            for (int i = 0; i < nums.length; ++i) {
+                for (int x : p[nums[i]]) {
+                    cnts.merge(x, 1, Integer::sum);
+                }
+                while (j <= i && cnts.size() > k) {
+                    for (int x : p[nums[j]]) {
+                        cnts.merge(x, -1, Integer::sum);
+                        if (cnts.get(x) == 0) {
+                            cnts.remove(x);
+                        }
+                    }
+                    ++j;
+                }
+                res = Math.max(res, i - j + 1);
+            }
+            return res;
+
+        }
     }
 
 }
