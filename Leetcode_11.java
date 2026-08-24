@@ -2260,4 +2260,18 @@ public class Leetcode_11 {
         return res;
     }
 
+    public int longestSubarray(int[] nums, int k) {
+        int MX = (int) (1e5 + 1);
+        List<Integer>[] p = new ArrayList[MX];
+        Arrays.setAll(p, o -> new ArrayList<>());
+        for (int i = 2; i < MX; ++i) {
+            if (p[i].isEmpty()) {
+                for (int j = i + i; j < MX; j += i) {
+                    p[j].add(i);
+                }
+            }
+        }
+
+    }
+
 }

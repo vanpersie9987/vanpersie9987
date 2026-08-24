@@ -5361,3 +5361,30 @@ class LcaBinaryLifting:
             else:
                 x += 1
         return res
+
+    # 4032. 至多 K 个不同质因数集合的最长子数组 (Longest Subarray With at Most K Distinct Prime Factors)
+    def longestSubarray(self, nums: list[int], k: int) -> int:
+        ## 将下面代码移至Solution外可通过##
+        MX = 10**5 + 1
+        p = [[] for _ in range(MX)]
+        for i in range(2, MX):
+            if len(p[i]) == 0:
+                for j in range(i, MX, i):
+                    p[j].append(i)
+        ###############################
+        d = defaultdict(int)
+        j = 0
+        res = 0
+        for i, x in enumerate(nums):
+            l = p[x]
+            for y in l:
+                d[y] += 1
+            while j <= i and len(d) > k:
+                l = p[nums[j]]
+                for y in l:
+                    d[y] -= 1
+                    if d[y] == 0:
+                        del d[y]
+                j += 1
+            res = max(res, i - j + 1)
+        return res
