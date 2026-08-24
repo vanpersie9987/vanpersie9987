@@ -5345,3 +5345,19 @@ class LcaBinaryLifting:
             i += 1
             j -= 1
         return True
+
+    # 4031. 找到所有数组中消失的数字 II (Find All Numbers Disappeared in an Array II)
+    def findDisappearedNumbers(self, nums: list[int], lower: int, upper: int) -> list[list[int]]:
+        res = []
+        s = set(nums)
+        x = lower
+        while x <= upper:
+            y = x
+            while y <= upper and y not in s:
+                y += 1
+            if y > x:
+                res.append((x, y - 1))
+                x = y
+            else:
+                x += 1
+        return res
