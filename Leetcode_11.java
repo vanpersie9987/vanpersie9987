@@ -2290,7 +2290,7 @@ public class Leetcode_11 {
                 for (int x : p[nums[i]]) {
                     cnts.merge(x, 1, Integer::sum);
                 }
-                while (j <= i && cnts.size() > k) {
+                while (cnts.size() > k) {
                     for (int x : p[nums[j]]) {
                         cnts.merge(x, -1, Integer::sum);
                         if (cnts.get(x) == 0) {

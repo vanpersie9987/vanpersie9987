@@ -5379,7 +5379,7 @@ class LcaBinaryLifting:
             l = p[x]
             for y in l:
                 d[y] += 1
-            while j <= i and len(d) > k:
+            while len(d) > k:
                 l = p[nums[j]]
                 for y in l:
                     d[y] -= 1
