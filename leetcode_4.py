@@ -5347,7 +5347,9 @@ class LcaBinaryLifting:
         return True
 
     # 4031. 找到所有数组中消失的数字 II (Find All Numbers Disappeared in an Array II)
-    def findDisappearedNumbers(self, nums: list[int], lower: int, upper: int) -> list[list[int]]:
+    def findDisappearedNumbers(
+        self, nums: list[int], lower: int, upper: int
+    ) -> list[list[int]]:
         res = []
         s = set(nums)
         x = lower
@@ -5376,12 +5378,10 @@ class LcaBinaryLifting:
         j = 0
         res = 0
         for i, x in enumerate(nums):
-            l = p[x]
-            for y in l:
+            for y in p[x]:
                 d[y] += 1
             while len(d) > k:
-                l = p[nums[j]]
-                for y in l:
+                for y in p[nums[j]]:
                     d[y] -= 1
                     if d[y] == 0:
                         del d[y]
