@@ -4746,34 +4746,63 @@ class SegmentTree2940:
 
     # 3720. 大于目标字符串的最小字典序排列 (Lexicographically Smallest Permutation Greater Than Target)
     def lexGreaterPermutation(self, s: str, target: str) -> str:
-        def check(cnts_s: List[int], start: int) -> bool:
-            cur = []
-            for i in range(25, -1, -1):
-                cur.extend(chr(i + a) * cnts_s[i])
-            t = target[start:]
-            return "".join(cur) > t
-
-        a = ord("a")
-        cnts_s = [0] * 26
-        for c in s:
-            cnts_s[ord(c) - a] += 1
-        res = []
-        for i, c in enumerate(target):
-            idx = ord(c) - a
-            cnts_s[idx] -= 1
-            if cnts_s[idx] >= 0 and check(cnts_s, i + 1):
-                res.append(c)
-                continue
-            cnts_s[idx] += 1
-            for j in range(idx + 1, 26):
-                if cnts_s[j]:
-                    cnts_s[j] -= 1
-                    res.append(chr(j + a))
-                    for k in range(26):
-                        res.append(chr(k + a) * cnts_s[k])
-                    return "".join(res)
-            return ""
-        return "".join(res)
+            def check(start: int) -> bool:
+                k = 25
+                i = start
+                while i < len(target):
+                    while cnt_s[k] == 0:
+                        k -= 1
+                    if k < 0:
+                        return False
+                    c = cnt_s[k]
+                    while c:
+                        if chr(k + ord("a")) == target[i]:
+                            c -= 1
+                            i += 1
+                            continue
+                        else:
+                            return chr(k + ord("a")) > target[i]
+                    k -= 1
+                return False
+    
+            def generate() -> str:
+                for j, y in enumerate(cnt_s):
+                    if y and j > idx:
+                        res.append(chr(j + ord("a")))
+                        cnt_s[j] -= 1
+                        break
+                else:
+                    return ""
+                for j, y in enumerate(cnt_s):
+                    c = chr(j + ord("a"))
+                    res.extend([c] * y)
+                return "".join(res)
+    
+            cnt_s = [0] * 26
+            cnt_t = [0] * 26
+            for x in s:
+                cnt_s[ord(x) - ord("a")] += 1
+            for x in target:
+                cnt_t[ord(x) - ord("a")] += 1
+            res = []
+            for i, x in enumerate(target):
+                # 尝试填写x
+                idx = ord(x) - ord("a")
+                if cnt_s[idx]:
+                    cnt_s[idx] -= 1
+                    cnt_t[idx] -= 1
+                    if check(i + 1):
+                        res.append(x)
+                        continue
+                    else:
+                        cnt_s[idx] += 1
+                        cnt_t[idx] += 1
+                        # 只能填比x大的最小字母
+                        return generate()
+                else:
+                    # 只能填比x大的最小字母，若不存在，返回空
+                    return generate()
+            return "".join(res)
 
     # 3346. 执行操作后元素的最高频率 I (Maximum Frequency of an Element After Performing Operations I)
     # 3347. 执行操作后元素的最高频率 II (Maximum Frequency of an Element After Performing Operations II)
