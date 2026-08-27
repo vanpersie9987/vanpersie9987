@@ -799,46 +799,70 @@ public class Leetcode_10 {
     // 3720. 大于目标字符串的最小字典序排列 (Lexicographically Smallest Permutation Greater Than
     // Target)
     public String lexGreaterPermutation(String s, String target) {
-        int[] cnts_s = new int[26];
+        int n = s.length();
+        int[] cntS = new int[26];
         for (char c : s.toCharArray()) {
-            ++cnts_s[c - 'a'];
+            ++cntS[c - 'a'];
         }
         StringBuilder res = new StringBuilder();
-        for (int i = 0; i < target.length(); ++i) {
-            int idx = (int) target.charAt(i) - 'a';
-            cnts_s[idx] -= 1;
-            if (cnts_s[idx] >= 0 && check3720(cnts_s, target.substring(i + 1))) {
-                res.append(target.charAt(i));
-                continue;
-            }
-            cnts_s[idx] += 1;
-            for (int j = idx + 1; j < 26; ++j) {
-                if (cnts_s[j] > 0) {
-                    cnts_s[j] -= 1;
-                    res.append((char) (j + 'a'));
-                    for (int k = 0; k < 26; ++k) {
-                        while (cnts_s[k]-- > 0) {
-                            res.append((char) (k + 'a'));
-                        }
-                    }
-                    return res.toString();
+        for (int i = 0; i < n; ++i) {
+            char c = target.charAt(i);
+            if (cntS[c - 'a'] > 0) {
+                --cntS[c - 'a'];
+                if (check3720(cntS, target.substring(i + 1))) {
+                    res.append(c);
+                    continue;
                 }
+                ++cntS[c - 'a'];
+                return generate3720(res, cntS, c);
+            } else {
+                return generate3720(res, cntS, c);
             }
-            return "";
         }
-        return res.toString();
+        return "";
 
     }
 
-    private boolean check3720(int[] cnts, String target) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 25; i >= 0; --i) {
-            for (int j = 0; j < cnts[i]; ++j) {
-                sb.append((char) (i + 'a'));
+    private String generate3720(StringBuilder res, int[] cntS, char c) {
+        for (int i = c - 'a' + 1; i < 26; ++i) {
+            if (cntS[i] > 0) {
+                --cntS[i];
+                res.append((char) (i + 'a'));
+                for (int j = 0; j < 26; ++j) {
+                    while (cntS[j] > 0) {
+                        res.append((char) (j + 'a'));
+                        --cntS[j];
+                    }
+                }
+                return res.toString();
             }
         }
-        String s = sb.toString();
-        return s.compareTo(target) > 0;
+        return "";
+
+    }
+
+    private boolean check3720(int[] cntS, String s) {
+        int k = 25;
+        int i = 0;
+        while (i < s.length()) {
+            while (k >= 0 && cntS[k] == 0) {
+                --k;
+            }
+            if (k < 0) {
+                return false;
+            }
+            int c = cntS[k];
+            while (c > 0) {
+                if (k == s.charAt(i) - 'a') {
+                    ++i;
+                    --c;
+                    continue;
+                }
+                return k > s.charAt(i) - 'a';
+            }
+            --k;
+        }
+        return false;
     }
 
     // 3719. 最长平衡子数组 I (Longest Balanced Subarray I)
