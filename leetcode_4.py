@@ -5388,3 +5388,86 @@ class LcaBinaryLifting:
                 j += 1
             res = max(res, i - j + 1)
         return res
+
+    # todo
+    def lexPalindromicPermutation(self, s: str, target: str) -> str:
+        def check(start: int) -> bool:
+            copy_s = cnt_s.copy()
+            copy_res = res.copy()
+            j = start
+            for i in range(25, -1, -1):
+                while copy_s[i] > 0:
+                    copy_res[j] = copy_res[n - j - 1] = chr(ord("a") + i)
+                    copy_s[i] -= 2
+                    j += 1
+            return "".join(copy_res) > target
+
+        def generate(start: int) -> str:
+            x = target[start]
+            c = -1
+            for i in range(ord(x) - ord("a") + 1, 26):
+                if cnt_s[i] > 0:
+                    c = i
+                    break
+            res[start] = res[n - start - 1] = chr(ord("a") + c)
+            j = start + 1
+            for i in range(26):
+                while cnt_s[i] > 0:
+                    res[j] = res[n - j - 1] = chr(ord("a") + i)
+                    cnt_s[i] -= 2
+                    j += 1
+            return "".join(res)
+
+        n = len(s)
+        cnt_s = [0] * 26
+        mask = 0
+        for x in s:
+            cnt_s[ord(x) - ord("a")] += 1
+            mask ^= 1 << (ord(x) - ord("a"))
+        # 超过一个字母出现奇数次
+        if mask.bit_count() > 1:
+            return ""
+        
+        res = [""] * n 
+        if mask.bit_count() == 1:
+            idx = mask.bit_length() - 1
+            res[n // 2] = chr(ord("a") + idx)
+        p = 0
+        for i in range(25, -1, -1):
+            c = cnt_s[i]
+            if c % 2:
+                c -= 1
+            while c > 0:
+                res[p] = res[n - p - 1] = chr(ord("a") + i)
+                c -= 2
+                p += 1
+        # 填最大值也 <= target
+        if "".join(res) <= target:
+            return ""
+
+        # 一定有解
+        res = [""] * n
+        if mask.bit_count() == 1:
+            idx = mask.bit_length() - 1
+            res[n // 2] = chr(ord("a") + idx)
+            cnt_s[idx] -= 1
+
+        for i, x in enumerate(target[n // 2:]):
+            # 尝试填x
+            idx = ord(x) - ord("a")
+            if cnt_s[idx] > 0:
+                cnt_s[idx] -= 2
+                res[i] = res[n - i - 1] = x
+                if check(i + 1):
+                    continue
+                cnt_s[idx] += 2
+                res[i] = res[n - i - 1] = ""
+                return generate(i)
+            else:
+                return generate(i)
+        return "".join(res)
+
+
+
+
+
