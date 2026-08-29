@@ -5224,39 +5224,32 @@ public class Leetcode_8 {
     // 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping
     // Elements)
     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
-        List<int[]> list = new ArrayList<>();
         int n = nums.length;
-        for (int i = 0; i < n; ++i) {
-            list.add(new int[] { i, nums[i] });
-        }
-        Collections.sort(list, new Comparator<int[]>() {
+        Integer[] a = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        Arrays.sort(a, new Comparator<Integer>() {
 
             @Override
-            public int compare(int[] o1, int[] o2) {
-                return Integer.compare(o1[1], o2[1]);
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(nums[o1], nums[o2]);
             }
 
         });
-        int[] res = new int[n];
-        List<Integer> ids = new ArrayList<>();
+
         List<Integer> vals = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
         for (int i = 0; i < n; ++i) {
-            ids.add(list.get(i)[0]);
-            vals.add(list.get(i)[1]);
-            if (i == n - 1 || list.get(i + 1)[1] - list.get(i)[1] > limit) {
+            vals.add(nums[a[i]]);
+            ids.add(a[i]);
+            if (i + 1 == n || nums[a[i + 1]] - nums[a[i]] > limit) {
                 Collections.sort(ids);
-                int m = ids.size();
-                int j = 0;
-                while (j < m) {
-                    res[ids.get(j)] = vals.get(j);
-                    ++j;
+                for (int j = 0; j < ids.size(); ++j) {
+                    nums[ids.get(j)] = vals.get(j);
                 }
-                ids.clear();
                 vals.clear();
+                ids.clear();
             }
         }
-        return res;
-
+        return nums;
     }
 
     // 2942. 查找包含给定字符的单词 (Find Words Containing Character)
