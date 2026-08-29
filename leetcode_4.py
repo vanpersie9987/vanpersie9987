@@ -5388,3 +5388,22 @@ class LcaBinaryLifting:
                 j += 1
             res = max(res, i - j + 1)
         return res
+
+    # 2091. 从数组中移除最大值和最小值 (Removing Minimum and Maximum From Array)
+    def minimumDeletions(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return 1
+        mx, mn = -inf, inf
+        id_mx, id_mn = -1, -1
+        for i, x in enumerate(nums):
+            if x > mx:
+                mx = x
+                id_mx = i
+            if x < mn:
+                mn = x
+                id_mn = i
+        res1 = min(id_mn, id_mx) + 1 + n - max(id_mn, id_mx)
+        res2 = max(id_mx, id_mn) + 1
+        res3 = n - min(id_mn, id_mx)
+        return min(res1, res2, res3)
