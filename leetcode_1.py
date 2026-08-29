@@ -8511,23 +8511,21 @@ class leetcode_1:
     # 2948. 交换得到字典序最小的数组 (Make Lexicographically Smallest Array by Swapping Elements)
     def lexicographicallySmallestArray(self, nums: List[int], limit: int) -> List[int]:
         n = len(nums)
-        arr = []
-        for i, v in enumerate(nums):
-            arr.append([i, v])
-        arr.sort(key=lambda k: k[1])
+        a = [(i, x) for i, x in enumerate(nums)]
+        a.sort(key=lambda o: o[1])
+        ids = []
+        vals = []
         res = [0] * n
-        list_id = []
-        list_val = []
-        for i, (id, v) in zip(range(n), arr):
-            list_id.append(id)
-            list_val.append(v)
-            if i == n - 1 or arr[i + 1][1] - v > limit:
-                list_id.sort()
-                list_val.sort()
-                for idx, val in zip(list_id, list_val):
-                    res[idx] = val
-                list_id.clear()
-                list_val.clear()
+        for i, (id, val) in enumerate(a):
+            ids.append(id)
+            vals.append(val)
+            if i == n - 1 or a[i + 1][1] - val > limit:
+                ids.sort()
+                vals.sort()
+                for id, val in zip(ids, vals):
+                    res[id] = val
+                ids.clear()
+                vals.clear()
         return res
 
     # 1657. 确定两个字符串是否接近 (Determine if Two Strings Are Close)

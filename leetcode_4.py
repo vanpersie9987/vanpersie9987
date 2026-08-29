@@ -5388,7 +5388,3 @@ class LcaBinaryLifting:
                 j += 1
             res = max(res, i - j + 1)
         return res
-
-
-
-
