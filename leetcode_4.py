@@ -5417,3 +5417,19 @@ class LcaBinaryLifting:
         if sx + sy == tx + ty or sx - sy == tx - ty:
             return 1
         return 2
+
+    # 4036. 字符对转换后字典序最大的字符串 (Lexicographically Largest String After Pair Transformations)
+    def largestString(self, nums: list[int]) -> list[str]:
+        res = []
+        for x in nums:
+            s1 = ""
+            while x >= (1 << 25):
+                s1 += "z"
+                x -= 1 << 25
+            s2 = []
+            while x:
+                lb = (x & -x).bit_length() - 1
+                s2.append(chr(ord("a") + lb))
+                x &= x - 1
+            res.append(s1 + "".join(reversed(s2)))
+        return res
