@@ -2348,4 +2348,45 @@ public class Leetcode_11 {
 
     }
 
+    // 4035. 最多有效分割位置 I (Maximum Valid Split Positions I)
+    public int maxValidSplits(int[] nums) {
+        int n = nums.length;
+        int res = check4035(nums);
+        for (int i = 0; i < n; ++i) {
+            int[] a = Arrays.copyOfRange(nums, 0, i);
+            int[] b = Arrays.copyOfRange(nums, i + 1, n);
+            int[] merged = new int[n - 1];
+            System.arraycopy(a, 0, merged, 0, a.length);
+            System.arraycopy(b, 0, merged, a.length, b.length);
+            res = Math.max(res, check4035(merged));
+        }
+        return res;
+
+    }
+
+    private int check4035(int[] a) {
+        int n = a.length;
+        if (n <= 1) {
+            return 0;
+        }
+        int res = 0;
+        int[] suf = new int[n];
+        suf[n - 1] = a[n - 1];
+        for (int i = n - 2; i >= 0; --i) {
+            suf[i] = gcd4035(suf[i + 1], a[i]);
+        }
+        int g = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            g = gcd4035(g, a[i]);
+            if (g == suf[i + 1]) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
+    private int gcd4035(int a, int b) {
+        return b == 0 ? a : gcd4035(b, a % b);
+    }
+
 }
