@@ -2322,4 +2322,30 @@ public class Leetcode_11 {
 
     }
 
+    // 4036. 字符对转换后字典序最大的字符串 (Lexicographically Largest String After Pair
+    // Transformations)
+    public String[] largestString(int[] nums) {
+        int n = nums.length;
+        String[] res = new String[n];
+        for (int i = 0; i < n; ++i) {
+            int x = nums[i];
+            int cnt_z = 0;
+            StringBuilder s = new StringBuilder();
+            while (x >= (1 << 25)) {
+                ++cnt_z;
+                x -= 1 << 25;
+            }
+            for (; x != 0; x &= x - 1) {
+                int lb = Integer.numberOfTrailingZeros(x);
+                s.insert(0, (char) ('a' + lb));
+            }
+            while (cnt_z-- > 0) {
+                s.insert(0, 'z');
+            }
+            res[i] = s.toString();
+        }
+        return res;
+
+    }
+
 }
