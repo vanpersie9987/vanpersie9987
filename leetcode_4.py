@@ -5472,8 +5472,8 @@ class LcaBinaryLifting:
         for val in nums:
             w = val % 10
             d = val // 10
-            x = int(str(d)[:w])
-            y = int(str(d)[w:])
+            x = int(str(d)[:w]) % MOD
+            y = int(str(d)[w:]) % MOD
             res += pow(x, y, MOD)
             res %= MOD
         return res

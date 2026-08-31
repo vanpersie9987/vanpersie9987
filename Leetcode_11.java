@@ -2409,4 +2409,41 @@ public class Leetcode_11 {
 
     }
 
+    // 4039. 解码值之和 (Sum of Decoded Numbers)
+    public int sumDecoded(long[] nums) {
+        final int MOD = 1_000_000_007;
+        int res = 0;
+        for (long val : nums) {
+            long w = val % 10;
+            long d = val / 10;
+            long x = 0L;
+            long y = 0L;
+            String s = Long.toString(d);
+            for (int i = 0; i < s.length(); ++i) {
+                int c = s.charAt(i) - '0';
+                if (i < w) {
+                    x = (x * 10 + c) % MOD;
+                } else {
+                    y = (y * 10 + c) % MOD;
+                }
+            }
+            res = (res + pow(x, y)) % MOD;
+        }
+        return res;
+
+    }
+
+    private int pow(long x, long y) {
+        if (y == 0) {
+            return 1;
+        }
+        final int MOD = 1_000_000_007;
+        long res = pow(x, y / 2);
+        res = (res * res) % MOD;
+        if (y % 2 == 1) {
+            res = (res * x) % MOD;
+        }
+        return (int) res;
+    }
+
 }
