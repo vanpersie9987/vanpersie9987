@@ -5407,3 +5407,13 @@ class LcaBinaryLifting:
         res2 = max(id_mx, id_mn) + 1
         res3 = n - min(id_mn, id_mx)
         return min(res1, res2, res3)
+
+    # 4034. 象到达目标格子的最少移动步数 (Minimum Bishop Moves to Reach Target)
+    def minBishopMoves(self, source: list[int], target: list[int]) -> int:
+        sx, sy = source[0], source[1]
+        tx, ty = target[0], target[1]
+        if (sx + sy) % 2 != (tx + ty) % 2:
+            return -1
+        if sx + sy == tx + ty or sx - sy == tx - ty:
+            return 1
+        return 2
