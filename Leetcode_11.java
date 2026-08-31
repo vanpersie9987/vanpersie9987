@@ -2446,4 +2446,44 @@ public class Leetcode_11 {
         return (int) res;
     }
 
+
+    // 4040. 构造子集和的最少操作次数 I (Minimum Operations to Form Subset Sum I)
+    private int[][] memo4040;
+    private int[] nums4040;
+
+    public int minOperations4040(int[] nums, int sum) {
+        int n = nums.length;
+        this.memo4040 = new int[n][sum + 1];
+        for (int[] r : memo4040) {
+            Arrays.fill(r, -1);
+        }
+        this.nums4040 = nums;
+        int res = dfs4040(n - 1, sum);
+        return res >= Integer.MAX_VALUE / 2 ? -1 : res;
+    }
+
+    private int dfs4040(int i, int j) {
+        if (j == 0) {
+            return 0;
+        }
+        if (i < 0) {
+            return Integer.MAX_VALUE / 2;
+        }
+        if (memo4040[i][j] != -1) {
+            return memo4040[i][j];
+        }
+        int res = dfs4040(i - 1, j);
+        int cnt = 0;
+        while (j >= nums4040[i] << cnt) {
+            res = Math.min(res, dfs4040(i - 1, j - (nums4040[i] << cnt)) + cnt);
+            ++cnt;
+        }
+        cnt = 31 - Integer.numberOfLeadingZeros(nums4040[i]);
+        while (cnt > 0 && j >= nums4040[i] >> cnt) {
+            res = Math.min(res, dfs4040(i - 1, j - (nums4040[i] >> cnt)) + cnt);
+            --cnt;
+        }
+        return memo4040[i][j] = res;
+    }
+
 }
