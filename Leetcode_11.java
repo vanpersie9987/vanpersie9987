@@ -2427,18 +2427,18 @@ public class Leetcode_11 {
                     y = (y * 10 + c) % MOD;
                 }
             }
-            res = (res + pow(x, y)) % MOD;
+            res = (res + pow4039(x, y)) % MOD;
         }
         return res;
 
     }
 
-    private int pow(long x, long y) {
+    private int pow4039(long x, long y) {
         if (y == 0) {
             return 1;
         }
         final int MOD = 1_000_000_007;
-        long res = pow(x, y / 2);
+        long res = pow4039(x, y / 2);
         res = (res * res) % MOD;
         if (y % 2 == 1) {
             res = (res * x) % MOD;
