@@ -5477,3 +5477,31 @@ class LcaBinaryLifting:
             res += pow(x, y, MOD)
             res %= MOD
         return res
+
+    # 4040. 构造子集和的最少操作次数 I (Minimum Operations to Form Subset Sum I)
+    def minOperations(self, nums: list[int], sum: int) -> int:
+        # @cache (cache卡最后一个用例，手写memo可通过)
+        def dfs(i: int, j: int) -> int:
+            if j == 0:
+                return 0
+            if i < 0:
+                return inf
+            if memo[i][j] != -1:
+                return memo[i][j]
+            res = dfs(i - 1, j)
+            x = nums[i]
+            cnt = 0
+            while j >= x << cnt:
+                res = min(res, dfs(i - 1, j - (x << cnt)) + cnt)
+                cnt += 1
+            cnt = x.bit_length() - 1
+            while cnt > 0 and x >> cnt <= j:
+                res = min(res, dfs(i - 1, j - (x >> cnt)) + cnt)
+                cnt -= 1
+            memo[i][j] = res
+            return res
+
+        n = len(nums)
+        memo = [[-1] * (sum + 1) for _ in range(n)]
+        res = dfs(n - 1, sum)
+        return res if res < inf else -1
