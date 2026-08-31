@@ -2306,6 +2306,20 @@ public class Leetcode_11 {
         }
     }
 
-    
+    // 4034. 象到达目标格子的最少移动步数 (Minimum Bishop Moves to Reach Target)
+    public int minBishopMoves(int[] source, int[] target) {
+        int sx = source[0];
+        int sy = source[1];
+        int tx = target[0];
+        int ty = target[1];
+        if ((sx + sy) % 2 != (tx + ty) % 2) {
+            return -1;
+        }
+        if (sx + sy == tx + ty || sx - sy == tx - ty) {
+            return 1;
+        }
+        return 2;
+
+    }
 
 }
