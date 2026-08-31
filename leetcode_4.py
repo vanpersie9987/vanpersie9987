@@ -5422,16 +5422,14 @@ class LcaBinaryLifting:
     def largestString(self, nums: list[int]) -> list[str]:
         res = []
         for x in nums:
-            s1 = ""
-            while x >= (1 << 25):
-                s1 += "z"
-                x -= 1 << 25
+            s1 = ["z" * (x // (1 << 25))]
+            x %= 1 << 25
             s2 = []
             while x:
                 lb = (x & -x).bit_length() - 1
                 s2.append(chr(ord("a") + lb))
                 x &= x - 1
-            res.append(s1 + "".join(reversed(s2)))
+            res.append("".join(s1 + list(reversed(s2))))
         return res
 
     # 4035. 最多有效分割位置 I (Maximum Valid Split Positions I)
