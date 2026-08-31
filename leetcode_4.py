@@ -5464,3 +5464,16 @@ class LcaBinaryLifting:
         for i, x in enumerate(nums):
             d[x].append(i)
         return sum(all(y - x == 1 for x, y in pairwise(_l)) for _l in d.values())
+
+    # 4039. 解码值之和 (Sum of Decoded Numbers)
+    def sumDecoded(self, nums: list[int]) -> int:
+        res = 0
+        MOD = 10**9 + 7
+        for val in nums:
+            w = val % 10
+            d = val // 10
+            x = int(str(d)[:w])
+            y = int(str(d)[w:])
+            res += pow(x, y, MOD)
+            res %= MOD
+        return res
