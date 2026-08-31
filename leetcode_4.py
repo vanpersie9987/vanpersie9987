@@ -5433,3 +5433,31 @@ class LcaBinaryLifting:
                 x &= x - 1
             res.append(s1 + "".join(reversed(s2)))
         return res
+
+    # 4035. 最多有效分割位置 I (Maximum Valid Split Positions I)
+    def maxValidSplits(self, nums: list[int]) -> int:
+        def check(a: List[int]) -> int:
+            m = len(a)
+            if m <= 1:
+                return 0
+            suf = [1] * m
+            suf[-1] = a[-1]
+            for i in range(m - 2, -1, -1):
+                suf[i] = gcd(suf[i + 1], a[i])
+                if suf[i] == 1:
+                    break
+            g = 0
+            cnt = 0
+            for i, x in enumerate(a[:-1]):
+                g = gcd(g, x)
+                if g == suf[i + 1]:
+                    cnt += 1
+            return cnt
+
+        n = len(nums)
+        res = check(nums)
+        for i in range(n):
+            res = max(res, check(nums[:i] + nums[i + 1:]))
+        return res
+
+        
