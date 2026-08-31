@@ -5455,7 +5455,12 @@ class LcaBinaryLifting:
         n = len(nums)
         res = check(nums)
         for i in range(n):
-            res = max(res, check(nums[:i] + nums[i + 1:]))
+            res = max(res, check(nums[:i] + nums[i + 1 :]))
         return res
 
-        
+    # 4038. 计算单个区间中出现的整数数量 (Count Integers Appearing in a Single Block)
+    def countSpecialIntegers(self, nums: list[int]) -> int:
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        return sum(all(y - x == 1 for x, y in pairwise(_l)) for _l in d.values())
