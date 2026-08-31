@@ -2389,4 +2389,24 @@ public class Leetcode_11 {
         return b == 0 ? a : gcd4035(b, a % b);
     }
 
+    // 4038. 计算单个区间中出现的整数数量 (Count Integers Appearing in a Single Block)
+    public int countSpecialIntegers(int[] nums) {
+        Map<Integer, List<Integer>> cnts = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            int x = nums[i];
+            cnts.computeIfAbsent(x, k -> new ArrayList<>()).add(i);
+        }
+        int res = 0;
+        search: for (List<Integer> indices : cnts.values()) {
+            for (int i = 1; i < indices.size(); ++i) {
+                if (indices.get(i) - indices.get(i - 1) != 1) {
+                    continue search;
+                }
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
 }
