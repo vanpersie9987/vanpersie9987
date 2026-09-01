@@ -6360,15 +6360,14 @@ public class Leetcode_9 {
             }
         }
         maxEnergy[startX][startY][0] = energy;
-        ;
-        Queue<int[]> q = new LinkedList<>();
+        Deque<int[]> q = new ArrayDeque<>();
         int res = 0;
         // startX, startY, energy, mask
         q.offer(new int[] { startX, startY, energy, 0 });
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i = 0; i < size; ++i) {
-                int[] cur = q.poll();
+                int[] cur = q.pollFirst();
                 int x = cur[0];
                 int y = cur[1];
                 int e = cur[2];
