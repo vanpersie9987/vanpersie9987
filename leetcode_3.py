@@ -532,44 +532,41 @@ class leetcode_3:
 
     # 3568. 清理教室的最少移动 (Minimum Moves to Clean the Classroom)
     def minMoves(self, classroom: List[str], energy: int) -> int:
-        m = len(classroom)
-        n = len(classroom[0])
-        garbage = [[0] * n for _ in range(m)]
+        m, n = len(classroom), len(classroom[0])
+        sx, sy = -1, -1
         cnt = 0
-        start_x = 0
-        start_y = 0
-        for i in range(m):
-            for j in range(n):
-                if classroom[i][j] == "S":
-                    start_x, start_y = i, j
-                elif classroom[i][j] == "L":
-                    garbage[i][j] = 1 << cnt
+        litter_mask = [[0] * n for _ in range(m)]
+        for i, row in enumerate(classroom):
+            for j, x in enumerate(row):
+                if x == "S":
+                    sx, sy = i, j
+                elif x == "L":
+                    litter_mask[i][j] = 1 << cnt
                     cnt += 1
         if cnt == 0:
             return 0
-        max_energy = [[[-1] * (1 << cnt) for _ in range(n)] for _ in range(m)]
-        max_energy[start_x][start_y][0] = energy
+        dis = [[[-1] * (1 << cnt) for _ in range(n)] for _ in range(m)]
+        dis[sx][sy][0] = energy
         q = deque()
-        q.append([start_x, start_y, energy, 0])
-        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        u = (1 << cnt) - 1
+        q.append((sx, sy, 0, energy))
+        dirs = (0, -1), (0, 1), (1, 0), (-1, 0)
         res = 0
         while q:
             sz = len(q)
             for _ in range(sz):
-                x, y, e, mask = q.popleft()
-                if mask == u:
+                x, y, mask, e = q.popleft()
+                if mask == (1 << cnt) - 1:
                     return res
                 if e == 0:
                     continue
                 for dx, dy in dirs:
                     nx, ny = x + dx, y + dy
                     if 0 <= nx < m and 0 <= ny < n and classroom[nx][ny] != "X":
-                        nmask = mask | garbage[nx][ny]
+                        nmask = mask | litter_mask[nx][ny]
                         ne = energy if classroom[nx][ny] == "R" else e - 1
-                        if ne > max_energy[nx][ny][nmask]:
-                            max_energy[nx][ny][nmask] = ne
-                            q.append([nx, ny, ne, nmask])
+                        if ne > dis[nx][ny][nmask]:
+                            dis[nx][ny][nmask] = ne
+                            q.append((nx, ny, nmask, ne))
             res += 1
         return -1
 
