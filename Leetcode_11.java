@@ -2446,7 +2446,6 @@ public class Leetcode_11 {
         return (int) res;
     }
 
-
     // 4040. 构造子集和的最少操作次数 I (Minimum Operations to Form Subset Sum I)
     private int[][] memo4040;
     private int[] nums4040;
@@ -2484,6 +2483,33 @@ public class Leetcode_11 {
             --cnt;
         }
         return memo4040[i][j] = res;
+    }
+
+    // 4043. 恰好有 K 对相等相邻字符的循环移位数量 (Count Rotations With Exactly K Equal Adjacent
+    // Pairs)
+    public int countRotations(String s, int k) {
+        int n = s.length();
+        int cnt = 0;
+        for (int i = 0; i < n - 1; ++i) {
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                ++cnt;
+            }
+        }
+        int res = cnt == k ? 1 : 0;
+        for (int i = 0; i < n - 1; ++i) {
+            int cur = cnt;
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                --cur;
+            }
+            if (s.charAt(0) == s.charAt((n - 1))) {
+                ++cur;
+            }
+            if (cur == k) {
+                ++res;
+            }
+        }
+        return res;
+
     }
 
 }
