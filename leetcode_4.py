@@ -5579,3 +5579,23 @@ class LcaBinaryLifting:
                         dis[(nx, ny, nxt_k, i)] = nd
                         heapq.heappush(q, (nd, nx, ny, nxt_k, i))
         return -1
+
+    # 4046. 至多 K 次转向的最小路径代价 (Minimum Cost Path With At Most K Turns)
+    def minCost(self, grid: list[list[int]], k: int) -> int:
+        @cache
+        def dfs(i: int, j: int, cur_k: int, last_d: int) -> int:
+            if i == m - 1 and j == n - 1:
+                return grid[i][j]
+            res = inf
+            for id, (dx, dy) in enumerate(dirs):
+                nx, ny = i + dx, j + dy
+                if 0 <= nx < m and 0 <= ny < n:
+                    nk = cur_k + (id != last_d)
+                    if nk <= k:
+                        res = min(res, dfs(nx, ny, nk, id))
+            return res + grid[i][j]
+
+        m, n = len(grid), len(grid[0])
+        dirs = (1, 0), (0, -1), (-1, 0), (0, 1)
+        res = dfs(0, 0, -1, -1)
+        return res if res < inf else -1
