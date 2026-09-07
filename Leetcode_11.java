@@ -2612,7 +2612,7 @@ public class Leetcode_11 {
     private int n4046;
     private int k4046;
 
-    public int minCost4046(int[][] grid, int k) {
+    public int minCost2(int[][] grid, int k) {
         int m = grid.length;
         int n = grid[0].length;
         this.grid4046 = grid;
