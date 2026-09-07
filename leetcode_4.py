@@ -5516,3 +5516,18 @@ class LcaBinaryLifting:
             res = ((res + c) - last[ord(x) - ord("a")]) % MOD
             last[ord(x) - ord("a")] = c
         return (res - 1) % MOD
+
+    # 4043. 恰好有 K 对相等相邻字符的循环移位数量 (Count Rotations With Exactly K Equal Adjacent Pairs)
+    def countRotations(self, s: str, k: int) -> int:
+        n = len(s)
+        cnt = sum(x == y for x, y in pairwise(s))
+        res = int(cnt == k)
+        for i in range(0, n - 1):
+            cur = cnt
+            if s[i] == s[i + 1]:
+                cur -= 1
+            if s[0] == s[-1]:
+                cur += 1
+            if cur == k:
+                res += 1
+        return res
