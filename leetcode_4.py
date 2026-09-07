@@ -5531,3 +5531,15 @@ class LcaBinaryLifting:
             if cur == k:
                 res += 1
         return res
+
+    # 4044. 统计好循环移位的数量 (Count Good Cyclic Rotations)
+    def countGoodRotations(self, nums: list[int]) -> int:
+        s = sum(nums)
+        n = len(nums)
+        cur = sum(nums[: n // 2])
+        res = 0
+        for i, x in enumerate(nums):
+            cur -= x
+            cur += nums[(i + n // 2) % n]
+            res += int(cur > s - cur)
+        return res
