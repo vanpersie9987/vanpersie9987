@@ -2605,4 +2605,52 @@ public class Leetcode_11 {
         return -1;
     }
 
+    // 4046. 至多 K 次转向的最小路径代价 (Minimum Cost Path With At Most K Turns)
+    private int[][] grid4046;
+    private int[][][][] memo4046;
+    private int m4046;
+    private int n4046;
+    private int k4046;
+    private int[][] dirs = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
+
+    public int minCost4046(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        this.grid4046 = grid;
+        this.m4046 = m;
+        this.n4046 = n;
+        this.k4046 = k;
+        this.memo4046 = new int[m][n][k + 1][4];
+        for (int[][][] a : memo4046) {
+            for (int[][] b : a) {
+                for (int[] c : b) {
+                    Arrays.fill(c, Integer.MAX_VALUE / 2);
+                }
+            }
+        }
+        int res = Math.min(dfs4046(0, 0, 0, 1), dfs4046(0, 0, 0, 3));
+        return res < Integer.MAX_VALUE / 2 ? res : -1;
+    }
+
+    private int dfs4046(int i, int j, int curK, int l) {
+        if (i == m4046 - 1 && j == n4046 - 1) {
+            return grid4046[i][j];
+        }
+        if (memo4046[i][j][curK][l] != Integer.MAX_VALUE / 2) {
+            return memo4046[i][j][curK][l];
+        }
+        int res = Integer.MAX_VALUE / 2;
+        for (int id = 0; id < 4; ++id) {
+            int nx = i + dirs[id][0];
+            int ny = j + dirs[id][1];
+            if (nx >= 0 && nx < m4046 && ny >= 0 && ny < n4046) {
+                int nk = l == id ? curK : curK + 1;
+                if (nk <= k4046) {
+                    res = Math.min(res, dfs4046(nx, ny, nk, id));
+                }
+            }
+        }
+        return memo4046[i][j][curK][l] = res + grid4046[i][j];
+    }
+
 }
