@@ -2611,7 +2611,6 @@ public class Leetcode_11 {
     private int m4046;
     private int n4046;
     private int k4046;
-    private int[][] dirs = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
 
     public int minCost4046(int[][] grid, int k) {
         int m = grid.length;
@@ -2639,6 +2638,7 @@ public class Leetcode_11 {
         if (memo4046[i][j][curK][l] != Integer.MAX_VALUE / 2) {
             return memo4046[i][j][curK][l];
         }
+        int[][] dirs = new int[][] { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
         int res = Integer.MAX_VALUE / 2;
         for (int id = 0; id < 4; ++id) {
             int nx = i + dirs[id][0];
