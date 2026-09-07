@@ -5505,3 +5505,14 @@ class LcaBinaryLifting:
         memo = [[-1] * (sum + 1) for _ in range(n)]
         res = dfs(n - 1, sum)
         return res if res < inf else -1
+
+    # 940. 不同的子序列 II (Distinct Subsequences II)
+    def distinctSubseqII(self, s: str) -> int:
+        last = [0] * 26
+        res = 1
+        MOD = 10**9 + 7
+        for x in s:
+            c = res
+            res = ((res + c) - last[ord(x) - ord("a")]) % MOD
+            last[ord(x) - ord("a")] = c
+        return (res - 1) % MOD
