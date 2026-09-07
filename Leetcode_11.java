@@ -2515,28 +2515,23 @@ public class Leetcode_11 {
     // 4044. 统计好循环移位的数量 (Count Good Cyclic Rotations)
     public int countGoodRotations(int[] nums) {
         long s = 0L;
-        for (int x : nums) {
-            s += x;
+        long cur = 0L;
+        int n = nums.length;
+        for (int i = 0; i < n; ++i) {
+            s += nums[i];
+            if (i < n / 2) {
+                cur += nums[i];
+            }
         }
         int res = 0;
-        int n = nums.length;
-        long cur = 0L;
         for (int i = 0; i < n; ++i) {
-            cur += nums[i];
-            if (i >= n / 2) {
-                cur -= nums[i - n / 2];
-            }
-            if (i >= n / 2 - 1 && cur > s - cur) {
-                ++res;
-            }
-        }
-        for (int i = 0; i < n / 2 - 1; ++i) {
-            cur += nums[i];
-            cur -= nums[(i - n / 2 + n) % n];
+            cur -= nums[i];
+            cur += nums[(i + n / 2) % n];
             if (cur > s - cur) {
                 ++res;
             }
         }
+
         return res;
 
     }
