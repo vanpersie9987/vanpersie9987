@@ -2550,14 +2550,59 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4046. 至多 K 次转向的最小路径代价 (Minimum Cost Path With At Most K Turns)
     public int minCost(int[][] grid, int k) {
         int m = grid.length;
         int n = grid[0].length;
+        int[][] dirs = { { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
         int[][][][] dis = new int[m][n][k + 1][4];
-        
+        for (int[][][] a : dis) {
+            for (int[][] b : a) {
+                for (int[] c : b) {
+                    Arrays.fill(c, Integer.MAX_VALUE / 2);
+                }
+            }
+        }
+        Queue<int[]> q = new PriorityQueue<>(new Comparator<int[]>() {
 
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[0], o2[0]);
+            }
 
+        });
 
+        q.offer(new int[] { grid[0][0], 0, 0, k, 1 });
+        q.offer(new int[] { grid[0][0], 0, 0, k, 3 });
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int d = cur[0];
+            int x = cur[1];
+            int y = cur[2];
+            int curK = cur[3];
+            int lastDir = cur[4];
+            if (x == m - 1 && y == n - 1) {
+                return d;
+            }
+            if (d > dis[x][y][curK][lastDir]) {
+                continue;
+            }
+            for (int i = 0; i < 4; ++i) {
+                int dx = dirs[i][0];
+                int dy = dirs[i][1];
+                int nx = x + dx;
+                int ny = y + dy;
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n) {
+                    int nxtK = i != lastDir ? curK - 1 : curK;
+                    int nd = d + grid[nx][ny];
+                    if (nxtK >= 0 && nd < dis[nx][ny][nxtK][i]) {
+                        dis[nx][ny][nxtK][i] = nd;
+                        q.offer(new int[] { nd, nx, ny, nxtK, i });
+                    }
+                }
+            }
+        }
+        return -1;
     }
 
 }
