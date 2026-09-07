@@ -5543,3 +5543,13 @@ class LcaBinaryLifting:
             cur += nums[(i + n // 2) % n]
             res += int(cur > s - cur)
         return res
+
+    # 4045. 统计机器人组数 (Count Robot Groups)
+    def countGroups(self, position: list[int], speed: list[int], distance: int) -> int:
+        mn = speed[-1]
+        ans = 1
+        for i in range(len(speed) - 2, -1, -1):
+            if speed[i] <= mn and position[i + 1] - position[i] > distance:
+                mn = speed[i]
+                ans += 1
+        return ans
