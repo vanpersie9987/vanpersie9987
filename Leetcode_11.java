@@ -2536,4 +2536,18 @@ public class Leetcode_11 {
 
     }
 
+    // 4045. 统计机器人组数 (Count Robot Groups)
+    public int countGroups(int[] position, int[] speed, int distance) {
+        int n = speed.length;
+        int mn = speed[n - 1];
+        int res = 1;
+        for (int i = n - 2; i >= 0; --i) {
+            if (speed[i] <= mn && position[i + 1] - position[i] > distance) {
+                mn = speed[i];
+                ++res;
+            }
+        }
+        return res;
+    }
+
 }
