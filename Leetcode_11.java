@@ -2550,4 +2550,14 @@ public class Leetcode_11 {
         return res;
     }
 
+    public int minCost(int[][] grid, int k) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][][][] dis = new int[m][n][k + 1][4];
+        
+
+
+
+    }
+
 }
