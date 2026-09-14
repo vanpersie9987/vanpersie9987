@@ -2654,7 +2654,7 @@ public class Leetcode_11 {
     }
 
     // 4048. 统计等间距出现整数数目 I (Count Values With Equally Spaced Occurrences I)
-    public int countSpecialIntegers(int[] nums) {
+    public int countSpecialIntegers4048(int[] nums) {
         Map<Integer, List<Integer>> d = new HashMap<>();
         for (int i = 0; i < nums.length; ++i) {
             d.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);

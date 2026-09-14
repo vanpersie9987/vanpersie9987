@@ -5616,3 +5616,16 @@ class LcaBinaryLifting:
             if len(l) == 3 and l[2] - l[1] == l[1] - l[0]:
                 res += 1
         return res
+
+    # 4049. 统计等间距出现整数数目 II (Count Values With Equally Spaced Occurrences II)
+    def countSpecialIntegers(self, nums: list[int]) -> int:
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        res = 0
+        for l in d.values():
+            if len(l) >= 3:
+                diff = l[1] - l[0]
+                if all(y - x == diff for x, y in pairwise(l)):
+                    res += 1
+        return res
