@@ -2672,4 +2672,27 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4049. 统计等间距出现整数数目 II (Count Values With Equally Spaced Occurrences II)
+    public int countSpecialIntegers4049(int[] nums) {
+        Map<Integer, List<Integer>> d = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            d.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        int res = 0;
+        search: for (List<Integer> indices : d.values()) {
+            if (indices.size() < 3) {
+                continue;
+            }
+            int diff = indices.get(1) - indices.get(0);
+            for (int i = 1; i < indices.size(); ++i) {
+                if (indices.get(i) - indices.get(i - 1) != diff) {
+                    continue search;
+                }
+            }
+            ++res;
+        }
+        return res;
+
+    }
+
 }
