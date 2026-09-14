@@ -2653,4 +2653,23 @@ public class Leetcode_11 {
         return memo4046[i][j][curK][l] = res + grid4046[i][j];
     }
 
+    // 4048. 统计等间距出现整数数目 I (Count Values With Equally Spaced Occurrences I)
+    public int countSpecialIntegers(int[] nums) {
+        Map<Integer, List<Integer>> d = new HashMap<>();
+        for (int i = 0; i < nums.length; ++i) {
+            d.computeIfAbsent(nums[i], k -> new ArrayList<>()).add(i);
+        }
+        int res = 0;
+        for (List<Integer> indices : d.values()) {
+            if (indices.size() != 3) {
+                continue;
+            }
+            if (indices.get(1) - indices.get(0) != indices.get(2) - indices.get(1)) {
+                continue;
+            }
+            ++res;
+        }
+        return res;
+    }
+
 }

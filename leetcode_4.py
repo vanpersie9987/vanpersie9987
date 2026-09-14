@@ -5605,3 +5605,14 @@ class LcaBinaryLifting:
         return max(rec1[0], rec2[0]) < min(rec1[2], rec2[2]) and max(
             rec1[1], rec2[1]
         ) < min(rec1[3], rec2[3])
+
+    # 4048. 统计等间距出现整数数目 I (Count Values With Equally Spaced Occurrences I)
+    def countSpecialIntegers(self, nums: list[int]) -> int:
+        d = defaultdict(list)
+        for i, x in enumerate(nums):
+            d[x].append(i)
+        res = 0
+        for l in d.values():
+            if len(l) == 3 and l[2] - l[1] == l[1] - l[0]:
+                res += 1
+        return res
