@@ -5599,3 +5599,9 @@ class LcaBinaryLifting:
         dirs = (1, 0), (0, -1), (-1, 0), (0, 1)
         res = dfs(0, 0, -1, -1)
         return res if res < inf else -1
+
+    # 836. 矩形重叠 (Rectangle Overlap)
+    def isRectangleOverlap(self, rec1: List[int], rec2: List[int]) -> bool:
+        return max(rec1[0], rec2[0]) < min(rec1[2], rec2[2]) and max(
+            rec1[1], rec2[1]
+        ) < min(rec1[3], rec2[3])
