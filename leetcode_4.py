@@ -5629,3 +5629,20 @@ class LcaBinaryLifting:
                 if all(y - x == diff for x, y in pairwise(l)):
                     res += 1
         return res
+
+    # 4050. 得到恰好 N 分的最少天数 (Minimum Days to Score Exactly N Points)
+    def minDays(self, n: int) -> int:
+        @cache
+        def dfs(i: int) -> int:
+            if i == 0:
+                return 0
+            s = 1
+            d = 1
+            res = inf
+            while s <= i:
+                res = min(res, dfs(i - s) + d + 1)
+                d += 1
+                s += d
+            return res
+
+        return dfs(n) - 1
