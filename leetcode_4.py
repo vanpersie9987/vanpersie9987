@@ -5632,6 +5632,7 @@ class LcaBinaryLifting:
 
     # 4050. 得到恰好 N 分的最少天数 (Minimum Days to Score Exactly N Points)
     def minDays(self, n: int) -> int:
+        # 预处理可提速
         @cache
         def dfs(i: int) -> int:
             if i == 0:

@@ -2695,4 +2695,30 @@ public class Leetcode_11 {
 
     }
 
+    // 4050. 得到恰好 N 分的最少天数 (Minimum Days to Score Exactly N Points)
+    private int[] memo4050;
+
+    public int minDays(int n) {
+        this.memo4050 = new int[n + 1];
+        return dfs4050(n) - 1;
+        
+    }
+
+    private int dfs4050(int i) {
+        if (i == 0) {
+            return 0;
+        }
+        if (memo4050[i] != 0) {
+            return memo4050[i];
+        }
+        int res = Integer.MAX_VALUE / 2;
+        int d = 1;
+        int s = 1;
+        while (s <= i) {
+            res = Math.min(res, dfs4050(i - s) + d + 1);
+            s += ++d;
+        }
+        return memo4050[i] = res;
+    }
+
 }
