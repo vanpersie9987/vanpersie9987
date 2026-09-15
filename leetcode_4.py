@@ -5649,7 +5649,9 @@ class LcaBinaryLifting:
         return dfs(n) - 1
 
     # 4052. 行列循环移位 (Cyclically Shift Rows and Columns)
-    def cyclicShift(self, n: int, grid: list[list[int]], rowShift: list[int], colShift: list[int]) -> list[list[int]]:
+    def cyclicShift(
+        self, n: int, grid: list[list[int]], rowShift: list[int], colShift: list[int]
+    ) -> list[list[int]]:
         for i, r in enumerate(rowShift):
             nr = [0] * n
             for j, x in enumerate(grid[i]):
@@ -5663,4 +5665,3 @@ class LcaBinaryLifting:
             for j in range(n):
                 grid[j][i] = nl[j]
         return grid
-
