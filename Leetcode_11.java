@@ -2701,7 +2701,7 @@ public class Leetcode_11 {
     public int minDays(int n) {
         this.memo4050 = new int[n + 1];
         return dfs4050(n) - 1;
-        
+
     }
 
     private int dfs4050(int i) {
@@ -2721,4 +2721,27 @@ public class Leetcode_11 {
         return memo4050[i] = res;
     }
 
+    // 4052. 行列循环移位 (Cyclically Shift Rows and Columns)
+    public int[][] cyclicShift(int n, int[][] grid, int[] rowShift, int[] colShift) {
+        for (int i = 0; i < n; ++i) {
+            int[] row = new int[n];
+            int shift = rowShift[i];
+            for (int j = 0; j < n; ++j) {
+                row[(j - shift + n) % n] = grid[i][j];
+            }
+            grid[i] = row;
+        }
+        for (int j = 0; j < n; ++j) {
+            int[] col = new int[n];
+            int shift = colShift[j];
+            for (int i = 0; i < n; ++i) {
+                col[(i - shift + n) % n] = grid[i][j];
+            }
+            for (int i = 0; i < n; ++i) {
+                grid[i][j] = col[i];
+            }
+        }
+        return grid;
+
+    }
 }
