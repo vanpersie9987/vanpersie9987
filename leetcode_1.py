@@ -5337,6 +5337,34 @@ class leetcode_1:
                 res = min(res, end - start + _min)
         return res if res < inf else -1
 
+    # 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target Sum)
+    def minSumOfLengths(self, arr: List[int], target: int) -> int:
+        n = len(arr)
+        mn_left = [inf] * n
+        j = s = 0
+        mn = inf
+        for i, x in enumerate(arr):
+            s += x
+            while s > target:
+                s -= arr[j]
+                j += 1
+            if s == target:
+                mn = min(mn, i - j + 1)
+            mn_left[i] = mn
+        res = inf
+        j = n - 1
+        s = 0
+        mn = inf
+        for i in range(n - 1, 0, -1):
+            s += arr[i]
+            while s > target:
+                s -= arr[j]
+                j -= 1
+            if s == target:
+                mn = min(mn, j - i + 1)
+            res = min(res, mn_left[i - 1] + mn)
+        return res if res < inf else -1
+
     # 2591. 将钱分给最多的儿童 (Distribute Money to Maximum Children)
     def distMoney(self, money: int, children: int) -> int:
         money -= children
