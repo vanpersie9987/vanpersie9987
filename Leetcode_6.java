@@ -5878,6 +5878,42 @@ public class Leetcode_6 {
         return res < Integer.MAX_VALUE ? res : -1;
     }
 
+    // 1477. 找两个和为目标值且不重叠的子数组 (Find Two Non-overlapping Sub-arrays Each With Target
+    // Sum)
+    public int minSumOfLengths2(int[] arr, int target) {
+        int n = arr.length;
+        int[] minLeft = new int[n];
+        int min = n + 1;
+        long s = 0L;
+        int j = 0;
+        for (int i = 0; i < n; ++i) {
+            s += arr[i];
+            while (s > target) {
+                s -= arr[j++];
+            }
+            if (s == target) {
+                min = Math.min(min, i - j + 1);
+            }
+            minLeft[i] = min;
+        }
+        int res = n + 1;
+        s = 0L;
+        j = n - 1;
+        min = n + 1;
+        for (int i = n - 1; i >= 1; --i) {
+            s += arr[i];
+            while (s > target) {
+                s -= arr[j--];
+            }
+            if (s == target) {
+                min = Math.min(min, j - i + 1);
+            }
+            res = Math.min(res, minLeft[i - 1] + min);
+        }
+        return res <= n ? res : -1;
+
+    }
+
     // 1372. 二叉树中的最长交错路径 (Longest ZigZag Path in a Binary Tree) --先序遍历
     private int res1372;
 
