@@ -5666,5 +5666,11 @@ class LcaBinaryLifting:
                 grid[j][i] = nl[j]
         return grid
 
+    # 1401. 圆和矩形是否有重叠 (Circle and Rectangle Overlapping)
+    def checkOverlap(self, radius: int, xCenter: int, yCenter: int, x1: int, y1: int, x2: int, y2: int) -> bool:
+        # 找到在矩形中的到圆心 (xCenter, yCenter) 最近的点 (x, y)
+        x = max(x1, min(xCenter, x2))
+        y = max(y1, min(yCenter, y2))
 
-
+        # 判断 (x, y) 是否在圆中
+        return (x - xCenter) ** 2 + (y - yCenter) ** 2 <= radius ** 2
