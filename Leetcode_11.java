@@ -2745,6 +2745,7 @@ public class Leetcode_11 {
 
     }
 
+    // 4056. 统计相交区间对 I (Number of Intersecting Interval Pairs I)
     // 4057. 统计相交区间对 II (Number of Intersecting Interval Pairs II)
     public long countIntersectingIntervals(int[][] intervals) {
         Arrays.sort(intervals, new Comparator<int[]>() {
