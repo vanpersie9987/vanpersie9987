@@ -2778,4 +2778,43 @@ public class Leetcode_11 {
         }
         return right + 1;
     }
+
+    // 4058. 一个子数组循环移动后的最大脉冲值 (Maximum Pulse Value After One Subarray Rotation)
+    private long[][][] memo4058;
+    private int n4058;
+    private int[] nums4058;
+
+    public long maxValue(int[] nums) {
+        this.n4058 = nums.length;
+        for (int i = 1; i < n4058; i += 2) {
+            nums[i] *= -1;
+        }
+        this.nums4058 = nums;
+        this.memo4058 = new long[n4058][3][2];
+        for (long[][] r : memo4058) {
+            for (long[] c : r) {
+                Arrays.fill(c, Long.MIN_VALUE / 2);
+            }
+        }
+        return dfs4058(0, 0, 0);
+
+    }
+
+    private long dfs4058(int i, int j, int k) {
+        if (i == n4058) {
+            if (j == 0 || j == 2) {
+                return 0L;
+            }
+            return Long.MIN_VALUE / 2;
+        }
+        if (memo4058[i][j][k] != Long.MIN_VALUE / 2) {
+            return memo4058[i][j][k];
+        }
+        long res = dfs4058(i + 1, j, k) + (j == 0 || j == 2 ? nums4058[i] : -nums4058[i]);
+        if (j == 0 || j == 1 && (k != (i & 1))) {
+            res = Math.max(res, dfs4058(i + 1, j + 1, i & 1) - nums4058[i]);
+        }
+        return memo4058[i][j][k] = res;
+    }
+
 }
