@@ -2744,4 +2744,37 @@ public class Leetcode_11 {
         return grid;
 
     }
+
+    // 4057. 统计相交区间对 II (Number of Intersecting Interval Pairs II)
+    public long countIntersectingIntervals(int[][] intervals) {
+        Arrays.sort(intervals, new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return Integer.compare(o1[1], o2[1]);
+            }
+
+        });
+        long res = 0L;
+        for (int i = 0; i < intervals.length; ++i) {
+            int l = intervals[i][0];
+            res += i - lowerBound4057(intervals, l, i - 1);
+        }
+        return res;
+
+    }
+
+    private int lowerBound4057(int[][] intervals, int l, int i) {
+        int left = 0;
+        int right = i;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (intervals[mid][1] >= l) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return right + 1;
+    }
 }
