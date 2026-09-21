@@ -5674,3 +5674,26 @@ class LcaBinaryLifting:
 
         # 判断 (x, y) 是否在圆中
         return (x - xCenter) ** 2 + (y - yCenter) ** 2 <= radius ** 2
+
+    # 4056. 统计相交区间对 I (Number of Intersecting Interval Pairs I)
+    # 4057. 统计相交区间对 II (Number of Intersecting Interval Pairs II)
+    def countIntersectingIntervals(self, intervals: list[list[int]]) -> int:
+        def check() -> int:
+            left = 0
+            right = i - 1
+            while left <= right:
+                mid = left + ((right - left) >> 1)
+                if intervals[mid][1] >= l:
+                    right = mid - 1
+                else:
+                    left = mid + 1
+            return right + 1
+        intervals.sort(key=lambda o: o[1])
+        res = 0
+        for i, (l, _) in enumerate(intervals):
+            res += i - check()
+        return res
+
+
+
+        
