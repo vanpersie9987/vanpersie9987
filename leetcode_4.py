@@ -5694,6 +5694,31 @@ class LcaBinaryLifting:
             res += i - check()
         return res
 
+    # 4058. 一个子数组循环移动后的最大脉冲值 (Maximum Pulse Value After One Subarray Rotation)
+    def maxValue(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(1, n, 2):
+            nums[i] *= -1
+        # i ：索引
+        # j ：状态
+        # k ：j == 1时，开始的索引的奇偶性
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == n:
+                if j == 0 or j == 2:
+                    return 0
+                return -inf
+            res = dfs(i + 1, j, k) + (nums[i] if j == 0 or j == 2 else -nums[i])
+            # 0 -> 1
+            # 1 -> 2
+            if j == 0 or j == 1 and (k != i & 1):
+                res = max(res, dfs(i + 1, j + 1, i & 1) - nums[i])
+            return res
+        res = dfs(0, 0, -1)
+        dfs.cache_clear()
+        return res
+        
+
 
 
         
