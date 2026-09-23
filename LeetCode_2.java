@@ -4419,32 +4419,54 @@ public class LeetCode_2 {
    // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
    public int minOperations(int[] nums, int x) {
       int n = nums.length;
-      int sum = 0;
-      for (int i = 0; i < n; ++i) {
-         sum += nums[i];
+      int s = 0;
+      for (int _x : nums) {
+         s += _x;
       }
-      int target = sum - x;
-      if (target < 0) {
+      int k = s - x;
+      if (k < 0) {
          return -1;
       }
-      if (target == 0) {
+      if (k == 0) {
          return n;
       }
-      int res = Integer.MAX_VALUE;
-      int i = 0;
-      int j = 0;
-      int windowSum = 0;
-      while (j < n) {
-         windowSum += nums[j];
-         while (windowSum > target) {
-            windowSum -= nums[i++];
-         }
-         if (windowSum == target) {
-            res = Math.min(res, n - (j - i + 1));
-         }
-         ++j;
+      int res = -1;
+      Map<Integer, Integer> d = new HashMap<>();
+      d.put(0, -1);
+      s = 0;
+      for (int i = 0; i < n; ++i) {
+         s += nums[i];
+         res = Math.max(res, i - d.getOrDefault(s - k, n));
+         d.putIfAbsent(s, i);
       }
-      return res == Integer.MAX_VALUE ? -1 : res;
+      return res < 0 ? -1 : n - res;
+
+   }
+
+   // 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
+   public int minOperations2(int[] nums, int x) {
+      int n = nums.length;
+      int s = 0;
+      for (int _x : nums) {
+         s += _x;
+      }
+      int k = s - x;
+      if (k < 0) {
+         return -1;
+      }
+      int j = 0;
+      int res = -1;
+      s = 0;
+      for (int i = 0; i < n; ++i) {
+         s += nums[i];
+         while (s > k) {
+            s -= nums[j++];
+         }
+         if (s == k) {
+            res = Math.max(res, i - j + 1);
+         }
+      }
+      return res == -1 ? -1 : n - res;
 
    }
 

@@ -5717,8 +5717,3 @@ class LcaBinaryLifting:
         res = dfs(0, 0, -1)
         dfs.cache_clear()
         return res
-        
-
-
-
-        
