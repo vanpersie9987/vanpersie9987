@@ -5667,13 +5667,22 @@ class LcaBinaryLifting:
         return grid
 
     # 1401. 圆和矩形是否有重叠 (Circle and Rectangle Overlapping)
-    def checkOverlap(self, radius: int, xCenter: int, yCenter: int, x1: int, y1: int, x2: int, y2: int) -> bool:
+    def checkOverlap(
+        self,
+        radius: int,
+        xCenter: int,
+        yCenter: int,
+        x1: int,
+        y1: int,
+        x2: int,
+        y2: int,
+    ) -> bool:
         # 找到在矩形中的到圆心 (xCenter, yCenter) 最近的点 (x, y)
         x = max(x1, min(xCenter, x2))
         y = max(y1, min(yCenter, y2))
 
         # 判断 (x, y) 是否在圆中
-        return (x - xCenter) ** 2 + (y - yCenter) ** 2 <= radius ** 2
+        return (x - xCenter) ** 2 + (y - yCenter) ** 2 <= radius**2
 
     # 4056. 统计相交区间对 I (Number of Intersecting Interval Pairs I)
     # 4057. 统计相交区间对 II (Number of Intersecting Interval Pairs II)
@@ -5688,6 +5697,7 @@ class LcaBinaryLifting:
                 else:
                     left = mid + 1
             return right + 1
+
         intervals.sort(key=lambda o: o[1])
         res = 0
         for i, (l, _) in enumerate(intervals):
@@ -5699,6 +5709,7 @@ class LcaBinaryLifting:
         n = len(nums)
         for i in range(1, n, 2):
             nums[i] *= -1
+
         # i ：索引
         # j ：状态
         # k ：j == 1时，开始的索引的奇偶性
@@ -5714,6 +5725,24 @@ class LcaBinaryLifting:
             if j == 0 or j == 1 and (k != i & 1):
                 res = max(res, dfs(i + 1, j + 1, i & 1) - nums[i])
             return res
+
         res = dfs(0, 0, -1)
         dfs.cache_clear()
         return res
+
+    # 1807. 替换字符串中的括号内容 (Evaluate the Bracket Pairs of a String)
+    def evaluate(self, s: str, knowledge: List[List[str]]) -> str:
+        d = defaultdict(str)
+        for k, v in knowledge:
+            d[k] = v
+        last = -1
+        res = []
+        for i, x in enumerate(s):
+            if x == "(":
+                last = i
+            elif x == ")":
+                res.append(d.get(s[last + 1 : i], "?"))
+                last = -1
+            elif last == -1:
+                res.append(s[i])
+        return "".join(res)
