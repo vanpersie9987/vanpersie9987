@@ -5830,3 +5830,31 @@ class LcaBinaryLifting:
 
         max_cnt = max(cnt.values(), default=0)
         return base + max_cnt
+
+    # 4067. 数对和受限的最长子数组 (Longest Subarray With Restricted Pair Sums)
+    def maxSubarray(self, nums: list[int]) -> int:
+        mx = max(nums)
+        cnt_s = [0] * (mx * 2 + 1)
+        cnt_d = [0] * (mx + 1)
+        ans = left = 0
+
+        # 枚举有效子数组的右端点为 i，那么左端点 left 最小是多少？
+        for i, x in enumerate(nums):
+            # x 进入窗口前，先判断：
+            # 如果窗口中有两数之和等于 x，或者两数之差等于 x，那么必须缩小窗口
+            while cnt_s[x] > 0 or cnt_d[x] > 0:
+                y = nums[left]
+                left += 1
+                for z in nums[left:i]:
+                    cnt_s[y + z] -= 1
+                    cnt_d[abs(y - z)] -= 1
+
+            # 用子数组 [left, i] 的长度更新答案的最大值
+            ans = max(ans, i - left + 1)
+
+            # 元素 x 进入窗口
+            for y in nums[left:i]:
+                cnt_s[x + y] += 1
+                cnt_d[abs(x - y)] += 1
+
+        return ans
