@@ -2897,4 +2897,32 @@ public class Leetcode_11 {
 
     }
 
+    // 4066. 至多一次替换后的最大相邻相等元素对数 (Maximum Equal Adjacent Pairs After at Most One
+    // Replacement)
+    public int maxEqualAdjacentPairs(int[] nums) {
+        int base = 0;
+        Map<Long, Integer> cnt = new HashMap<>();
+
+        for (int i = 1; i < nums.length; i++) {
+            int x = nums[i - 1];
+            int y = nums[i];
+            if (x == y) {
+                base++;
+            } else {
+                // 把 (x,y) 和 (y,x) 都统一为 (x,y)
+                if (x > y) {
+                    int tmp = x; // 交换 x 和 y
+                    x = y;
+                    y = tmp;
+                }
+                // 统计相邻且不相等的数对个数
+                long key = (long) x << 32 | y;
+                cnt.merge(key, 1, Integer::sum); // cnt[key]++
+            }
+        }
+
+        int maxCnt = cnt.isEmpty() ? 0 : Collections.max(cnt.values());
+        return base + maxCnt;
+    }
+
 }

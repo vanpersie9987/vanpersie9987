@@ -5813,3 +5813,20 @@ class LcaBinaryLifting:
                     cnts[i] -= 1
                     res.append(i)
         return res
+
+    def maxEqualAdjacentPairs(self, nums: list[int]) -> int:
+        base = 0
+        cnt = defaultdict(int)
+
+        for x, y in pairwise(nums):
+            if x == y:
+                base += 1
+            else:
+                # 把 (x,y) 和 (y,x) 都统一为 (x,y)
+                if x > y:
+                    x, y = y, x
+                # 统计相邻且不相等的数对个数
+                cnt[(x, y)] += 1
+
+        max_cnt = max(cnt.values(), default=0)
+        return base + max_cnt
