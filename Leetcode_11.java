@@ -2925,4 +2925,46 @@ public class Leetcode_11 {
         return base + maxCnt;
     }
 
+    // 4067. 数对和受限的最长子数组 (Longest Subarray With Restricted Pair Sums)
+    public int maxSubarray(int[] nums) {
+        int mx = 0;
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+        }
+
+        int[] cntS = new int[mx * 2 + 1];
+        int[] cntD = new int[mx + 1];
+        int left = 0;
+        int ans = 0;
+
+        // 枚举有效子数组的右端点为 i，那么左端点 left 最小是多少？
+        for (int i = 0; i < nums.length; i++) {
+            int x = nums[i];
+
+            // x 进入窗口前，先判断：
+            // 如果窗口中有两数之和等于 x，或者两数之差等于 x，那么必须缩小窗口
+            while (cntS[x] > 0 || cntD[x] > 0) {
+                int y = nums[left];
+                left++;
+                for (int j = left; j < i; j++) {
+                    int z = nums[j];
+                    cntS[y + z]--;
+                    cntD[Math.abs(y - z)]--;
+                }
+            }
+
+            // 用子数组 [left, i] 的长度更新答案的最大值
+            ans = Math.max(ans, i - left + 1);
+
+            // 元素 x 进入窗口
+            for (int j = left; j < i; j++) {
+                int y = nums[j];
+                cntS[x + y]++;
+                cntD[Math.abs(x - y)]++;
+            }
+        }
+
+        return ans;
+    }
+
 }
