@@ -5760,3 +5760,13 @@ class LcaBinaryLifting:
             else:
                 st.append(x)
         return "".join(st)
+
+    # 4061. 皇后到达目标格子的最少移动步数 (Minimum Queen Moves to Reach Target)
+    def minQueenMoves(self, source: list[int], target: list[int]) -> int:
+        sx, sy = source[0], source[1]
+        tx, ty = target[0], target[1]
+        if sx == tx and sy == ty:
+            return 0
+        if sx == tx or sy == ty or sx + sy == tx + ty or sx - sy == tx - ty:
+            return 1
+        return 2
