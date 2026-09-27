@@ -2876,4 +2876,25 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4065. 移除不同值重排数组 (Rearrange Array by Removing Distinct Values)
+    public int[] rearrangeArray(int[] nums) {
+        int n = nums.length;
+        int[] cnts = new int[101];
+        for (int x : nums) {
+            ++cnts[x];
+        }
+        int[] res = new int[n];
+        int i = 0;
+        while (i < n) {
+            for (int x = 1; x <= 100; ++x) {
+                if (cnts[x] > 0) {
+                    res[i++] = x;
+                    --cnts[x];
+                }
+            }
+        }
+        return res;
+
+    }
+
 }
