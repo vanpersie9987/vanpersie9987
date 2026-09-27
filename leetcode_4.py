@@ -5774,3 +5774,27 @@ class LcaBinaryLifting:
     # 4062. 成对操作转化数组 (Transform Array Using Pair Operations)
     def canTransform(self, source: list[int], target: list[int]) -> bool:
         return sum(source) == sum(target)
+
+    # 4063. 至多一次取反能被 K 整除的最长子数组 I (Longest Subarray Divisible by K with At Most One Negation I)
+    def longestSubarray(self, nums: list[int], k: int) -> int:
+        def check() -> int:
+            d = defaultdict(int)
+            d[0] = -1
+            s = 0
+            res = 0
+            for r, x in enumerate(nums):
+                s = (s + x) % k
+                if s in d:
+                    res = max(res, r - d[s])
+                else:
+                    d[s] = r
+            return res
+        n = len(nums)
+        # 不取反
+        res = check()
+        # 取反
+        for i in range(n):
+            nums[i] *= -1
+            res = max(res, check())
+            nums[i] *= -1
+        return res
