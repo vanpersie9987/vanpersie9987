@@ -93,6 +93,7 @@ import copy
 # sudo python3 get-pip.py
 # pip3 install sortedcontainers
 from pandas import isnull
+from math import integer
 from sortedcontainers import SortedDict, SortedList, SortedSet
 
 
@@ -5789,6 +5790,7 @@ class LcaBinaryLifting:
                 else:
                     d[s] = r
             return res
+
         n = len(nums)
         # 不取反
         res = check()
@@ -5797,4 +5799,17 @@ class LcaBinaryLifting:
             nums[i] *= -1
             res = max(res, check())
             nums[i] *= -1
+        return res
+
+    # 4065. 移除不同值重排数组 (Rearrange Array by Removing Distinct Values)
+    def rearrangeArray(self, nums: list[int]) -> list[int]:
+        cnts = [0] * 101
+        for x in nums:
+            cnts[x] += 1
+        res = []
+        while len(res) != len(nums):
+            for i, c in enumerate(cnts):
+                if c:
+                    cnts[i] -= 1
+                    res.append(i)
         return res
