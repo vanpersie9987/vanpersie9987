@@ -2817,4 +2817,20 @@ public class Leetcode_11 {
         return memo4058[i][j][k] = res;
     }
 
+    // 4061. 皇后到达目标格子的最少移动步数 (Minimum Queen Moves to Reach Target)
+    public int minQueenMoves(int[] source, int[] target) {
+        int sx = source[0];
+        int sy = source[1];
+        int tx = target[0];
+        int ty = target[1];
+        if (sx == tx && sy == ty) {
+            return 0;
+        }
+        if (sx == tx || sy == ty || sx + sy == tx + ty || sx - sy == tx - ty) {
+            return 1;
+        }
+        return 2;
+
+    }
+
 }
