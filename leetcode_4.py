@@ -5746,3 +5746,17 @@ class LcaBinaryLifting:
             elif last == -1:
                 res.append(s[i])
         return "".join(res)
+
+    # 1190. 反转每对括号间的子串 (Reverse Substrings Between Each Pair of Parentheses)
+    def reverseParentheses(self, s: str) -> str:
+        st = []
+        for x in s:
+            if x == ")":
+                cur = []
+                while st[-1] != "(":
+                    cur.append(st.pop())
+                st.pop()
+                st.extend(cur)
+            else:
+                st.append(x)
+        return "".join(st)
