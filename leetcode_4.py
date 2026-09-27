@@ -5770,3 +5770,7 @@ class LcaBinaryLifting:
         if sx == tx or sy == ty or sx + sy == tx + ty or sx - sy == tx - ty:
             return 1
         return 2
+
+    # 4062. 成对操作转化数组 (Transform Array Using Pair Operations)
+    def canTransform(self, source: list[int], target: list[int]) -> bool:
+        return sum(source) == sum(target)

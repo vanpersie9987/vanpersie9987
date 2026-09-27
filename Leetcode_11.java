@@ -2833,4 +2833,18 @@ public class Leetcode_11 {
 
     }
 
+    // 4062. 成对操作转化数组 (Transform Array Using Pair Operations)
+    public boolean canTransform(int[] source, int[] target) {
+        long s = 0;
+        for (int x : source) {
+            s += x;
+        }
+        long t = 0;
+        for (int x : target) {
+            t += x;
+        }
+        return s == t;
+
+    }
+
 }
