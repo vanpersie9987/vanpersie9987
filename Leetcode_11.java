@@ -2847,4 +2847,33 @@ public class Leetcode_11 {
 
     }
 
+    // 4063. 至多一次取反能被 K 整除的最长子数组 I (Longest Subarray Divisible by K with At Most One
+    // Negation I)
+    public int longestSubarray(int[] nums, int k) {
+        int n = nums.length;
+        int res = check4063(nums, k);
+        for (int i = 0; i < n; ++i) {
+            nums[i] *= -1;
+            res = Math.max(res, check4063(nums, k));
+            nums[i] *= -1;
+        }
+        return res;
+    }
+
+    private int check4063(int[] nums, int k) {
+        Map<Integer, Integer> pos = new HashMap<>();
+        pos.put(0, -1);
+        int res = 0;
+        int s = 0;
+        for (int i = 0; i < nums.length; ++i) {
+            s = ((s + nums[i]) % k + k) % k;
+            if (!pos.containsKey(s)) {
+                pos.put(s, i);
+            } else {
+                res = Math.max(res, i - pos.get(s));
+            }
+        }
+        return res;
+    }
+
 }
