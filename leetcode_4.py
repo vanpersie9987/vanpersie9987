@@ -5858,3 +5858,15 @@ class LcaBinaryLifting:
                 cnt_d[abs(x - y)] += 1
 
         return ans
+
+    # 1614. 括号的最大嵌套深度 (Maximum Nesting Depth of the Parentheses)
+    def maxDepth(self, s: str) -> int:
+        d = 0
+        res = 0
+        for x in s:
+            if x == "(":
+                d += 1
+                res = max(res, d)
+            elif x == ")":
+                d -= 1
+        return res
