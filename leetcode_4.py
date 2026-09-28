@@ -5814,6 +5814,7 @@ class LcaBinaryLifting:
                     res.append(i)
         return res
 
+    # 4066. 至多一次替换后的最大相邻相等元素对数 (Maximum Equal Adjacent Pairs After at Most One Replacement)
     def maxEqualAdjacentPairs(self, nums: list[int]) -> int:
         base = 0
         cnt = defaultdict(int)
