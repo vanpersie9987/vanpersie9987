@@ -5871,3 +5871,15 @@ class LcaBinaryLifting:
             elif x == ")":
                 d -= 1
         return res
+
+    # 1111. 有效括号的嵌套深度 (Maximum Nesting Depth of Two Valid Parentheses Strings)
+    def maxDepthAfterSplit(self, seq: str) -> list[int]:
+        n = len(seq)
+        st = []
+        res = [0] * n
+        for i, x in enumerate(seq):
+            if x == "(":
+                st.append(i)
+            else:
+                res[st.pop()] = res[i] = len(st) & 1
+        return res
