@@ -6574,22 +6574,22 @@ public class LeetCodeText {
 
     private int getValue(final char c) {
         switch (c) {
-            case 'I':
-                return 1;
-            case 'V':
-                return 5;
-            case 'X':
-                return 10;
-            case 'L':
-                return 50;
-            case 'C':
-                return 100;
-            case 'D':
-                return 500;
-            case 'M':
-                return 1000;
-            default:
-                return 0;
+        case 'I':
+            return 1;
+        case 'V':
+            return 5;
+        case 'X':
+            return 10;
+        case 'L':
+            return 50;
+        case 'C':
+            return 100;
+        case 'D':
+            return 500;
+        case 'M':
+            return 1000;
+        default:
+            return 0;
 
         }
     }
@@ -11778,25 +11778,25 @@ public class LeetCodeText {
         int[] stack = new int[(tokens.length + 1) / 2];
         for (String token : tokens) {
             switch (token) {
-                case "+":
-                    --index;
-                    stack[index] += stack[index + 1];
-                    break;
-                case "-":
-                    --index;
-                    stack[index] -= stack[index + 1];
-                    break;
-                case "*":
-                    --index;
-                    stack[index] *= stack[index + 1];
-                    break;
-                case "/":
-                    --index;
-                    stack[index] /= stack[index + 1];
-                    break;
-                default:
-                    stack[++index] = Integer.parseInt(token);
-                    break;
+            case "+":
+                --index;
+                stack[index] += stack[index + 1];
+                break;
+            case "-":
+                --index;
+                stack[index] -= stack[index + 1];
+                break;
+            case "*":
+                --index;
+                stack[index] *= stack[index + 1];
+                break;
+            case "/":
+                --index;
+                stack[index] /= stack[index + 1];
+                break;
+            default:
+                stack[++index] = Integer.parseInt(token);
+                break;
             }
         }
         return stack[index];
@@ -14317,49 +14317,20 @@ public class LeetCodeText {
 
     }
 
-    // 1111. 有效括号的嵌套深度
-    public int[] maxDepthAfterSplit2(String seq) {
-        int a = 0;
-        int b = 0;
-        int[] res = new int[seq.length()];
-        for (int i = 0; i < seq.length(); ++i) {
-            if (seq.charAt(i) == '(') {
-                if (a <= b) {
-                    ++a;
-                    res[i] = 0;
-                } else {
-                    ++b;
-                    res[i] = 1;
-                }
-            } else {
-                if (a >= b) {
-                    --a;
-                    res[i] = 0;
-                } else {
-                    --b;
-                    res[i] = 1;
-                }
-            }
-        }
-        return res;
-
-    }
-
-    // 1111. 有效括号的嵌套深度
+    // 1111. 有效括号的嵌套深度 (Maximum Nesting Depth of Two Valid Parentheses Strings)
     public int[] maxDepthAfterSplit(String seq) {
-        int depth = 0;
-        int[] res = new int[seq.length()];
-        for (int i = 0; i < seq.length(); ++i) {
+        Stack<Integer> stack = new Stack<>();
+        int n = seq.length();
+        int[] res = new int[n];
+        for (int i = 0; i < n; ++i) {
             if (seq.charAt(i) == '(') {
-                ++depth;
-                res[i] = depth % 2;
+                stack.push(i);
             } else {
-                res[i] = depth % 2;
-                --depth;
+                int index = stack.pop();
+                res[i] = res[index] = stack.size() & 1;
             }
         }
         return res;
-
     }
 
     // 1006. 笨阶乘
@@ -14582,26 +14553,26 @@ public class LeetCodeText {
                 return;
             }
             switch (stackNum) {
-                // 第一个栈
-                case 0:
-                    if (peekIndex0 != perStackSize - 1) {
-                        stack[++peekIndex0] = value;
-                    }
-                    break;
-                // 第二个栈
-                case 1:
-                    if (peekIndex1 != perStackSize * 2 - 1) {
-                        stack[++peekIndex1] = value;
-                    }
-                    break;
-                // 第三个栈
-                case 2:
-                    if (peekIndex2 != perStackSize * 3 - 1) {
-                        stack[++peekIndex2] = value;
-                    }
-                    break;
-                default:
-                    break;
+            // 第一个栈
+            case 0:
+                if (peekIndex0 != perStackSize - 1) {
+                    stack[++peekIndex0] = value;
+                }
+                break;
+            // 第二个栈
+            case 1:
+                if (peekIndex1 != perStackSize * 2 - 1) {
+                    stack[++peekIndex1] = value;
+                }
+                break;
+            // 第三个栈
+            case 2:
+                if (peekIndex2 != perStackSize * 3 - 1) {
+                    stack[++peekIndex2] = value;
+                }
+                break;
+            default:
+                break;
 
             }
         }
@@ -14611,14 +14582,14 @@ public class LeetCodeText {
                 return -1;
             }
             switch (stackNum) {
-                case 0:
-                    return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0--];
-                case 1:
-                    return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1--];
-                case 2:
-                    return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2--];
-                default:
-                    return -1;
+            case 0:
+                return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0--];
+            case 1:
+                return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1--];
+            case 2:
+                return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2--];
+            default:
+                return -1;
             }
 
         }
@@ -14628,14 +14599,14 @@ public class LeetCodeText {
                 return -1;
             }
             switch (stackNum) {
-                case 0:
-                    return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0];
-                case 1:
-                    return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1];
-                case 2:
-                    return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2];
-                default:
-                    return -1;
+            case 0:
+                return peekIndex0 == perStackSize * 0 - 1 ? -1 : stack[peekIndex0];
+            case 1:
+                return peekIndex1 == perStackSize * 1 - 1 ? -1 : stack[peekIndex1];
+            case 2:
+                return peekIndex2 == perStackSize * 2 - 1 ? -1 : stack[peekIndex2];
+            default:
+                return -1;
 
             }
         }
@@ -14645,14 +14616,14 @@ public class LeetCodeText {
                 return true;
             }
             switch (stackNum) {
-                case 0:
-                    return peekIndex0 == perStackSize * 0 - 1;
-                case 1:
-                    return peekIndex1 == perStackSize * 1 - 1;
-                case 2:
-                    return peekIndex2 == perStackSize * 2 - 1;
-                default:
-                    return true;
+            case 0:
+                return peekIndex0 == perStackSize * 0 - 1;
+            case 1:
+                return peekIndex1 == perStackSize * 1 - 1;
+            case 2:
+                return peekIndex2 == perStackSize * 2 - 1;
+            default:
+                return true;
             }
         }
     }
@@ -17066,17 +17037,17 @@ public class LeetCodeText {
 
     private boolean isPrime762(int x) {
         switch (x) {
-            case 2:
-            case 3:
-            case 5:
-            case 7:
-            case 11:
-            case 13:
-            case 17:
-            case 19:
-                return true;
-            default:
-                return false;
+        case 2:
+        case 3:
+        case 5:
+        case 7:
+        case 11:
+        case 13:
+        case 17:
+        case 19:
+            return true;
+        default:
+            return false;
         }
     }
 
