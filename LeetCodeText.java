@@ -6642,101 +6642,31 @@ public class LeetCodeText {
         return haystack.indexOf(needle);
     }
 
-    public int longestValidParentheses(final String s) {
-        int maxLen = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            for (int j = i + 2; j <= s.length(); j += 2) {
-                if (isValid2(s.substring(i, j))) {
-                    maxLen = Math.max(maxLen, j - i);
-                }
-            }
-        }
-        return maxLen;
-    }
-
-    private boolean isValid2(final String s) {
-        final Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '(') {
-                stack.push(s.charAt(i));
-            } else if (!stack.isEmpty() && stack.peek() == '(') {
-                stack.pop();
-            } else {
-                return false;
-            }
-        }
-        return stack.isEmpty();
-    }
-
-    public int longestValidParentheses2(final String s) {
-        final int[] dp = new int[s.length()];
-        int maxLen = 0;
-        for (int i = 1; i < s.length(); ++i) {
-            if (s.charAt(i) == ')') {
-                if (s.charAt(i - 1) == '(') {
-                    dp[i] = (i - 2 >= 0 ? dp[i - 2] : 0) + 2;
-                } else if (i - dp[i - 1] - 1 >= 0 && s.charAt(i - dp[i - 1] - 1) == '(') {
-                    dp[i] = (i - dp[i - 1] - 2 >= 0 ? dp[i - dp[i - 1] - 2] : 0) + dp[i - 1] + 2;
-                }
-            }
-            maxLen = Math.max(maxLen, dp[i]);
-        }
-        return maxLen;
-    }
-
-    public int longestValidParentheses3(final String s) {
-        int maxLen = 0;
-        final Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
+    // 32. 最长有效括号 (Longest Valid Parentheses)
+    public int longestValidParentheses(String s) {
+        boolean[] isValid = new boolean[s.length()];
+        Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < s.length(); ++i) {
             if (s.charAt(i) == '(') {
                 stack.push(i);
             } else {
-                stack.pop();
-                if (stack.isEmpty()) {
-                    stack.push(i);
-                } else {
-                    maxLen = Math.max(maxLen, i - stack.peek());
+                if (!stack.isEmpty()) {
+                    isValid[i] = true;
+                    isValid[stack.pop()] = true;
                 }
             }
         }
-        return maxLen;
-
-    }
-
-    public int longestValidParentheses4(final String s) {
-        int maxLen = 0;
-        int left = 0;
-        int right = 0;
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '(') {
-                ++left;
+        int res = 0;
+        int count = 0;
+        for (boolean b : isValid) {
+            if (b) {
+                res = Math.max(res, ++count);
             } else {
-                ++right;
-            }
-            if (left == right) {
-                maxLen = Math.max(maxLen, right * 2);
-            } else if (right > left) {
-                left = 0;
-                right = 0;
+                count = 0;
             }
         }
-        left = 0;
-        right = 0;
-        for (int i = s.length() - 1; i >= 0; --i) {
-            if (s.charAt(i) == '(') {
-                ++left;
-            } else {
-                ++right;
-            }
-            if (left == right) {
-                maxLen = Math.max(maxLen, right * 2);
-            } else if (left > right) {
-                left = 0;
-                right = 0;
-            }
-        }
-        return maxLen;
+        return res;
+
     }
 
     public String countAndSay(final int n) {
