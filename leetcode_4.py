@@ -5883,3 +5883,23 @@ class LcaBinaryLifting:
             else:
                 res[st.pop()] = res[i] = len(st) & 1
         return res
+
+    # 32. 最长有效括号 (Longest Valid Parentheses)
+    def longestValidParentheses(self, s: str) -> int:
+        n = len(s)
+        valid = [False] * n
+        st = []
+        for i, x in enumerate(s):
+            if x == "(":
+                st.append(i)
+            elif st:
+                valid[st.pop()] = valid[i] = True
+        res = 0
+        cnt = 0
+        for v in valid:
+            if v:
+                cnt += 1
+                res = max(res, cnt)
+            else:
+                cnt = 0
+        return res
