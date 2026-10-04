@@ -5910,6 +5910,8 @@ class LcaBinaryLifting:
         def dfs(i: int, j: int) -> bool:
             if i == n:
                 return j == 0
+            if j > n - i:
+                return False
             if s[i] == "(":
                 if dfs(i + 1, j + 1):
                     return True
