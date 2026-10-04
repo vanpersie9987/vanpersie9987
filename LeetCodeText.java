@@ -14224,27 +14224,29 @@ public class LeetCodeText {
 
     }
 
-    // 678. 有效的括号字符串
+    // 678. 有效的括号字符串 (Valid Parenthesis String)
     public boolean checkValidString(String s) {
-        int low = 0;
-        int high = 0;
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                ++low;
-                ++high;
-            } else if (c == ')') {
-                low = Math.max(0, low - 1);
-                --high;
-            } else {
-                low = Math.max(0, low - 1);
-                ++high;
-            }
-            if (high < 0) {
-                return false;
-            }
-        }
-        return low == 0;
+        int mn = 0; // 未匹配的左括号的个数的最小值
+        int mx = 0; // 未匹配的左括号的个数的最大值
 
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                mn++;
+                mx++;
+            } else if (ch == ')') {
+                mn--;
+                mx--;
+                if (mx < 0) { // 右括号太多了
+                    return false;
+                }
+            } else { // '*'
+                mn--; // '*' 改成右括号
+                mx++; // '*' 改成左括号
+            }
+            mn = Math.max(mn, 0); // 未匹配的左括号的个数不能为负
+        }
+
+        return mn == 0; // 最终未匹配的左括号的个数能是 0
     }
 
     // 1111. 有效括号的嵌套深度 (Maximum Nesting Depth of Two Valid Parentheses Strings)
