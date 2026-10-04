@@ -2967,9 +2967,4 @@ public class Leetcode_11 {
         return ans;
     }
 
-    public boolean checkValidString(String s) {
-        
-
-    }
-
 }
