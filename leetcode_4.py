@@ -5903,3 +5903,22 @@ class LcaBinaryLifting:
             else:
                 cnt = 0
         return res
+
+    # 678. 有效的括号字符串 (Valid Parenthesis String)
+    def checkValidString(self, s: str) -> bool:
+        @cache
+        def dfs(i: int, j: int) -> bool:
+            if i == n:
+                return j == 0
+            if s[i] == "(":
+                if dfs(i + 1, j + 1):
+                    return True
+            elif s[i] == ")":
+                if j - 1 >= 0 and dfs(i + 1, j - 1):
+                    return True
+            elif dfs(i + 1, j + 1) or j - 1 >= 0 and dfs(i + 1, j - 1) or dfs(i + 1, j):
+                return True
+            return False
+
+        n = len(s)
+        return dfs(0, 0)
