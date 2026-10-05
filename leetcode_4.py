@@ -5924,3 +5924,24 @@ class LcaBinaryLifting:
 
         n = len(s)
         return dfs(0, 0)
+
+    # 856. 括号的分数 (Score of Parentheses)
+    def scoreOfParentheses(self, s: str) -> int:
+        def dfs(i: int, j: int) -> int:
+            if i > j:
+                return 0
+            if i + 1 == j:
+                return 1
+            if s[i + 1] == ")":
+                return 1 + dfs(i + 2, j)
+            res = 0
+            c = 0
+            for k in range(i, j + 1):
+                c += 1 if s[k] == "(" else -1
+                if c == 0:
+                    res = 2 * dfs(i + 1, k - 1) + dfs(k + 1, j)
+                    break
+            return res
+
+        n = len(s)
+        return dfs(0, n - 1)
