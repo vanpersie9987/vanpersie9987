@@ -5945,3 +5945,14 @@ class LcaBinaryLifting:
 
         n = len(s)
         return dfs(0, n - 1)
+
+    # 921. 使括号有效的最少添加 (Minimum Add to Make Parentheses Valid)
+    def minAddToMakeValid(self, s: str) -> int:
+        res = 0
+        d = 0
+        for x in s:
+            d += 1 if x == "(" else -1
+            if d < 0:
+                res += 1
+                d = 0
+        return res + d
