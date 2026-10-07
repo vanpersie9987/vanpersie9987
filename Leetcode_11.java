@@ -3018,13 +3018,13 @@ public class Leetcode_11 {
 
         long ans = Long.MIN_VALUE;
         for (int i = 0; i < n; i++) {
-            ans = Math.max(ans, Math.max(dfs(i, 0, 0, nums, memo), dfs(i, 1, 0, nums, memo)));
+            ans = Math.max(ans, Math.max(dfs4072(i, 0, 0, nums, memo), dfs4072(i, 1, 0, nums, memo)));
         }
         return ans;
     }
 
     // 只需在 1186 的基础上增加参数 rev
-    private long dfs(int i, int j, int rev, int[] nums, long[][][] memo) {
+    private long dfs4072(int i, int j, int rev, int[] nums, long[][][] memo) {
         if (i == nums.length) { // 子数组至少要有一个数，不合法
             return Long.MIN_VALUE / 2; // 除 2 防止负数相加溢出
         }
@@ -3034,9 +3034,9 @@ public class Leetcode_11 {
 
         int x = rev == 0 ? nums[i] : -nums[i];
         if (j == 0) {
-            return memo[i][j][rev] = Math.max(dfs(i + 1, 0, rev ^ 1, nums, memo), 0) + x;
+            return memo[i][j][rev] = Math.max(dfs4072(i + 1, 0, rev ^ 1, nums, memo), 0) + x;
         }
-        return memo[i][j][rev] = Math.max(dfs(i + 1, 1, rev ^ 1, nums, memo) + x, dfs(i + 1, 0, rev, nums, memo));
+        return memo[i][j][rev] = Math.max(dfs4072(i + 1, 1, rev ^ 1, nums, memo) + x, dfs4072(i + 1, 0, rev, nums, memo));
     }
 
 }
