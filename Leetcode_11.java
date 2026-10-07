@@ -2967,4 +2967,18 @@ public class Leetcode_11 {
         return ans;
     }
 
+    // 4070. 拨号的最少旋转次数 I (Minimum Rotations to Dial a Number I)
+    public int minRotations(String s) {
+        int res = 0;
+        int pre = 0;
+        for (char x : s.toCharArray()) {
+            int cur = x - '0';
+            int d = Math.abs(cur - pre);
+            res += Math.min(d, 10 - d);
+            pre = cur;
+        }
+        return res;
+
+    }
+
 }
