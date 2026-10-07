@@ -6042,3 +6042,33 @@ class LcaBinaryLifting:
             res += min(d, 10 - d)
             pre = x
         return res
+
+    # 4071. 拨号的最少旋转次数 II (Minimum Rotations to Dial a Number II)
+    def minRotations(self, n: int, s: str) -> int:
+        suf = [0] * n
+        _s = 0
+        last = 0
+        for i in range(n - 1, -1, -1):
+            x = int(s[i])
+            d = abs(x - last)
+            _s += min(d, 10 - d)
+            suf[i] = _s
+            last = x
+        # 整个s反转
+        res = suf[0]
+        pre = 0
+        # 上一个
+        last = 0
+        for i in range(n - 1):
+            x = int(s[i])
+            d = abs(x - last)
+            pre += min(d, 10 - d)
+            res = min(
+                res,
+                pre
+                + suf[i + 1]
+                - min(int(s[-1]), 10 - int(s[-1]))
+                + min(abs(int(s[i]) - int(s[-1])), 10 - abs(int(s[i]) - int(s[-1]))),
+            )
+            last = x
+        return res
