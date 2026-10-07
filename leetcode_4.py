@@ -6056,19 +6056,20 @@ class LcaBinaryLifting:
             last = x
         # 整个s反转
         res = suf[0]
+        if res == 0:
+            return 0
         pre = 0
         # 上一个
         last = 0
+        d_1 = min(int(s[-1]), 10 - int(s[-1]))
         for i in range(n - 1):
             x = int(s[i])
             d = abs(x - last)
             pre += min(d, 10 - d)
-            res = min(
-                res,
-                pre
-                + suf[i + 1]
-                - min(int(s[-1]), 10 - int(s[-1]))
-                + min(abs(int(s[i]) - int(s[-1])), 10 - abs(int(s[i]) - int(s[-1]))),
-            )
+            _add = abs(int(s[i]) - int(s[-1]))
+            _min = min(_add, 10 - _add)
+            res = min(res, pre + suf[i + 1] - d_1 + _min)
             last = x
+            if res == 0:
+                break
         return res
