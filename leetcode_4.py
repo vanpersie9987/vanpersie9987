@@ -6031,3 +6031,14 @@ class LcaBinaryLifting:
                     if ch == "(" or ch == ")":
                         nxt.add(t[:i] + t[i + 1 :])
             cur = nxt
+
+    # 4070. 拨号的最少旋转次数 I (Minimum Rotations to Dial a Number I)
+    def minRotations(self, s: str) -> int:
+        res = 0
+        pre = 0
+        for x in s:
+            x = int(x)
+            d = abs(x - pre)
+            res += min(d, 10 - d)
+            pre = x
+        return res
