@@ -6073,3 +6073,21 @@ class LcaBinaryLifting:
             if res == 0:
                 break
         return res
+
+    # 4072. 一次删除后的最大交替子数组和 (Maximum Alternating Subarray Sum With One Deletion)
+    def maxAlternatingSum(self, nums: list[int]) -> int:
+        # 只需在 1186 的基础上增加参数 rev
+        @cache
+        # dfs(i, j, rev) 第i个位置、是否已经删除过元素（j == 0已经删除过；j == 1还未删除过）、rev是否需要对元素取反
+        def dfs(i: int, j: int, rev: bool) -> int:
+            if i == n:
+                return -inf  # 子数组至少要有一个数，不合法
+            x = -nums[i] if rev else nums[i]
+            if j == 0:
+                return max(dfs(i + 1, 0, not rev), 0) + x
+            return max(dfs(i + 1, 1, not rev) + x, dfs(i + 1, 0, rev))
+
+        n = len(nums)
+        ans = max(max(dfs(i, 0, False), dfs(i, 1, False)) for i in range(n))
+        dfs.cache_clear()
+        return ans
