@@ -6004,3 +6004,30 @@ class LcaBinaryLifting:
 
         dfs(0, 0, 0)
         return ans
+
+    # 301. 删除无效的括号 (Remove Invalid Parentheses)
+    def removeInvalidParentheses(self, s: str) -> list[str]:
+        def is_valid(s: str) -> bool:
+            left = 0  # 未配对的左括号的个数
+            for ch in s:
+                if ch == "(":
+                    left += 1
+                elif ch == ")":
+                    if left == 0:  # 右括号太多了
+                        return False
+                    left -= 1  # 左右括号配对
+            return left == 0  # 所有左括号都要有对应的右括号
+
+        cur = {s}  # 起点
+        while True:
+            ans = [t for t in cur if is_valid(t)]
+            if ans:  # cur 中存在有效括号字符串
+                return ans
+
+            nxt = set()
+            for t in cur:
+                # 枚举删除 t[i]
+                for i, ch in enumerate(t):
+                    if ch == "(" or ch == ")":
+                        nxt.add(t[:i] + t[i + 1 :])
+            cur = nxt
