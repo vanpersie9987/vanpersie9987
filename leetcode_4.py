@@ -6091,3 +6091,14 @@ class LcaBinaryLifting:
         ans = max(max(dfs(i, 0, False), dfs(i, 1, False)) for i in range(n))
         dfs.cache_clear()
         return ans
+
+    # 2089. 找出数组排序后的目标下标 (Find Target Indices After Sorting Array)
+    def targetIndices(self, nums: List[int], target: int) -> List[int]:
+        cnt = 0
+        id = 0
+        for x in nums:
+            if x == target:
+                cnt += 1
+            elif x < target:
+                id += 1
+        return [x for x in range(id, id + cnt)]
