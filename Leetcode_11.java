@@ -3157,6 +3157,36 @@ public class Leetcode_11 {
         return false;
 
     }
+
+    // 4079. 选择质数子集 I (Prime Subset Selection I)
+    public List<Integer> maxPrimes(int n, int s) {
+        boolean[] isPrime = new boolean[n + 1];
+        Arrays.fill(isPrime, true);
+        for (int i = 2; i * i <= n; ++i) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= n; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        List<Integer> primes = new ArrayList<>();
+        for (int i = 2; i <= n; ++i) {
+            if (isPrime[i]) {
+                primes.add(i);
+            }
+        }
+        List<Integer> res = new ArrayList<>();
+        int sum = 0;
+        for (int p : primes) {
+            if (sum + p > s) {
+                break;
+            }
+            res.add(p);
+            sum += p;
+        }
+        return res;
+
+    }
     
 
 
