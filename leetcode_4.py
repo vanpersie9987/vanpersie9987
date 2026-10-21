@@ -6102,3 +6102,16 @@ class LcaBinaryLifting:
             elif x < target:
                 id += 1
         return [x for x in range(id, id + cnt)]
+
+    # 4083. 使相邻元素按位异或非零的最少删除次数 (Minimum Deletions to Make Array Sharp)
+    def minDeletions(self, nums: list[int]) -> int:
+        i = 0
+        n = len(nums)
+        res = 0
+        while i < n:
+            j = i + 1
+            while j < n and nums[j] == nums[i]:
+                j += 1
+            res += j - i - 1
+            i = j
+        return res
