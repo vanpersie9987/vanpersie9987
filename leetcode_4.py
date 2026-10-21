@@ -6166,3 +6166,18 @@ class LcaBinaryLifting:
             if b and check(i, -1):
                 return i
         return -1
+
+    # 4078. 连续三项斐波那契数之和 (Three Fibonacci Sum)
+    def threeFibonacciSum(self, n: int) -> bool:
+        if n & 1:
+            return False
+        n >>= 1
+        pre2 = 0
+        pre = 1
+        while pre + pre2 <= n:
+            x = pre + pre2
+            if x == n:
+                return True
+            pre2 = pre
+            pre = x
+        return False
