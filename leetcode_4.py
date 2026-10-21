@@ -6181,3 +6181,24 @@ class LcaBinaryLifting:
             a = b
             b = c
         return False
+
+    # 4079. 选择质数子集 I (Prime Subset Selection I)
+    def maxPrimes(self, n: int, s: int) -> list[int]:
+        ########################
+        #  将以下内容移到solution外，可加速
+        MX = 10**6 + 1
+        primes = [True] * MX
+        for i in range(2, MX):
+            if primes[i]:
+                for j in range(i * i, MX, i):
+                    primes[j] = False
+        #########################
+        res = []
+        _s = 0
+        for i, b in enumerate(primes[2 : n + 1], start=2):
+            if i >= 2 and b:
+                if _s + i > s:
+                    break
+                _s += i
+                res.append(i)
+        return res
