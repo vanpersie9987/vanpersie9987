@@ -3055,6 +3055,7 @@ public class Leetcode_11 {
     // 4084. 有向网格中的最后访问单元格 (Last Visited Cell in a Directional Grid)
     private record Pair4084(int dx, int dy) {
     }
+
     public int[] lastVisitedCell(char[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
@@ -3077,6 +3078,64 @@ public class Leetcode_11 {
             lastX = x;
             lastY = y;
         }
+    }
+    
+    // 4085. 找到颜色树的根 (Find Root of a Colored Tree)
+    public int findColoredRoot(int[][] edges, String colors) {
+        int n = colors.length();
+        Map<Character, Integer> colorMap = new HashMap<>();
+        colorMap.put('R', 0);
+        colorMap.put('B', 1);
+        colorMap.put('W', 2);
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        boolean[] legal = new boolean[n];
+        Arrays.fill(legal, true);
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            g[u].add(v);
+            g[v].add(u);
+        }
+        for (int i = 0; i < n; ++i) {
+            if (g[i].size() > 2) {
+                legal[i] = false;
+                continue;
+            }
+            int nxtColor = (colorMap.get(colors.charAt(i)) + 1) % 3;
+            for (int v : g[i]) {
+                if (colorMap.get(colors.charAt(v)) != nxtColor) {
+                    legal[i] = false;
+                    break;
+                }
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (legal[i] && check4085(colorMap, colors, g, i, -1)) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    private boolean check4085(Map<Character,Integer> colorMap, String colors, List<Integer>[] g, int x, int fa) {
+        if (g[x].size() > 3) {
+            return true;
+        }
+        int nxtColor = (colorMap.get(colors.charAt(x)) + 1) % 3;
+        for (int y : g[x]) {
+            if (y == fa) {
+                continue;
+            }
+            if (colorMap.get(colors.charAt(y)) != nxtColor) {
+                return false;
+            }
+            if (!check4085(colorMap, colors, g, y, x)) {
+                return false;
+            }
+        }
+        return true;
     }
     
 
