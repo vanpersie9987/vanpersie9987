@@ -6172,12 +6172,12 @@ class LcaBinaryLifting:
         if n & 1:
             return False
         n >>= 1
-        pre2 = 0
-        pre = 1
-        while pre + pre2 <= n:
-            x = pre + pre2
-            if x == n:
+        a = 0
+        b = 1
+        while b <= n:
+            c = a + b
+            if c == n:
                 return True
-            pre2 = pre
-            pre = x
+            a = b
+            b = c
         return False
