@@ -3036,7 +3036,20 @@ public class Leetcode_11 {
         if (j == 0) {
             return memo[i][j][rev] = Math.max(dfs4072(i + 1, 0, rev ^ 1, nums, memo), 0) + x;
         }
-        return memo[i][j][rev] = Math.max(dfs4072(i + 1, 1, rev ^ 1, nums, memo) + x, dfs4072(i + 1, 0, rev, nums, memo));
+        return memo[i][j][rev] = Math.max(dfs4072(i + 1, 1, rev ^ 1, nums, memo) + x,
+                dfs4072(i + 1, 0, rev, nums, memo));
+    }
+    
+    // 4083. 使相邻元素按位异或非零的最少删除次数 (Minimum Deletions to Make Array Sharp)
+    public int minDeletions(int[] nums) {
+        int res = 0;
+        for (int i = 1; i < nums.length; ++i) {
+            if (nums[i] == nums[i - 1]) {
+                ++res;
+            }
+        }
+        return res;
+        
     }
 
 }
