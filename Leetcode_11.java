@@ -3187,7 +3187,45 @@ public class Leetcode_11 {
         return res;
 
     }
-    
+
+    // 4080. 设计公交车座位预订系统 (Design Bus Seat Booking System)
+    class BusBooking {
+        private int[][] seats;
+        private int actTot;
+        private int minTot;
+
+        public BusBooking(int n) {
+            this.seats = new int[n + 1][4];
+
+        }
+
+        public void toggle(String seat) {
+            int r = Integer.parseInt(seat.substring(1));
+            int c = seat.charAt(0) - 'A';
+            if (seats[r][c] != 0) {
+                actTot -= seats[r][c];
+                seats[r][c] = 0;
+                --minTot;
+            } else {
+                if (c == 1 || c == 2 || c == 0 && seats[r][1] == 0 || c == 3 && seats[r][2] == 0) {
+                    seats[r][c] = 1;
+                } else {
+                    seats[r][c] = 3;
+                }
+                actTot += seats[r][c];
+                ++minTot;
+            }
+        }
+
+        public int getTotalTime() {
+            return actTot;
+
+        }
+
+        public int getMinTime() {
+            return minTot;
+        }
+    }
 
 
 }
