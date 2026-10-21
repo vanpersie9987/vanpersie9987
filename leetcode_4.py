@@ -6202,3 +6202,43 @@ class LcaBinaryLifting:
                 _s += i
                 res.append(i)
         return res
+
+    # 4080. 设计公交车座位预订系统 (Design Bus Seat Booking System)
+    class BusBooking:
+
+        def __init__(self, n: int):
+            self.a = [[0] * 4 for _ in range(n + 1)]
+            # 最小时间开销
+            self.min_tot = 0
+            # 总时间
+            self.act_tot = 0
+
+        def toggle(self, seat: str) -> None:
+            c = ord(seat[0]) - ord("A")
+            r = int(seat[1:])
+            # 如果该位置被占用，则释放
+            if self.a[r][c]:
+                self.act_tot -= self.a[r][c]
+                self.a[r][c] = 0
+                self.min_tot -= 1
+            # 可占用
+            else:
+                if (
+                    c == 1
+                    or c == 2
+                    or c == 0
+                    and self.a[r][1] == 0
+                    or c == 3
+                    and self.a[r][2] == 0
+                ):
+                    self.a[r][c] = 1
+                else:
+                    self.a[r][c] = 3
+                self.act_tot += self.a[r][c]
+                self.min_tot += 1
+
+        def getTotalTime(self) -> int:
+            return self.act_tot
+
+        def getMinTime(self) -> int:
+            return self.min_tot
