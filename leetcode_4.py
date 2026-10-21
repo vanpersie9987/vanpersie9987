@@ -6107,3 +6107,22 @@ class LcaBinaryLifting:
     def minDeletions(self, nums: list[int]) -> int:
         return sum(x == y for x, y in pairwise(nums))
 
+    # 4084. 有向网格中的最后访问单元格 (Last Visited Cell in a Directional Grid)
+    def lastVisitedCell(self, grid: list[list[str]]) -> list[int]:
+        m, n = len(grid), len(grid[0])
+        dir = defaultdict(tuple)
+        dir["L"] = (0, -1)
+        dir["R"] = (0, 1)
+        dir["D"] = (1, 0)
+        dir["U"] = (-1, 0)
+        last = (0, 0)
+        vis = set()
+        vis.add(last)
+        while True:
+            last_x, last_y = last[0], last[1]
+            dx, dy = dir[grid[last_x][last_y]][0], dir[grid[last_x][last_y]][1]
+            x, y = last_x + dx, last_y + dy
+            if not (0 <= x < m and 0 <= y < n) or (x, y) in vis:
+                return last
+            vis.add((x, y))
+            last = (x, y)
