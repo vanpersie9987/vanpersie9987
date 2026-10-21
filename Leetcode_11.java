@@ -3119,7 +3119,7 @@ public class Leetcode_11 {
 
     }
 
-    private boolean check4085(Map<Character,Integer> colorMap, String colors, List<Integer>[] g, int x, int fa) {
+    private boolean check4085(Map<Character, Integer> colorMap, String colors, List<Integer>[] g, int x, int fa) {
         if (g[x].size() > 3) {
             return true;
         }
@@ -3136,6 +3136,26 @@ public class Leetcode_11 {
             }
         }
         return true;
+    }
+    
+    // 4078. 连续三项斐波那契数之和 (Three Fibonacci Sum)
+    public boolean threeFibonacciSum(int n) {
+        if (n % 2 == 1) {
+            return false;
+        }
+        n >>= 1;
+        int a = 0;
+        int b = 1;
+        while (b <= n) {
+            int c = a + b;
+            if (c == n) {
+                return true;
+            }
+            a = b;
+            b = c;
+        }
+        return false;
+
     }
     
 
