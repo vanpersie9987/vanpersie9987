@@ -3051,7 +3051,34 @@ public class Leetcode_11 {
         return res;
 
     }
+
+    // 4084. 有向网格中的最后访问单元格 (Last Visited Cell in a Directional Grid)
+    private record Pair4084(int dx, int dy) {
+    }
+    public int[] lastVisitedCell(char[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int lastX = 0;
+        int lastY = 0;
+        Map<Character, Pair4084> dirMap = new HashMap<>();
+        dirMap.put('U', new Pair4084(-1, 0));
+        dirMap.put('D', new Pair4084(1, 0));
+        dirMap.put('L', new Pair4084(0, -1));
+        dirMap.put('R', new Pair4084(0, 1));
+
+        Set<Pair4084> vis = new HashSet<>();
+        vis.add(new Pair4084(lastX, lastY));
+        while (true) {
+            int x = lastX + dirMap.get(grid[lastX][lastY]).dx;
+            int y = lastY + dirMap.get(grid[lastX][lastY]).dy;
+            if (x < 0 || x >= m || y < 0 || y >= n || !vis.add(new Pair4084(x, y))) {
+                return new int[] { lastX, lastY };
+            }
+            lastX = x;
+            lastY = y;
+        }
+    }
     
-    
+
 
 }
