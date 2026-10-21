@@ -6126,3 +6126,46 @@ class LcaBinaryLifting:
                 return last
             vis.add((x, y))
             last = (x, y)
+
+    # 4085. 找到颜色树的根 (Find Root of a Colored Tree)
+    def findColoredRoot(self, edges: list[list[int]], colors: str) -> int:
+        def check(x: int, fa: int) -> bool:
+            # 根结点有超过2个子节点
+            if fa == -1 and len(g[x]) > 2:
+                return False
+            # 非根结点有超过3个子节点
+            if fa != -1 and len(g[x]) > 3:
+                return False
+            nxt_c = (d[colors[x]] + 1) % 3
+            for y in g[x]:
+                if y == fa:
+                    continue
+                if d[colors[y]] != nxt_c:
+                    return False
+                if not check(y, x):
+                    return False
+            return True
+
+        n = len(colors)
+        legal = [True] * n
+        g = [[] for _ in range(n)]
+        for u, v in edges:
+            g[u].append(v)
+            g[v].append(u)
+        d = defaultdict(int)
+        d["R"] = 0
+        d["B"] = 1
+        d["W"] = 2
+        for i, _l in enumerate(g):
+            if len(_l) > 2:
+                legal[i] = False
+                continue
+            x = (d[colors[i]] + 1) % 3
+            for y in _l:
+                if d[colors[y]] != x:
+                    legal[i] = False
+                    break
+        for i, b in enumerate(legal):
+            if b and check(i, -1):
+                return i
+        return -1
