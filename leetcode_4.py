@@ -6242,3 +6242,29 @@ class LcaBinaryLifting:
 
         def getMinTime(self) -> int:
             return self.min_tot
+
+    # 3942. 排序排列的最少操作数 (Minimum Operations to Sort a Permutation)
+    def minOperations(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return 0
+        id_0 = -1
+        id_n_1 = -1
+        for i, x in enumerate(nums):
+            if x == 0:
+                id_0 = i
+            if x == n - 1:
+                id_n_1 = i
+        inc, dec = True, True
+        for i in range(n - 1):
+            j = (i + id_0) % n
+            if nums[j] > nums[(j + 1) % n]:
+                inc = False
+            k = (i + id_n_1) % n
+            if nums[k] < nums[(k + 1) % n]:
+                dec = False
+        if not inc and not dec:
+            return -1
+        if inc:
+            return min(id_0, n - id_0 + 2)
+        return min(id_0 + 2, n - id_0)
