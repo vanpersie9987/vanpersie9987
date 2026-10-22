@@ -3039,7 +3039,7 @@ public class Leetcode_11 {
         return memo[i][j][rev] = Math.max(dfs4072(i + 1, 1, rev ^ 1, nums, memo) + x,
                 dfs4072(i + 1, 0, rev, nums, memo));
     }
-    
+
     // 4083. 使相邻元素按位异或非零的最少删除次数 (Minimum Deletions to Make Array Sharp)
     public int minDeletions(int[] nums) {
         int res = 0;
@@ -3079,7 +3079,7 @@ public class Leetcode_11 {
             lastY = y;
         }
     }
-    
+
     // 4085. 找到颜色树的根 (Find Root of a Colored Tree)
     public int findColoredRoot(int[][] edges, String colors) {
         int n = colors.length();
@@ -3137,7 +3137,7 @@ public class Leetcode_11 {
         }
         return true;
     }
-    
+
     // 4078. 连续三项斐波那契数之和 (Three Fibonacci Sum)
     public boolean threeFibonacciSum(int n) {
         if (n % 2 == 1) {
@@ -3227,5 +3227,41 @@ public class Leetcode_11 {
         }
     }
 
+    // 3942. 排序排列的最少操作数 (Minimum Operations to Sort a Permutation)
+    public int minOperations(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return 0;
+        }
+        int id0 = -1;
+        int idn_1 = -1;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] == 0) {
+                id0 = i;
+            }
+            if (nums[i] == n - 1) {
+                idn_1 = i;
+            }
+        }
+        boolean inc = true;
+        boolean dec = true;
+        for (int i = 0; i < n - 1; ++i) {
+            int j = (i + id0) % n;
+            if (nums[j] > nums[(j + 1) % n]) {
+                inc = false;
+            }
+            int k = (i + idn_1) % n;
+            if (nums[k] < nums[(k + 1) % n]) {
+                dec = false;
+            }
+        }
+        if (!inc && !dec) {
+            return -1;
+        }
+        if (inc) {
+            return Math.min(id0, n - id0 + 2);
+        }
+        return Math.min(id0 + 2, n - id0);
+    }
 
 }
