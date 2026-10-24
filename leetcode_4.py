@@ -6268,3 +6268,18 @@ class LcaBinaryLifting:
         if inc:
             return min(id_0, n - id_0 + 2)
         return min(id_0 + 2, n - id_0)
+
+    # 2409. 统计共同度过的日子数 (Count Days Spent Together)
+    def countDaysTogether(
+        self, arriveAlice: str, leaveAlice: str, arriveBob: str, leaveBob: str
+    ) -> int:
+        def check(s: str) -> int:
+            d = 0
+            month_of_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+            for i in range(0, int(s[:2]) - 1):
+                d += month_of_days[i]
+            return d + int(s[3:])
+
+        return max(
+            0, check(min(leaveAlice, leaveBob)) - check(max(arriveAlice, arriveBob)) + 1
+        )
