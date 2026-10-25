@@ -6283,3 +6283,60 @@ class LcaBinaryLifting:
         return max(
             0, check(min(leaveAlice, leaveBob)) - check(max(arriveAlice, arriveBob)) + 1
         )
+
+    # 1254. 统计封闭岛屿的数目 (Number of Closed Islands)
+    def closedIsland(self, grid: list[list[int]]) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        def cal(i: int, j: int) -> int:
+            return i * n + j
+
+        m, n = len(grid), len(grid[0])
+        dummy = m * n
+        u = union(m * n + 1)
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x == 0:
+                    if i == 0 or j == 0 or i == m - 1 or j == n - 1:
+                        u.union(cal(i, j), dummy)
+                    else:
+                        if grid[i - 1][j] == 0:
+                            u.union(cal(i, j), cal(i - 1, j))
+                        if grid[i + 1][j] == 0:
+                            u.union(cal(i, j), cal(i + 1, j))
+                        if grid[i][j - 1] == 0:
+                            u.union(cal(i, j), cal(i, j - 1))
+                        if grid[i][j + 1] == 0:
+                            u.union(cal(i, j), cal(i, j + 1))
+        s = set()
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x == 0:
+                    _root = u.get_root(cal(i, j))
+                    s.add(_root)
+        s.discard(u.get_root(dummy))
+        return len(s)
