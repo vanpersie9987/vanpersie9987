@@ -2151,25 +2151,108 @@ class leetcode_3:
         return abs(res)
 
     # 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K)
+    # 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K)
+    def countIslands(self, grid: List[List[int]], k: int) -> int:
+        class union:
+            def __init__(self, n: int):
+                self.parent = [i for i in range(n)]
+                self.rank = [1] * n
+
+            def get_root(self, p: int) -> int:
+                if self.parent[p] == p:
+                    return p
+                self.parent[p] = self.get_root(self.parent[p])
+                return self.parent[p]
+
+            def is_connected(self, p1: int, p2: int) -> bool:
+                return self.get_root(p1) == self.get_root(p2)
+
+            def union(self, p1: int, p2: int):
+                r1 = self.get_root(p1)
+                r2 = self.get_root(p2)
+                if r1 == r2:
+                    return
+                if self.rank[r1] < self.rank[r2]:
+                    self.parent[r1] = r2
+                else:
+                    self.parent[r2] = r1
+                    if self.rank[r1] == self.rank[r2]:
+                        self.rank[r1] += 1
+
+        def cal(i: int, j: int) -> int:
+            return i * n + j
+
+        m, n = len(grid), len(grid[0])
+        u = union(m * n)
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x:
+                    if i - 1 >= 0 and grid[i - 1][j]:
+                        u.union(cal(i, j), cal(i - 1, j))
+                    if i + 1 < m and grid[i + 1][j]:
+                        u.union(cal(i, j), cal(i + 1, j))
+                    if j - 1 >= 0 and grid[i][j - 1]:
+                        u.union(cal(i, j), cal(i, j - 1))
+                    if j + 1 < n and grid[i][j + 1]:
+                        u.union(cal(i, j), cal(i, j + 1))
+        d = defaultdict(int)
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x:
+                    _root = u.get_root(cal(i, j))
+                    d[_root] += x
+        res = 0
+        for s in d.values():
+            if s % k == 0:
+                res += 1
+        return res
+
+    # 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K)
     def countIslands(self, grid: List[List[int]], k: int) -> int:
         def dfs(x: int, y: int) -> int:
-            if x < 0 or x >= m or y < 0 or y >= n or not grid[x][y]:
-                return 0
-            dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-            res = grid[x][y]
-            grid[x][y] = 0  # 标记为已访问
+            _s = grid[x][y]
+            grid[x][y] = 0
             for dx, dy in dirs:
                 nx, ny = x + dx, y + dy
-                res += dfs(nx, ny)
-            return res % k
+                if 0 <= nx < m and 0 <= ny < n and grid[nx][ny]:
+                    _s += dfs(nx, ny)
+            return _s
 
-        m = len(grid)
-        n = len(grid[0])
+        m, n = len(grid), len(grid[0])
         res = 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j]:
-                    res += not dfs(i, j)
+        dirs = (0, 1), (0, -1), (-1, 0), (1, 0)
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x:
+                    s = dfs(i, j)
+                    if s % k == 0:
+                        res += 1
+        return res
+
+    # 3619. 总价值可以被 K 整除的岛屿数目 (Count Islands With Total Value Divisible by K) --bfs超时
+    def countIslands(self, grid: List[List[int]], k: int) -> int:
+        def check(start_x: int, start_y: int) -> int:
+            _s = 0
+            q = deque()
+            dirs = (0, 1), (0, -1), (-1, 0), (1, 0)
+            q.append((start_x, start_y))
+            while q:
+                x, y = q.popleft()
+                _s += grid[x][y]
+                _s %= k
+                grid[x][y] = 0
+                for dx, dy in dirs:
+                    nx, ny = x + dx, y + dy
+                    if 0 <= nx < m and 0 <= ny < n and grid[nx][ny]:
+                        q.append((nx, ny))
+            return _s == 0
+
+        res = 0
+        m, n = len(grid), len(grid[0])
+        for i, r in enumerate(grid):
+            for j, x in enumerate(r):
+                if x:
+                    res += check(i, j)
         return res
 
     # 3620. 恢复网络路径 (Network Recovery Pathways)
