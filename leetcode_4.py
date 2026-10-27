@@ -6374,3 +6374,90 @@ class LcaBinaryLifting:
             cnt += 1
             res += cnt
         return res
+
+    # 4090. 统计神奇子字符串对 I (Count Magical Substring Pairs I)
+    # 4091. 统计神奇子字符串对 II (Count Magical Substring Pairs II)
+    def countMagicalPairs(self, s: str) -> int:
+        def check_left(k: int) -> List[int]:
+            cnts0 = [0] * 26
+            c0 = 0
+            j0 = 0
+
+            cnts1 = [0] * 26
+            c1 = 0
+            j1 = 0
+
+            left = [0] * n
+
+            for i, x in enumerate(s):
+                id = ord(x) - ord("a")
+                cnts0[id] += 1
+                cnts1[id] += 1
+                if cnts0[id] == 1:
+                    c0 += 1
+                if cnts1[id] == 1:
+                    c1 += 1
+
+                while c0 >= k:
+                    id = ord(s[j0]) - ord("a")
+                    cnts0[id] -= 1
+                    if cnts0[id] == 0:
+                        c0 -= 1
+                    j0 += 1
+
+                while c1 > k:
+                    id = ord(s[j1]) - ord("a")
+                    cnts1[id] -= 1
+                    if cnts1[id] == 0:
+                        c1 -= 1
+                    j1 += 1
+
+                left[i] = j0 - j1
+            return left
+
+        def check_right(k: int, left: List[int]) -> int:
+            cnts0 = [0] * 26
+            c0 = 0
+            j0 = n - 1
+
+            cnts1 = [0] * 26
+            c1 = 0
+            j1 = n - 1
+
+            res = 0
+
+            for i in range(n - 1, 0, -1):
+                x = s[i]
+                id = ord(x) - ord("a")
+                cnts0[id] += 1
+                cnts1[id] += 1
+                if cnts0[id] == 1:
+                    c0 += 1
+                if cnts1[id] == 1:
+                    c1 += 1
+
+                while c0 >= k:
+                    id = ord(s[j0]) - ord("a")
+                    cnts0[id] -= 1
+                    if cnts0[id] == 0:
+                        c0 -= 1
+                    j0 -= 1
+
+                while c1 > k:
+                    id = ord(s[j1]) - ord("a")
+                    cnts1[id] -= 1
+                    if cnts1[id] == 0:
+                        c1 -= 1
+                    j1 -= 1
+                res += left[i - 1] * (j1 - j0)
+            return res
+
+        res = 0
+        n = len(s)
+        _m = 0
+        for x in s:
+            _m |= 1 << (ord(x) - ord("a"))
+        for c in range(_m.bit_count()):
+            left = check_left(c + 1)
+            res += check_right(c + 1, left)
+        return res
