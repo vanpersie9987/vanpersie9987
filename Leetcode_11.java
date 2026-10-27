@@ -3447,4 +3447,49 @@ public class Leetcode_11 {
 
     }
 
+    // 4093. 至多 K 次数字重排后的最大和 (Maximize Sum After At Most K Digit Rearrangements)
+    public long maximizeSum(int[] nums, int k) {
+        int n = nums.length;
+        Integer[] idx = IntStream.range(0, n).boxed().toArray(Integer[]::new);
+        int[] a = new int[n];
+        for (int i = 0; i < n; ++i) {
+            int x = nums[i];
+            int[] cnts = new int[10];
+            while (x > 0) {
+                ++cnts[x % 10];
+                x /= 10;
+            }
+            int t = 0;
+            for (int j = 9; j >= 0; --j) {
+                while (cnts[j]-- > 0) {
+                    t = t * 10 + j;
+                }
+            }
+            a[i] = t;
+        }
+        Arrays.sort(idx, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                int d1 = a[o1] - nums[o1];
+                int d2 = a[o2] - nums[o2];
+                if (d1 != d2) {
+                    return Integer.compare(d2, d1);
+                }
+                return Integer.compare(nums[o2], nums[o1]);
+            }
+
+        });
+        long res = 0L;
+        for (int id : idx) {
+            if (k-- > 0) {
+                res += a[id];
+            } else {
+                res += nums[id];
+            }
+        }
+        return res;
+
+    }
+
 }
