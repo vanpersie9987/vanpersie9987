@@ -6461,3 +6461,18 @@ class LcaBinaryLifting:
             left = check_left(c + 1)
             res += check_right(c + 1, left)
         return res
+
+    # 4075. 最长有韧性的子数组 I (Longest Resilient Subarray I)
+    # 4076. 最长有韧性的子数组 II (Longest Resilient Subarray II)
+    def resilientSubarray(self, nums: list[int], k: int) -> int:
+        res = 0
+        j = -1
+        pre = 0
+        for i, x in enumerate(nums):
+            pre = (pre + x) % k
+            if pre == x % k:
+                res = max(res, i - j)
+            if i == len(nums) - 1 or x % k != nums[i + 1] % k:
+                j = i
+                pre = 0
+        return res
