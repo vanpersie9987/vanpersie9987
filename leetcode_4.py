@@ -6352,3 +6352,13 @@ class LcaBinaryLifting:
                 res = [i, d[target - x]]
             d[x] = i
         return sorted(res, key=lambda o: -nums[o])
+
+    # 4088. 峰值与谷值的差 (Difference Between Peaks and Valleys)
+    def peakValleyDifference(self, nums: list[int]) -> int:
+        res = 0
+        for i in range(1, len(nums) - 1):
+            if nums[i - 1] < nums[i] > nums[i + 1]:
+                res += nums[i]
+            elif nums[i - 1] > nums[i] < nums[i + 1]:
+                res -= nums[i]
+        return res
