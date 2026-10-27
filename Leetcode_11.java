@@ -3415,4 +3415,25 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4075. 最长有韧性的子数组 I (Longest Resilient Subarray I)
+    // 4076. 最长有韧性的子数组 II (Longest Resilient Subarray II)
+    public int resilientSubarray(int[] nums, int k) {
+        int n = nums.length;
+        int res = 0;
+        int pre = 0;
+        int j = -1;
+        for (int i = 0; i < n; ++i) {
+            pre = (pre + nums[i]) % k;
+            if (pre == nums[i] % k) {
+                res = Math.max(res, i - j);
+            }
+            if (i == n - 1 || nums[i] % k != nums[i + 1] % k) {
+                pre = 0;
+                j = i;
+            }
+        }
+        return res;
+
+    }
+
 }
