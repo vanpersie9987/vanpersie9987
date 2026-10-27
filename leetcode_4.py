@@ -6362,3 +6362,15 @@ class LcaBinaryLifting:
             elif nums[i - 1] > nums[i] < nums[i + 1]:
                 res -= nums[i]
         return res
+
+    # 4089. 统计宽界子数组的数目 (Count Subarrays With Loose Bounds)
+    def countSubarrays(self, nums: list[int], minK: int, maxK: int) -> int:
+        res = 0
+        cnt = 0
+        for x in nums:
+            if x < minK or x > maxK:
+                cnt = 0
+                continue
+            cnt += 1
+            res += cnt
+        return res
