@@ -3300,4 +3300,20 @@ public class Leetcode_11 {
 
     }
 
+    // 4089. 统计宽界子数组的数目 (Count Subarrays With Loose Bounds)
+    public long countSubarrays(int[] nums, int minK, int maxK) {
+        long res = 0L;
+        int cnt = 0;
+        for (int x : nums) {
+            if (x < minK || x > maxK) {
+                cnt = 0;
+                continue;
+            }
+            ++cnt;
+            res += cnt;
+        }
+        return res;
+
+    }
+
 }
