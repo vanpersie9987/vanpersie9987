@@ -3316,4 +3316,103 @@ public class Leetcode_11 {
 
     }
 
+    // 4090. 统计神奇子字符串对 I (Count Magical Substring Pairs I)
+    // 4091. 统计神奇子字符串对 II (Count Magical Substring Pairs II)
+    public long countMagicalPairs(String s) {
+        int m = 0;
+        for (char x : s.toCharArray()) {
+            m |= 1 << (x - 'a');
+        }
+        long res = 0L;
+        for (int c = 1; c <= Integer.bitCount(m); ++c) {
+            int[] left = checkLeft(s, c);
+            res += checkRight(s, c, left);
+        }
+        return res;
+
+    }
+
+    private int[] checkLeft(String s, int c) {
+        int n = s.length();
+        int[] left = new int[n];
+
+        int[] cnts0 = new int[26];
+        int c0 = 0;
+        int j0 = 0;
+
+        int[] cnts1 = new int[26];
+        int c1 = 0;
+        int j1 = 0;
+        for (int i = 0; i < n; ++i) {
+            int id = s.charAt(i) - 'a';
+            ++cnts0[id];
+            ++cnts1[id];
+            if (cnts0[id] == 1) {
+                ++c0;
+            }
+            if (cnts1[id] == 1) {
+                ++c1;
+            }
+            while (c0 >= c) {
+                id = s.charAt(j0) - 'a';
+                --cnts0[id];
+                if (cnts0[id] == 0) {
+                    --c0;
+                }
+                ++j0;
+            }
+            while (c1 > c) {
+                id = s.charAt(j1) - 'a';
+                --cnts1[id];
+                if (cnts1[id] == 0) {
+                    --c1;
+                }
+                ++j1;
+            }
+            left[i] = j0 - j1;
+        }
+        return left;
+    }
+
+    private long checkRight(String s, int c, int[] left) {
+        int n = s.length();
+        int[] cnts0 = new int[26];
+        int c0 = 0;
+        int j0 = n - 1;
+
+        int[] cnts1 = new int[26];
+        int c1 = 0;
+        int j1 = n - 1;
+        long res = 0L;
+        for (int i = n - 1; i >= 1; --i) {
+            int id = s.charAt(i) - 'a';
+            ++cnts0[id];
+            ++cnts1[id];
+            if (cnts0[id] == 1) {
+                ++c0;
+            }
+            if (cnts1[id] == 1) {
+                ++c1;
+            }
+            while (c0 >= c) {
+                id = s.charAt(j0) - 'a';
+                --cnts0[id];
+                if (cnts0[id] == 0) {
+                    --c0;
+                }
+                --j0;
+            }
+            while (c1 > c) {
+                id = s.charAt(j1) - 'a';
+                --cnts1[id];
+                if (cnts1[id] == 0) {
+                    --c1;
+                }
+                --j1;
+            }
+            res += (j1 - j0) * (long) left[i - 1];
+        }
+        return res;
+    }
+
 }
