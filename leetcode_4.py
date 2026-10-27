@@ -6476,3 +6476,11 @@ class LcaBinaryLifting:
                 j = i
                 pre = 0
         return res
+
+    # 4092. 二进制位得分 (Binary Digit Score)
+    def calculateScore(self, a: int, b: int) -> int:
+        s1 = a.bit_count()
+        s2 = b.bit_count()
+        if s1 >= s2:
+            return s1 * s2
+        return s2 // s1
