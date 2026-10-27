@@ -6340,3 +6340,15 @@ class LcaBinaryLifting:
                     s.add(_root)
         s.discard(u.get_root(dummy))
         return len(s)
+
+    # 4074. 和为目标值的最大乘积对 (Maximum Product Pair With Target Sum)
+    def maxProductPair(self, nums: list[int], target: int) -> list[int]:
+        d = defaultdict(int)
+        mx_mul = -inf
+        res = [-1, -1]
+        for i, x in enumerate(nums):
+            if target - x in d and target - x != x and x * (target - x) > mx_mul:
+                mx_mul = x * (target - x)
+                res = [i, d[target - x]]
+            d[x] = i
+        return sorted(res, key=lambda o: -nums[o])
