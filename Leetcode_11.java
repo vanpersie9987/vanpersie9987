@@ -3264,4 +3264,26 @@ public class Leetcode_11 {
         return Math.min(id0 + 2, n - id0);
     }
 
+    // 4074. 和为目标值的最大乘积对 (Maximum Product Pair With Target Sum)
+    public int[] maxProductPair(int[] nums, int target) {
+        Map<Integer, Integer> pos = new HashMap<>();
+        int mxMul = Integer.MIN_VALUE;
+        int[] res = { -1, -1 };
+        for (int i = 0; i < nums.length; ++i) {
+            if (pos.containsKey(target - nums[i]) && nums[i] != target - nums[i]
+                    && nums[i] * (target - nums[i]) > mxMul) {
+                mxMul = nums[i] * (target - nums[i]);
+                if (nums[i] > target - nums[i]) {
+                    res[0] = i;
+                    res[1] = pos.get(target - nums[i]);
+                } else {
+                    res[0] = pos.get(target - nums[i]);
+                    res[1] = i;
+                }
+            }
+            pos.put(nums[i], i);
+        }
+        return res;
+    }
+
 }
