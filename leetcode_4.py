@@ -6484,3 +6484,29 @@ class LcaBinaryLifting:
         if s1 >= s2:
             return s1 * s2
         return s2 // s1
+
+    # 4093. 至多 K 次数字重排后的最大和 (Maximize Sum After At Most K Digit Rearrangements)
+    def maximizeSum(self, nums: list[int], k: int) -> int:
+        n = len(nums)
+        a = [0] * n
+        for i, x in enumerate(nums):
+            cnts = [0] * 10
+            while x:
+                x, m = divmod(x, 10)
+                cnts[m] += 1
+            t = 0
+            for j in range(9, -1, -1):
+                while cnts[j]:
+                    t = t * 10 + j
+                    cnts[j] -= 1
+            a[i] = t
+        idx = [i for i in range(n)]
+        idx.sort(key=lambda o: (nums[o] - a[o], nums[o]))
+        res = 0
+        for id in idx:
+            if k:
+                res += a[id]
+                k -= 1
+            else:
+                res += nums[id]
+        return res
