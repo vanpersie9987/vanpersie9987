@@ -3286,4 +3286,18 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4088. 峰值与谷值的差 (Difference Between Peaks and Valleys)
+    public int peakValleyDifference(int[] nums) {
+        int res = 0;
+        for (int i = 1; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i - 1] && nums[i] > nums[i + 1]) {
+                res += nums[i];
+            } else if (nums[i] < nums[i - 1] && nums[i] < nums[i + 1]) {
+                res -= nums[i];
+            }
+        }
+        return res;
+
+    }
+
 }
