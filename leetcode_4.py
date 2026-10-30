@@ -6510,3 +6510,57 @@ class LcaBinaryLifting:
             else:
                 res += nums[id]
         return res
+
+    # 4081. 选择质数子集 II (Prime Subset Selection II)
+    def maxPrimeSubset(self, n: int, s: int) -> list[int]:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == len(a):
+                return j
+            res = dfs(i + 1, j)
+            if j + a[i] <= s:
+                res = max(res, dfs(i + 1, j + a[i]))
+            return res
+        @cache
+        def dfs2(i: int, j: int) -> int:
+            if i == len(a):
+                return 0 if j == _s else inf
+            res = dfs2(i + 1, j)
+            if j + a[i] <= _s:
+                res = min(res, dfs2(i + 1, j + a[i]) + 1)
+            return res
+
+        def make_ans(i: int, j: int, k: int):
+            if i == len(a):
+                return
+            # 选
+            if dfs(i + 1, j + a[i]) == dfs(i, j) and dfs2(i + 1, j + a[i]) + 1 == dfs2(i, j):
+                res.append(a[i])
+                make_ans(i + 1, j + a[i], k + 1)
+                return
+            # 不选
+            make_ans(i + 1, j, k)
+            
+
+        p = [True] * (n + 1)
+        p[0] = p[1] = False
+        for i in range(2, n + 1):
+            if p[i]:
+                for j in range(i * i, n + 1, i):
+                    p[j] = False
+        a = []
+        for i in range(2, n + 1):
+            if p[i]:
+                a.append(i)
+        # 从a中选出一些数，不超过s的情况下，使得选出的数的和最大
+        _s = dfs(0, 0)
+        if _s == 0:
+            return []
+        # 从a中选出一些数，在和恰好为_s的情况下，选出的数的个数最少
+        d = dfs2(0, 0)
+        res = []
+        # make_ans(i, j, k) 第i位，和为j，选了k个数
+        make_ans(0, 0, 0)
+        dfs.cache_clear()
+        dfs2.cache_clear()
+        return res
