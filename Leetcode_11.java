@@ -3492,4 +3492,90 @@ public class Leetcode_11 {
 
     }
 
+    // 4081. 选择质数子集 II (Prime Subset Selection II)
+    private int[][] memo_4081;
+    private int[][] memo2_4081;
+    private List<Integer> a4081;
+    private int s4081;
+    private int _s4081;
+    private List<Integer> res4081;
+
+    public List<Integer> maxPrimeSubset(int n, int s) {
+        this.s4081 = s;
+        this.a4081 = new ArrayList<>();
+        boolean[] p = new boolean[n + 1];
+        Arrays.fill(p, true);
+        for (int i = 2; i <= n; ++i) {
+            if (p[i]) {
+                for (int j = i * i; j <= n; j += i) {
+                    p[j] = false;
+                }
+            }
+        }
+        for (int i = 2; i <= n; ++i) {
+            if (p[i]) {
+                a4081.add(i);
+            }
+        }
+        this.memo_4081 = new int[a4081.size()][s + 1];
+        for (int[] r : memo_4081) {
+            Arrays.fill(r, -1);
+        }
+        this._s4081 = dfs_4081(0, 0);
+        if (_s4081 == 0) {
+            return new ArrayList<>();
+        }
+        this.memo2_4081 = new int[a4081.size()][s + 1];
+        for (int[] r : memo2_4081) {
+            Arrays.fill(r, -1);
+        }
+        int _d = dfs2_4081(0, 0);
+        this.res4081 = new ArrayList<>();
+        makeAns(0, 0, 0);
+        return res4081;
+
+    }
+
+    private void makeAns(int i, int j, int k) {
+        if (i == a4081.size()) {
+            return;
+        }
+        if (j + a4081.get(i) <= _s4081 && dfs_4081(i, j) == dfs_4081(i + 1, j + a4081.get(i))
+                && dfs2_4081(i, j) == dfs2_4081(i + 1, j + a4081.get(i)) + 1) {
+            res4081.add(a4081.get(i));
+            makeAns(i + 1, j + a4081.get(i), k + 1);
+            return;
+        }
+        makeAns(i + 1, j, k);
+
+    }
+
+    private int dfs2_4081(int i, int j) {
+        if (i == a4081.size()) {
+            return j == _s4081 ? 0 : Integer.MAX_VALUE / 2;
+        }
+        if (memo2_4081[i][j] != -1) {
+            return memo2_4081[i][j];
+        }
+        int res = dfs2_4081(i + 1, j);
+        if (j + a4081.get(i) <= _s4081) {
+            res = Math.min(res, dfs2_4081(i + 1, j + a4081.get(i)) + 1);
+        }
+        return memo2_4081[i][j] = res;
+    }
+
+    private int dfs_4081(int i, int j) {
+        if (i == a4081.size()) {
+            return j;
+        }
+        if (memo_4081[i][j] != -1) {
+            return memo_4081[i][j];
+        }
+        int res = dfs_4081(i + 1, j);
+        if (j + a4081.get(i) <= s4081) {
+            res = Math.max(res, dfs_4081(i + 1, j + a4081.get(i)));
+        }
+        return memo_4081[i][j] = res;
+    }
+
 }
