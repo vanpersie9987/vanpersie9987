@@ -3592,6 +3592,11 @@ public class Leetcode_11 {
                     valToPos.put(x, ++k);
                 }
                 valToCnt.merge(x, 1, Integer::sum);
+                // k种元素应该有数组元素的个数为 (1 + k) * k / 2 个
+                if (n - i < (1 + k) * k / 2) {
+                    break;
+                }
+                // 第k个首次出现的元素应该最多只有k个
                 if (valToCnt.get(x) > valToPos.get(x)) {
                     break;
                 }

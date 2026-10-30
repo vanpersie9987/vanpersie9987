@@ -6571,19 +6571,21 @@ class LcaBinaryLifting:
         n = len(nums)
         for i in range(n):
             # val首次出现的位置pos
-            pos = 0
+            k = 0
             val_to_pos = defaultdict(int)
             # val的出现次数
             val_to_cnt = defaultdict(int)
             for j in range(i, n):
                 x = nums[j]
                 if x not in val_to_pos:
-                    pos += 1
-                    val_to_pos[x] = pos
+                    k += 1
+                    val_to_pos[x] = k
                 val_to_cnt[x] += 1
+                if n - i < (1 + k) * k / 2:
+                    break
                 if val_to_cnt[x] > val_to_pos[x]:
                     break
-                if (1 + pos) * pos // 2 == j - i + 1:
+                if (1 + k) * k // 2 == j - i + 1:
                     res += 1
         return res
 
