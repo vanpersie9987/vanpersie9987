@@ -3578,4 +3578,30 @@ public class Leetcode_11 {
         return memo_4081[i][j] = res;
     }
 
+    // 4094. 统计频次阶梯子数组的数目 I (Count Frequency Staircase Subarrays I)
+    public int countStaircase(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int k = 0;
+            Map<Integer, Integer> valToPos = new HashMap<>();
+            Map<Integer, Integer> valToCnt = new HashMap<>();
+            for (int j = i; j < n; ++j) {
+                int x = nums[j];
+                if (!valToPos.containsKey(x)) {
+                    valToPos.put(x, ++k);
+                }
+                valToCnt.merge(x, 1, Integer::sum);
+                if (valToCnt.get(x) > valToPos.get(x)) {
+                    break;
+                }
+                if ((1 + k) * k / 2 == j - i + 1) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+
+    }
+
 }

@@ -6583,7 +6583,7 @@ class LcaBinaryLifting:
                 val_to_cnt[x] += 1
                 if val_to_cnt[x] > val_to_pos[x]:
                     break
-                if (1 + len(val_to_pos)) * len(val_to_pos) // 2 == j - i + 1:
+                if (1 + pos) * pos // 2 == j - i + 1:
                     res += 1
         return res
 
