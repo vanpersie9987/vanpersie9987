@@ -6594,3 +6594,6 @@ class LcaBinaryLifting:
         nums.sort()
         return sum(abs(x - nums[len(nums) // 2]) for x in nums)
 
+    # 4097. 合并整数后的最小值 (Minimum Value of Merged Integers)
+    def minMergedInteger(self, nums: list[int]) -> int:
+        return min(int(str(nums[i]) + str(nums[i + 1])) for i in range(0, len(nums), 2))
