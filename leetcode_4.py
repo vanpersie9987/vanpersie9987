@@ -6615,4 +6615,48 @@ class LcaBinaryLifting:
         res += (n - index - 2) * 2
         return res
 
+    # 4100. 平衡异或路径的最小开销 (Minimum Cost Path With Even XOR Parity)
+    def minActivationCost(self, edges: list[list[int]], values: list[int]) -> int:
+        def dfs(x: int, fa: int, pre_xor: int, pre_sum: int):
+            nonlocal res
+            pre_xor ^= values[x]
+            
+            a[x][0] = pre_xor
+            a[x][1] = pre_sum
+
+            if len(d[pre_xor.bit_count() & 1]):
+                res = min(res, pre_sum - d[pre_xor.bit_count() & 1][-1])
+            if fa != -1:
+                d[pre_xor.bit_count() & 1].append(pre_sum)
+            for y, c in g[x]:
+                if y == fa:
+                    continue
+                dfs(y, x, pre_xor, pre_sum + c)
+            if fa != -1:
+                d[pre_xor.bit_count() & 1].pop()
+            pre_xor ^= values[x]
+
+        n = len(values)
+        g = [[] for _ in range(n)]
+        for u, v, c in edges:
+            g[u].append((v, c))
+            g[v].append((u, c))
+        
+        # d[0] list 表示0到节点i的xor为偶数个1时的前缀和
+        # d[1] list 表示0到节点i的xor为奇数个1时的前缀和
+        d = [list() for _ in range(2)]
+        d[0].append(0)
+        
+        # a[i][0]: 节点0到节点i的xor
+        # a[i][1]: 节点0到节点i的和
+        a = [[0] * 2 for _ in range(n)]
+
+        res = inf
+        dfs(0, -1, 0, 0)
+        return res if res < inf else -1
+
+
+
+
+
         
