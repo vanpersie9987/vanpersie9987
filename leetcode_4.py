@@ -6589,3 +6589,8 @@ class LcaBinaryLifting:
                     res += 1
         return res
 
+    # 462. 最小操作次数使数组元素相等 II (Minimum Moves to Equal Array Elements II)
+    def minMoves2(self, nums: List[int]) -> int:
+        nums.sort()
+        return sum(abs(x - nums[len(nums) // 2]) for x in nums)
+
