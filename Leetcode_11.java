@@ -3609,4 +3609,14 @@ public class Leetcode_11 {
 
     }
 
+    // 4097. 合并整数后的最小值 (Minimum Value of Merged Integers)
+    public int minMergedInteger(int[] nums) {
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < nums.length; i += 2) {
+            String s = String.valueOf(nums[i]) + String.valueOf(nums[i + 1]);
+            res = Math.min(res, Integer.parseInt(s));
+        }
+        return res;
+    }
+
 }
