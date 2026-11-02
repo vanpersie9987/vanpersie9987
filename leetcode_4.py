@@ -6597,3 +6597,22 @@ class LcaBinaryLifting:
     # 4097. 合并整数后的最小值 (Minimum Value of Merged Integers)
     def minMergedInteger(self, nums: list[int]) -> int:
         return min(int(str(nums[i]) + str(nums[i + 1])) for i in range(0, len(nums), 2))
+
+    # 4098. 最小化 GCD 连通数组的最大值 (Minimize the Maximum Value of GCD-Connected Array)
+    def minimumMaxValue(self, n: int, index: int, value: int) -> int:
+        if value == 1:
+            return -1
+        prime = True
+        min_fac = value
+        for i in range(2, int(value**0.5) + 1):
+            if value % i == 0:
+                prime = False
+                min_fac = i
+                break
+        if prime and index or not prime and (value - min_fac) // 2 < index:
+            return -1
+        res = value + min_fac
+        res += (n - index - 2) * 2
+        return res
+
+        

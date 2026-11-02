@@ -3619,4 +3619,30 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4098. 最小化 GCD 连通数组的最大值 (Minimize the Maximum Value of GCD-Connected Array)
+    public long minimumMaxValue(int n, int index, int value) {
+        if (value == 1) {
+            return -1;
+        }
+        boolean prime = true;
+        int min_fac = -1;
+        for (int i = 2; i <= Math.sqrt(value); ++i) {
+            if (value % i == 0) {
+                prime = false;
+                min_fac = i;
+                break;
+            }
+        }
+        if (min_fac == -1) {
+            min_fac = value;
+        }
+        if (prime && index > 0 || !prime && (value - min_fac) / 2 < index) {
+            return -1;
+        }
+        long res = (long) value + min_fac;
+        res += (long) (n - index - 2) * 2;
+        return res;
+
+    }
+
 }
