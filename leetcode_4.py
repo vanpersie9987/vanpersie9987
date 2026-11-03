@@ -6631,6 +6631,36 @@ class LcaBinaryLifting:
                 mn[center] = min(mn[center], c)
         return res if res < inf else -1
 
+    # 4100. 平衡异或路径的最小开销 (Minimum Cost Path With Even XOR Parity)
+    def minActivationCost(self, edges: list[list[int]], values: list[int]) -> int:
+        def dfs(x: int, fa: int, p_ones: int) -> List[int]:
+            nonlocal res
+            p_val = values[x].bit_count() % 2
+            p_ones ^= p_val
+            min_sum = [inf, inf]
+            min_sum[p_ones] = 0
+
+            for y, c in g[x]:
+                if y == fa:
+                    continue
+                mn = dfs(y, x, p_ones)
+                mn[0] += c
+                mn[1] += c
+                res = min(res, min_sum[0] + mn[p_val], min_sum[1] + mn[p_val ^ 1])
+                min_sum[0] = min(min_sum[0], mn[0])
+                min_sum[1] = min(min_sum[1], mn[1])
+            return min_sum
+
+        n = len(values)
+        g = [[] for _ in range(n)]
+        for u, v, c in edges:
+            g[u].append((v, c))
+            g[v].append((u, c))
+        res = inf
+        dfs(0, -1, 0)
+        return res if res < inf else -1
+
+
 
 
 
