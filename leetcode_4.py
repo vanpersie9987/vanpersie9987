@@ -6660,6 +6660,39 @@ class LcaBinaryLifting:
         dfs(0, -1, 0)
         return res if res < inf else -1
 
+    # 4099. 将锁定数组排序的最少操作次数 (Minimum Operations to Sort With Locked Indices)
+    def minOperations(self, nums: list[int], locked: list[int], k: int) -> int:
+        # 求逆序对，还需掌握树状数组方法
+        def check(i: int, j: int) -> int:
+            if i == j:
+                return 0
+            res = 0
+            for k in range(i, j):
+                if nums[k] > nums[j]:
+                    res += 1
+            return res
+
+        n = len(nums)
+        res = i = 0
+        while i < n:
+            if nums[i] == i + 1:
+                i += 1
+                continue
+            mx = -1
+            j = i
+            while j < n and mx != j:
+                if locked[j]:
+                    if k == 0:
+                        return -1
+                    k -= 1
+                    res += 1
+                res += check(i, j)
+                mx = max(mx, nums[j])
+                j += 1
+            i = j
+        return res
+            
+
 
 
 
