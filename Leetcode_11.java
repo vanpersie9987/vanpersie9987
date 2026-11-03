@@ -3716,4 +3716,42 @@ public class Leetcode_11 {
         return min_cost;
     }
 
+    // 4099. 将锁定数组排序的最少操作次数 (Minimum Operations to Sort With Locked Indices)
+    public int minOperations(int[] nums, int[] locked, int k) {
+        int n = nums.length;
+        int i = 0;
+        int res = 0;
+        while (i < n) {
+            if (nums[i] == i + 1) {
+                ++i;
+                continue;
+            }
+            int j = i;
+            int mx = -1;
+            while (j < n && j != mx) {
+                if (locked[j] == 1) {
+                    if (k == 0) {
+                        return -1;
+                    }
+                    --k;
+                    ++res;
+                }
+                res += check4099(nums, i, j);
+                mx = Math.max(mx, nums[j++]);
+            }
+            i = j;
+        }
+        return res;
+
+    }
+    private int check4099(int[] nums, int i, int j) {
+        int res = 0;
+        for (int k = i; k < j; ++k) {
+            if (nums[k] > nums[j]) {
+                ++res;
+            }
+        }
+        return res;
+    }
+
 }
