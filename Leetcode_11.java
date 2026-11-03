@@ -3645,4 +3645,29 @@ public class Leetcode_11 {
 
     }
 
+    // 4100. 平衡异或路径的最小开销 (Minimum Cost Path With Even XOR Parity)
+    public int minActivationCost(int[][] edges, int[] values) {
+        int n = values.length;
+        int res = Integer.MAX_VALUE;
+        int[] mn = new int[n];
+        Arrays.fill(mn, Integer.MAX_VALUE);
+        for (int[] edge : edges) {
+            int x = edge[0];
+            int y = edge[1];
+            int vx = Integer.bitCount(values[x]) % 2;
+            int vy = Integer.bitCount(values[y]) % 2;
+            int c = edge[2];
+            if (vx == vy) {
+                res = Math.min(res, c);
+            } else {
+                int center = vx == 0 ? x : y;
+                res = (int) Math.min(res, c + (long) mn[center]);
+                mn[center] = (int) Math.min((long) mn[center], c);
+            }
+
+        }
+        return res < Integer.MAX_VALUE ? res : -1;
+
+    }
+
 }
