@@ -16,7 +16,7 @@ import queue
 from signal import valid_signals
 from sqlite3 import paramstyle
 import stat
-from termios import CINTR, N_PPP
+from termios import CINTR, N_PPP, VTDLY
 from tokenize import String, group
 from tty import CC
 from unicodedata import numeric
@@ -6617,43 +6617,20 @@ class LcaBinaryLifting:
 
     # 4100. 平衡异或路径的最小开销 (Minimum Cost Path With Even XOR Parity)
     def minActivationCost(self, edges: list[list[int]], values: list[int]) -> int:
-        def dfs(x: int, fa: int, pre_xor: int, pre_sum: int):
-            pre_xor ^= values[x]
-            
-            a[x][0] = pre_xor
-            a[x][1] = pre_sum
-
-            for y, c in g[x]:
-                if y == fa:
-                    continue
-                dfs(y, x, pre_xor, pre_sum + c)
-
-        def dfs_down_top(x: int, fa: int) -> Tuple:
-            nonlocal res
-
-            _xor_0 = values[x]
-            _sum_0 = 0
-            _xor_1 = 0
-            _sum_1 = 0
-            for y, c in g[x]:
-
-
-
-        n = len(values)
-        g = [[] for _ in range(n)]
-        for u, v, c in edges:
-            g[u].append((v, c))
-            g[v].append((u, c))
-        
-        # a[i][0]: 节点0到节点i的xor
-        # a[i][1]: 节点0到节点i的和
-        a = [[0] * 2 for _ in range(n)]
-
         res = inf
-        dfs(0, -1, 0, 0)
-        last = [-1] * 2
-        dfs_down_top(0, -1)
+        n = len(values)
+        mn = [inf] * n
+        for u, v, c in edges:
+            vx = values[u].bit_count() % 2
+            vy = values[v].bit_count() % 2
+            if vx == vy:
+                res = min(res, c)
+            else:
+                center = u if vx == 0 else v
+                res = min(res, mn[center] + c)
+                mn[center] = min(mn[center], c)
         return res if res < inf else -1
+
 
 
 
