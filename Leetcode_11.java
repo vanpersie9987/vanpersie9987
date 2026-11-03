@@ -3670,4 +3670,50 @@ public class Leetcode_11 {
 
     }
 
+    // 4100. 平衡异或路径的最小开销 (Minimum Cost Path With Even XOR Parity)
+    private List<int[]>[] g4100;
+    private int[] values4100;
+    private int res4100;
+
+    public int minActivationCost2(int[][] edges, int[] values) {
+        this.values4100 = values;
+        int n = values.length;
+        this.g4100 = new ArrayList[n];
+        Arrays.setAll(g4100, o -> new ArrayList<>());
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int c = edge[2];
+            g4100[u].add(new int[] { v, c });
+            g4100[v].add(new int[] { u, c });
+        }
+        this.res4100 = Integer.MAX_VALUE;
+        dfs4100(0, -1, 0);
+        return res4100 < Integer.MAX_VALUE ? res4100 : -1;
+    }
+
+    private long[] dfs4100(int x, int fa, int p_ones) {
+        int p_val = Integer.bitCount(values4100[x]) % 2;
+        p_ones ^= p_val;
+        long[] min_cost = new long[2];
+        Arrays.fill(min_cost, Integer.MAX_VALUE);
+        min_cost[p_ones] = 0;
+
+        for (int[] nxt : g4100[x]) {
+            int y = nxt[0];
+            int c = nxt[1];
+            if (y == fa) {
+                continue;
+            }
+            long[] mn = dfs4100(y, x, p_ones);
+            mn[0] += c;
+            mn[1] += c;
+            res4100 = (int) Math.min(res4100, (long) min_cost[0] + mn[p_val]);
+            res4100 = (int) Math.min(res4100, (long) min_cost[1] + mn[p_val ^ 1]);
+            min_cost[0] = (int) Math.min((long) min_cost[0], (long) mn[0]);
+            min_cost[1] = (int) Math.min((long) min_cost[1], (long) mn[1]);
+        }
+        return min_cost;
+    }
+
 }
