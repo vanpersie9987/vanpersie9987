@@ -3710,8 +3710,8 @@ public class Leetcode_11 {
             mn[1] += c;
             res4100 = (int) Math.min(res4100, (long) min_cost[0] + mn[p_val]);
             res4100 = (int) Math.min(res4100, (long) min_cost[1] + mn[p_val ^ 1]);
-            min_cost[0] = (int) Math.min((long) min_cost[0], (long) mn[0]);
-            min_cost[1] = (int) Math.min((long) min_cost[1], (long) mn[1]);
+            min_cost[0] = Math.min((long) min_cost[0], mn[0]);
+            min_cost[1] = Math.min((long) min_cost[1], mn[1]);
         }
         return min_cost;
     }
