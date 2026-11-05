@@ -6691,6 +6691,20 @@ class LcaBinaryLifting:
                 j += 1
             i = j
         return res
+
+    # 1385. 两个数组间的距离值 (Find the Distance Value Between Two Arrays)
+    def findTheDistanceValue(self, arr1: List[int], arr2: List[int], d: int) -> int:
+        n = len(arr2)
+        arr1.sort()
+        arr2.sort()
+        res = i = 0
+        for x in arr1:
+            cur = x - d
+            while i < n and arr2[i] < cur:
+                i += 1
+            if i == n or arr2[i] - cur > d * 2:
+                res += 1
+        return res
             
 
 
