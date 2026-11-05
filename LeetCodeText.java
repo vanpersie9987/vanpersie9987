@@ -6305,59 +6305,23 @@ public class LeetCodeText {
         return res;
     }
 
-    // 1385. 两个数组间的距离值-模拟
-    public int findTheDistanceValue(final int[] arr1, final int[] arr2, final int d) {
-        int count = 0;
-        for (int i = 0; i < arr1.length; ++i) {
-            int left = arr1[i] - d;
-            int right = arr1[i] + d;
-            boolean flag = false;
-            for (int j = 0; j < arr2.length; ++j) {
-                if (left <= arr2[j] && arr2[j] <= right) {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                ++count;
-            }
-        }
-        return count;
-
-    }
-
-    // 1385. 两个数组间的距离值--二分
+    // 1385. 两个数组间的距离值 (Find the Distance Value Between Two Arrays)
     public int findTheDistanceValue2(final int[] arr1, final int[] arr2, final int d) {
         Arrays.sort(arr2);
-        int count = 0;
-        for (int i = 0; i < arr1.length; ++i) {
-            if (getMinDistance(arr2, arr1[i]) > d) {
-                ++count;
+        Arrays.sort(arr1);
+        int res = 0;
+        int i = 0;
+        for (int x : arr1) {
+            int cur = x - d;
+            while (i < arr2.length && arr2[i] < cur) {
+                ++i;
+            }
+            if (i == arr2.length || arr2[i] - cur > d * 2) {
+                ++res;
             }
         }
-        return count;
+        return res;
 
-    }
-
-    private int getMinDistance(int[] nums, int target) {
-        if (target <= nums[0]) {
-            return Math.abs(target - nums[0]);
-        } else if (target >= nums[nums.length - 1]) {
-            return Math.abs(target - nums[nums.length - 1]);
-        }
-        int left = 0;
-        int right = nums.length - 1;
-        while (left <= right) {
-            int mid = left + ((right - left) >>> 1);
-            if (nums[mid] == target) {
-                return 0;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
-            }
-        }
-        return Math.min(Math.abs(target - nums[left]), Math.abs(target - nums[left - 1]));
     }
 
     // 835. 图像重叠
