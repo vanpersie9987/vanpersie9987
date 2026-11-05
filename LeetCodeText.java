@@ -6306,7 +6306,7 @@ public class LeetCodeText {
     }
 
     // 1385. 两个数组间的距离值 (Find the Distance Value Between Two Arrays)
-    public int findTheDistanceValue2(final int[] arr1, final int[] arr2, final int d) {
+    public int findTheDistanceValue(final int[] arr1, final int[] arr2, final int d) {
         Arrays.sort(arr2);
         Arrays.sort(arr1);
         int res = 0;
