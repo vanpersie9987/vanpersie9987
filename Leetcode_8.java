@@ -560,18 +560,8 @@ public class Leetcode_8 {
                 dfs6898(i + 1, left, end) + (right == start ? -1 : 0)) + len;
     }
 
-    // 6468. 统计没有收到请求的服务器数目 (Count Zero Request Servers)
+    // 2747. 统计没有收到请求的服务器数目 (Count Zero Request Servers)
     public int[] countServers(int n, int[][] logs, int x, int[] queries) {
-        int m = queries.length;
-        Integer[] ids = IntStream.range(0, m).boxed().toArray(Integer[]::new);
-        Arrays.sort(ids, new Comparator<Integer>() {
-
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(queries[o1], queries[o2]);
-            }
-
-        });
         Arrays.sort(logs, new Comparator<int[]>() {
 
             @Override
@@ -580,32 +570,35 @@ public class Leetcode_8 {
             }
 
         });
-        int[] res = new int[m];
+
+        Integer[] idx = IntStream.range(0, queries.length).boxed().toArray(Integer[]::new);
+        Arrays.sort(idx, new Comparator<Integer>() {
+
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(queries[o1], queries[o2]);
+            }
+
+        });
+        int[] res = new int[queries.length];
         int[] cnts = new int[n + 1];
+        int c = 0;
         int i = 0;
         int j = 0;
-        int cur = 0;
-        for (int id : ids) {
-            int r = queries[id];
-            while (j < logs.length && logs[j][1] <= r) {
-                ++cnts[logs[j][0]];
-                if (cnts[logs[j][0]] == 1) {
-                    ++cur;
+        for (int id : idx) {
+            while (i < logs.length && logs[i][1] <= queries[id]) {
+                if (++cnts[logs[i++][0]] == 1) {
+                    ++c;
                 }
-                ++j;
             }
-            int l = queries[id] - x;
-            while (i < logs.length && logs[i][1] < l) {
-                --cnts[logs[i][0]];
-                if (cnts[logs[i][0]] == 0) {
-                    --cur;
+            while (j < logs.length && logs[j][1] < queries[id] - x) {
+                if (--cnts[logs[j++][0]] == 0) {
+                    --c;
                 }
-                ++i;
             }
-            res[id] = n - cur;
+            res[id] = n - c;
         }
         return res;
-
     }
 
     // 2748. 美丽下标对的数目 (Number of Beautiful Pairs)

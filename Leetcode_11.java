@@ -3744,6 +3744,7 @@ public class Leetcode_11 {
         return res;
 
     }
+
     private int check4099(int[] nums, int i, int j) {
         int res = 0;
         for (int k = i; k < j; ++k) {
