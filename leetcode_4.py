@@ -6705,12 +6705,3 @@ class LcaBinaryLifting:
             if i == n or arr2[i] - cur > d * 2:
                 res += 1
         return res
-            
-
-
-
-
-
-
-
-        
