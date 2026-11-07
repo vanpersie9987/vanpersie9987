@@ -548,47 +548,47 @@ public class LeetCode_4 {
         int[] cnts = new int[5];
         for (char ch : croakOfFrogs.toCharArray()) {
             switch (ch) {
-                case 'c':
-                    if (cnts[4] > 0) {
-                        --cnts[4];
-                    }
-                    ++cnts[0];
-                    break;
-                case 'r':
-                    if (cnts[0] > 0) {
-                        --cnts[0];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[1];
-                    break;
-                case 'o':
-                    if (cnts[1] > 0) {
-                        --cnts[1];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[2];
-                    break;
-                case 'a':
-                    if (cnts[2] > 0) {
-                        --cnts[2];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[3];
-                    break;
-                case 'k':
-                    if (cnts[3] > 0) {
-                        --cnts[3];
-                    } else {
-                        return -1;
-                    }
-                    ++cnts[4];
-                    break;
+            case 'c':
+                if (cnts[4] > 0) {
+                    --cnts[4];
+                }
+                ++cnts[0];
+                break;
+            case 'r':
+                if (cnts[0] > 0) {
+                    --cnts[0];
+                } else {
+                    return -1;
+                }
+                ++cnts[1];
+                break;
+            case 'o':
+                if (cnts[1] > 0) {
+                    --cnts[1];
+                } else {
+                    return -1;
+                }
+                ++cnts[2];
+                break;
+            case 'a':
+                if (cnts[2] > 0) {
+                    --cnts[2];
+                } else {
+                    return -1;
+                }
+                ++cnts[3];
+                break;
+            case 'k':
+                if (cnts[3] > 0) {
+                    --cnts[3];
+                } else {
+                    return -1;
+                }
+                ++cnts[4];
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
         if (cnts[0] > 0 || cnts[1] > 0 || cnts[2] > 0 || cnts[3] > 0) {

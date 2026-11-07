@@ -3237,28 +3237,30 @@ class leetcode_1:
         return dfs(0, 0)
 
     # 2747. 统计没有收到请求的服务器数目 (Count Zero Request Servers)
-    def countServers(self, n: int, logs: List[List[int]], x: int, queries: List[int]) -> List[int]:
-            times = [0] * (n + 1)
-            logs.sort(key=lambda o: o[1])
-            ids = [i for i in range(len(queries))]
-            ids.sort(key=lambda o: queries[o])
-            res = [0] * len(queries)
-            i, j, c = 0, 0, 0
-            for id in ids:
-                r = queries[id]
-                while i < len(logs) and logs[i][1] <= r:
-                    times[logs[i][0]] += 1
-                    if times[logs[i][0]] == 1:
-                        c += 1
-                    i += 1
-                l = queries[id] - x
-                while j < len(logs) and logs[j][1] < l:
-                    times[logs[j][0]] -= 1
-                    if times[logs[j][0]] == 0:
-                        c -= 1
-                    j += 1
-                res[id] = n - c
-            return res
+    def countServers(
+        self, n: int, logs: List[List[int]], x: int, queries: List[int]
+    ) -> List[int]:
+        times = [0] * (n + 1)
+        logs.sort(key=lambda o: o[1])
+        ids = [i for i in range(len(queries))]
+        ids.sort(key=lambda o: queries[o])
+        res = [0] * len(queries)
+        i, j, c = 0, 0, 0
+        for id in ids:
+            r = queries[id]
+            while i < len(logs) and logs[i][1] <= r:
+                times[logs[i][0]] += 1
+                if times[logs[i][0]] == 1:
+                    c += 1
+                i += 1
+            l = queries[id] - x
+            while j < len(logs) and logs[j][1] < l:
+                times[logs[j][0]] -= 1
+                if times[logs[j][0]] == 0:
+                    c -= 1
+                j += 1
+            res[id] = n - c
+        return res
 
     # 2370. 最长理想子序列 (Longest Ideal Subsequence)
     def longestIdealString(self, s: str, k: int) -> int:

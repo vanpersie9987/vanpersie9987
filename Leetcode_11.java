@@ -3755,4 +3755,55 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 1882. 使用服务器处理任务 (Process Tasks Using Servers)
+    public int[] assignTasks(int[] servers, int[] tasks) {
+        int n = servers.length;
+        int m = tasks.length;
+        int[] res = new int[m];
+        PriorityQueue<int[]> idle = new PriorityQueue<>(new Comparator<int[]>() {
+
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                if (o1[0] != o2[0]) {
+                    return Integer.compare(o1[0], o2[0]);
+                }
+                return Integer.compare(o1[1], o2[1]);
+
+            }
+
+        });
+        for (int i = 0; i < n; ++i) {
+            // 服务器权重，服务器下标
+            idle.offer(new int[] { servers[i], i });
+        }
+        //
+        PriorityQueue<long[]> busy = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[0], o2[0]);
+            }
+
+        });
+        long now = 0L;
+        for (int i = 0; i < m; ++i) {
+            now = Math.max(now, i);
+            while (!busy.isEmpty() && busy.peek()[0] <= now) {
+                int p = (int) busy.poll()[1];
+                idle.offer(new int[] { servers[p], p });
+            }
+            if (idle.isEmpty()) {
+                now = busy.peek()[0];
+                while (!busy.isEmpty() && busy.peek()[0] <= now) {
+                    int p = (int) busy.poll()[1];
+                    idle.offer(new int[] { servers[p], p });
+                }
+            }
+            int[] cur = idle.poll();
+            busy.offer(new long[] { now + tasks[i], cur[1] });
+            res[i] = cur[1];
+        }
+        return res;
+    }
+
 }

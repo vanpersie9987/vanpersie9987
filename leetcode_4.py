@@ -6521,6 +6521,7 @@ class LcaBinaryLifting:
             if j + a[i] <= s:
                 res = max(res, dfs(i + 1, j + a[i]))
             return res
+
         @cache
         def dfs2(i: int, j: int) -> int:
             if i == len(a):
@@ -6534,13 +6535,14 @@ class LcaBinaryLifting:
             if i == len(a):
                 return
             # 选
-            if dfs(i + 1, j + a[i]) == dfs(i, j) and dfs2(i + 1, j + a[i]) + 1 == dfs2(i, j):
+            if dfs(i + 1, j + a[i]) == dfs(i, j) and dfs2(i + 1, j + a[i]) + 1 == dfs2(
+                i, j
+            ):
                 res.append(a[i])
                 make_ans(i + 1, j + a[i], k + 1)
                 return
             # 不选
             make_ans(i + 1, j, k)
-            
 
         p = [True] * (n + 1)
         p[0] = p[1] = False

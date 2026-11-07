@@ -956,23 +956,23 @@ class Union924:
 
     # 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
     def minOperations(self, nums: list[int], x: int) -> int:
-            n = len(nums)
-            k = sum(nums) - x
-            if k == 0:
-                return n
-            if k < 0:
-                return -1
-            d = defaultdict(int)
-            d[0] = -1
-            s = 0
-            res = -1
-            for i, x in enumerate(nums):
-                s += x
-                if s - k in d:
-                    res = max(res, i - d[s - k])
-                if s not in d:
-                    d[s] = i
-            return -1 if res == -1 else n - res
+        n = len(nums)
+        k = sum(nums) - x
+        if k == 0:
+            return n
+        if k < 0:
+            return -1
+        d = defaultdict(int)
+        d[0] = -1
+        s = 0
+        res = -1
+        for i, x in enumerate(nums):
+            s += x
+            if s - k in d:
+                res = max(res, i - d[s - k])
+            if s not in d:
+                d[s] = i
+        return -1 if res == -1 else n - res
 
     # 1658. 将 x 减到 0 的最小操作数 (Minimum Operations to Reduce X to Zero)
     def minOperations(self, nums: list[int], x: int) -> int:
