@@ -6707,3 +6707,27 @@ class LcaBinaryLifting:
             if i == n or arr2[i] - cur > d * 2:
                 res += 1
         return res
+
+    def assignTasks(self, servers: List[int], tasks: List[int]) -> List[int]:
+        idle = []
+        heapq.heapify(idle)
+        for i, s in enumerate(servers):
+            heapq.heappush(idle, (s, i))
+        busy = []
+        heapq.heapify(busy)
+        res = []
+        now = 0
+        for i, t in enumerate(tasks):
+            now = max(now, i)
+            while busy and busy[0][0] <= now:
+                _, j = heapq.heappop(busy)
+                heapq.heappush(idle, (servers[j], j))
+            if len(idle) == 0:
+                now = busy[0][0]
+                while busy and busy[0][0] <= now:
+                    _, j = heapq.heappop(busy)
+                    heapq.heappush(idle, (servers[j], j))
+            _, j = heapq.heappop(idle)
+            res.append(j)
+            heapq.heappush(busy, (now + t, j))
+        return res
