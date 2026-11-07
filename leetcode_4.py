@@ -6708,7 +6708,13 @@ class LcaBinaryLifting:
                 res += 1
         return res
 
+    # 1882. 使用服务器处理任务 (Process Tasks Using Servers)
     def assignTasks(self, servers: List[int], tasks: List[int]) -> List[int]:
+        def release():
+            while busy and busy[0][0] <= now:
+                _, j = heapq.heappop(busy)
+                heapq.heappush(idle, (servers[j], j))
+
         idle = []
         heapq.heapify(idle)
         for i, s in enumerate(servers):
@@ -6719,14 +6725,10 @@ class LcaBinaryLifting:
         now = 0
         for i, t in enumerate(tasks):
             now = max(now, i)
-            while busy and busy[0][0] <= now:
-                _, j = heapq.heappop(busy)
-                heapq.heappush(idle, (servers[j], j))
+            release()
             if len(idle) == 0:
                 now = busy[0][0]
-                while busy and busy[0][0] <= now:
-                    _, j = heapq.heappop(busy)
-                    heapq.heappush(idle, (servers[j], j))
+                release()
             _, j = heapq.heappop(idle)
             res.append(j)
             heapq.heappush(busy, (now + t, j))
