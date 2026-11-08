@@ -11,6 +11,8 @@ git config --global http.proxy http://127.0.0.1:49657
 
 M4 pro
 git config --global http.proxy http://127.0.0.1:50456
+
+
 // 不用的时候最好取消了，不知道为什么突然正常push不上去了，时好时坏的。取消代理的命令
 git config --global --unset http.proxy 
 -->
