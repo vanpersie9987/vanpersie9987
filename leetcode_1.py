@@ -2443,20 +2443,18 @@ class leetcode_1:
         return res
 
     # 1267. 统计参与通信的服务器 (Count Servers that Communicate)
-    def countServers(self, grid: List[List[int]]) -> int:
-        m = len(grid)
-        n = len(grid[0])
+    def countServers(self, grid: list[list[int]]) -> int:
+        m, n = len(grid), len(grid[0])
         row = [0] * m
         col = [0] * n
         res = 0
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j]:
-                    row[i] += 1
-                    col[j] += 1
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] and (row[i] > 1 or col[j] > 1):
+        for i, r in enumerate(grid):
+            for j, c in enumerate(r):
+                row[i] += c
+                col[j] += c
+        for i, r in enumerate(grid):
+            for j, c in enumerate(r):
+                if c and (row[i] > 1 or col[j] > 1):
                     res += 1
         return res
 

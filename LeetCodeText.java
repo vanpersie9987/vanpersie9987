@@ -6237,23 +6237,20 @@ public class LeetCodeText {
     // 1267. 统计参与通信的服务器 (Count Servers that Communicate)
     public int countServers(int[][] grid) {
         int res = 0;
-        int[] rows = new int[grid.length];
-        int[] cols = new int[grid[0].length];
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
-                if (grid[i][j] == 1) {
-                    ++rows[i];
-                    ++cols[j];
-                }
-
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] rows = new int[m];
+        int[] cols = new int[n];
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                rows[i] += grid[i][j];
+                cols[j] += grid[i][j];
             }
         }
-        for (int i = 0; i < grid.length; ++i) {
-            for (int j = 0; j < grid[0].length; ++j) {
-                if (grid[i][j] == 1) {
-                    if (rows[i] > 1 || cols[j] > 1) {
-                        ++res;
-                    }
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == 1 && (rows[i] > 1 || cols[j] > 1)) {
+                    ++res;
                 }
             }
         }
