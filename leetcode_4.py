@@ -6733,3 +6733,22 @@ class LcaBinaryLifting:
             res.append(j)
             heapq.heappush(busy, (now + t, j))
         return res
+
+    # 4106. 找出两个字符串的不匹配片段 (Find Mismatched Segments Between Two Strings)
+    def findMismatchedSegments(self, s1: str, s2: str) -> list[list[str]]:
+        res = []
+        i = 0
+        n = len(s1)
+        while i < n:
+            if s1[i] == s2[i]:
+                i += 1
+                continue
+            j = i
+            while j < n and s1[j] != s2[j]:
+                j += 1
+            res.append((s1[i:j], s2[i:j]))
+            i = j
+        return res
+            
+        
+    
