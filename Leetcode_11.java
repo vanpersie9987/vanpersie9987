@@ -3806,4 +3806,25 @@ public class Leetcode_11 {
         return res;
     }
 
+    // 4106. 找出两个字符串的不匹配片段 (Find Mismatched Segments Between Two Strings)
+    public List<List<String>> findMismatchedSegments(String s1, String s2) {
+        List<List<String>> res = new ArrayList<>();
+        int i = 0;
+        int n = s1.length();
+        while (i < n) {
+            if (s1.charAt(i) == s2.charAt(i)) {
+                ++i;
+                continue;
+            }
+            int j = i;
+            while (j < n && s1.charAt(j) != s2.charAt(j)) {
+                ++j;
+            }
+            res.add(List.of(s1.substring(i, j), s2.substring(i, j)));
+            i = j;
+        }
+        return res;
+
+    }
+
 }
