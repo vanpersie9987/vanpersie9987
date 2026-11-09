@@ -3827,9 +3827,35 @@ public class Leetcode_11 {
 
     }
 
+    // 4107. 统计有效后缀排序的数量 I (Count Valid Suffix Sorts I)
     public int countSuffix(int[] nums, int[] target) {
         int n = nums.length;
-        
+        int left = n;
+        for (int i = 0; i < n; ++i) {
+            if (nums[i] != target[i]) {
+                left = i;
+                break;
+            }
+        }
+        int res = 0;
+        Map<Integer, Integer> diff = new HashMap<>();
+        for (int i = n - 1; i >= 0; --i) {
+            if (i < n - 1 && target[i] < target[i + 1]) {
+                break;
+            }
+            diff.merge(nums[i], 1, Integer::sum);
+            diff.merge(target[i], -1, Integer::sum);
+            if (diff.getOrDefault(nums[i], 0) == 0) {
+                diff.remove(nums[i]);
+            }
+            if (diff.getOrDefault(target[i], 0) == 0) {
+                diff.remove(target[i]);
+            }
+            if (diff.size() == 0 && i <= left) {
+                ++res;
+            }
+        }
+        return res;
 
     }
 
