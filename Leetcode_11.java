@@ -3827,4 +3827,10 @@ public class Leetcode_11 {
 
     }
 
+    public int countSuffix(int[] nums, int[] target) {
+        int n = nums.length;
+        
+
+    }
+
 }

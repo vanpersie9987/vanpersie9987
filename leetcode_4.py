@@ -6755,12 +6755,11 @@ class LcaBinaryLifting:
     def countSuffix(self, nums: list[int], target: list[int]) -> int:
         res = 0
         n = len(nums)
-        left = [False] * (n + 1)
-        left[0] = True
+        left = n
         for i, (x, y) in enumerate(zip(nums, target)):
             if x != y:
+                left = i
                 break
-            left[i + 1] = True
         diff = defaultdict(int)
         for i in range(n - 1, -1, -1):
             if i < n - 1 and target[i] < target[i + 1]:
@@ -6771,7 +6770,7 @@ class LcaBinaryLifting:
                 del diff[target[i]]
             if diff[nums[i]] == 0:
                 del diff[nums[i]]
-            if len(diff) == 0 and left[i]:
+            if len(diff) == 0 and i <= left:
                 res += 1
         return res
             
