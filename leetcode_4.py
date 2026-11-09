@@ -6796,6 +6796,36 @@ class LcaBinaryLifting:
                 st.pop()
         return len(st) == 1
 
+    # 4104. 统计有效子字符串 II (Count Valid Substrings II)
+    def countValidSubstrings(self, s: str) -> int:
+        a_list = []
+        b_list = []
+        last_a = -1
+        n = len(s)
+        cnt = 0
+        for i, x in enumerate(s):
+            if x == 'a':
+                a_list.append(i)
+            elif x == 'b':
+                b_list.append(i)
+            # c
+            # 1 3 5 10
+            # id == 6
+            else:
+                if len(b_list) and len(a_list):
+                    id = b_list[-1]
+                    left = 0
+                    right = len(a_list) - 1
+                    while left <= right:
+                        mid = left + ((right - left) >> 1)
+                        if a_list[mid] <= id:
+                            left = mid + 1
+                        else:
+                            right = mid - 1
+                    if left - 1 >= 0:
+                        last_a = a_list[left - 1]
+            cnt += last_a + 1
+        return (n + 1) * n // 2 - cnt
             
         
     
