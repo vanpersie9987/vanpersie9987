@@ -67,6 +67,7 @@ from turtle import (
     Turtle,
     color,
     heading,
+    isdown,
     left,
     mode,
     pos,
@@ -6748,6 +6749,30 @@ class LcaBinaryLifting:
                 j += 1
             res.append((s1[i:j], s2[i:j]))
             i = j
+        return res
+
+    # 4107. 统计有效后缀排序的数量 I (Count Valid Suffix Sorts I)
+    def countSuffix(self, nums: list[int], target: list[int]) -> int:
+        res = 0
+        n = len(nums)
+        left = [False] * (n + 1)
+        left[0] = True
+        for i, (x, y) in enumerate(zip(nums, target)):
+            if x != y:
+                break
+            left[i + 1] = True
+        diff = defaultdict(int)
+        for i in range(n - 1, -1, -1):
+            if i < n - 1 and target[i] < target[i + 1]:
+                break
+            diff[nums[i]] += 1
+            diff[target[i]] -= 1
+            if diff[target[i]] == 0:
+                del diff[target[i]]
+            if diff[nums[i]] == 0:
+                del diff[nums[i]]
+            if len(diff) == 0 and left[i]:
+                res += 1
         return res
             
         
