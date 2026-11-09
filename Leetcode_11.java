@@ -3874,4 +3874,22 @@ public class Leetcode_11 {
 
     }
 
+    // 4103. 按类型和颜色删除元素 (Remove Elements by Type and Color)
+    public boolean canRemoveAll(int[] types, int[] colors, int[] groupSize) {
+        Deque<int[]> q = new ArrayDeque<>();
+        q.add(new int[] { -1, 0, 0 });
+        for (int i = 0; i < types.length; ++i) {
+            if (q.peekLast()[0] == types[i] && q.peekLast()[1] == colors[i]) {
+                ++q.peekLast()[2];
+            } else {
+                q.addLast(new int[] { types[i], colors[i], 1 });
+            }
+            if (groupSize[q.peekLast()[0]] == q.peekLast()[2]) {
+                q.pollLast();
+            }
+        }
+        return q.size() == 1;
+
+    }
+
 }
