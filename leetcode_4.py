@@ -6773,6 +6773,17 @@ class LcaBinaryLifting:
             if len(diff) == 0 and i <= left:
                 res += 1
         return res
+
+    # 4102. 统计有效子字符串 I (Count Valid Substrings I)
+    def countValidSubstrings(self, s: str) -> int:
+        cnt = 0
+        last = 0
+        for i, x in enumerate(s):
+            if i >= 2 and x == 'c' and s[i - 1] == 'b' and s[i - 2] == 'a':
+                last = i - 1
+            cnt += last
+        return (len(s) + 1) * len(s) // 2 - cnt
+            
             
         
     
