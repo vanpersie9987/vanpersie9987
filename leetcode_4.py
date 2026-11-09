@@ -6783,7 +6783,19 @@ class LcaBinaryLifting:
                 last = i - 1
             cnt += last
         return (len(s) + 1) * len(s) // 2 - cnt
-            
+
+    # 4103. 按类型和颜色删除元素 (Remove Elements by Type and Color)
+    def canRemoveAll(self, types: list[int], colors: list[int], groupSize: list[int]) -> bool:
+        st = [[-1, 0, 0]]
+        for t, c in zip(types, colors):
+            if st[-1][0] == t and st[-1][1] == c:
+                st[-1][-1] += 1
+            else:
+                st.append([t, c, 1])
+            if groupSize[st[-1][0]] == st[-1][-1]:
+                st.pop()
+        return len(st) == 1
+
             
         
     
