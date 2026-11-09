@@ -3892,4 +3892,24 @@ public class Leetcode_11 {
 
     }
 
+    // 4104. 统计有效子字符串 II (Count Valid Substrings II)
+    public long countValidSubstrings4104(String s) {
+        long res = 0L;
+        int last_a = -1;
+        int last_ab = -1;
+        int last_abc = -1;
+        for (int i = 0; i < s.length(); ++i) {
+            if (s.charAt(i) == 'a') {
+                last_a = i;
+            } else if (s.charAt(i) == 'b') {
+                last_ab = last_a;
+            } else {
+                last_abc = last_ab;
+            }
+            res += i - last_abc;
+        }
+        return res;
+
+    }
+
 }
