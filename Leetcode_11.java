@@ -3859,4 +3859,19 @@ public class Leetcode_11 {
 
     }
 
+    // 4102. 统计有效子字符串 I (Count Valid Substrings I)
+    public long countValidSubstrings(String s) {
+        int n = s.length();
+        int last = 0;
+        long res = 0L;
+        for (int i = 2; i < n; ++i) {
+            if (s.charAt(i) == 'c' && s.charAt(i - 1) == 'b' && s.charAt(i - 2) == 'a') {
+                last = i - 1;
+            }
+            res += last;
+        }
+        return (long) (n + 1) * n / 2 - res;
+
+    }
+
 }
