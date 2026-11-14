@@ -3503,19 +3503,29 @@ public class Leetcode_9 {
     // 3364. 最小正和子数组 (Minimum Positive Sum Subarray )
     public int minimumSumSubarray(List<Integer> nums, int l, int r) {
         int n = nums.size();
+        int[] s = new int[n + 1];
+        TreeMap<Integer, Integer> cnt = new TreeMap<>();
         int res = Integer.MAX_VALUE;
-        for (int i = 0; i < n; ++i) {
-            int s = 0;
-            for (int j = i; j < n; ++j) {
-                s += nums.get(j);
-                if (j - i + 1 <= r && j - i + 1 >= l) {
-                    if (s > 0) {
-                        res = Math.min(res, s);
-                    }
+        for (int j = 1; j < n + 1; ++j) {
+            s[j] = s[j - 1] + nums.get(j - 1);
+            if (j < l) {
+                continue;
+            }
+            cnt.merge(s[j - l], 1, Integer::sum);
+            Integer lower = cnt.lowerKey(s[j]);
+            if (lower != null) {
+                res = Math.min(res, s[j] - lower);
+            }
+            if (j >= r) {
+                int v = s[j - r];
+                cnt.merge(v, -1, Integer::sum);
+                if (cnt.get(v) == 0) {
+                    cnt.remove(v);
                 }
             }
         }
-        return res == Integer.MAX_VALUE ? -1 : res;
+        return res < Integer.MAX_VALUE ? res : -1;
+
     }
 
     // 3365. 重排子字符串以形成目标字符串 (Rearrange K Substrings to Form Target String)
