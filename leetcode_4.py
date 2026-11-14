@@ -6779,13 +6779,15 @@ class LcaBinaryLifting:
         cnt = 0
         last = 0
         for i, x in enumerate(s):
-            if i >= 2 and x == 'c' and s[i - 1] == 'b' and s[i - 2] == 'a':
+            if i >= 2 and x == "c" and s[i - 1] == "b" and s[i - 2] == "a":
                 last = i - 1
             cnt += last
         return (len(s) + 1) * len(s) // 2 - cnt
 
     # 4103. 按类型和颜色删除元素 (Remove Elements by Type and Color)
-    def canRemoveAll(self, types: list[int], colors: list[int], groupSize: list[int]) -> bool:
+    def canRemoveAll(
+        self, types: list[int], colors: list[int], groupSize: list[int]
+    ) -> bool:
         st = [[-1, 0, 0]]
         for t, c in zip(types, colors):
             if st[-1][0] == t and st[-1][1] == c:
@@ -6801,18 +6803,25 @@ class LcaBinaryLifting:
         last_a = last_ab = last_abc = -1
         res = 0
         for i, x in enumerate(s):
-            if x == 'a':
+            if x == "a":
                 last_a = i
-            elif x == 'b':
+            elif x == "b":
                 last_ab = last_a
             else:
                 last_abc = last_ab
             res += i - last_abc
         return res
-            
 
-
-
-            
-        
-    
+    # 3364. 最小正和子数组 (Minimum Positive Sum Subarray)
+    def minimumSumSubarray(self, nums: List[int], l: int, r: int) -> int:
+        ans = inf
+        s = list(accumulate(nums, initial=0))
+        sl = SortedList()  # sortedcontainers
+        for j in range(l, len(nums) + 1):
+            sl.add(s[j - l])
+            k = sl.bisect_left(s[j])
+            if k:
+                ans = min(ans, s[j] - sl[k - 1])
+            if j >= r:
+                sl.remove(s[j - r])
+        return -1 if ans == inf else ans

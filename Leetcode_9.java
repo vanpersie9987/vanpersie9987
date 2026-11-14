@@ -3500,7 +3500,7 @@ public class Leetcode_9 {
         return memo3363[i][j] = mx + fruits3363[i][j];
     }
 
-    // 3364. 最小正和子数组 (Minimum Positive Sum Subarray )
+    // 3364. 最小正和子数组 (Minimum Positive Sum Subarray)
     public int minimumSumSubarray(List<Integer> nums, int l, int r) {
         int n = nums.size();
         int[] s = new int[n + 1];
