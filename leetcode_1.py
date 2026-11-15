@@ -852,21 +852,15 @@ class leetcode_1:
         return res if res < inf else -1
 
     # 1524. 和为奇数的子数组数目 (Number of Sub-arrays With Odd Sum)
-    def numOfSubarrays(self, arr: List[int]) -> int:
-        even = 1
-        odd = 0
-        res = 0
-        sum = 0
-        m = 10**9 + 7
+    def numOfSubarrays(self, arr: list[int]) -> int:
+        res, pre = 0, 0
+        cnt = [1, 0]
+        MOD = 10**9 + 7
         for x in arr:
-            sum += x
-            if (sum & 1) == 0:
-                res += odd
-                even += 1
-            else:
-                res += even
-                odd += 1
-        return res % m
+            pre = (pre + x) % 2
+            res = (res + cnt[pre ^ 1]) % MOD
+            cnt[pre] += 1
+        return res
 
     # 1525. 字符串的好分割数目 (Number of Good Ways to Split a String
     def numSplits(self, s: str) -> int:
