@@ -2881,23 +2881,17 @@ public class LeetCode_2 {
 
    // 1524. 和为奇数的子数组数目 (Number of Sub-arrays With Odd Sum) --前缀和
    public int numOfSubarrays(int[] arr) {
-      int odd = 0;
-      int even = 1;
-      int pre = 0;
-      final int MOD = (int) (1e9 + 7);
+      int[] cnt = new int[2];
+      cnt[0] = 1;
       int res = 0;
-      for (int num : arr) {
-         pre = (pre + num) % 2;
-         if (pre == 0) {
-            res = (res + odd) % MOD;
-            ++even;
-         } else {
-            res = (res + even) % MOD;
-            ++odd;
-         }
+      final int MOD = (int) (1e9 + 7);
+      int pre = 0;
+      for (int x : arr) {
+         pre = (pre + x) & 1;
+         res = (res + cnt[pre ^ 1]) % MOD;
+         ++cnt[pre];
       }
       return res;
-
    }
 
    // 1546. 和为目标值且不重叠的非空子数组的最大数目 (Maximum Number of Non-Overlapping Subarrays
