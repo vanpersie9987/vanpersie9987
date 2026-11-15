@@ -6825,3 +6825,14 @@ class LcaBinaryLifting:
             if j >= r:
                 sl.remove(s[j - r])
         return -1 if ans == inf else ans
+
+    # 2243. 计算字符串的数字和 (Calculate Digit Sum of a String)
+    def digitSum(self, s: str, k: int) -> str:
+        while len(s) > k:
+            cur = ""
+            for i in range(0, len(s), k):
+                sub = s[i : min(len(s), i + k)]
+                _sum = sum(int(x) for x in sub)
+                cur += str(_sum)
+            s = cur
+        return s
