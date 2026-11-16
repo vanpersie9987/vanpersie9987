@@ -6836,3 +6836,18 @@ class LcaBinaryLifting:
                 cur += str(_sum)
             s = cur
         return s
+
+    # 4111. 统计一致子数组数目 I (Count Consistent Subarrays I)
+    def countConsistent(self, nums: list[int]) -> int:
+        res = 0
+        n = len(nums)
+        for i in range(n):
+            _and = -1
+            _min = inf
+            for j in range(i, n):
+                _and &= nums[j]
+                _min = min(_min, nums[j])
+                if _and == _min:
+                    res += 1
+        return res
+        
