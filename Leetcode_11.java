@@ -3928,9 +3928,37 @@ public class Leetcode_11 {
             }
         }
         return res;
-        
+
     }
 
-    
+    // 4112. 将子树置零后的最大得分 (Maximize Score After Zeroing Subtrees)
+    public int maxScore(int[] parent, int[] op, int[] score) {
+        int n = score.length;
+        List<Integer>[] g = new ArrayList[n];
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int i = 1; i < n; ++i) {
+            g[parent[i]].add(i);
+        }
+        return dfs4112(0, score, op, g);
+
+    }
+
+    private int dfs4112(int x, int[] score, int[] op, List<Integer>[] g) {
+        int s = score[x];
+        int min = Integer.MAX_VALUE;
+        for (int y : g[x]) {
+            int cur = dfs4112(y, score, op, g);
+            min = Math.min(min, cur);
+            s += cur;
+        }
+        if (op[x] == 1) {
+            if (min < Integer.MAX_VALUE) {
+                s -= min;
+            }
+        } else if (min < 0) {
+            s -= min;
+        }
+        return s;
+    }
 
 }
