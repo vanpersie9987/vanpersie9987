@@ -3986,25 +3986,23 @@ public class Leetcode_11 {
         }
         long res = j == 0 ? Long.MIN_VALUE : Long.MAX_VALUE;
         long s = 0L;
-        if (j == 0) {
-            for (int k = i; k < Math.min(n4113, i + 2); ++k) {
-                s += nums4113[k];
-                if (s % 3 == 0) {
+        for (int k = i; k < Math.min(n4113, i + 2); ++k) {
+            s += j == 0 ? nums4113[k] : -nums4113[k];
+            if (s % 3 == 0) {
+                if (j == 0) {
                     res = Math.max(res, dfs4113(k + 1, j ^ 1) + s);
                 } else {
-                    res = Math.max(res, dfs4113(k + 1, j) + s);
+                    res = Math.min(res, dfs4113(k + 1, j ^ 1) + s);
                 }
-            }
-        } else {
-            for (int k = i; k < Math.min(n4113, i + 2); ++k) {
-                s += nums4113[k];
-                if (s % 3 == 0) {
-                    res = Math.min(res, dfs4113(k + 1, j ^ 1) - s);
+            } else {
+                if (j == 0) {
+                    res = Math.max(res, dfs4113(k + 1, j) + s);
                 } else {
-                    res = Math.min(res, dfs4113(k + 1, j) - s);
+                    res = Math.min(res, dfs4113(k + 1, j) + s);
                 }
             }
         }
+
         return memo4113[i][j] = res;
 
     }
