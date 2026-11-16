@@ -6850,4 +6850,31 @@ class LcaBinaryLifting:
                 if _and == _min:
                     res += 1
         return res
+
+    # 4112. 将子树置零后的最大得分 (Maximize Score After Zeroing Subtrees)
+    def maxScore(self, parent: list[int], op: list[int], score: list[int]) -> int:
+        def dfs(x: int, fa: int) -> int:
+            _min = inf
+            s = score[x]
+            for y in g[x]:
+                if y == fa:
+                    continue
+                cur = dfs(y, x)
+                _min = min(cur, _min)
+                s += cur
+            # op == 1 恰好去除一个
+            if op[x]:
+                if _min < inf:
+                    s -= _min
+            # op == 0，至多去除一个
+            else:
+                if _min < 0:
+                    s -= _min
+            return s
+        n = len(op)
+        g = [[] for _ in range(n)]
+        for i, p in enumerate(parent):
+            if i:
+                g[p].append(i)
+        return dfs(0, -1)
         
