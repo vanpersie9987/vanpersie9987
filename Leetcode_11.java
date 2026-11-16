@@ -3961,4 +3961,52 @@ public class Leetcode_11 {
         return s;
     }
 
+    // 4113. 整除和博弈 (Game of Divisible Sums)
+    private long[][] memo4113;
+    private int n4113;
+    private int[] nums4113;
+
+    public long maxDifference(int[] nums) {
+        this.n4113 = nums.length;
+        this.nums4113 = nums;
+        this.memo4113 = new long[n4113][2];
+        for (long[] r : memo4113) {
+            Arrays.fill(r, Long.MAX_VALUE / 2);
+        }
+        return dfs4113(0, 0);
+
+    }
+
+    private long dfs4113(int i, int j) {
+        if (i == n4113) {
+            return 0L;
+        }
+        if (memo4113[i][j] != Long.MAX_VALUE / 2) {
+            return memo4113[i][j];
+        }
+        long res = j == 0 ? Long.MIN_VALUE : Long.MAX_VALUE;
+        long s = 0L;
+        if (j == 0) {
+            for (int k = i; k < Math.min(n4113, i + 2); ++k) {
+                s += nums4113[k];
+                if (s % 3 == 0) {
+                    res = Math.max(res, dfs4113(k + 1, j ^ 1) + s);
+                } else {
+                    res = Math.max(res, dfs4113(k + 1, j) + s);
+                }
+            }
+        } else {
+            for (int k = i; k < Math.min(n4113, i + 2); ++k) {
+                s += nums4113[k];
+                if (s % 3 == 0) {
+                    res = Math.min(res, dfs4113(k + 1, j ^ 1) - s);
+                } else {
+                    res = Math.min(res, dfs4113(k + 1, j) - s);
+                }
+            }
+        }
+        return memo4113[i][j] = res;
+
+    }
+
 }
