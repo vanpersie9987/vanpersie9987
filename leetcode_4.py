@@ -6874,4 +6874,22 @@ class LcaBinaryLifting:
             if i:
                 g[p].append(i)
         return dfs(0)
-        
+
+    # 4113. 整除和博弈 (Game of Divisible Sums)
+    def maxDifference(self, nums: list[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == n:
+                return 0
+            res = -inf if j == 1 else inf
+            op = max if j == 1 else min
+            s = 0
+            for k in range(i, min(n, i + 2)):
+                s += nums[k]
+                if s % 3 == 0:
+                    res = op(res, dfs(k + 1, -j) + j * s)
+                else:
+                    res = op(res, dfs(k + 1, j) + j * s)
+            return res
+        n = len(nums)
+        return dfs(0, 1)
