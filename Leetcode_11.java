@@ -3912,6 +3912,25 @@ public class Leetcode_11 {
 
     }
 
+    // 4111. 统计一致子数组数目 I (Count Consistent Subarrays I)
+    public int countConsistent(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int _and = -1;
+            int _min = Integer.MAX_VALUE;
+            for (int j = i; j < n; ++j) {
+                _min = Math.min(_min, nums[j]);
+                _and &= nums[j];
+                if (_min == _and) {
+                    ++res;
+                }
+            }
+        }
+        return res;
+        
+    }
+
     
 
 }
