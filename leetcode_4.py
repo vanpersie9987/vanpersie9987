@@ -6893,3 +6893,29 @@ class LcaBinaryLifting:
             return res
         n = len(nums)
         return dfs(0, 1)
+
+    # 2567. 修改两个元素的最小分数 (Minimum Score by Changing Two Elements)
+    def minimizeSum(self, nums: List[int]) -> int:
+        _max1, _max2, _max3 = -inf, -inf, -inf
+        _min1, _min2, _min3 = inf, inf, inf
+        for x in nums:
+            if x >= _max1:
+                _max3 = _max2
+                _max2 = _max1
+                _max1 = x
+            elif x >= _max2:
+                _max3 = _max2
+                _max2 = x
+            elif x >= _max3:
+                _max3 = x
+
+            if x <= _min1:
+                _min3 = _min2
+                _min2 = _min1
+                _min1 = x
+            elif x <= _min2:
+                _min3 = _min2
+                _min2 = x
+            elif x <= _min3:
+                _min3 = x
+        return min(_max2 - _min2, _max1 - _min3, _max3 - _min1)
