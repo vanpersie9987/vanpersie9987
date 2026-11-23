@@ -6868,6 +6868,7 @@ class LcaBinaryLifting:
             elif _min < 0:
                 s -= _min
             return s
+
         n = len(op)
         g = [[] for _ in range(n)]
         for i, p in enumerate(parent):
@@ -6891,6 +6892,7 @@ class LcaBinaryLifting:
                 else:
                     res = op(res, dfs(k + 1, j) + j * s)
             return res
+
         n = len(nums)
         return dfs(0, 1)
 
@@ -6919,3 +6921,21 @@ class LcaBinaryLifting:
             elif x <= _min3:
                 _min3 = x
         return min(_max2 - _min2, _max1 - _min3, _max3 - _min1)
+
+
+    # 1352. 最后 K 个数的乘积 (Product of the Last K Numbers)
+    class ProductOfNumbers:
+
+        def __init__(self):
+            self.a = [1]
+
+        def add(self, num: int) -> None:
+            if num == 0:
+                self.a = [1]
+            else:
+                self.a.append(self.a[-1] * num)
+
+        def getProduct(self, k: int) -> int:
+            if len(self.a) <= k:
+                return 0
+            return self.a[-1] // self.a[-k - 1]
