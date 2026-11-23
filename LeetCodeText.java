@@ -4613,7 +4613,7 @@ public class LeetCodeText {
         return false;
     }
 
-    // 1352. 最后 K 个数的乘积
+    // 1352. 最后 K 个数的乘积 (Product of the Last K Numbers)
     class ProductOfNumbers {
         List<Integer> list;
 
