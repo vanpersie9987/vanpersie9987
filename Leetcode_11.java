@@ -4042,11 +4042,7 @@ public class Leetcode_11 {
         list.add(b);
         list.add(c);
         Collections.sort(list);
-        int res1 = list.get(2) - list.get(0);
-        list.set(2, list.get(0) + list.get(1));
-        Collections.sort(list);
-        int res2 = list.get(2) - list.get(0);
-        return Math.min(res1, res2);
+        return Math.min(list.get(2) - list.get(0), list.get(1));
 
     }
 

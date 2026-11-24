@@ -6963,6 +6963,9 @@ class LcaBinaryLifting:
                 res.append("None")
         return res
 
-
-
+    # 4117. 求和操作以后的最小极差 (Minimum Range After Sum Operations)
+    def minRange(self, a: int, b: int, c: int) -> int:
+        _l = [a, b, c]
+        _l.sort()
+        return min(_l[-1] - _l[0], _l[1])
         
