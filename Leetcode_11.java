@@ -4162,4 +4162,26 @@ public class Leetcode_11 {
 
     }
 
+    // 4123. 删除数组的最小代价 (Minimum Cost to Delete Array)
+    public long minCost4123_2(int[] nums) {
+        int n = nums.length;
+        long res = nums[0] + nums[n - 1];
+        int maxNeg = Integer.MIN_VALUE;
+        int minPos = Integer.MAX_VALUE;
+        int cntNeg = 0;
+        for (int i = 1; i < n - 1; ++i) {
+            if (nums[i] < 0) {
+                maxNeg = Math.max(maxNeg, nums[i]);
+                cntNeg ^= 1;
+                res += nums[i];
+            } else {
+                minPos = Math.min(minPos, nums[i]);
+            }
+        }
+        if (cntNeg == 0) {
+            return res;
+        }
+        return Math.min(res - maxNeg, res + minPos);
+    }
+
 }
