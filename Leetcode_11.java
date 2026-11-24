@@ -4123,20 +4123,19 @@ public class Leetcode_11 {
             }
             int l = i;
             int r = j - 1;
-            if (l == 0 && r == n - 1) {
-                return 0L;
+            if (l == r && (l == 0 || r == n - 1)) {
+                i = j;
+                continue;
             }
-            if (l == 0) {
-                if (r > 0) {
-                    res = Math.min(res, (long) nums[r] * (n - r - 1));
-                }
-            } else if (r == n - 1) {
-                if (l < n - 1) {
-                    res = Math.min(res, (long) nums[l] * l);
-                }
-            } else {
-                res = Math.min(res, (long) nums[l] * l + (long) nums[r] * (n - r - 1));
+
+            long cur = 0L;
+            if (l > 0) {
+                cur += (long) nums[l] * l;
             }
+            if (r < n - 1) {
+                cur += (long) nums[r] * (n - r - 1);
+            }
+            res = Math.min(res, cur);
             if (res == 0L) {
                 break;
             }
