@@ -7029,3 +7029,46 @@ class LcaBinaryLifting:
                 break
             i = j
         return res
+
+    # 4123. 删除数组的最小代价 (Minimum Cost to Delete Array)
+    def minCost(self, nums: list[int]) -> int:
+        @cache
+        def dfs(i: int, j: int) -> int:
+            if i == len(a):
+                return 0 if j == 0 else inf
+            return min(dfs(i + 1, j), dfs(i + 1, j ^ 1) + a[i])
+
+        n = len(nums)
+        a = nums[1 : n - 1]
+        return nums[0] + nums[-1] + dfs(0, 0)
+
+    # 4123. 删除数组的最小代价 (Minimum Cost to Delete Array)
+    def minCost(self, nums: list[int]) -> int:
+        res = nums[0] + nums[-1]
+        a = sorted(nums[1:-1])
+        for i in range(1, len(a), 2):
+            s = a[i - 1] + a[i]
+            if s >= 0:
+                break
+            res += s
+        return res
+
+    # 4123. 删除数组的最小代价 (Minimum Cost to Delete Array)
+    def minCost(self, nums: list[int]) -> int:
+        n = len(nums)
+        res = nums[0] + nums[-1]
+        max_neg = -inf
+        min_pos = inf
+        cnt_neg = 0
+        for i in range(1, n - 1):
+            if nums[i] < 0:
+                res += nums[i]
+                max_neg = max(max_neg, nums[i])
+                cnt_neg ^= 1
+            else:
+                min_pos = min(min_pos, nums[i])
+        # 选了偶数个负数
+        if cnt_neg == 0:
+            return res
+        # 选了奇数个负数
+        return min(res - max_neg, res + min_pos)
