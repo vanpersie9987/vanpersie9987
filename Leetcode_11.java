@@ -21,8 +21,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import LeetCode_2.MaxQueue;
-
 @SuppressWarnings("unchecked")
 public class Leetcode_11 {
     public static void main(String[] args) {
