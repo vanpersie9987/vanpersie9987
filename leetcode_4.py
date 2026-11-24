@@ -6968,4 +6968,17 @@ class LcaBinaryLifting:
         _l = [a, b, c]
         _l.sort()
         return min(_l[-1] - _l[0], _l[1])
+
+    # 4120. 统计优势元素的数量 (Count Dominant Elements)
+    def countDominantElements(self, nums: list[int]) -> int:
+        n = len(nums)
+        res = 0
+        for i, x in enumerate(nums):
+            cnt = max(1, int(i - 1 >= 0) + int(i < n - 1))
+            s = nums[i - 1] if i - 1 >= 0 else 0
+            s += nums[i + 1] if i < n - 1 else 0
+            res += s <= x * cnt
+        return res
+
+        
         

@@ -4046,4 +4046,19 @@ public class Leetcode_11 {
 
     }
 
+    // 4120. 统计优势元素的数量 (Count Dominant Elements)
+    public int countDominantElements(int[] nums) {
+        int n = nums.length;
+        int res = 0;
+        for (int i = 0; i < n; ++i) {
+            int cnt = Math.max(1, (i - 1 >= 0 ? 1 : 0) + (i + 1 < n ? 1 : 0));
+            int s = (i - 1 >= 0 ? nums[i - 1] : 0) + (i + 1 < n ? nums[i + 1] : 0);
+            if (s <= cnt * nums[i]) {
+                ++res;
+            }
+        }
+        return res;
+
+    }
+
 }
