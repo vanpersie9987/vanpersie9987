@@ -4007,4 +4007,32 @@ public class Leetcode_11 {
 
     }
 
+    // 4116. 下雨天安排伞 (Assign Umbrella on Rainy Days)
+    public String[] assignUmbrella(int[] rain) {
+        int n = rain.length;
+        String[] res = new String[n];
+        int cntAlice = 0;
+        int cntBob = 0;
+        for (int i = 0; i < n; ++i) {
+            if (rain[i] == 1) {
+                if (i < n - 1 && rain[i + 1] == 1) {
+                    if (cntBob < cntAlice) {
+                        ++cntBob;
+                        res[i] = "Bob";
+                    } else {
+                        ++cntAlice;
+                        res[i] = "Alice";
+                    }
+                } else {
+                    ++cntBob;
+                    res[i] = "Bob";
+                }
+            } else {
+                res[i] = "None";
+            }
+        }
+        return res;
+
+    }
+
 }
