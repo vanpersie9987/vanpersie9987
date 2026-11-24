@@ -21,6 +21,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import LeetCode_2.MaxQueue;
+
 @SuppressWarnings("unchecked")
 public class Leetcode_11 {
     public static void main(String[] args) {
@@ -4182,6 +4184,31 @@ public class Leetcode_11 {
             return res;
         }
         return Math.min(res - maxNeg, res + minPos);
+    }
+
+    // 4123. 删除数组的最小代价 (Minimum Cost to Delete Array)
+    private long[][] memo4123;
+    private int n4123;
+    private int[] nums4123;
+
+    public long minCost4123_3(int[] nums) {
+        this.n4123 = nums.length;
+        this.memo4123 = new long[n4123][2];
+        for (long[] r : memo4123) {
+            Arrays.fill(r, Long.MAX_VALUE / 2);
+        }
+        this.nums4123 = nums;
+        return nums[0] + nums[n4123 - 1] + dfs4123(1, 0);
+    }
+
+    private long dfs4123(int i, int j) {
+        if (i == n4123 - 1) {
+            return j == 0 ? 0L : Long.MAX_VALUE / 2;
+        }
+        if (memo4123[i][j] != Long.MAX_VALUE / 2) {
+            return memo4123[i][j];
+        }
+        return memo4123[i][j] = Math.min(dfs4123(i + 1, j), dfs4123(i + 1, j ^ 1) + nums4123[i]);
     }
 
 }
