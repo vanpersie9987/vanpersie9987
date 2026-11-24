@@ -4096,9 +4096,9 @@ public class Leetcode_11 {
                     continue;
                 }
                 --requiredSignals[x];
-                dis[x] = t;
             }
             if (requiredSignals[x] == 0) {
+                dis[x] = t;
                 for (int[] nxt : g[x]) {
                     int y = nxt[0];
                     int delay = nxt[1];
@@ -4108,15 +4108,7 @@ public class Leetcode_11 {
                 }
             }
         }
-        long[] res = new long[n];
-        for (int i = 0; i < n; ++i) {
-            if (requiredSignals[i] == 0) {
-                res[i] = dis[i];
-            } else {
-                res[i] = -1L;
-            }
-        }
-        return res;
+        return dis;
     }
 
 }
