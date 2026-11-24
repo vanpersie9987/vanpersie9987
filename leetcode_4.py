@@ -6922,7 +6922,6 @@ class LcaBinaryLifting:
                 _min3 = x
         return min(_max2 - _min2, _max1 - _min3, _max3 - _min1)
 
-
     # 1352. 最后 K 个数的乘积 (Product of the Last K Numbers)
     class ProductOfNumbers:
 
@@ -6979,3 +6978,30 @@ class LcaBinaryLifting:
             s += nums[i + 1] if i < n - 1 else 0
             res += s <= x * cnt
         return res
+
+    # 4122. 信号激活的最早时刻 (Earliest Signal Activation Times)
+    def earliestActivationTimes(
+        self, n: int, edges: list[list[int]], requiredSignals: list[int]
+    ) -> list[int]:
+        requiredSignals[0] = 0
+        g = [[] for _ in range(n)]
+        for u, v, delay in edges:
+            g[u].append((v, delay))
+        dis = [-1] * n
+        dis[0] = 0
+        # t, x
+        q = [(0, 0)]
+        heapq.heapify(q)
+        while q:
+            t, x = heapq.heappop(q)
+            if x:
+                if requiredSignals[x] == 0:
+                    continue
+                requiredSignals[x] -= 1
+            if requiredSignals[x]:
+                continue
+            dis[x] = t
+            for y, delay in g[x]:
+                if requiredSignals[y]:
+                    heapq.heappush(q, (t + delay, y))
+        return dis
