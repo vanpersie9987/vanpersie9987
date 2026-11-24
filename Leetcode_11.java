@@ -4061,4 +4061,62 @@ public class Leetcode_11 {
 
     }
 
+    // 4122. 信号激活的最早时刻 (Earliest Signal Activation Times)
+    public long[] earliestActivationTimes(int n, int[][] edges, int[] requiredSignals) {
+        List<int[]>[] g = new ArrayList[n];
+        requiredSignals[0] = 0;
+        Arrays.setAll(g, o -> new ArrayList<>());
+        for (int[] e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int delay = e[2];
+            g[u].add(new int[] { v, delay });
+        }
+        long[] dis = new long[n];
+        Arrays.fill(dis, -1L);
+        dis[0] = 0L;
+        Queue<long[]> q = new PriorityQueue<>(new Comparator<long[]>() {
+
+            @Override
+            public int compare(long[] o1, long[] o2) {
+                return Long.compare(o1[0], o2[0]);
+
+            }
+            
+        });
+
+        // t, x
+        q.offer(new long[] { 0L, 0 });
+        while (!q.isEmpty()) {
+            long[] cur = q.poll();
+            long t = cur[0];
+            int x = (int) cur[1];
+            if (x != 0) {
+                if (requiredSignals[x] == 0) {
+                    continue;
+                }
+                --requiredSignals[x];
+                dis[x] = t;
+            }
+            if (requiredSignals[x] == 0) {
+                for (int[] nxt : g[x]) {
+                    int y = nxt[0];
+                    int delay = nxt[1];
+                    if (requiredSignals[y] != 0) {
+                        q.offer(new long[] { t + delay, y });
+                    }
+                }
+            }
+        }
+        long[] res = new long[n];
+        for (int i = 0; i < n; ++i) {
+            if (requiredSignals[i] == 0) {
+                res[i] = dis[i];
+            } else {
+                res[i] = -1L;
+            }
+        }
+        return res;
+    }
+
 }

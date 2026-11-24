@@ -6979,6 +6979,3 @@ class LcaBinaryLifting:
             s += nums[i + 1] if i < n - 1 else 0
             res += s <= x * cnt
         return res
-
-        
-        
