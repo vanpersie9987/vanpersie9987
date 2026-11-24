@@ -4035,4 +4035,19 @@ public class Leetcode_11 {
 
     }
 
+    // 4117. 求和操作以后的最小极差 (Minimum Range After Sum Operations)
+    public int minRange(int a, int b, int c) {
+        List<Integer> list = new ArrayList<>();
+        list.add(a);
+        list.add(b);
+        list.add(c);
+        Collections.sort(list);
+        int res1 = list.get(2) - list.get(0);
+        list.set(2, list.get(0) + list.get(1));
+        Collections.sort(list);
+        int res2 = list.get(2) - list.get(0);
+        return Math.min(res1, res2);
+
+    }
+
 }
