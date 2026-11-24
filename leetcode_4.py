@@ -7005,3 +7005,28 @@ class LcaBinaryLifting:
                 if requiredSignals[y]:
                     heapq.heappush(q, (t + delay, y))
         return dis
+
+    # 4121. 使数组中所有元素相等的最小成本 (Minimum Cost to Make All Array Elements Equal)
+    def minCost(self, nums: list[int]) -> int:
+        n = len(nums)
+        i = 0
+        res = inf
+        while i < n:
+            j = i
+            while j < n and nums[j] == nums[i]:
+                j += 1
+            l, r = i, j - 1
+            if l == 0 and r == n - 1:
+                return 0
+            if l == 0:
+                if r > 0:
+                    res = min(res, nums[r] * (n - r - 1))
+            elif r == n - 1:
+                if l < n - 1:
+                    res = min(res, nums[l] * l)
+            else:
+                res = min(res, nums[l] * l + nums[r] * (n - r - 1))
+            if res == 0:
+                break
+            i = j
+        return res

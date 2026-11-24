@@ -4082,7 +4082,7 @@ public class Leetcode_11 {
                 return Long.compare(o1[0], o2[0]);
 
             }
-            
+
         });
 
         // t, x
@@ -4109,6 +4109,40 @@ public class Leetcode_11 {
             }
         }
         return dis;
+    }
+
+    // 4121. 使数组中所有元素相等的最小成本 (Minimum Cost to Make All Array Elements Equal)
+    public long minCost(int[] nums) {
+        int n = nums.length;
+        int i = 0;
+        long res = Long.MAX_VALUE;
+        while (i < n) {
+            int j = i;
+            while (j < n && nums[j] == nums[i]) {
+                ++j;
+            }
+            int l = i;
+            int r = j - 1;
+            if (l == 0 && r == n - 1) {
+                return 0L;
+            }
+            if (l == 0) {
+                if (r > 0) {
+                    res = Math.min(res, (long) nums[r] * (n - r - 1));
+                }
+            } else if (r == n - 1) {
+                if (l < n - 1) {
+                    res = Math.min(res, (long) nums[l] * l);
+                }
+            } else {
+                res = Math.min(res, (long) nums[l] * l + (long) nums[r] * (n - r - 1));
+            }
+            if (res == 0L) {
+                break;
+            }
+            i = j;
+        }
+        return res;
     }
 
 }
