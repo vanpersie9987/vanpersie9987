@@ -7016,16 +7016,15 @@ class LcaBinaryLifting:
             while j < n and nums[j] == nums[i]:
                 j += 1
             l, r = i, j - 1
-            if l == 0 and r == n - 1:
-                return 0
-            if l == 0:
-                if r > 0:
-                    res = min(res, nums[r] * (n - r - 1))
-            elif r == n - 1:
-                if l < n - 1:
-                    res = min(res, nums[l] * l)
-            else:
-                res = min(res, nums[l] * l + nums[r] * (n - r - 1))
+            if l == r and (l == 0 or r == n - 1):
+                i = j
+                continue
+            cur = 0
+            if l > 0:
+                cur += nums[l] * l
+            if r < n - 1:
+                cur += nums[r] * (n - r - 1)
+            res = min(res, cur)
             if res == 0:
                 break
             i = j
