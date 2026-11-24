@@ -6939,3 +6939,30 @@ class LcaBinaryLifting:
             if len(self.a) <= k:
                 return 0
             return self.a[-1] // self.a[-k - 1]
+
+    # 4116. 下雨天安排伞 (Assign Umbrella on Rainy Days)
+    def assignUmbrella(self, rain: list[int]) -> list[str]:
+        n = len(rain)
+        res = []
+        cnt_alice = 0
+        cnt_bob = 0
+        for i, x in enumerate(rain):
+            if x:
+                # 都需要伞
+                if i < n - 1 and rain[i + 1]:
+                    if cnt_bob < cnt_alice:
+                        res.append("Bob")
+                        cnt_bob += 1
+                    else:
+                        res.append("Alice")
+                        cnt_alice += 1
+                else:
+                    res.append("Bob")
+                    cnt_bob += 1
+            else:
+                res.append("None")
+        return res
+
+
+
+        
