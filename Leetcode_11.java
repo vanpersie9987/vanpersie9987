@@ -4064,7 +4064,7 @@ public class Leetcode_11 {
     // 4122. 信号激活的最早时刻 (Earliest Signal Activation Times)
     public long[] earliestActivationTimes(int n, int[][] edges, int[] requiredSignals) {
         List<int[]>[] g = new ArrayList[n];
-        requiredSignals[0] = 0;
+        requiredSignals[0] = 1;
         Arrays.setAll(g, o -> new ArrayList<>());
         for (int[] e : edges) {
             int u = e[0];
@@ -4091,22 +4091,16 @@ public class Leetcode_11 {
             long[] cur = q.poll();
             long t = cur[0];
             int x = (int) cur[1];
-            if (x != 0) {
-                if (requiredSignals[x] == 0) {
-                    continue;
-                }
-                --requiredSignals[x];
+            if (--requiredSignals[x] != 0) {
+                continue;
             }
-            if (requiredSignals[x] == 0) {
-                dis[x] = t;
-                for (int[] nxt : g[x]) {
-                    int y = nxt[0];
-                    int delay = nxt[1];
-                    if (requiredSignals[y] != 0) {
-                        q.offer(new long[] { t + delay, y });
-                    }
-                }
+            dis[x] = t;
+            for (int[] nxt : g[x]) {
+                int y = nxt[0];
+                int delay = nxt[1];
+                q.offer(new long[] { t + delay, y });
             }
+
         }
         return dis;
     }
