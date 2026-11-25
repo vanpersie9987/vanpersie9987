@@ -6983,7 +6983,7 @@ class LcaBinaryLifting:
     def earliestActivationTimes(
         self, n: int, edges: list[list[int]], requiredSignals: list[int]
     ) -> list[int]:
-        requiredSignals[0] = 0
+        requiredSignals[0] = 1
         g = [[] for _ in range(n)]
         for u, v, delay in edges:
             g[u].append((v, delay))
@@ -6994,16 +6994,12 @@ class LcaBinaryLifting:
         heapq.heapify(q)
         while q:
             t, x = heapq.heappop(q)
-            if x:
-                if requiredSignals[x] == 0:
-                    continue
-                requiredSignals[x] -= 1
+            requiredSignals[x] -= 1
             if requiredSignals[x]:
                 continue
             dis[x] = t
             for y, delay in g[x]:
-                if requiredSignals[y]:
-                    heapq.heappush(q, (t + delay, y))
+                heapq.heappush(q, (t + delay, y))
         return dis
 
     # 4121. 使数组中所有元素相等的最小成本 (Minimum Cost to Make All Array Elements Equal)
